@@ -1,8 +1,8 @@
-import DropdownLabel from './dropdownLabel';
-import DropDownOption from './dropdownOption';
-import DropDownPanel from './dropdownPanel';
-import DropdownSelect from './dropdownSelect';
-import DropdownWrapper from './dropdownWrapper';
+import DropdownLabel from './DropdownLabel';
+import DropDownOption from './DropdownOption';
+import DropDownPanel from './DropdownPanel';
+import DropdownSelect from './DropdownSelect';
+import DropdownWrapper from './DropdownWrapper';
 
 /**
  * Dropdown은 분리된 컴포넌트를 사용처에서 조합해 사용합니다.

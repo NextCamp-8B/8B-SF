@@ -1,8 +1,8 @@
-import InputCore from './inputCore';
-import InputDuplicateCheck from './inputDuplicateCheck';
-import InputLabel from './inputLabel';
-import InputMain from './inputMain';
-import InputValidatedText from './inputValidatedText';
+import InputCore from './InputCore';
+import InputDuplicateCheck from './InputDuplicateCheck';
+import InputLabel from './InputLabel';
+import InputMain from './InputMain';
+import InputValidatedText from './InputValidatedText';
 
 /**
  * InputArea 는 분리된 컴포넌트를 사용처에서 조합해 사용합니다.

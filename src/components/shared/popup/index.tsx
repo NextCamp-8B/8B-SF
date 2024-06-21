@@ -1,7 +1,7 @@
-import PopupContents from './popupContents';
-import PopupDimmedLayer from './popupDimmedLayer';
-import PopupMain from './popupMain';
-import PopupTitle from './popupTitle';
+import PopupContents from './PopupContents';
+import PopupDimmedLayer from './PopupDimmedLayer';
+import PopupMain from './PopupMain';
+import PopupTitle from './PopupTitle';
 
 /**
  * Popup 컴포넌트는 portal을 사용하여 구현될 예정이며, 추후 변경될 예정입니다.
