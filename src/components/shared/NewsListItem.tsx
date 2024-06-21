@@ -24,6 +24,7 @@ export default function NewsListItem({
       className={`flex gap-5 ${
         size !== 'small' &&
         `pb-8 border-b border-b-grayscale-400 
+        last:border-none
         `
       }`}
     >
