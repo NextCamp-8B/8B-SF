@@ -1,5 +1,5 @@
-import InputCore from './inputCore';
-import InputCoreWrapper from './inputCoreWrapper';
+import InputCore from './InputCore';
+import InputCoreWrapper from './InputCoreWrapper';
 
 export default function InputDuplicateCheck() {
   return (
