@@ -24,6 +24,12 @@ type Props = {
     const isMessageVisible =
     state === 'warning' || state === 'success' || isValidated;
 
+    const { status, handleFocus } = useInputCheckStatus({
+      isValidated,
+      isDuplicate,
+      isSubmit,
+    }); 
+
     {isMessageVisible && (
       <CompositeInput.ValidatedText
         className={`caption font-medium text-${validatedColor}`}
