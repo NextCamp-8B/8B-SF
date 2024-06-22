@@ -126,7 +126,7 @@ export default function InputValidated({
       <CompositeInput.Input
         id={concept}
         type={type}
-        className={`border-solid border-${borderColor} border-2 b4 text-${inputTextColor} font-normal placeholder-grayscale-400 p-4 rounded-lg`}
+        className={`border border-${borderColor} outline-${borderColor}  b4 text-${inputTextColor} font-normal placeholder-grayscale-400 p-4 rounded-lg`}
         onChange={handleInputValue}
         onFocus={() => handleFocus(true)}
         onBlur={() => handleFocus(false)}
