@@ -14,11 +14,11 @@ import InputValidatedText from './InputValidatedText';
  * @property {Component} ValidatedText - 유효성 검사에 대한 안내 문구입니다.
  *
  * @example
- *  <InputArea>
- *    <InputArea.Label>비밀번호 입력</InputArea.Label>
- *    <InputArea.Input />
- *    <InputArea.ValidatedText>* 8-20자 이내 숫자, ...</InputArea.ValidatedText>
- *  </InputArea>
+    <InputArea>
+      <InputArea.Label>비밀번호 입력</InputArea.Label>
+      <InputArea.Input />
+      <InputArea.ValidatedText>* 8-20자 이내 숫자, ...</InputArea.ValidatedText>
+    </InputArea>
  */
 export const InputArea = Object.assign(InputMain, {
   DuplicateCheck: InputDuplicateCheck,
