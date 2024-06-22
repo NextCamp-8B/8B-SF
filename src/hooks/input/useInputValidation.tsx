@@ -62,7 +62,6 @@ export default function useInputValidation({
   useEffect(() => {
     const isValidated =
       isChanged && handleValidate(value, concept, password);
-    console.log('test', isValidated);
     setIsValidated(isValidated);
   }, [value, isChanged]);
 

@@ -42,7 +42,6 @@ export default function useInputCheckStatus({
     const isWarning =
       (!isValidated && isDuplicate === 'duplicate') || isMissing;
     const isSuccess = isDuplicate === 'possible';
-    console.log(isSubmit, isValidated);
     // isFocus가 true일 때는 'active'로 설정
     if (isFocus) {
       setStatus('active');
