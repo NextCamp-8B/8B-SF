@@ -6,5 +6,5 @@ export default function CompInputLabel({
   className,
   ...props
 }: Props) {
-  return <input className={className} {...props} />;
+  return <input className={className} name={props.id} {...props} />;
 }
