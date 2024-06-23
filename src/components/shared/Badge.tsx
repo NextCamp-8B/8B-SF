@@ -14,6 +14,7 @@ export default function Badge({ direction, type }: Badge) {
         ${
           type === 'secondary' && 'bg-secondary-50 text-secondary-900'
         }
+        select-none
         `}
     >
       {direction === 'left' && <AI className="w-5 h-5" />}

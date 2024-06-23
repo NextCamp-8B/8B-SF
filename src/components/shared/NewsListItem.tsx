@@ -26,12 +26,17 @@ export default function NewsListItem({
         `pb-8 border-b border-b-grayscale-400 
         last:border-none
         `
-      }`}
+      } cursor-pointer group`}
     >
       {size === 'small' ? (
         <>
           <div className="w-[120px] h-16 bg-primary-200 rounded-lg relative overflow-hidden">
-            <Image src={thumbnail} alt="thumbnail" fill />
+            <Image
+              src={thumbnail}
+              alt="thumbnail"
+              fill
+              className="group-hover:scale-110 duration-300"
+            />
           </div>
           <div className="py-1 flex flex-col justify-between">
             <h2 className="b4 font-medium flex-1">{title}</h2>
@@ -51,7 +56,12 @@ export default function NewsListItem({
               size === 'large' && 'w-[252px] h-[148px]'
             } bg-primary-100 rounded-2xl relative overflow-hidden `}
           >
-            <Image src={thumbnail} alt="thumbnail" fill />
+            <Image
+              src={thumbnail}
+              alt="thumbnail"
+              fill
+              className="group-hover:scale-110 duration-300"
+            />
           </div>
           <div className="flex-1 flex flex-col gap-4">
             <div className="flex justify-between items-center gap-3">

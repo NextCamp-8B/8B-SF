@@ -2,6 +2,8 @@ import NewsListItem from '@/components/shared/NewsListItem';
 import React from 'react';
 import AI from '@/assets/icons/ai.svg';
 import StockListItem from '@/components/shared/StockListItem';
+import LoadingSpinner from '@/components/shared/LoadingSpinner';
+import Badge from '@/components/shared/Badge';
 
 const tmpNews = {
   thumbnail:
@@ -34,6 +36,12 @@ const tmpStock = {
 export default function Han() {
   return (
     <>
+      <div className="flex flex-col gap-3 p-10">
+        <Badge direction="left" type="secondary" />
+      </div>
+      <div className="flex flex-col gap-3 p-10">
+        <LoadingSpinner />
+      </div>
       <div className="flex flex-col gap-3 p-10">
         <NewsListItem news={tmpNews} />
         <NewsListItem news={tmpNews} />

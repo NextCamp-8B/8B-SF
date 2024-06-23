@@ -22,7 +22,7 @@ export default function StockListItem({
 }: StockListItemProps) {
   const { name, subname, value, tmp1, tmp2 } = stock;
   return (
-    <div className="py-2 flex text-grayscale-900 gap-4 items-center">
+    <div className="py-2 flex text-grayscale-900 gap-4 items-center cursor-pointer">
       <StockIcon size={type === 'find' ? 'small' : 'medium'}>
         {icon}
       </StockIcon>
