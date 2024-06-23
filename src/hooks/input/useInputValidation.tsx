@@ -24,7 +24,7 @@ type Props = {
     const isMessageVisible =
     state === 'warning' || state === 'success' || isValidated;
 
-    const { status, handleFocus } = useInputCheckStatus({
+    const { status } = useInputCheckStatus({
       isValidated,
       isDuplicate,
       isSubmit,
@@ -63,7 +63,7 @@ export default function useInputValidation({
     const isValidated =
       isChanged && handleValidate(value, concept, password);
     setIsValidated(isValidated);
-  }, [value, isChanged]);
+  }, [value, isChanged, concept, password]);
 
   return { isValidated };
 }

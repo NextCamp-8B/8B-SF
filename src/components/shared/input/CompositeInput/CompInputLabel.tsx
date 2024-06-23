@@ -3,7 +3,7 @@ type Props = React.LabelHTMLAttributes<HTMLLabelElement> & {
   className?: string;
 };
 
-export default function InputLabel({
+export default function CompInputLabel({
   children,
   className,
   ...props

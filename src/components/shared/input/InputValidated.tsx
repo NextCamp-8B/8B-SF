@@ -14,12 +14,7 @@ export type Concept =
   | 'birth'
   | 'name'
   | 'email';
-export type State =
-  | 'default'
-  | 'active'
-  | 'warning'
-  | 'success'
-  | 'disabled';
+export type State = 'default' | 'warning' | 'success' | 'disabled';
 type InputValidatedProps = {
   concept: Concept;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -99,7 +94,7 @@ export default function InputValidated({
     password,
     isChanged,
   });
-  const { status, handleFocus } = useInputCheckStatus({
+  const { status } = useInputCheckStatus({
     isValidated,
     isDuplicate,
     isSubmit,
@@ -126,10 +121,10 @@ export default function InputValidated({
       <CompositeInput.Input
         id={concept}
         type={type}
-        className={`border border-${borderColor} outline-${borderColor}  b4 text-${inputTextColor} font-normal placeholder-grayscale-400 p-4 rounded-lg`}
+        className={`border border-${borderColor} 
+        b4 text-${inputTextColor} font-normal 
+        placeholder-grayscale-400 p-4 rounded-lg`}
         onChange={handleInputValue}
-        onFocus={() => handleFocus(true)}
-        onBlur={() => handleFocus(false)}
         value={value}
         placeholder={placeholder}
         disabled={status === 'disabled'}

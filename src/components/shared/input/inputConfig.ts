@@ -1,11 +1,6 @@
 // 입력 필드 구성 및 유효성 검사를 포함하는 파일
 
-export type Status =
-  | 'default'
-  | 'active'
-  | 'warning'
-  | 'success'
-  | 'disabled';
+export type Status = 'default' | 'warning' | 'success' | 'disabled';
 
 type StatusDetailType = {
   labelColor: string;
@@ -33,13 +28,6 @@ const statusMap: StatusType<Status> = {
     inputTextColor: 'grayscale-900',
     borderColor: 'grayscale-300',
     validatedColor: 'grayscale-700',
-  },
-
-  active: {
-    labelColor: 'secondary-500',
-    inputTextColor: 'grayscale-900',
-    borderColor: 'secondary-500',
-    validatedColor: 'secondary-500',
   },
 
   warning: {

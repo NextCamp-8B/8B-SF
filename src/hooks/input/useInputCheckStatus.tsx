@@ -6,21 +6,13 @@ import { useEffect, useState } from 'react';
  * - 기본 상태 및 포커스 상태, 성공, 중복, 제출시 미흡 상태 등을 체크 
  *
  * @example
-    const { status, handleFocus } = useInputCheckStatus({
+    const { status } = useInputCheckStatus({
       isValidated,
       isDuplicate,
       isSubmit,
     });
 
     const currentStyleMap = statusMap[status];
-
-    <CompositeInput.Input
-      ...
-      onFocus={() => handleFocus(true)}
-      onBlur={() => handleFocus(false)}
-      ...
-    />
-
 */
 export default function useInputCheckStatus({
   isValidated, // 유효성검사 통과여부
@@ -32,32 +24,25 @@ export default function useInputCheckStatus({
   isSubmit: boolean;
 }) {
   const [status, setStatus] = useState<Status>('default');
-  const [isFocus, setIsFocus] = useState(false);
-  const handleFocus = (isFocus: boolean) => {
-    setIsFocus(isFocus);
-  };
 
   useEffect(() => {
     const isMissing = isSubmit && !isValidated;
     const isWarning =
       (!isValidated && isDuplicate === 'duplicate') || isMissing;
     const isSuccess = isDuplicate === 'possible';
-    // isFocus가 true일 때는 'active'로 설정
-    if (isFocus) {
-      setStatus('active');
-    } else {
-      if (!isWarning && !isSuccess) {
-        setStatus('default'); // default -> 기본
-      }
-      if (isSuccess) {
-        setStatus('success'); // success -> 중복 확인 통과
-      }
-      if (isWarning) {
-        setStatus('warning'); // warning -> 비번 틀렸을 때(중복 확인), 중복체크 틀렸을 때, 다음 버튼을 눌렀는데 부족한 게 있는 부분
-      }
-      // disabled 상태 처리 로직을 추가할 수도 있음
-    }
-  }, [isFocus, isSubmit, isValidated, isDuplicate]);
 
-  return { status, handleFocus };
+    let newStatus: Status = 'default';
+
+    if (isWarning) {
+      newStatus = 'warning';
+    } else if (isSuccess) {
+      newStatus = 'success';
+    }
+
+    if (newStatus !== status) {
+      setStatus(newStatus);
+    }
+  }, [isSubmit, isValidated, isDuplicate]);
+
+  return { status };
 }
