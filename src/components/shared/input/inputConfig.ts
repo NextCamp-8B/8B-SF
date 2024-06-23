@@ -55,6 +55,7 @@ const statusMap: StatusType<Status> = {
 const conceptMap: FieldType<
   | 'signupId'
   | 'loginId'
+  | 'nickname'
   | 'password'
   | 'passwordCheck'
   | 'signupPhone'
@@ -76,6 +77,15 @@ const conceptMap: FieldType<
   loginId: {
     labelText: '아이디',
     placeholder: '아이디를 입력해주세요.',
+    validatedText: '* 필수 입력입니다.',
+    doValidation(value) {
+      const isEmptyExceptSpaces = value.trim() === '';
+      return !isEmptyExceptSpaces;
+    },
+  },
+  nickname: {
+    labelText: '닉네임',
+    placeholder: '닉네임을 입력해주세요.',
     validatedText: '* 필수 입력입니다.',
     doValidation(value) {
       const isEmptyExceptSpaces = value.trim() === '';

@@ -28,7 +28,9 @@ export default function useInputCheckStatus({
   useEffect(() => {
     const isMissing = isSubmit && !isValidated;
     const isWarning =
-      (!isValidated && isDuplicate === 'duplicate') || isMissing;
+      (!isValidated && isDuplicate === 'duplicate') ||
+      isMissing ||
+      isDuplicate === 'duplicate';
     const isSuccess = isDuplicate === 'possible';
 
     let newStatus: Status = 'default';

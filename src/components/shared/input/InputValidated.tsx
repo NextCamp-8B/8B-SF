@@ -3,10 +3,13 @@ import { conceptMap, statusMap } from './inputConfig';
 import useInputValidation from '@/hooks/input/useInputValidation';
 import useInputTracker from '@/hooks/input/useInputTracker';
 import useInputCheckStatus from '@/hooks/input/useInputCheckStatus';
+import { useState } from 'react';
+import { Duplicate } from './InputDuplicateCheck';
 
 export type Concept =
   | 'signupId'
   | 'loginId'
+  | 'nickname'
   | 'password'
   | 'passwordCheck'
   | 'signupPhone'
@@ -21,7 +24,6 @@ type InputValidatedProps = {
   value: string;
   password?: string;
   type: string;
-  isDuplicate?: 'duplicate' | 'possible' | 'beforeConfirm';
   isSubmit: boolean;
 };
 
@@ -60,7 +62,6 @@ type InputValidatedProps = {
             value={value.signupId}
             type="text"
             concept="signupId"
-            isDuplicate={'duplicate'}
             isSubmit={isSubmit}
           />
           <InputSet.Validated
@@ -68,7 +69,6 @@ type InputValidatedProps = {
             value={value.signupId}
             type="text"
             concept="signupId"
-            isDuplicate={'possible'}
             isSubmit={isSubmit}
           />
           <button onClick={() => setIsSubmit(true)}>임시 버튼</button>
@@ -82,9 +82,9 @@ export default function InputValidated({
   value,
   type = 'text',
   password,
-  isDuplicate = 'beforeConfirm',
   isSubmit = false,
 }: InputValidatedProps) {
+  const [isDuplicate] = useState<Duplicate>('beforeConfirm');
   const { isChanged, handleInputValue } = useInputTracker({
     onChange,
   });

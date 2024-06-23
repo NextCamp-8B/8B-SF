@@ -32,6 +32,7 @@ export default function useInputChange() {
   const [value, setValue] = useState({
     signupId: '',
     loginId: '',
+    nickname: '',
     passwordCheck: '',
     password: '',
     signupPhone: '',
