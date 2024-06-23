@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  @apply outline-2 outline-secondary-500;
+}
+
 .text-overflow-1 {
   text-overflow: ellipsis;
   overflow: hidden;
