@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import StockIcon from './StockIcon';
 import AI from '@/assets/icons/ai.svg';
-import { createdDate, diffCreatedTime } from '@/utils/Date';
+import { createdDate, diffCreatedTime } from '@/utils/date';
 
 interface TNews {
   date: string;
