@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import StockIcon from './StockIcon';
 import AI from '@/assets/icons/ai.svg';
+import { createdDate, diffCreatedTime } from '@/utils/Date';
+
 interface TNews {
   date: string;
   title: string;
@@ -27,16 +29,8 @@ interface CardProps {
 export default function Card(props: CardProps) {
   const { type, news, stock } = props;
 
-  // n시간전 표시
-  const locale = new Date().toLocaleString('en-US', {
-    timeZone: 'Asia/Seoul',
-  });
-
-  let nowTime = news
-    ? new Date(locale).getHours() - Number(news.date.slice(11, 13))
-    : 0;
-
-  const newstime = news?.date.slice(0, 10).replaceAll('-', '.');
+  const newstime = news ? createdDate(news.date) : '';
+  const diffTime = news ? diffCreatedTime(news.date) : null;
 
   return (
     <>
@@ -53,7 +47,7 @@ export default function Card(props: CardProps) {
             </div>
             <div>
               <StockIcon size="small">
-                <AI />
+                <AI className="w-12 h-12 text-grayscale-0" />
               </StockIcon>
             </div>
           </div>
@@ -69,7 +63,7 @@ export default function Card(props: CardProps) {
           </div>
           <div className="pr-2 items-center flex">
             <StockIcon size="small">
-              <AI />
+              <AI className="w-12 h-12 text-grayscale-0" />
             </StockIcon>
           </div>
         </div>
@@ -92,7 +86,7 @@ export default function Card(props: CardProps) {
             </p>
             <div className="flex justify-between w-[340px] mt-2">
               <div className="b5 font-medium text-grayscale-600 ">
-                {nowTime}시간전 · {news.company}
+                {diffTime} · {news.company}
               </div>
               <div className="b5 cursor-pointer">더보기 →</div>
             </div>
@@ -108,13 +102,13 @@ export default function Card(props: CardProps) {
               src={news.thumbnail}
               alt="thumbnail"
               fill
-              className=" object-cover transition-transform duration-700 ease-in-out hover:scale-110"
+              className=" object-cover transition-transform duration-700 ease-in-out hover:scale-125"
             />
             <div className="w-full h-[168px] absolute text-center bottom-0 inset-x-0 bg-gradient-to-t from-[rgba(63,63,63,1)] to-[rgba(63,63,63,0)]">
-              <p className="b1 font-bold overflow-hidden text-ellipsis whitespace-nowrap px-6 pt-6 text-[#FFFFFF] ">
+              <p className="b1 font-bold text-overflow-1 px-6 pt-6 text-[#FFFFFF] ">
                 {news.title}
               </p>
-              <p className="b5 font-medium line-clamp-2 px-6 pt-3 text-[#FFFFFF]">
+              <p className="b5 font-medium text-overflow-2 px-6 pt-3 text-[#FFFFFF]">
                 {news.content}
               </p>
               <p className="b5 font-medium text-grayscale-300 pb-6 px-6 pt-4 text-start">
