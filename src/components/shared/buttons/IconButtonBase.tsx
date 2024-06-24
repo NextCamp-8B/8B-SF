@@ -1,20 +1,16 @@
 import React from 'react';
-import {
-  ButtonStyleTypes,
-  ButtonSizeTypes,
-} from '@/components/shared/buttons/types.ts';
 
 // TextButton, Language 컴포넌트에서 base로 사용
 // disabled 여부에 따라 버튼 not-allowed
 
-type TIconButtonBaseProps = {
+type IconButtonBaseProps = {
   disabled?: boolean;
   className?: string;
   iconClassName?: string;
   iconSvg: React.ElementType;
 };
 
-const IconButtonBase: React.FC<TIconButtonBaseProps> = ({
+const IconButtonBase: React.FC<IconButtonBaseProps> = ({
   disabled = false,
   className,
   iconClassName,

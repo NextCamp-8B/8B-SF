@@ -3,7 +3,7 @@ import ButtonBase from '@/components/shared/buttons/ButtonBase';
 import {
   ButtonStyleTypes,
   ButtonSizeTypes,
-} from '@/components/shared/buttons/types.ts';
+} from '@/components/shared/buttons/types';
 
 // How to use 사용방법
 // 전달할 props는
@@ -25,23 +25,29 @@ type TextButtonProps = {
   disabled?: boolean;
   styleType?: ButtonStyleTypes; //getButtonClasses 함수에서 Type Enum 지정;
   iconSvg?: React.ElementType;
+  width?: string;
+  height?: string;
 };
 
-const TextButton: React.FC<TTextButtonProps> & {
-  Primary: React.FC<TButtonProps>;
-  Success: React.FC<TButtonProps>;
-  Danger: React.FC<TButtonProps>;
-  Blue: React.FC<TButtonProps>;
-  Gray: React.FC<TButtonProps>;
-  Light: React.FC<TButtonProps>;
+const TextButton: React.FC<TextButtonProps> & {
+  Primary: React.FC<TextButtonProps>;
+  Success: React.FC<TextButtonProps>;
+  Danger: React.FC<TextButtonProps>;
+  Blue: React.FC<TextButtonProps>;
+  Gray: React.FC<TextButtonProps>;
+  Light: React.FC<TextButtonProps>;
 } = ({
   styleType = ButtonStyleTypes.Primary,
   iconSvg,
   size = 'md',
   disabled = false,
+  width,
+  height,
   ...props
 }) => {
   const type = disabled ? 'disabled' : styleType;
+  const btnWidth = width ? width : '';
+  const btnHeight = height ? height : '';
   const baseClass = `group gap-x-1 box-border flex justify-center items-center rounded-lg whitespace-nowrap`;
 
   const sizeClass = {
@@ -82,7 +88,7 @@ const TextButton: React.FC<TTextButtonProps> & {
   };
 
   const btnClass =
-    `${baseClass} ${sizeClass['text'][size]} ${typeClasses[type]} `.trim();
+    `${baseClass} ${sizeClass['text'][size]} ${typeClasses[type]} ${btnWidth} ${btnHeight} `.trim();
   const iconClass = `${iconTypeClasses[type]} ${sizeClass['icon'][size]}`;
 
   return (
@@ -92,29 +98,37 @@ const TextButton: React.FC<TTextButtonProps> & {
         className={btnClass}
         iconClassName={iconClass}
         iconSvg={iconSvg}
-        variant={'text'}
       />
     </>
   );
 };
 
-TextButton.Primary = (props: TTextButtonProps) => (
-  <TextButton {...props} styleType="primary" />
+TextButton.Primary = (props: TextButtonProps) => (
+  <TextButton {...props} styleType={ButtonStyleTypes.Primary} />
 );
-TextButton.Success = (props: TTextButtonProps) => (
-  <TextButton {...props} styleType="success" />
+TextButton.Success = (props: TextButtonProps) => (
+  <TextButton {...props} styleType={ButtonStyleTypes.Success} />
 );
-TextButton.Danger = (props: TTextButtonProps) => (
-  <TextButton {...props} styleType="danger" />
+TextButton.Danger = (props: TextButtonProps) => (
+  <TextButton {...props} styleType={ButtonStyleTypes.Danger} />
 );
-TextButton.Blue = (props: TTextButtonProps) => (
-  <TextButton {...props} styleType="blue" />
+TextButton.Blue = (props: TextButtonProps) => (
+  <TextButton {...props} styleType={ButtonStyleTypes.Blue} />
 );
-TextButton.Gray = (props: TTextButtonProps) => (
-  <TextButton {...props} styleType="gray" />
+TextButton.Gray = (props: TextButtonProps) => (
+  <TextButton {...props} styleType={ButtonStyleTypes.Gray} />
 );
-TextButton.Light = (props: TTextButtonProps) => (
-  <TextButton {...props} styleType="light" />
+TextButton.Light = (props: TextButtonProps) => (
+  <TextButton {...props} styleType={ButtonStyleTypes.Light} />
 );
+
+TextButton.Primary.displayName = 'TextButton.Primary';
+TextButton.Success.displayName = 'TextButton.Success';
+TextButton.Danger.displayName = 'TextButton.Danger';
+TextButton.Blue.displayName = 'TextButton.Blue';
+TextButton.Gray.displayName = 'TextButton.Gray';
+TextButton.Light.displayName = 'TextButton.Light';
+
+TextButton.displayName = 'TextButton';
 
 export default TextButton;

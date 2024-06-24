@@ -8,7 +8,7 @@ import United from '@/assets/icons/us.svg';
 import {
   ButtonStyleTypes,
   ButtonSizeTypes,
-} from '@/components/shared/buttons/types.ts';
+} from '@/components/shared/buttons/types';
 // How to use 사용방법
 // 전달할 props는
 // checked? = boolean (선택사항, 기본값 = false 현재 언어로 선택되었는지 확인)
@@ -23,12 +23,18 @@ import {
 //  <LanguageButton.Us checked={true} />
 
 type LanguageButtonProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   checked?: boolean; //현재 해당언어로 선택되었는지
-  iconSvg: React.ElementType;
+  iconSvg?: React.ElementType;
 };
 
-const LanguageButton: React.FC<TLanguageButtonProps> = ({
+const LanguageButton: React.FC<LanguageButtonProps> & {
+  Kr: React.FC<LanguageButtonProps>;
+  Cn: React.FC<LanguageButtonProps>;
+  Jp: React.FC<LanguageButtonProps>;
+  Fr: React.FC<LanguageButtonProps>;
+  Us: React.FC<LanguageButtonProps>;
+} = ({
   children = '한국어',
   checked = false,
   iconSvg: IconSvg = Korea,
@@ -57,30 +63,38 @@ const LanguageButton: React.FC<TLanguageButtonProps> = ({
   );
 };
 
-LanguageButton.Kr = (props: TLanguageButtonProps) => (
+LanguageButton.Kr = (props: LanguageButtonProps) => (
   <LanguageButton {...props} iconSvg={Korea}>
     한국어
   </LanguageButton>
 );
-LanguageButton.Cn = (props: TLanguageButtonProps) => (
+LanguageButton.Cn = (props: LanguageButtonProps) => (
   <LanguageButton {...props} iconSvg={China}>
     중국어
   </LanguageButton>
 );
-LanguageButton.Jp = (props: TLanguageButtonProps) => (
+LanguageButton.Jp = (props: LanguageButtonProps) => (
   <LanguageButton {...props} iconSvg={Japan}>
     일본어
   </LanguageButton>
 );
-LanguageButton.Fr = (props: TLanguageButtonProps) => (
+LanguageButton.Fr = (props: LanguageButtonProps) => (
   <LanguageButton {...props} iconSvg={France}>
-    프랑스
+    프랑스어
   </LanguageButton>
 );
-LanguageButton.Us = (props: TLanguageButtonProps) => (
+LanguageButton.Us = (props: LanguageButtonProps) => (
   <LanguageButton {...props} iconSvg={United}>
-    미국어
+    영어
   </LanguageButton>
 );
+
+LanguageButton.Kr.displayName = 'LanguageButton.Kr';
+LanguageButton.Cn.displayName = 'LanguageButton.Cn';
+LanguageButton.Jp.displayName = 'LanguageButton.Jp';
+LanguageButton.Fr.displayName = 'LanguageButton.Fr';
+LanguageButton.Us.displayName = 'LanguageButton.Us';
+
+LanguageButton.displayName = 'LanguageButton';
 
 export default LanguageButton;

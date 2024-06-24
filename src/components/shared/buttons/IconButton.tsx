@@ -3,7 +3,7 @@ import IconButtonBase from '@/components/shared/buttons/IconButtonBase';
 import {
   ButtonStyleTypes,
   ButtonSizeTypes,
-} from '@/components/shared/buttons/types.ts';
+} from '@/components/shared/buttons/types';
 // How to use 사용방법
 // 전달할 props는
 // size = lg, md, sm, hf (기본값 = md)
@@ -21,17 +21,17 @@ import {
 type IconButtonProps = {
   size?: ButtonSizeTypes;
   disabled?: boolean;
-  styleType?: ButtonStyleType; //getButtonClasses 함수에서 Type Enum 지정
+  styleType?: ButtonStyleTypes;
   iconSvg: React.ElementType;
 };
 
-const IconButton: React.FC<TIconButtonProps> & {
-  Primary: React.FC<TIconButtonProps>;
-  Success: React.FC<TIconButtonProps>;
-  Danger: React.FC<TIconButtonProps>;
-  Blue: React.FC<TIconButtonProps>;
-  Gray: React.FC<TIconButtonProps>;
-  Light: React.FC<TIconButtonProps>;
+const IconButton: React.FC<IconButtonProps> & {
+  Primary: React.FC<IconButtonProps>;
+  Success: React.FC<IconButtonProps>;
+  Danger: React.FC<IconButtonProps>;
+  Blue: React.FC<IconButtonProps>;
+  Gray: React.FC<IconButtonProps>;
+  Light: React.FC<IconButtonProps>;
 } = ({
   styleType = ButtonStyleTypes.Primary,
   iconSvg,
@@ -93,23 +93,32 @@ const IconButton: React.FC<TIconButtonProps> & {
   );
 };
 
-IconButton.Primary = (props: TIconButtonProps) => (
-  <IconButton {...props} styleType="primary" />
+IconButton.Primary = (props: IconButtonProps) => (
+  <IconButton {...props} styleType={ButtonStyleTypes.Primary} />
 );
-IconButton.Success = (props: TIconButtonProps) => (
-  <IconButton {...props} styleType="success" />
+IconButton.Success = (props: IconButtonProps) => (
+  <IconButton {...props} styleType={ButtonStyleTypes.Success} />
 );
-IconButton.Danger = (props: TIconButtonProps) => (
-  <IconButton {...props} styleType="danger" />
+IconButton.Danger = (props: IconButtonProps) => (
+  <IconButton {...props} styleType={ButtonStyleTypes.Danger} />
 );
-IconButton.Blue = (props: TIconButtonProps) => (
-  <IconButton {...props} styleType="blue" />
+IconButton.Blue = (props: IconButtonProps) => (
+  <IconButton {...props} styleType={ButtonStyleTypes.Blue} />
 );
-IconButton.Gray = (props: TIconButtonProps) => (
-  <IconButton {...props} styleType="gray" />
+IconButton.Gray = (props: IconButtonProps) => (
+  <IconButton {...props} styleType={ButtonStyleTypes.Gray} />
 );
-IconButton.Light = (props: TIconButtonProps) => (
-  <IconButton {...props} styleType="light" />
+IconButton.Light = (props: IconButtonProps) => (
+  <IconButton {...props} styleType={ButtonStyleTypes.Light} />
 );
+
+IconButton.Primary.displayName = 'IconButton.Primary';
+IconButton.Success.displayName = 'IconButton.Success';
+IconButton.Danger.displayName = 'IconButton.Danger';
+IconButton.Blue.displayName = 'IconButton.Blue';
+IconButton.Gray.displayName = 'IconButton.Gray';
+IconButton.Light.displayName = 'IconButton.Light';
+
+IconButton.displayName = 'IconButton';
 
 export default IconButton;

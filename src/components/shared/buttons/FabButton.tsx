@@ -1,9 +1,5 @@
 import IconButtonBase from '@/components/shared/buttons/IconButtonBase';
 import FAB from '@/assets/icons/fab.svg';
-import {
-  ButtonStyleTypes,
-  ButtonSizeTypes,
-} from '@/components/shared/buttons/types.ts';
 
 // How to use 사용방법
 // 전달할 props는
@@ -17,7 +13,7 @@ type FabButtonProps = {
 
 export default function FabButton({
   disabled = false,
-}: TFabButtonProps) {
+}: FabButtonProps) {
   const styleType = disabled ? 'btn-disabled' : 'btn-primary';
 
   const sizeClasses = {
