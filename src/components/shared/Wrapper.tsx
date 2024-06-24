@@ -9,7 +9,7 @@ type WrapperProps = {
 };
 
 export default function Wrapper({ children, padding }: WrapperProps) {
-  const wrapperPadding = padding ? padding : 'py-[40px] px-[56px] ';
+  const wrapperPadding = padding ? padding : 'py-[40px] px-[56px]';
   return (
     <div
       className={`border-none rounded-[32px] shadow-custom-xxs bg-grayscale-0 ${wrapperPadding}`}
