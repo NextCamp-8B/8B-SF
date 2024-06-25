@@ -2,8 +2,10 @@ import Logo from '@/assets/logos/logo_dark.svg';
 import Link from 'next/link';
 export default function BeforeLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   return (
     <div
@@ -15,6 +17,10 @@ export default function BeforeLayout({
         </Link>
       </div>
       {children}
+
+      {/* 병렬,인터셉트 라우트 활용해서 임시발급 비밀번호 모달창 발생*/}
+      {/* modal은 /find/pw/modal 에서 발생 */}
+      {modal}
     </div>
   );
 }

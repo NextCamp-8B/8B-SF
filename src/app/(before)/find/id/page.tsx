@@ -122,7 +122,6 @@ export default function FindId() {
                   disabled={!isFormValid}
                   onClick={() => {
                     setIsSubmit(true);
-                    console.log('click');
                     setISuccessFindId(true);
                   }}
                 >
