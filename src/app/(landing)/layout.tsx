@@ -8,7 +8,7 @@ export default function LandingLayout({
   return (
     <>
       <header className=" h-20 flex justify-center fixed w-full">
-        <div className="max-w-[1200px] w-full flex items-center">
+        <div className="min-w-[1200px] w-full flex items-center">
           <LightLogo />
         </div>
       </header>
