@@ -51,13 +51,14 @@ const tmpStock = {
 export default function Hun() {
   return (
     <>
-      <Card type="News1" newsOne={tmpNews} />
+      <Card type="News1" news={tmpNews} />
       <br />
       <Card type="Stock" stock={tmpStock} />
       <br />
-      <Card type="News2" newsOne={tmpNews} />
+      <Card type="News2" news={tmpNews} />
       <br />
-      <Card type="News3" newsOne={tmpNews} newsTwo={tmpNews2} />
+      <Card type="News3" news={tmpNews} />
+      <Card type="News4" news={tmpNews2} />
     </>
   );
 }
