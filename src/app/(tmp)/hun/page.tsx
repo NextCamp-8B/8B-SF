@@ -58,6 +58,7 @@ export default function Hun() {
       <Card type="News2" news={tmpNews} />
       <br />
       <Card type="News3" news={tmpNews} />
+      <br />
       <Card type="News4" news={tmpNews2} />
     </>
   );
