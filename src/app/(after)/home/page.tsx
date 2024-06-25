@@ -1,4 +1,4 @@
-import Recent from './Recent/Recent';
+import Recent from '../../../components/recent/Recent';
 const tmpStock = [
   {
     name: '애플1',
