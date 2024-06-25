@@ -2,13 +2,12 @@
 import { useState } from 'react';
 import Wrapper from '@/components/shared/Wrapper';
 import InputSet from '@/components/shared/input/index';
-import CompositeInput from '@/components/shared/input/CompositeInput/index';
 import useInputChange from '@/hooks/input/useInputChange';
 import TextButton from '@/components/shared/buttons/TextButton';
 import CheckBox from '@/components/shared/Checkbox';
 import IconButton from '@/components/shared/buttons/IconButton';
-import NaverLogo from '@/assets/icons/naver_logo.svg';
 import Link from 'next/link';
+import GoogleLogo from '@/assets/icons/google_logo.svg';
 
 // w-[590px]  h-[668px]
 
@@ -19,7 +18,7 @@ export default function Login() {
   return (
     <main className="flex justify-center items-center h-screen">
       <Wrapper padding="px-24 py-20" width="w-[590px]">
-        <div className="flex flex-col w-96 h-full ">
+        <div className="flex flex-col w-96 h-full">
           <h3 className="h3 font-bold text-center mb-10">로그인</h3>
 
           {/* 로그인 입력 폼 */}
@@ -96,7 +95,6 @@ export default function Login() {
             <Link href="#">
               <IconButton.Kakao />
             </Link>
-
             <Link href="#">
               <IconButton.Naver />
             </Link>

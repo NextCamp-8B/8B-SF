@@ -26,7 +26,7 @@ type LanguageButtonProps = {
   children?: React.ReactNode;
   checked?: boolean; //현재 해당언어로 선택되었는지
   iconSvg?: React.ElementType;
-};
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const LanguageButton: React.FC<LanguageButtonProps> & {
   Kr: React.FC<LanguageButtonProps>;

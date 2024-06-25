@@ -7,7 +7,7 @@ import {
 
 // How to use 사용방법
 // 전달할 props는
-// size = lg, md, sm, hf (기본값 = md)
+// size =  lg, md, sm, hf (기본값 = md)
 // inconSvg? = React.Element (선택사항,svg 파일)
 // disabled? = boolean (선택사항, 기본값 false)
 
@@ -27,7 +27,8 @@ type TextButtonProps = {
   iconSvg?: React.ElementType;
   width?: string;
   height?: string;
-};
+  className?: string;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const TextButton: React.FC<TextButtonProps> & {
   Primary: React.FC<TextButtonProps>;
@@ -43,6 +44,7 @@ const TextButton: React.FC<TextButtonProps> & {
   disabled = false,
   width,
   height,
+  className = '',
   ...props
 }) => {
   const type = disabled ? 'disabled' : styleType;
@@ -88,7 +90,7 @@ const TextButton: React.FC<TextButtonProps> & {
   };
 
   const btnClass =
-    `${baseClass} ${sizeClass['text'][size]} ${typeClasses[type]} ${btnWidth} ${btnHeight} `.trim();
+    `${baseClass} ${sizeClass['text'][size]} ${typeClasses[type]} ${btnWidth} ${btnHeight} ${className} `.trim();
   const iconClass = `${iconTypeClasses[type]} ${sizeClass['icon'][size]}`;
 
   return (

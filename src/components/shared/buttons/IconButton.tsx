@@ -10,7 +10,7 @@ import GoogleLogo from '@/assets/icons/google_logo.svg';
 
 // How to use 사용방법
 // 전달할 props는
-// size = lg, md, sm, hf (기본값 = md)
+// size = lg, md, sm, xs, hf, social,  (기본값 = md)
 // inconSvg = React.Element (svg 파일)
 // disabled? = boolean (선택사항, 기본값 false)
 
@@ -81,21 +81,18 @@ const IconButton: React.FC<IconButtonProps> & {
 
   const sizeClasses = {
     button: {
+      xs: 'h-5 w-5',
       sm: 'h-9 w-9',
       md: 'h-14 w-14',
       lg: 'h-16 w-16',
       hf: 'h-6 w-6',
-      kakao: 'h-[72px] w-[72px]',
-      naver: 'h-[72px] w-[72px]',
-      google: 'h-[72px] w-[72px]',
+      social: 'h-[72px] w-[72px]',
     },
     icon: {
       sm: 'h-5 w-5 b2',
       md: 'h-9 w-9 h4',
       lg: 'h-9 w-9 h3',
-      kakao: 'h-full w-full h1',
-      naver: 'h-full w-full rounded-full h1',
-      google: 'h-full w-full rounded-full h1',
+      social: 'h-full w-full rounded-full h1',
       hf: 'h-3 w-3 b5',
     },
   };
@@ -136,7 +133,7 @@ IconButton.Light = (props: IconButtonProps) => (
 IconButton.Kakao = (props: IconButtonProps) => (
   <IconButton
     {...props}
-    size="kakao"
+    size="social"
     iconSvg={KakaoLogo}
     styleType={ButtonStyleTypes.Kakao}
   />
@@ -144,7 +141,7 @@ IconButton.Kakao = (props: IconButtonProps) => (
 IconButton.Naver = (props: IconButtonProps) => (
   <IconButton
     {...props}
-    size="naver"
+    size="social"
     iconSvg={NaverLogo}
     styleType={ButtonStyleTypes.Naver}
   />
@@ -152,7 +149,7 @@ IconButton.Naver = (props: IconButtonProps) => (
 IconButton.Google = (props: IconButtonProps) => (
   <IconButton
     {...props}
-    size="google"
+    size="social"
     iconSvg={GoogleLogo}
     styleType={ButtonStyleTypes.Google}
   />

@@ -9,10 +9,11 @@ import FAB from '@/assets/icons/fab.svg';
 
 type FabButtonProps = {
   disabled?: boolean;
-};
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export default function FabButton({
   disabled = false,
+  ...props
 }: FabButtonProps) {
   const styleType = disabled ? 'btn-disabled' : 'btn-primary';
 
@@ -41,6 +42,7 @@ export default function FabButton({
       className={btnClass}
       iconClassName="text-grayscale-0 w-12 h-12 b2"
       iconSvg={FAB}
+      {...props}
     />
   );
 }

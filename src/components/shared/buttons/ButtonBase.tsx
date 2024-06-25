@@ -9,7 +9,7 @@ type ButtonBaseProps = {
   iconSvg?: React.ElementType;
   className: string;
   iconClassName?: string;
-};
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const ButtonBase: React.FC<ButtonBaseProps> = ({
   children,
@@ -17,9 +17,10 @@ const ButtonBase: React.FC<ButtonBaseProps> = ({
   className,
   iconClassName,
   iconSvg: IconSvg,
+  ...props
 }) => {
   return (
-    <button className={className} disabled={disabled}>
+    <button className={className} disabled={disabled} {...props}>
       {IconSvg && <IconSvg className={iconClassName} />}
       {children}
     </button>

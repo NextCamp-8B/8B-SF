@@ -8,16 +8,17 @@ type IconButtonBaseProps = {
   className?: string;
   iconClassName?: string;
   iconSvg: React.ElementType;
-};
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const IconButtonBase: React.FC<IconButtonBaseProps> = ({
   disabled = false,
   className,
   iconClassName,
   iconSvg: IconSvg,
+  ...props
 }) => {
   return (
-    <button className={className} disabled={disabled}>
+    <button className={className} disabled={disabled} {...props}>
       <IconSvg className={iconClassName} />
     </button>
   );
