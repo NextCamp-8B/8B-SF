@@ -25,11 +25,11 @@ export default function Landing() {
             AI 애널리스트가 알려주는 어려운 해외주식 리포트
           </span>
         </div>
-        <ButtonBase className="bg-primary-800 w-[386px] h-16 rounded-lg">
-          <Link href="/login" className="b3 font-medium">
+        <Link href="/login" className="b3 font-medium">
+          <ButtonBase className="bg-primary-800 w-[386px] h-16 rounded-lg">
             로그인
-          </Link>
-        </ButtonBase>
+          </ButtonBase>
+        </Link>
       </div>
       <Image src={Mockup} width="1038" alt="device" />
     </main>

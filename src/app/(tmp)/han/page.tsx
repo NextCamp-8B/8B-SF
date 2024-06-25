@@ -23,6 +23,7 @@ const tmpNews = {
               설명했다.`,
   publishedTime: '6시간전',
   company: '문화일보',
+  date: '2024-06-24T19:52:16.000Z',
 };
 
 const tmpStock = {
