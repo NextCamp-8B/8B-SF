@@ -5,6 +5,9 @@ export enum ButtonStyleTypes {
   Gray = 'gray',
   Blue = 'blue',
   Light = 'light',
+  Kakao = 'kakao',
+  Naver = 'naver',
+  Google = 'google',
   Disabled = 'disabled',
 }
 
@@ -36,6 +39,13 @@ export enum ButtonStyleTypes {
 //   hf: 'h-5 w-5 b5',
 // },
 
-export type ButtonSizeTypes = 'sm' | 'md' | 'lg' | 'hf';
+export type ButtonSizeTypes =
+  | 'sm'
+  | 'md'
+  | 'lg'
+  | 'hf'
+  | 'kakao'
+  | 'naver'
+  | 'google';
 
 // hf 사이즈는 '중복확인', 헤더에 로그인, 로그아웃, 관심종목에 '추가', 마이페이지에 '정보 수정' 버튼 등에 사용

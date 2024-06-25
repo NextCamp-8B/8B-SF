@@ -4,6 +4,10 @@ import {
   ButtonStyleTypes,
   ButtonSizeTypes,
 } from '@/components/shared/buttons/types';
+import KakaoLogo from '@/assets/icons/kakao_logo.svg';
+import NaverLogo from '@/assets/icons/naver_logo.svg';
+import GoogleLogo from '@/assets/icons/google_logo.svg';
+
 // How to use 사용방법
 // 전달할 props는
 // size = lg, md, sm, hf (기본값 = md)
@@ -17,6 +21,9 @@ import {
 // <IconButton.Success/>
 // <IconButton.Blue/>
 // <IconButton.Gray/>
+// <IconButton.Kakao />
+// <IconButton.Naber />
+// <IconButton.Google />
 
 type IconButtonProps = {
   size?: ButtonSizeTypes;
@@ -32,6 +39,9 @@ const IconButton: React.FC<IconButtonProps> & {
   Blue: React.FC<IconButtonProps>;
   Gray: React.FC<IconButtonProps>;
   Light: React.FC<IconButtonProps>;
+  Kakao: React.FC<IconButtonProps>;
+  Naver: React.FC<IconButtonProps>;
+  Google: React.FC<IconButtonProps>;
 } = ({
   styleType = ButtonStyleTypes.Primary,
   iconSvg,
@@ -49,6 +59,9 @@ const IconButton: React.FC<IconButtonProps> & {
     [ButtonStyleTypes.Gray]: 'btn-gray',
     [ButtonStyleTypes.Light]: 'btn-light',
     [ButtonStyleTypes.Disabled]: 'btn-disabled',
+    [ButtonStyleTypes.Kakao]: 'bg-[#FFE812]',
+    [ButtonStyleTypes.Naver]: 'bg-grayscale-0',
+    [ButtonStyleTypes.Google]: 'bg-grayscale-0',
   };
 
   const iconTypeClasses = {
@@ -60,6 +73,9 @@ const IconButton: React.FC<IconButtonProps> & {
       'text-grayscale-600 group-hover:text-grayscale-500',
     [ButtonStyleTypes.Light]:
       'text-grayscale-900 group-hover:text-primary-200',
+    [ButtonStyleTypes.Kakao]: 'text-grayscale-900',
+    [ButtonStyleTypes.Naver]: 'text-grayscale-900',
+    [ButtonStyleTypes.Google]: 'text-grayscale-900',
     [ButtonStyleTypes.Disabled]: 'text-grayscale-400',
   };
 
@@ -69,11 +85,17 @@ const IconButton: React.FC<IconButtonProps> & {
       md: 'h-14 w-14',
       lg: 'h-16 w-16',
       hf: 'h-6 w-6',
+      kakao: 'h-[72px] w-[72px]',
+      naver: 'h-[72px] w-[72px]',
+      google: 'h-[72px] w-[72px]',
     },
     icon: {
       sm: 'h-5 w-5 b2',
-      md: 'h-7 w-7 h4',
+      md: 'h-9 w-9 h4',
       lg: 'h-9 w-9 h3',
+      kakao: 'h-full w-full h1',
+      naver: 'h-full w-full rounded-full h1',
+      google: 'h-full w-full rounded-full h1',
       hf: 'h-3 w-3 b5',
     },
   };
@@ -111,6 +133,30 @@ IconButton.Gray = (props: IconButtonProps) => (
 IconButton.Light = (props: IconButtonProps) => (
   <IconButton {...props} styleType={ButtonStyleTypes.Light} />
 );
+IconButton.Kakao = (props: IconButtonProps) => (
+  <IconButton
+    {...props}
+    size="kakao"
+    iconSvg={KakaoLogo}
+    styleType={ButtonStyleTypes.Kakao}
+  />
+);
+IconButton.Naver = (props: IconButtonProps) => (
+  <IconButton
+    {...props}
+    size="naver"
+    iconSvg={NaverLogo}
+    styleType={ButtonStyleTypes.Naver}
+  />
+);
+IconButton.Google = (props: IconButtonProps) => (
+  <IconButton
+    {...props}
+    size="google"
+    iconSvg={GoogleLogo}
+    styleType={ButtonStyleTypes.Google}
+  />
+);
 
 IconButton.Primary.displayName = 'IconButton.Primary';
 IconButton.Success.displayName = 'IconButton.Success';
@@ -118,6 +164,9 @@ IconButton.Danger.displayName = 'IconButton.Danger';
 IconButton.Blue.displayName = 'IconButton.Blue';
 IconButton.Gray.displayName = 'IconButton.Gray';
 IconButton.Light.displayName = 'IconButton.Light';
+IconButton.Kakao.displayName = 'IconButton.Kakao';
+IconButton.Naver.displayName = 'IconButton.Naver';
+IconButton.Google.displayName = 'IconButton.Google';
 
 IconButton.displayName = 'IconButton';
 

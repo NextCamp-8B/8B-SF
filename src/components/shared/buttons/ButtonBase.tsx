@@ -8,7 +8,7 @@ type ButtonBaseProps = {
   disabled?: boolean;
   iconSvg?: React.ElementType;
   className: string;
-  iconClassName: string;
+  iconClassName?: string;
 };
 
 const ButtonBase: React.FC<ButtonBaseProps> = ({
