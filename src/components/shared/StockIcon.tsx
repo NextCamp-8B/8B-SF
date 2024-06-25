@@ -1,13 +1,14 @@
+import Image from 'next/image';
 import React from 'react';
 
 interface StockIconProps {
-  children: React.ReactNode;
   size?: 'medium' | 'small';
+  path: string;
 }
 
 export default function StockIcon({
-  children,
   size = 'medium',
+  path,
 }: StockIconProps) {
   return (
     <div
@@ -15,7 +16,7 @@ export default function StockIcon({
         size === 'medium' && 'w-16 h-16'
       } ${size === 'small' && 'w-12 h-12'}`}
     >
-      {children}
+      <Image width={12} height={12} src={path} alt="icon" />
     </div>
   );
 }

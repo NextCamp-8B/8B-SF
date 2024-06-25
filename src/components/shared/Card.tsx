@@ -120,7 +120,7 @@ export default function Card(props: CardProps) {
 
       {/* type === News4 (뉴스제목, 뉴스내용, 날짜) */}
       {type === 'News4' && news && (
-        <div className="w-[590px] h-[200px] mb-4 relative flex flex-col overflow-hidden rounded-2xl ">
+        <div className="w-[590px] h-[200px] relative flex flex-col overflow-hidden rounded-2xl ">
           <Image
             src={news.thumbnail}
             alt="thumbnail"

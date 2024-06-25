@@ -1,19 +1,21 @@
 import React from 'react';
 import StockIcon from './StockIcon';
 
-interface StockListItemProps {
+export type StockListItemProps = {
   icon: React.ReactNode;
   stock: Stock;
   type?: 'find' | 'default';
-}
+};
 
-interface Stock {
+export type Stock = {
+  id: string;
   name: string;
   subname: string;
   value: string;
   tmp1: number;
   tmp2: number;
-}
+  path: string;
+};
 
 export default function StockListItem({
   icon,
@@ -23,9 +25,10 @@ export default function StockListItem({
   const { name, subname, value, tmp1, tmp2 } = stock;
   return (
     <div className="py-2 flex text-grayscale-900 gap-4 items-center cursor-pointer">
-      <StockIcon size={type === 'find' ? 'small' : 'medium'}>
-        {icon}
-      </StockIcon>
+      <StockIcon
+        size={type === 'find' ? 'small' : 'medium'}
+        path={stock.path}
+      />
       <div className="flex-1 flex justify-between">
         <div className="flex flex-col">
           <span

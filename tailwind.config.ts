@@ -182,6 +182,46 @@ const config: Config = {
           lineHeight: '16px',
           letterSpacing: '0%',
         },
+        '.text-overflow-1': {
+          textOverflow: 'ellipsis',
+          overflow: 'hidden',
+          wordBreak: 'break-word',
+          display: '-webkit-box',
+          '-webkit-line-clamp': '1',
+          '-webkit-box-orient': 'vertical',
+        },
+        '.text-overflow-2': {
+          textOverflow: 'ellipsis',
+          overflow: 'hidden',
+          wordBreak: 'break-word',
+          display: '-webkit-box',
+          '-webkit-line-clamp': '2',
+          '-webkit-box-orient': 'vertical',
+        },
+        '.text-overflow-3': {
+          textOverflow: 'ellipsis',
+          overflow: 'hidden',
+          wordBreak: 'break-word',
+          display: '-webkit-box',
+          '-webkit-line-clamp': '3',
+          '-webkit-box-orient': 'vertical',
+        },
+        '.text-overflow-4': {
+          textOverflow: 'ellipsis',
+          overflow: 'hidden',
+          wordBreak: 'break-word',
+          display: '-webkit-box',
+          '-webkit-line-clamp': '4',
+          '-webkit-box-orient': 'vertical',
+        },
+        '.text-overflow-5': {
+          textOverflow: 'ellipsis',
+          overflow: 'hidden',
+          wordBreak: 'break-word',
+          display: '-webkit-box',
+          '-webkit-line-clamp': '5',
+          '-webkit-box-orient': 'vertical',
+        },
       };
 
       addUtilities(newUtilities);
