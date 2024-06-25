@@ -1,4 +1,4 @@
-export default function AfterLayout({
+export default function BeforeLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
