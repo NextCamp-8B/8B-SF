@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Wrapper from '@/components/shared/Wrapper';
 import InputSet from '@/components/shared/input/index';
 import useInputChange from '@/hooks/input/useInputChange';
@@ -39,12 +39,26 @@ export default function FindPw() {
       // 유효성 검사가 성공했다면
       // 임시발급 비밀번호 성공 모달을 발생 시키기 위해
       // /find/pw/modal 로 경로 이동
-      router.push('/find/pw/modal', undefined, {
+      router.push('/p/find/pw?modal=true', undefined, {
         shallow: true,
       });
       setIsFormValid(false);
     }
   };
+
+  useEffect(() => {
+    // URL에 모달 파라미터가 있을 때 모달을 닫기 위해 URL을 초기화합니다.
+    if (window.location.search.includes('modal=true')) {
+      const handlePopState = () => {
+        router.push('/find/pw', undefined, { shallow: true });
+      };
+
+      window.addEventListener('popstate', handlePopState);
+      return () => {
+        window.removeEventListener('popstate', handlePopState);
+      };
+    }
+  }, [router]);
   return (
     <>
       <main className="flex justify-center items-center h-screen">
