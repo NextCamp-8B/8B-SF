@@ -49,3 +49,9 @@ export const diffCreatedTime = (date: string) => {
 
   return `${secondsDiff}초 전`;
 };
+
+// 최근 검색어 시간
+export const searchDate = (date?: string) => {
+  const utcDate = dayjs.utc(date);
+  return utcDate.format('MM.DD');
+};
