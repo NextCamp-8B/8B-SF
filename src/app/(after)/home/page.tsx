@@ -1,4 +1,13 @@
+import NewsSection from '@/components/news/NewsSection';
 import Recent from '../../../components/recent/Recent';
+import Card from '@/components/shared/Card';
+import NewsBorder from '@/components/news/NewsBorder';
+import NewsListItem from '@/components/shared/NewsListItem';
+import HomeRecentNews from '@/components/news/HomeRecentNews';
+import { TMP_NEWS } from '@/constants';
+import HomeRelatedNews from '@/components/news/HomeRelatedNews';
+import HomeNewsTab from '@/components/news/HomeNewsTab';
+
 const tmpStock = [
   {
     id: '1a1a1a',
@@ -40,12 +49,12 @@ const tmpStock = [
 export default function Home() {
   return (
     <>
-      <div className="flex flex-col">
-        <h1>Home Component</h1>
+      <main className="flex items-center justify-center w-full flex-col gap-12">
         <div className="w-[1200px]  flex">
           <Recent data={tmpStock} />
         </div>
-      </div>
+        <HomeNewsTab />
+      </main>
     </>
   );
 }
