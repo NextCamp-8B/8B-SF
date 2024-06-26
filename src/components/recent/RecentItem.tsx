@@ -2,11 +2,13 @@ import AI from '@/assets/icons/ai.svg';
 import StockListItem from '@/components/shared/StockListItem';
 import Link from 'next/link';
 type recentProps = {
+  id: string;
   name: string;
   subname: string;
   value: string;
   tmp1: number;
   tmp2: number;
+  path: string;
 };
 
 export default function RecentItem({
@@ -26,12 +28,7 @@ export default function RecentItem({
             <Link href={`/stock/${i}`}>
               <StockListItem
                 stock={stock}
-                icon={
-                  <AI
-                    className="w-9 h-9 text-grayscale-0"
-                    type="find"
-                  />
-                }
+                icon={<AI className="w-9 h-9 text-grayscale-0" />}
               />
             </Link>
           </div>
