@@ -26,43 +26,6 @@ export default function News() {
         <NewsHeading>최신 뉴스</NewsHeading>
         <RecentNews newsList={[TMP_NEWS, TMP_NEWS, TMP_NEWS]} />
       </NewsSection>
-
-      {/* home에 들어가야함 스팩님을 위한 주식 뉴스 */}
-      <NewsSection>
-        <h1 className="h4 font-bold pb-6 text-primary-900">
-          스팩님을 위한 주식 뉴스
-        </h1>
-        <div className="bg-grayscale-0 p-12 flex flex-col gap-12 rounded-2xl">
-          <section>
-            <h3 className="b1 font-medium text-primary-900 pb-4">
-              관심종목
-            </h3>
-            <div className="flex gap-5">
-              <Card type="News1" news={TMP_NEWS} />
-              <Card type="News1" news={TMP_NEWS} />
-              <Card type="News1" news={TMP_NEWS} />
-            </div>
-          </section>
-          <section>
-            <h3 className="b1 font-medium text-primary-900 pb-4">
-              주요 뉴스
-            </h3>
-            <NewsBorder>
-              <NewsListItem type="important" news={TMP_NEWS} />
-            </NewsBorder>
-          </section>
-          <section>
-            <h3 className="b1 font-medium text-primary-900 pb-4">
-              최신 뉴스
-            </h3>
-            <NewsBorder>
-              <NewsListItem type="medium" news={TMP_NEWS} />
-              <NewsListItem type="medium" news={TMP_NEWS} />
-              <NewsListItem type="medium" news={TMP_NEWS} />
-            </NewsBorder>
-          </section>
-        </div>
-      </NewsSection>
     </main>
   );
 }
