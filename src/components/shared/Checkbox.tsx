@@ -4,13 +4,23 @@ import CheckSvg from '@/assets/icons/check.svg';
 // How to use 사용방법
 // 전달할 props는
 // label = string
-// <CheckBox label="자동 로그인" />
+// <Checkbox label="자동 로그인" />
 
 type CheckBoxProps = {
   label?: string;
-};
+  type?: 'primary' | 'rounded';
+} & React.InputHTMLAttributes<HTMLInputElement>;
 
-export default function Checkbox({ label }: CheckBoxProps) {
+const CheckboxBase: React.FC<CheckBoxProps> = ({
+  label,
+  type = 'primary',
+  ...props
+}) => {
+  const checkBoxClass =
+    type === 'rounded'
+      ? 'w-5 h-5 rounded-full checked:bg-primary-900'
+      : 'w-4 h-4  rounded-sm checked:bg-grayscale-900';
+
   return (
     <div className="flex items-center">
       <div className="relative flex justify-center items-center">
@@ -18,11 +28,12 @@ export default function Checkbox({ label }: CheckBoxProps) {
           type="checkbox"
           id="checkbox"
           name="checkbox"
-          className="w-4 h-4 appearance-none border rounded-sm cursor-pointer border-grayscale-400 checked:bg-grayscale-900 checked:border-none focus:outline-none peer"
+          className={`appearance-none border cursor-pointer border-grayscale-400  checked:border-none focus:outline-none peer ${checkBoxClass}`}
+          {...props}
         />
         <label
           htmlFor="checkbox"
-          className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 peer-checked:opacity-100 "
+          className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 peer-checked:opacity-100"
         >
           <CheckSvg className="w-3 h-3 text-grayscale-0" />
         </label>
@@ -32,4 +43,19 @@ export default function Checkbox({ label }: CheckBoxProps) {
       </label>
     </div>
   );
-}
+};
+
+const Checkbox: React.FC<CheckBoxProps> & {
+  Primary: React.FC<CheckBoxProps>;
+  Rounded: React.FC<CheckBoxProps>;
+} = (props) => <CheckboxBase {...props} />;
+
+Checkbox.Primary = ({ className = '', ...props }) => (
+  <CheckboxBase type="primary" {...props} />
+);
+
+Checkbox.Rounded = ({ className = '', ...props }) => (
+  <CheckboxBase type="rounded" {...props} />
+);
+
+export default Checkbox;

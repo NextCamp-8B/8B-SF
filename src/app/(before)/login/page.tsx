@@ -19,24 +19,33 @@ export default function Login() {
     <main className="flex justify-center items-center h-screen">
       <Wrapper padding="px-24 py-20" width="w-[590px]">
         <div className="flex flex-col w-96 h-full">
-          <h3 className="h3 font-bold text-center mb-10">로그인</h3>
+          <h3 className="h3 font-bold text-center mb-10 text-primary-900">
+            로그인
+          </h3>
 
           {/* 로그인 입력 폼 */}
           <InputSet className="flex flex-col gap-4">
             <InputSet.Validated
               onChange={onChangeInputValue}
-              value={value.loginId}
-              type="loginId"
-              state="default"
-              concept="loginId"
+              value={value.signupId}
+              type="text"
+              concept="signupId"
+              isSubmit={isSubmit}
             />
             <InputSet.Validated
               onChange={onChangeInputValue}
               value={value.password}
               type="password"
-              state="default"
               concept="password"
+              isSubmit={isSubmit}
             />
+            <TextButton
+              onClick={() => {
+                setIsSubmit(true);
+              }}
+            >
+              로그인
+            </TextButton>
           </InputSet>
 
           {/* 자동로그인, 아이디, 비밀번호 찾기 라우트 */}
@@ -61,13 +70,6 @@ export default function Login() {
             </div>
 
             {/* submit 로그인 버튼 */}
-            <TextButton
-              onClick={() => {
-                setIsSubmit(true);
-              }}
-            >
-              로그인
-            </TextButton>
 
             {/* 회원가입 라우트*/}
             <div className="flex justify-between px-1 b5">

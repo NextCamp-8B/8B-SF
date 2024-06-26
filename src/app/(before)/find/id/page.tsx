@@ -57,7 +57,7 @@ export default function FindId() {
       <Wrapper padding="px-24 py-20" width="w-[590px]">
         <div className="flex flex-col items-center w-96 h-full ">
           <h3
-            className={`h3 font-bold text-center ${titleMarginBottom}`}
+            className={`h3 font-bold text-center ${titleMarginBottom} text-primary-900`}
           >
             아이디 찾기
           </h3>

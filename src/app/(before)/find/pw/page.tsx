@@ -50,7 +50,7 @@ export default function FindPw() {
       <main className="flex justify-center items-center h-screen">
         <Wrapper padding="px-24 py-20" width="w-[590px]">
           <div className="flex flex-col items-center w-96 h-full ">
-            <h3 className="h3 font-bold text-center mb-10">
+            <h3 className="h3 font-bold text-center mb-10 text-primary-900">
               비밀번호 찾기
             </h3>
             <>

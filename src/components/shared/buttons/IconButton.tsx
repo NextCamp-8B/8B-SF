@@ -30,7 +30,7 @@ type IconButtonProps = {
   disabled?: boolean;
   styleType?: ButtonStyleTypes;
   iconSvg: React.ElementType;
-};
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const IconButton: React.FC<IconButtonProps> & {
   Primary: React.FC<IconButtonProps>;
