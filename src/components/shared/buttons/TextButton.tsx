@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import ButtonBase from '@/components/shared/buttons/ButtonBase';
 import {
@@ -100,6 +101,7 @@ const TextButton: React.FC<TextButtonProps> & {
         className={btnClass}
         iconClassName={iconClass}
         iconSvg={iconSvg}
+        disabled={disabled}
       />
     </>
   );

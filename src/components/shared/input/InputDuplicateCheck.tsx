@@ -128,11 +128,14 @@ export default function InputDuplicateCheck({
         <button
           className={`w-[120px] h-[36px] border rounded-lg bg-${
             status === 'warning' ? 'warning-100' : 'primary-900'
-          } text-grayscale-0 absolute right-4 top-2.5`}
+          } text-grayscale-0 absolute right-4 top-2.5 
+            ${!isValidated ? 'btn-disabled' : 'btn-primary'}
+          `}
           onClick={() => {
             const isDupl = onClick();
             setIsDuplicate(isDupl);
           }}
+          disabled={!isValidated}
         >
           중복 확인
         </button>

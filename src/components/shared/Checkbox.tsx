@@ -9,11 +9,15 @@ import CheckSvg from '@/assets/icons/check.svg';
 type CheckBoxProps = {
   label?: string;
   type?: 'primary' | 'rounded';
+  checked: boolean;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 const CheckboxBase: React.FC<CheckBoxProps> = ({
   label,
   type = 'primary',
+  checked = false,
+  onChange,
   ...props
 }) => {
   const checkBoxClass =
@@ -29,6 +33,8 @@ const CheckboxBase: React.FC<CheckBoxProps> = ({
           id="checkbox"
           name="checkbox"
           className={`appearance-none border cursor-pointer border-grayscale-400  checked:border-none focus:outline-none peer ${checkBoxClass}`}
+          checked={checked}
+          onChange={onChange}
           {...props}
         />
         <label

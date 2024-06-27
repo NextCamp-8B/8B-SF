@@ -14,6 +14,11 @@ import GoogleLogo from '@/assets/icons/google_logo.svg';
 export default function Login() {
   const { value, onChangeInputValue } = useInputChange();
   const [isSubmit, setIsSubmit] = useState(false);
+  const [isAutoLogin, setIsAutoLogin] = useState(false);
+
+  const handleLoginClick = () => {
+    setIsSubmit(true);
+  };
 
   return (
     <main className="flex justify-center items-center h-screen">
@@ -39,19 +44,17 @@ export default function Login() {
               concept="password"
               isSubmit={isSubmit}
             />
-            <TextButton
-              onClick={() => {
-                setIsSubmit(true);
-              }}
-            >
-              로그인
-            </TextButton>
+            <TextButton onClick={handleLoginClick}>로그인</TextButton>
           </InputSet>
 
           {/* 자동로그인, 아이디, 비밀번호 찾기 라우트 */}
           <div className="flex flex-col mt-4 gap-y-4">
             <div className="flex px-1 justify-between font-nomal b5">
-              <CheckBox label="자동 로그인" />
+              <CheckBox
+                label="자동 로그인"
+                checked={isAutoLogin}
+                onChange={() => setIsAutoLogin(!isAutoLogin)}
+              />
               <div className="space-x-2">
                 <Link
                   href="/find/id"
