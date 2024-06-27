@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Wrapper from '@/components/shared/Wrapper';
 import TextButton from '@/components/shared/buttons/TextButton';
 import Link from 'next/link';
@@ -11,16 +11,26 @@ import { useRouter } from 'next/navigation';
 
 export default function FindPwModal() {
   const router = useRouter();
+  const [timeLeft, setTimeLeft] = useState(10);
+
   useEffect(() => {
     // 사용자가 해당 모달창에서 10초간 동작이 없을시
     // login 페이지로 이동
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => prev - 1);
+    }, 1000);
+
     const timer = setTimeout(() => {
       router.push('/login');
     }, 10000);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timer);
+    };
   }, [router]);
 
+ 
   // 사용자가 바깥배경을 클릭 시 /find/pw로 다시 이동
   // p/find/pw?modal=true  => find/pw 이동하여
   // 입력값은 자동으로 초기화
@@ -49,6 +59,11 @@ export default function FindPwModal() {
             <p className="text-center font-normal b4">
               이메일을 확인하여 임시 비밀번호로 <br />
               재로그인 후 비밀번호를 변경해주세요.
+              {timeLeft < 6 && (
+              <p className="text-center caption">
+                {timeLeft}초 후에 로그인 페이지로 이동합니다.
+              </p>
+            )}
             </p>
             <Link href="/login">
               <TextButton className="mt-4 w-[332px]">

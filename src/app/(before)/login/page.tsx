@@ -7,7 +7,6 @@ import TextButton from '@/components/shared/buttons/TextButton';
 import CheckBox from '@/components/shared/Checkbox';
 import IconButton from '@/components/shared/buttons/IconButton';
 import Link from 'next/link';
-import GoogleLogo from '@/assets/icons/google_logo.svg';
 
 // w-[590px]  h-[668px]
 
@@ -32,9 +31,9 @@ export default function Login() {
           <InputSet className="flex flex-col gap-4">
             <InputSet.Validated
               onChange={onChangeInputValue}
-              value={value.signupId}
-              type="text"
-              concept="signupId"
+              value={value.loginId}
+              type="loginId"
+              concept="loginId"
               isSubmit={isSubmit}
             />
             <InputSet.Validated

@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import Wrapper from '@/components/shared/Wrapper';
 import InputSet from '@/components/shared/input/index';
 import TextButton from '@/components/shared/buttons/TextButton';
-import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function FindPw() {
@@ -15,7 +14,7 @@ export default function FindPw() {
   // 경로에 modal=true 값이 없다면 라우트 처리
   useEffect(() => {
     if (!isModalOpen) {
-      router.replace('/find/pw', undefined, { shallow: true });
+      router.push('/find/pw');
     }
   }, [isModalOpen, router]);
   return (

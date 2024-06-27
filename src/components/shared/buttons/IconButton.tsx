@@ -7,6 +7,7 @@ import {
 import KakaoLogo from '@/assets/icons/kakao_logo.svg';
 import NaverLogo from '@/assets/icons/naver_logo.svg';
 import GoogleLogo from '@/assets/icons/google_logo.svg';
+import LogoLight from '@/assets/icons/google_logo.svg';
 
 // How to use 사용방법
 // 전달할 props는
@@ -29,8 +30,8 @@ type IconButtonProps = {
   size?: ButtonSizeTypes;
   disabled?: boolean;
   styleType?: ButtonStyleTypes;
-  iconSvg: React.ElementType;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+  iconSvg?: React.ElementType;
+};
 
 const IconButton: React.FC<IconButtonProps> & {
   Primary: React.FC<IconButtonProps>;
@@ -44,7 +45,7 @@ const IconButton: React.FC<IconButtonProps> & {
   Google: React.FC<IconButtonProps>;
 } = ({
   styleType = ButtonStyleTypes.Primary,
-  iconSvg,
+  iconSvg = LogoLight,
   size = 'md',
   disabled = false,
   ...props
