@@ -2,21 +2,16 @@ import Time from '@/assets/icons/time.svg';
 import Link from 'next/link';
 import { searchDate } from '@/utils/date';
 import DeleteSearch from './DeleteSearch';
+import { searchDatasProps } from './InputItem';
+import SearchHeading from './SearchHeading';
+import SearchLabel from './SearchLabel';
 
-type searchDatasProps = {
-  id?: string;
-  name?: string;
-  subname?: string;
-  date?: string;
-  iscompleted?: boolean;
-};
-
-type deleteProps = {
-  type: 'all' | 'select';
-  id?: string;
-  data?: string;
-  iscompleted?: boolean;
-};
+// type deleteProps = {
+//   type: 'all' | 'select';
+//   id?: string;
+//   data?: string;
+//   iscompleted?: boolean;
+// };
 
 export default function RecentSearch({
   searchDatas,
@@ -26,9 +21,7 @@ export default function RecentSearch({
   return (
     <div className="w-[590px]">
       <div className="flex items-center justify-between">
-        <div className="min-w-[110px] b1 font-bold text-primary-900 my-2">
-          최근 검색어
-        </div>
+        <SearchHeading> 최근 검색어</SearchHeading>
         <DeleteSearch type="all" />
       </div>
       <div className="w-full rounded-2xl shadow-md bg-grayscale-0 py-6 ">
@@ -43,14 +36,7 @@ export default function RecentSearch({
                   <div>
                     <Time width={24} height={24} />
                   </div>
-                  <Link href={`/stock/${searchData.id}`}>
-                    <p className="text-overflow-1 px-2 hover:underline cursor-pointer">
-                      {searchData.name}
-                    </p>
-                  </Link>
-                  {/* <p className="b5 text-grayscale-400 flex items-center px-1">
-                    {searchData.subname}
-                  </p> */}
+                  <SearchLabel data={searchData} />
                 </div>
                 <div className="flex items-center">
                   <p className="b5 text-grayscale-400 px-2 cursor-default">

@@ -21,7 +21,7 @@ export default function RecentItem({
       {stocks &&
         stocks.map((stock, i) => (
           <div
-            className="min-w-[494px] flex flex-col hover:bg-primary-50 hover:rounded-lg hover:scale-105 duration-500"
+            className="min-w-[494px] flex flex-col hover:bg-primary-50 hover:rounded-lg hover:scale-105 duration-500 px-4"
             key={i}
           >
             {/* 상세주식페이지 구성뒤 바꿀것 */}
