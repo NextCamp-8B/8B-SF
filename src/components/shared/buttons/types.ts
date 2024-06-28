@@ -5,10 +5,13 @@ export enum ButtonStyleTypes {
   Gray = 'gray',
   Blue = 'blue',
   Light = 'light',
+  Disabled = 'disabled',
+}
+
+export enum IconButtonStyleTypes {
   Kakao = 'kakao',
   Naver = 'naver',
   Google = 'google',
-  Disabled = 'disabled',
 }
 
 // ButtonBase size style

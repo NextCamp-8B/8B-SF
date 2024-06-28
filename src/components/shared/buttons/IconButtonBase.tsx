@@ -15,10 +15,22 @@ const IconButtonBase: React.FC<IconButtonBaseProps> = ({
   className,
   iconClassName,
   iconSvg: IconSvg,
+  onClick,
   ...props
 }) => {
+  const handleClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    if (disabled || !onClick) return;
+    onClick(event);
+  };
   return (
-    <button className={className} disabled={disabled} {...props}>
+    <button
+      className={className}
+      disabled={disabled}
+      onClick={handleClick}
+      {...props}
+    >
       <IconSvg className={iconClassName} />
     </button>
   );

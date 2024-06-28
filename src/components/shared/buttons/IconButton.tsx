@@ -3,12 +3,12 @@ import IconButtonBase from '@/components/shared/buttons/IconButtonBase';
 import {
   ButtonStyleTypes,
   ButtonSizeTypes,
+  IconButtonStyleTypes,
 } from '@/components/shared/buttons/types';
 import KakaoLogo from '@/assets/icons/kakao_logo.svg';
 import NaverLogo from '@/assets/icons/naver_logo.svg';
 import GoogleLogo from '@/assets/icons/google_logo.svg';
 import LogoLight from '@/assets/icons/google_logo.svg';
-
 // How to use 사용방법
 // 전달할 props는
 // size = lg, md, sm, xs, hf, social,  (기본값 = md)
@@ -29,9 +29,9 @@ import LogoLight from '@/assets/icons/google_logo.svg';
 type IconButtonProps = {
   size?: ButtonSizeTypes;
   disabled?: boolean;
-  styleType?: ButtonStyleTypes;
+  styleType?: ButtonStyleTypes | IconButtonStyleTypes;
   iconSvg?: React.ElementType;
-};
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const IconButton: React.FC<IconButtonProps> & {
   Primary: React.FC<IconButtonProps>;
@@ -60,9 +60,9 @@ const IconButton: React.FC<IconButtonProps> & {
     [ButtonStyleTypes.Gray]: 'btn-gray',
     [ButtonStyleTypes.Light]: 'btn-light',
     [ButtonStyleTypes.Disabled]: 'btn-disabled',
-    [ButtonStyleTypes.Kakao]: 'bg-[#FFE812]',
-    [ButtonStyleTypes.Naver]: 'bg-grayscale-0',
-    [ButtonStyleTypes.Google]: 'bg-grayscale-0',
+    [IconButtonStyleTypes.Kakao]: 'bg-[#FFE812]',
+    [IconButtonStyleTypes.Naver]: 'bg-grayscale-0',
+    [IconButtonStyleTypes.Google]: 'bg-grayscale-0',
   };
 
   const iconTypeClasses = {
@@ -74,9 +74,9 @@ const IconButton: React.FC<IconButtonProps> & {
       'text-grayscale-600 group-hover:text-grayscale-500',
     [ButtonStyleTypes.Light]:
       'text-grayscale-900 group-hover:text-primary-200',
-    [ButtonStyleTypes.Kakao]: 'text-grayscale-900',
-    [ButtonStyleTypes.Naver]: 'text-grayscale-900',
-    [ButtonStyleTypes.Google]: 'text-grayscale-900',
+    [IconButtonStyleTypes.Kakao]: 'text-grayscale-900',
+    [IconButtonStyleTypes.Naver]: 'text-grayscale-900',
+    [IconButtonStyleTypes.Google]: 'text-grayscale-900',
     [ButtonStyleTypes.Disabled]: 'text-grayscale-400',
   };
 
@@ -136,7 +136,7 @@ IconButton.Kakao = (props: IconButtonProps) => (
     {...props}
     size="social"
     iconSvg={KakaoLogo}
-    styleType={ButtonStyleTypes.Kakao}
+    styleType={IconButtonStyleTypes.Kakao}
   />
 );
 IconButton.Naver = (props: IconButtonProps) => (
@@ -144,7 +144,7 @@ IconButton.Naver = (props: IconButtonProps) => (
     {...props}
     size="social"
     iconSvg={NaverLogo}
-    styleType={ButtonStyleTypes.Naver}
+    styleType={IconButtonStyleTypes.Naver}
   />
 );
 IconButton.Google = (props: IconButtonProps) => (
@@ -152,7 +152,7 @@ IconButton.Google = (props: IconButtonProps) => (
     {...props}
     size="social"
     iconSvg={GoogleLogo}
-    styleType={ButtonStyleTypes.Google}
+    styleType={IconButtonStyleTypes.Google}
   />
 );
 

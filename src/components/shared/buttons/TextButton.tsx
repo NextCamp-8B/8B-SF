@@ -1,4 +1,3 @@
-'use client';
 import React from 'react';
 import ButtonBase from '@/components/shared/buttons/ButtonBase';
 import {
@@ -48,7 +47,7 @@ const TextButton: React.FC<TextButtonProps> & {
   className = '',
   ...props
 }) => {
-  const type = disabled ? 'disabled' : styleType;
+  const type = disabled ? ButtonStyleTypes.Disabled : styleType;
   const btnWidth = width ? width : '';
   const btnHeight = height ? height : '';
   const baseClass = `group gap-x-1 box-border flex justify-center items-center rounded-lg whitespace-nowrap`;
@@ -59,12 +58,14 @@ const TextButton: React.FC<TextButtonProps> & {
       md: 'h-14 w-96 b-4',
       lg: 'h-16 w-96 b-3',
       hf: 'h-9 w-[120px] b5',
+      social: '',
     },
     icon: {
       sm: 'w-5 h-5 b-4',
       md: 'w-[22px] h-[22px] b-3',
       lg: 'w-6 h-6 b-2',
       hf: 'h-5 w-5 b5',
+      social: '',
     },
   };
 
