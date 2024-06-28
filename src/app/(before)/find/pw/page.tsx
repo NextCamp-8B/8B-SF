@@ -1,23 +1,17 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Wrapper from '@/components/shared/Wrapper';
 import InputSet from '@/components/shared/input/index';
 import useInputChange from '@/hooks/input/useInputChange';
 import TextButton from '@/components/shared/buttons/TextButton';
-import Link from 'next/link';
-import {
-  conceptMap,
-  statusMap,
-} from '@/components/shared/input/inputConfig';
-
-import { useRouter } from 'next/navigation';
+import { conceptMap } from '@/components/shared/input/inputConfig';
+import Popup from '@/components/findPw/Popup';
 
 export default function FindPw() {
   const { value, onChangeInputValue } = useInputChange();
   const [isSubmit, setIsSubmit] = useState(false);
   const [isSuccessFindPw, setIsSuccessFindPw] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
-  const router = useRouter();
 
   const validateForm = () => {
     const isNameValid = conceptMap.name.doValidation(value.name);
@@ -36,31 +30,13 @@ export default function FindPw() {
   const handleSubmit = () => {
     setIsSubmit(true);
     if (isFormValid) {
-      // 유효성 검사가 성공했다면
-      // 임시발급 비밀번호 성공 모달을 발생 시키기 위해
-      // /find/pw/modal 로 경로 이동
-      router.push('/p/find/pw?modal=true', undefined, {
-        shallow: true,
-      });
-      setIsFormValid(false);
+      setIsSuccessFindPw(true);
     }
   };
 
-  useEffect(() => {
-    // URL에 모달 파라미터가 있을 때 모달을 닫기 위해 URL을 초기화합니다.
-    if (window.location.search.includes('modal=true')) {
-      const handlePopState = () => {
-        router.push('/find/pw', undefined, { shallow: true });
-      };
-
-      window.addEventListener('popstate', handlePopState);
-      return () => {
-        window.removeEventListener('popstate', handlePopState);
-      };
-    }
-  }, [router]);
   return (
     <>
+      {isSuccessFindPw && <Popup />}
       <main className="flex justify-center items-center h-screen">
         <Wrapper padding="px-24 py-20" width="w-[590px]">
           <div className="flex flex-col items-center w-96 h-full ">
