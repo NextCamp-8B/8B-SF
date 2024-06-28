@@ -1,8 +1,5 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import Wrapper from '@/components/shared/Wrapper';
-import CheckBox from '@/components/shared/Checkbox';
-import TextButton from '@/components/shared/buttons/TextButton';
 import Agreement from '@/components/signup/Agreement';
 import Auth from '@/components/signup/Auth';
 import SignupForm from '@/components/signup/SignupForm';
@@ -10,7 +7,7 @@ import ProfileSetup from '@/components/signup/ProfileSetup';
 import Welcome from '@/components/signup/Welcome';
 
 // 페이지 스텝 타입 정의
-type PageStep =
+export type PageStep =
   | 'agreement'
   | 'auth'
   | 'signupForm'
@@ -30,16 +27,14 @@ export default function Signup() {
       className={`flex justify-center items-center ${mainMarginClass}`}
     >
       {pageStep === 'agreement' && (
-        <Agreement changePage={() => changePage('auth')} />
+        <Agreement changePage={changePage} />
       )}
-      {pageStep === 'auth' && (
-        <Auth changePage={() => changePage('signupForm')} />
-      )}
+      {pageStep === 'auth' && <Auth changePage={changePage} />}
       {pageStep === 'signupForm' && (
-        <SignupForm changePage={() => changePage('profile')} />
+        <SignupForm changePage={changePage} />
       )}
       {pageStep === 'profile' && (
-        <ProfileSetup changePage={() => changePage('welcome')} />
+        <ProfileSetup changePage={changePage} />
       )}
       {pageStep === 'welcome' && <Welcome />}
     </main>

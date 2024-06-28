@@ -5,13 +5,11 @@ import useInputChange from '@/hooks/input/useInputChange';
 import TextButton from '@/components/shared/buttons/TextButton';
 import Wrapper from '@/components/shared/Wrapper';
 import { useRouter } from 'next/navigation';
-import {
-  conceptMap,
-  statusMap,
-} from '@/components/shared/input/inputConfig';
+import { conceptMap } from '@/components/shared/input/inputConfig';
+import { PageStep } from '@/app/(before)/signup/page';
 
 type AuthProps = {
-  changePage: (nextPage: string) => void;
+  changePage: (nextPage: PageStep) => void;
 };
 
 export default function Auth({ changePage }: AuthProps) {
@@ -42,7 +40,7 @@ export default function Auth({ changePage }: AuthProps) {
       //   shallow: true,
       // });
       setIsFormValid(false);
-      changePage();
+      changePage('signupForm');
     }
   };
   return (

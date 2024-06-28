@@ -16,7 +16,7 @@ export default function AgreementBox({
   checkboxLabel,
   checked,
   onChange,
-}) {
+}: AgreementBoxProps) {
   return (
     <div className="flex flex-col gap-y-2 mb-4">
       <div className="w-full flex justify-between items-center">

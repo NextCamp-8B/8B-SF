@@ -4,15 +4,13 @@ import InputSet from '@/components/shared/input/index';
 import useInputChange from '@/hooks/input/useInputChange';
 import TextButton from '@/components/shared/buttons/TextButton';
 import Wrapper from '@/components/shared/Wrapper';
-import { CheckForDuplicate } from '@/components/shared/InputDuplicate';
+import { CheckForDuplicate } from '../shared/input/InputDuplicateCheck';
 
-import {
-  conceptMap,
-  statusMap,
-} from '@/components/shared/input/inputConfig';
+import { conceptMap } from '@/components/shared/input/inputConfig';
+import { PageStep } from '@/app/(before)/signup/page';
 
 type SignupFormProps = {
-  changePage: (nextPage: string) => void;
+  changePage: (nextPage: PageStep) => void;
 };
 
 export default function SignupForm({ changePage }: SignupFormProps) {
@@ -68,14 +66,11 @@ export default function SignupForm({ changePage }: SignupFormProps) {
 
   const handleSubmit = () => {
     setIsSubmit(true);
-    console.log('FormValid', isFormValid);
     if (isFormValid) {
       setIsFormValid(false);
-      changePage();
+      changePage('profile');
     }
   };
-  // <TextButton.Danger size="hf">중복확인</TextButton.Danger>
-
   return (
     <Wrapper padding="px-24 py-20" width="w-[590px]">
       <div className="flex flex-col justify-start w-[386px] h-full">

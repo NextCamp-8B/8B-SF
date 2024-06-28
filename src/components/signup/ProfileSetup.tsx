@@ -6,13 +6,14 @@ import CompositeInput from '@/components/shared/input/CompositeInput/index';
 import useInputChange from '@/hooks/input/useInputChange';
 import TextButton from '@/components/shared/buttons/TextButton';
 import Wrapper from '@/components/shared/Wrapper';
-import {
-  conceptMap,
-  statusMap,
-} from '@/components/shared/input/inputConfig';
+import { conceptMap } from '@/components/shared/input/inputConfig';
+import { PageStep } from '@/app/(before)/signup/page';
+import ProfileSvg from '@/assets/icons/profile.svg';
+import Pencial from '@/assets/icons/pencil.svg';
+import Image from 'next/image';
 
 type ProfileSetupProps = {
-  changePage: (nextPage: string) => void;
+  changePage: (nextPage: PageStep) => void;
 };
 
 export default function ProfileSetup({
@@ -43,7 +44,7 @@ export default function ProfileSetup({
     setIsSubmit(true);
     if (isFormValid) {
       setIsFormValid(false);
-      changePage();
+      changePage('welcome');
     }
   };
   const handleImageUpload = (
@@ -68,18 +69,26 @@ export default function ProfileSetup({
         {/* 프로필 이미지 */}
         <div className="flex flex-col items-center mb-10">
           <div className="relative w-32 h-32">
-            <img
-              src={'' || '/default-profile.png'}
-              className="w-full h-full object-cover border border-secondary-600 rounded-full"
-            />
+            {profileImage ? (
+              <Image
+                src={profileImage}
+                alt="Profile"
+                width={10}
+                height={10}
+                className="w-full h-full object-cover rounded-full"
+              />
+            ) : (
+              <ProfileSvg className="w-full h-full object-cover rounded-full" />
+            )}
             <label
               htmlFor="profileImage"
-              className="absolute bottom-0 right-0 w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center cursor-pointer"
+              className="absolute bottom-0 right-0 w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center cursor-pointer bg-grayscale-400"
             >
+              <Pencial className="w-6 h-6 h1" />
               <input
                 type="file"
                 id="profileImage"
-                // className="hidden"
+                className="hidden"
                 accept="image/*"
                 onChange={handleImageUpload}
               />
