@@ -27,14 +27,19 @@ export default function Signup() {
       className={`flex justify-center items-center ${mainMarginClass}`}
     >
       {pageStep === 'agreement' && (
-        <Agreement changePage={changePage} />
+        <Agreement handleSubmit={() => changePage('auth')} />
       )}
-      {pageStep === 'auth' && <Auth changePage={changePage} />}
+      {pageStep === 'auth' && (
+        <Auth handleSubmit={() => changePage('signupForm')} />
+      )}
       {pageStep === 'signupForm' && (
-        <SignupForm changePage={changePage} />
+        <SignupForm handleSubmit={() => changePage('profile')} />
       )}
       {pageStep === 'profile' && (
-        <ProfileSetup changePage={changePage} />
+        <ProfileSetup
+          buttonText="가입하기"
+          handleSubmit={() => changePage('welcome')}
+        />
       )}
       {pageStep === 'welcome' && <Welcome />}
     </main>

@@ -10,10 +10,12 @@ import { conceptMap } from '@/components/shared/input/inputConfig';
 import { PageStep } from '@/app/(before)/signup/page';
 
 type SignupFormProps = {
-  changePage: (nextPage: PageStep) => void;
+  handleSubmit: (nextPage: PageStep) => void;
 };
 
-export default function SignupForm({ changePage }: SignupFormProps) {
+export default function SignupForm({
+  handleSubmit,
+}: SignupFormProps) {
   const { value, onChangeInputValue } = useInputChange();
   const [isSubmit, setIsSubmit] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
@@ -64,11 +66,11 @@ export default function SignupForm({ changePage }: SignupFormProps) {
     validateForm();
   };
 
-  const handleSubmit = () => {
+  const onHandleSubmit = () => {
     setIsSubmit(true);
     if (isFormValid) {
       setIsFormValid(false);
-      changePage('profile');
+      handleSubmit('profile');
     }
   };
   return (
@@ -117,7 +119,7 @@ export default function SignupForm({ changePage }: SignupFormProps) {
           />
           <TextButton
             // disabled={!isFormValid}
-            onClick={handleSubmit}
+            onClick={onHandleSubmit}
             className="w-full mx-auto mt-8"
           >
             다음

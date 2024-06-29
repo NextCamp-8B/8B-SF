@@ -7,17 +7,22 @@ import useInputChange from '@/hooks/input/useInputChange';
 import TextButton from '@/components/shared/buttons/TextButton';
 import Wrapper from '@/components/shared/Wrapper';
 import { conceptMap } from '@/components/shared/input/inputConfig';
-import { PageStep } from '@/app/(before)/signup/page';
 import ProfileSvg from '@/assets/icons/profile.svg';
 import Pencial from '@/assets/icons/pencil.svg';
 import Image from 'next/image';
 
 type ProfileSetupProps = {
-  changePage: (nextPage: PageStep) => void;
+  handleSubmit: () => void;
+  buttonText: string;
+  isModal?: boolean; // 모달 여부를 판단하는 props 추가
+  onClose?: () => void; // onClose prop 추가
 };
 
 export default function ProfileSetup({
-  changePage,
+  handleSubmit,
+  buttonText,
+  onClose,
+  isModal = false, // 기본값은 false
 }: ProfileSetupProps) {
   const { value, onChangeInputValue } = useInputChange();
   const [isSubmit, setIsSubmit] = useState(false);
@@ -40,13 +45,14 @@ export default function ProfileSetup({
     validateForm();
   };
 
-  const handleSubmit = () => {
+  const onHandleSubmit = () => {
     setIsSubmit(true);
     if (isFormValid) {
       setIsFormValid(false);
-      changePage('welcome');
+      handleSubmit();
     }
   };
+
   const handleImageUpload = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -60,10 +66,10 @@ export default function ProfileSetup({
     }
   };
 
-  return (
+  const content = (
     <Wrapper padding="px-24 py-20" width="w-[590px]">
       <div className="flex flex-col justify-start w-[386px] h-full">
-        <h3 className="h3 font-bold text-center mb-10 text-primary-900">
+        <h3 className="h3 font-bold text-center mb-8 text-primary-900">
           프로필 설정
         </h3>
         {/* 프로필 이미지 */}
@@ -117,21 +123,32 @@ export default function ProfileSetup({
               id="stock"
               type="text"
               className="border border-grayscale-400 b4 font-normal placeholder-grayscale-400 p-4 rounded-lg"
-              // onChange={handleInputValue}
-              // value={value}
               placeholder="#관심 종목을 추가해주세요"
             />
           </CompositeInput>
           {/* 가입하기 버튼 */}
           <TextButton
             disabled={!isFormValid}
-            onClick={handleSubmit}
+            onClick={onHandleSubmit}
             className="w-full mt-8"
           >
-            가입하기
+            {buttonText}
           </TextButton>
         </InputSet>
       </div>
     </Wrapper>
   );
+
+  if (isModal) {
+    return (
+      <div
+        className="fixed inset-0 z-50 bg-grayscale-900 bg-opacity-65 flex justify-center items-center h-[100%] w-[100%]"
+        onClick={onClose}
+      >
+        <div onClick={(e) => e.stopPropagation()}>{content}</div>
+      </div>
+    );
+  }
+
+  return content;
 }

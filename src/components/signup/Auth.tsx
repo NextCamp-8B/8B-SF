@@ -9,10 +9,10 @@ import { conceptMap } from '@/components/shared/input/inputConfig';
 import { PageStep } from '@/app/(before)/signup/page';
 
 type AuthProps = {
-  changePage: (nextPage: PageStep) => void;
+  handleSubmit: () => void;
 };
 
-export default function Auth({ changePage }: AuthProps) {
+export default function Auth({ handleSubmit }: AuthProps) {
   const { value, onChangeInputValue } = useInputChange();
   const [isSubmit, setIsSubmit] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
@@ -31,7 +31,7 @@ export default function Auth({ changePage }: AuthProps) {
     validateForm();
   };
 
-  const handleSubmit = () => {
+  const onHandleSubmit = () => {
     setIsSubmit(true);
     if (isFormValid) {
       // 유효성 검사가 성공했다면
@@ -40,7 +40,7 @@ export default function Auth({ changePage }: AuthProps) {
       //   shallow: true,
       // });
       setIsFormValid(false);
-      changePage('signupForm');
+      handleSubmit();
     }
   };
   return (
@@ -66,7 +66,7 @@ export default function Auth({ changePage }: AuthProps) {
           />
           <TextButton
             disabled={!isFormValid}
-            onClick={handleSubmit}
+            onClick={onHandleSubmit}
             className="w-full mx-auto mt-8"
           >
             인증링크 전송
