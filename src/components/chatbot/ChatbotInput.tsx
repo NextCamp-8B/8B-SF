@@ -1,10 +1,21 @@
-import { FormEvent } from 'react';
+'use client';
+
+import { FormEvent, useState } from 'react';
+import { TMPProps } from './ChatbotItem';
 
 export default function ChatbotInput() {
+  const [chatting, setChatting] = useState<TMPProps[]>([]);
+
   const submitHandler = (e: FormEvent) => {
     e.preventDefault();
     //
-    console.log('메세지 전송');
+    const target = e.target as typeof e.target & {
+      message: { value: string };
+    };
+
+    const message = target.message.value;
+
+    console.log('role : user', message);
   };
 
   return (

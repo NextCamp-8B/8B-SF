@@ -19,7 +19,7 @@ export default function ChatbotContent({
                   <div className="flex justify-center items-center bg-primary-900 min-w-[48px] max-w-[48px] min-h-[48px] rounded-md">
                     <SMALLLOGO width={28} height={24} />
                   </div>
-                  <div className="b5 bg-primary-50 rounded-md p-2">
+                  <div className="b5 bg-primary-50 rounded-lg p-2">
                     {chat.text}
                   </div>
                 </div>
@@ -29,7 +29,7 @@ export default function ChatbotContent({
               return (
                 <div
                   key={idx}
-                  className=" flex flex-col b5 w-fit ml-auto space-x-2 break-words bg-grayscale-100 p-2"
+                  className=" flex flex-col b5 w-fit rounded-lg ml-auto space-x-2 break-words bg-grayscale-100 p-2"
                 >
                   {chat.text}
                 </div>

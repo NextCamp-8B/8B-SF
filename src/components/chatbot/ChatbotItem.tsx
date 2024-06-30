@@ -34,7 +34,11 @@ export default function ChatbotItem({
           <FAB width={40} color={'white'} />
         </div>
       ) : (
-        <div className="w-[480px] h-[640px] bg-[white] flex justify-center items-center rounded-t-[40px] ">
+        <div
+          className={`w-[480px] h-[640px] bg-[white] flex justify-center items-center rounded-t-[40px] shadow-2xl duration-300 ease-out ${
+            openActive ? 'opacity-100 scale-100' : ''
+          }`}
+        >
           <ChatbotChat
             closeHandler={closeHandler}
             chatting={chatting}

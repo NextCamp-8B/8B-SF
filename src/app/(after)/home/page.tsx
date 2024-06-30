@@ -7,7 +7,7 @@ import HomeRecentNews from '@/components/news/HomeRecentNews';
 import { TMP_NEWS } from '@/constants';
 import HomeRelatedNews from '@/components/news/HomeRelatedNews';
 import HomeNewsTab from '@/components/news/HomeNewsTab';
-import FavoriteMain from '@/components/favorite/FavoriteMain';
+import FavoriteMain from '@/components/homefavorite/FavoriteMain';
 
 const tmpStock = [
   {

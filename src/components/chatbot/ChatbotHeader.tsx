@@ -9,7 +9,7 @@ export default function ChatbotHeader({
   closeHandler,
 }: ChatbotHeaderProps) {
   return (
-    <div className="w-full flex items-center bg-primary-900 rounded-t-[40px] h-16 absolute top-0 ">
+    <div className="w-full flex items-center bg-primary-900 rounded-t-[40px] h-16 absolute top-0 left-0 ">
       <div className="b1 font-bold text-background-100 py-4 pl-8">
         나우챗봇
       </div>
