@@ -414,7 +414,7 @@ export const TMP_NEWS_LIST = [
 export const TMP_CHATBOT: { role: 'bot' | 'user'; text: string }[] = [
   {
     role: 'bot',
-    text: '안녕하세요 아인사우 챗봇입니다. 해외주식 관련해서 궁금하신 점이 있으면 저에게 물어보세요!',
+    text: '안녕하세요 아잇나우 챗봇입니다. 해외주식 관련해서 궁금하신 점이 있으면 저에게 물어보세요!',
   },
   {
     role: 'user',

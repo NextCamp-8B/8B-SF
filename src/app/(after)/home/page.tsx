@@ -7,6 +7,7 @@ import HomeRecentNews from '@/components/news/HomeRecentNews';
 import { TMP_NEWS } from '@/constants';
 import HomeRelatedNews from '@/components/news/HomeRelatedNews';
 import HomeNewsTab from '@/components/news/HomeNewsTab';
+import FavoriteMain from '@/components/favorite/FavoriteMain';
 
 const tmpStock = [
   {
@@ -50,8 +51,9 @@ export default function Home() {
   return (
     <>
       <main className="flex items-center justify-center w-full flex-col gap-12">
-        <div className="w-[1200px]  flex">
+        <div className="w-[1200px] flex gap-5">
           <Recent data={tmpStock} />
+          <FavoriteMain data={tmpStock} />
         </div>
         <HomeNewsTab />
       </main>
