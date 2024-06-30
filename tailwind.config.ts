@@ -222,6 +222,12 @@ const config: Config = {
           '-webkit-line-clamp': '5',
           '-webkit-box-orient': 'vertical',
         },
+        '.no-scrollbar': {
+          'scrollbar-width': 'none',
+          '&::-webkit-scollbar': {
+            display: 'none',
+          },
+        },
       };
 
       addUtilities(newUtilities);

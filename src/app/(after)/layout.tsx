@@ -1,4 +1,5 @@
 import Logo from '@/assets/logos/logo_dark.svg';
+import ChatbotMain from '@/components/chatbot/ChatbotMain';
 import TextButton from '@/components/shared/buttons/TextButton';
 import Link from 'next/link';
 export default function AfterLayout({
@@ -50,12 +51,15 @@ export default function AfterLayout({
           </div>
         </div>
         <div className="w-[160px] flex ml-auto ">
-          <Link href="/">
+          {/* <Link href="/">
             <TextButton.Light size="hf"> 로그아웃</TextButton.Light>
-          </Link>
+          </Link> */}
         </div>
       </div>
       {children}
+      <div className="fixed bottom-10 right-16 ">
+        <ChatbotMain />
+      </div>
     </div>
   );
 }
