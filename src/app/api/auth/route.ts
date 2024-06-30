@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import fs from 'fs';
 import path from 'path';
+import jwt from 'jsonwebtoken';
+
+const secret = process.env.JWT_SECRET as string;
 
 // GET 요청 처리
 export async function GET() {
@@ -33,6 +36,7 @@ const transporter = nodemailer.createTransport({
 export async function POST(request: Request) {
   try {
     const { name, email } = await request.json();
+    const token = jwt.sign({ email }, secret, { expiresIn: '30m' });
 
     // logo_light 이미지 Base64 인코딩
     // const logoPath = path.resolve(
@@ -43,7 +47,7 @@ export async function POST(request: Request) {
     // const logoDataUri = `data:image/svg+xml;base64,${logoBase64}`;
 
     // 회원가입 폼 링크 (예시)
-    const signupLink = `http://localhost:3000/signup?auth=true`;
+    const signupLink = `http://localhost:3000/signup?token=${token}`;
     // <img src="${logoDataUri}" alt="Logo" style="width: 200px; height: auto;"/>
 
     const htmlContent = `
@@ -61,9 +65,8 @@ export async function POST(request: Request) {
       html: htmlContent,
     });
 
-    console.log('이메일 전송 성공');
     return NextResponse.json(
-      { message: '이메일 전송 성공' },
+      { message: '이메일 전송 성공', token },
       { status: 200 },
     );
   } catch (error) {

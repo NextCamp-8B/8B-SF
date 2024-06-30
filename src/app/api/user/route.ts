@@ -19,7 +19,6 @@ export type User = {
 // GET 요청 처리
 export async function GET() {
   const { data, error } = await supabase.from('users').select('*');
-  console.log('user Get data', data);
   if (error) {
     return NextResponse.json(
       { error: error.message },

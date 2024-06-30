@@ -2,15 +2,16 @@
 import Wrapper from '@/components/shared/Wrapper';
 import TextButton from '@/components/shared/buttons/TextButton';
 // import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 type AuthPopupProps = {
   onClose: () => void;
+  error: boolean;
 };
 
-export default function AuthPopup({ onClose }: AuthPopupProps) {
-  const router = useRouter();
-
+export default function AuthPopup({
+  onClose,
+  error,
+}: AuthPopupProps) {
   const handleModalClick = (event: React.MouseEvent) => {
     event.stopPropagation();
   };
@@ -26,12 +27,18 @@ export default function AuthPopup({ onClose }: AuthPopupProps) {
           onClick={handleModalClick}
         >
           <h3 className="b2 font-bold text-primary-900">
-            인증 링크를 전송했습니다
+            {error
+              ? '인증 링크 전송 실패'
+              : '인증 링크를 전송했습니다'}
           </h3>
           <p className="text-center font-medium b4">
-            작성하신 이메일 주소로 인증메일을 전송했습니다.
+            {error
+              ? '인증 링크 전송에 실패했습니다.'
+              : '작성하신 이메일 주소로 인증메일을 전송했습니다.'}
             <br />
-            메일 확인 후 회원가입을 계속 진행해주세요.
+            {error
+              ? '다시 시도하시거나 고객센터에 문의해주세요.'
+              : '메일 확인 후 회원가입을 계속 진행해주세요.'}
           </p>
           <TextButton className="mt-4 w-[332px]" onClick={onClose}>
             확인
