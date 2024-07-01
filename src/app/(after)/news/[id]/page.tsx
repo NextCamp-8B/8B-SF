@@ -16,12 +16,20 @@ const tmpStock = {
   path: '',
 };
 
-export default function NewsDetailPage() {
+type NewsDetailPageProps = {
+  params: {
+    id: string;
+  };
+};
+
+export default function NewsDetailPage({
+  params,
+}: NewsDetailPageProps) {
   return (
     <>
       <main className="flex justify-center gap-5 max-w-[1200px]">
         <Wrapper padding="p-8" width="flex-1 flex flex-col gap-8">
-          <NewsDetail />
+          <NewsDetail id={params.id} />
         </Wrapper>
         {/* 오른쪽 */}
         <div className="flex flex-col gap-5">
@@ -37,10 +45,7 @@ export default function NewsDetailPage() {
             <span className="b3 font-bold pb-[10px] text-primary-900 inline-block">
               관련 기사
             </span>
-            <RelatedNews
-              related="news"
-              newsList={[TMP_NEWS, TMP_NEWS, TMP_NEWS]}
-            />
+            <RelatedNews related="news" id={params.id} />
           </Wrapper>
         </div>
       </main>
