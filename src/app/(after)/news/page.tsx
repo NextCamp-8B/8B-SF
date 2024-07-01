@@ -24,7 +24,7 @@ export default function News() {
       {/* 최신 뉴스 */}
       <NewsSection>
         <NewsHeading>최신 뉴스</NewsHeading>
-        <RecentNews newsList={[TMP_NEWS, TMP_NEWS, TMP_NEWS]} />
+        <RecentNews />
       </NewsSection>
     </main>
   );

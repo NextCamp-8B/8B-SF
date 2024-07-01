@@ -1,19 +1,18 @@
 import React from 'react';
 import NewsBorder from './NewsBorder';
-import { News } from '../shared/NewsListItem';
 import NewsListItem from '../shared/NewsListItem';
+import { News } from '@/types/news';
 
-type HomeRecentNewsProps = {
-  newsList: News[];
-};
+export default async function HomeRecentNews() {
+  const limit = 3;
+  const { newsList }: { newsList: News[] } = await (
+    await fetch(`http://localhost:3000/api/news?limit=${limit}`)
+  ).json();
 
-export default function HomeRecentNews({
-  newsList,
-}: HomeRecentNewsProps) {
   return (
     <NewsBorder>
       {newsList.map((news) => (
-        <NewsListItem key={news.id} type="medium" news={news} />
+        <NewsListItem key={news.news_id} type="medium" news={news} />
       ))}
     </NewsBorder>
   );

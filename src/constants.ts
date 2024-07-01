@@ -3,8 +3,8 @@ const ABC = 1;
 export const TMP_NEWS = {
   thumbnail:
     'https://cdn.pixabay.com/photo/2024/06/06/13/25/black-tailed-skimmer-8812720_1280.jpg',
-  title: `"산유국 되나" 尹 한 마디에 한국석유 또 '上'…석유주 훨훨훨훨훨훨훨훨훨훨훨훨`,
-  content: `윤석열 대통령이 "포항 앞바다에 막대한 양의 석유·천연가스
+  title_en: `"산유국 되나" 尹 한 마디에 한국석유 또 '上'…석유주 훨훨훨훨훨훨훨훨훨훨훨훨`,
+  content_en: `윤석열 대통령이 "포항 앞바다에 막대한 양의 석유·천연가스
                 매장 가능성이 있다"고 발표하면서 석유주가 이틀째
                 급등했다.3일 한국석유(004090)는 전일대비 5350원(29.81%)
                 오른 2만3300원에 거래를 마쳤다. 한국석유는 전날에도
@@ -16,10 +16,9 @@ export const TMP_NEWS = {
                 밝혔다.매장량은 최대 140억 배럴 가능성이 예상되며
                 천연가스는 29년, 석유는 4년 이상 사용할 양이라고
                 설명했다.`,
-  publishedTime: '6시간전',
-  company: '문화일보',
-  date: '2024-06-24T19:52:16.000Z',
-  id: '1',
+  published_at: '2024-06-28T23:12:03+00:00',
+  publisher: '문화일보',
+  news_id: '1',
 };
 
 export const TMP_STOCKS = [

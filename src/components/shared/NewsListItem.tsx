@@ -1,49 +1,53 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-
+import { diffCreatedTime } from '@/utils/date';
+import { News } from '@/types/news';
+import LogoDark from '@/assets/logos/logo_dark.svg';
 export type NewsListItem = {
   type?: 'related' | 'medium' | 'large' | 'find' | 'important';
   news: News;
-};
-
-export type News = {
-  thumbnail: string;
-  title: string;
-  content?: string;
-  publishedTime: string;
-  company: string;
-  date: string;
-  id: string;
 };
 
 export default function NewsListItem({
   type = 'medium',
   news,
 }: NewsListItem) {
-  const { thumbnail, title, content, publishedTime, company, id } =
-    news;
+  const {
+    thumbnail,
+    title_en,
+    content_en,
+    published_at,
+    publisher,
+    news_id,
+  } = news;
   return (
     <>
       {type === 'find' && (
-        <Link href={`/news/${id}`}>
+        <Link href={`/news/${news_id}`}>
           <article className="flex gap-5 cursor-pointer">
             <div className="w-[120px] h-16 bg-primary-200 rounded-lg relative overflow-hidden group">
-              <Image
-                src={thumbnail}
-                alt="thumbnail"
-                fill
-                className="group-hover:scale-125 duration-700"
-              />
+              {thumbnail ? (
+                <Image
+                  src={thumbnail}
+                  alt="thumbnail"
+                  fill
+                  className="group-hover:scale-125 duration-700"
+                />
+              ) : (
+                <div>
+                  <LogoDark />
+                </div>
+              )}
             </div>
             <div className="py-1 flex flex-col justify-between">
               <h2 className="b4 font-medium flex-1 hover:underline">
-                {title}
+                {title_en}
               </h2>
               <div className="flex b5 font-medium text-grayscale-600 gap-2">
-                <span>{publishedTime}</span>
+                <span>{diffCreatedTime(published_at)}</span>
                 <span>∙</span>
-                <span>{company}</span>
+                <span>{publisher}</span>
               </div>
             </div>
           </article>
@@ -51,33 +55,39 @@ export default function NewsListItem({
       )}
       {type === 'medium' && (
         <Link
-          href={`/news/${id}`}
+          href={`/news/${news_id}`}
           className="pb-8 pt-8 border-b border-b-grayscale-400 last:border-none last:pb-0 first:pt-0 "
         >
           <article className="flex gap-5 hover:underline cursor-pointer group">
             <div
               className={`w-[172px] h-[100px] bg-primary-100 rounded-2xl relative overflow-hidden `}
             >
-              <Image
-                src={thumbnail}
-                alt="thumbnail"
-                fill
-                className="group-hover:scale-125 duration-700"
-              />
+              {thumbnail ? (
+                <Image
+                  src={thumbnail}
+                  alt="thumbnail"
+                  fill
+                  className="group-hover:scale-125 duration-700"
+                />
+              ) : (
+                <div>
+                  <LogoDark />
+                </div>
+              )}
             </div>
             <div className="flex-1 flex flex-col gap-4">
               <div className="flex justify-between items-center gap-3">
                 <h2 className="b3 font-bold flex-1 text-overflow-1">
-                  {title}dsds
+                  {title_en}
                 </h2>
-                <div className="flex b5 font-medium text-grayscale-600 gap-2">
-                  <span>{publishedTime}</span>
+                <div className="flex b5 font-medium text-grayscale-600 gap-2 hover:no-underline">
+                  <span>{diffCreatedTime(published_at)}</span>
                   <span>∙</span>
-                  <span>{company}</span>
+                  <span>{publisher}</span>
                 </div>
               </div>
               <div className={`b4 font-normal text-overflow-2`}>
-                {content}
+                {content_en}
               </div>
             </div>
           </article>
@@ -85,70 +95,82 @@ export default function NewsListItem({
       )}
       {type === 'large' && (
         <Link
-          href={`/news/${id}`}
+          href={`/news/${news_id}`}
           className="pb-8 pt-8 border-b border-b-grayscale-400 last:border-none last:pb-0 first:pt-0"
         >
           <article className="flex gap-5 hover:underline cursor-pointer group">
             <div
-              className={`w-[252px] h-[148px] bg-primary-100 rounded-2xl relative overflow-hidden `}
+              className={`w-[252px] h-[148px] bg-grayscale-0 rounded-2xl relative overflow-hidden flex items-center justify-center`}
             >
-              <Image
-                src={thumbnail}
-                alt="thumbnail"
-                fill
-                className="group-hover:scale-125 duration-700"
-              />
+              {thumbnail ? (
+                <Image
+                  src={thumbnail}
+                  alt="thumbnail"
+                  fill
+                  className="group-hover:scale-125 duration-700"
+                />
+              ) : (
+                <div>
+                  <LogoDark />
+                </div>
+              )}
             </div>
             <div className="flex-1 flex flex-col gap-4">
               <div className="flex justify-between items-center gap-3">
                 <h2 className="b3 font-bold flex-1 text-overflow-1">
-                  {title}
+                  {title_en}
                 </h2>
-                <div className="flex b5 font-medium text-grayscale-600 gap-2">
-                  <span>{publishedTime}</span>
+                <div className="flex b5 font-medium text-grayscale-600 gap-2 no-underline">
+                  <span>{diffCreatedTime(published_at)}</span>
                   <span>∙</span>
-                  <span>{company}</span>
+                  <span>{publisher}</span>
                 </div>
               </div>
               <div className={`b4 font-normal text-overflow-4`}>
-                {content}
+                {content_en}
               </div>
             </div>
           </article>
         </Link>
       )}
       {type === 'important' && (
-        <Link href={`/news/${id}`}>
+        <Link href={`/news/${news_id}`}>
           <article className="flex gap-5 hover:underline cursor-pointer group">
             <div className="rounded-3xl w-[338px] h-[240px] relative overflow-hidden">
-              <Image
-                src={thumbnail}
-                alt="thumbnail"
-                className=" group-hover:scale-125 duration-700"
-                fill
-              />
+              {thumbnail ? (
+                <Image
+                  src={thumbnail}
+                  alt="thumbnail"
+                  fill
+                  className="group-hover:scale-125 duration-700"
+                />
+              ) : (
+                <div>
+                  <LogoDark />
+                </div>
+              )}
             </div>
             <div className="flex-1">
-              <h2 className="b1 font-medium pb-6 border-b border-b-grayscale-400">
-                {title}
+              <h2 className="b1 font-medium pb-4 border-b border-b-grayscale-400">
+                {title_en}
               </h2>
-              <p className="pt-6 b3 font-normal text-overflow-5 ">
-                {content}
+              <p className="pt-4 b3 font-normal text-overflow-5 ">
+                {content_en}
               </p>
             </div>
           </article>
         </Link>
       )}
       {type === 'related' && (
-        <Link href={`/news/${id}`}>
+        <Link href={`/news/${news_id}`}>
           <article className="py-[10px] border-b border-b-grayscale-400 cursor-pointer last:border-none last:pb-0">
             <div className="text-overflow-1 b4 font-medium text-grayscale-900  hover:underline">
-              {title}
+              {title_en}
             </div>
-            <div className="flex b5 font-medium text-grayscale-600 gap-2 pt-[14px]">
-              <span>{publishedTime}</span>
+            <div className="flex b5 font-medium text-grayscale-600 gap-2 pt-[8px]">
+              <span>{diffCreatedTime(published_at)}</span>
               <span>∙</span>
-              <span>{company}</span>
+              <span>{publisher}</span>
             </div>
           </article>
         </Link>
