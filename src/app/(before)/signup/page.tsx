@@ -33,10 +33,9 @@ export default function Signup() {
     // 인증링크를 통해 params로 들어온 token을 비교
     const token = Cookies.get('auth-token');
     const paramsToken = searchParams.get('token');
-
+    // console.log('token', token);
     if (token && paramsToken && token === paramsToken) {
       try {
-        console.log('signup page', token);
         // token과 secret 값을 비교?
         jwt.verify(token, secret);
         setPageStep('signupForm');

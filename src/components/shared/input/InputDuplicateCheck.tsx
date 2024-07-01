@@ -132,7 +132,8 @@ export default function InputDuplicateCheck({
           } text-grayscale-0 absolute right-4 top-2.5 
             ${!isValidated ? 'btn-disabled' : 'btn-primary'}
           `}
-          onClick={() => {
+          onClick={async () => {
+            // api 호출로 인한 async 처리
             const isDupl = onClick();
             setIsDuplicate(isDupl);
           }}

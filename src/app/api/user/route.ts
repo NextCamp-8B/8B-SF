@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import supabase from '../../../lib/supabaseClient';
 import bcrypt from 'bcryptjs';
 
@@ -16,16 +16,53 @@ export type User = {
   email: string;
 };
 
-// GET 요청 처리
-export async function GET() {
-  const { data, error } = await supabase.from('users').select('*');
-  if (error) {
+// GET 유저id 중복 처리 확인
+export async function GET(request: NextRequest) {
+  // const url = new URL(request.url);
+  // const signupId = url.searchParams.get('signupId');
+  try {
+    const signupId = request.nextUrl.searchParams.get('signupId');
+
+    if (!signupId) {
+      return NextResponse.json(
+        { error: 'signupId is required' },
+        { status: 400 },
+      );
+    }
+
+    console.log('signupId', signupId);
+
+    const { data, error } = await supabase
+      .from('users')
+      .select('user_id')
+      .eq('user_id', signupId);
+
+    if (error) {
+      console.error('Supabase error:', error);
+      return NextResponse.json(
+        { error: error.message },
+        { status: 500 },
+      );
+    }
+    console.log(data, 'data');
+
+    if (data && data.length > 0) {
+      return NextResponse.json(
+        { message: 'duplicate' },
+        { status: 200 },
+      );
+    }
     return NextResponse.json(
-      { error: error.message },
+      { message: 'available' },
+      { status: 200 },
+    );
+  } catch (err) {
+    console.error('Unexpected error:', err);
+    return NextResponse.json(
+      { error: 'Unexpected error occurred' },
       { status: 500 },
     );
   }
-  return NextResponse.json({ users: data }, { status: 200 });
 }
 
 // POST 요청 처리 - 회원가입
@@ -52,27 +89,6 @@ export async function POST(request: Request) {
     return NextResponse.json(
       { error: '입력값이 부족합니다.' },
       { status: 400 },
-    );
-  }
-
-  // 이메일로 기존 사용자 확인
-  const { data: existingUser, error: findError } = await supabase
-    .from('users')
-    .select('*')
-    .eq('email', email)
-    .single();
-
-  if (existingUser) {
-    return NextResponse.json(
-      { error: '이미 가입된 회원입니다.' },
-      { status: 400 },
-    );
-  }
-
-  if (findError && findError.code !== 'PGRST120') {
-    return NextResponse.json(
-      { error: '사용자 조회 중 오류 발생' },
-      { status: 500 },
     );
   }
 

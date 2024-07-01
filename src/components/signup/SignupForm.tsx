@@ -22,11 +22,19 @@ export default function SignupForm({
   const [isFormValid, setIsFormValid] = useState(false);
   const [duplicatedCheck, setDuplicatedCheck] = useState(false);
 
-  const handleDuplicate = (): CheckForDuplicate => {
-    // api 요청..
-
-    setDuplicatedCheck(true);
-    return 'possible';
+  const handleDuplicate = async () => {
+    const response = await fetch(
+      `/api/user?signupId=${value.signupId}`,
+    );
+    const result = await response.json();
+    console.log('result', result);
+    if (result.message === 'duplicate') {
+      setDuplicatedCheck(false);
+      return 'duplicate';
+    } else {
+      setDuplicatedCheck(true);
+      return 'possible';
+    }
   };
 
   const validateForm = () => {
@@ -75,7 +83,7 @@ export default function SignupForm({
     if (!isFormValid) return console.log('isFormValid unset');
     setIsFormValid(false);
     const formData = new FormData(e.currentTarget as HTMLFormElement);
-    const response = await fetch('/api/user', {
+    const response = await fetch('/api/email', {
       method: 'POST',
       body: formData,
     });

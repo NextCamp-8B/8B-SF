@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import fs from 'fs';
 import path from 'path';
@@ -33,7 +33,10 @@ const transporter = nodemailer.createTransport({
 // }
 
 // POST 요청 처리 - 이메일 인증 링크 전송
-export async function POST(request: Request) {
+export async function POST(
+  request: NextRequest,
+  // response: NextResponse,
+) {
   try {
     const { name, email } = await request.json();
     const token = jwt.sign({ email }, secret, { expiresIn: '30m' });
@@ -65,10 +68,20 @@ export async function POST(request: Request) {
       html: htmlContent,
     });
 
-    return NextResponse.json(
+    const response = NextResponse.json(
       { message: '이메일 전송 성공', token },
       { status: 200 },
     );
+
+    // 쿠키 설정
+    response.cookies.set('auth-token', token, {
+      // httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 60 * 30, // 30분
+      path: '/signup',
+    });
+
+    return response;
   } catch (error) {
     console.error('이메일 전송 실패:', error);
     return NextResponse.json(

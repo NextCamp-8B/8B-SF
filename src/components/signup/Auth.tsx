@@ -50,7 +50,7 @@ export default function Auth({ handleSubmit }: AuthProps) {
     // 유효성 검사가 성공했다면
     // 인증번호 링크 보내기
     try {
-      const response = await fetch('/api/auth', {
+      const response = await fetch('/api/email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -64,9 +64,9 @@ export default function Auth({ handleSubmit }: AuthProps) {
       if (response.ok) {
         const data = await response.json();
         // JWT 토큰을 쿠키에 저장
-        Cookies.set('auth-token', data.token, {
-          path: '/signup',
-        });
+        // Cookies.set('auth-token', data.token, {
+        //   path: '/signup',
+        // });
 
         // 이메일 전송 성공 모달 발생
         setIsLoading(false);
