@@ -1,18 +1,16 @@
 import React from 'react';
 import Card from '../shared/Card';
-import { News } from '../shared/NewsListItem';
+import { News } from '@/types/news';
 
-type HomeRelatedNewsProps = {
-  newsList: News[];
-};
+export default async function HomeRelatedNews() {
+  const { newsList }: { newsList: News[] } = await (
+    await fetch('http://localhost:3000/api/news/related/news')
+  ).json();
 
-export default function HomeRelatedNews({
-  newsList,
-}: HomeRelatedNewsProps) {
   return (
     <div className="flex gap-5">
       {newsList.map((news) => (
-        <Card type="News1" key={news.id} news={news} />
+        <Card type="News1" key={news.news_id} news={news} />
       ))}
     </div>
   );

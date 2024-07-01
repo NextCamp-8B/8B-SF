@@ -2,15 +2,7 @@ import Image from 'next/image';
 import StockIcon from './StockIcon';
 import AI from '@/assets/icons/ai.svg';
 import { createdDate, diffCreatedTime } from '@/utils/date';
-
-type TNews = {
-  date: string;
-  title: string;
-  image?: string;
-  content?: string;
-  thumbnail: string;
-  company: string;
-};
+import { News } from '@/types/news';
 
 type TStock = {
   name: string;
@@ -22,15 +14,15 @@ type TStock = {
 
 type CardProps = {
   type: 'News1' | 'News2' | 'News3' | 'News4' | 'Stock';
-  news?: TNews;
+  news?: News;
   stock?: TStock;
 };
 
 export default function Card(props: CardProps) {
   const { type, news, stock } = props;
 
-  const newstime = news ? createdDate(news.date) : '';
-  const diffTime = news ? diffCreatedTime(news.date) : null;
+  const newstime = news ? createdDate(news.published_at) : '';
+  const diffTime = news ? diffCreatedTime(news.published_at) : null;
 
   return (
     <>
@@ -41,7 +33,7 @@ export default function Card(props: CardProps) {
             <div className="pr-8">
               <p className="b5 text-grayscale-400 mb-1">{newstime}</p>
               <span className="b2 text-grayscale-900 font-bold line-clamp-1 hover:underline cursor-pointer">
-                {news.title}
+                {news.title_en}
               </span>
             </div>
             <div>
@@ -81,11 +73,11 @@ export default function Card(props: CardProps) {
           </div>
           <div className="w-[388px] h-[124px] flex flex-col rounded-b-2xl justify-center items-center shadow-md bg-[#FFFFFF]">
             <p className="b3 font-medium px-6 overflow-hidden line-clamp-2  hover:underline cursor-pointer">
-              {news.title}
+              {news.title_en}
             </p>
             <div className="flex justify-between w-[340px] mt-2">
               <div className="b5 font-medium text-grayscale-600 ">
-                {diffTime} · {news.company}
+                {diffTime} · {news.publisher}
               </div>
               <div className="b5 cursor-pointer">더보기 →</div>
             </div>
@@ -105,13 +97,13 @@ export default function Card(props: CardProps) {
             />
             <div className="w-full h-[168px] absolute text-center bottom-0 inset-x-0 bg-gradient-to-t from-[rgba(63,63,63,1)] to-[rgba(63,63,63,0)] ">
               <p className="b1 font-bold text-overflow-1 px-6 pt-6 text-[#FFFFFF] hover:underline cursor-pointer ">
-                {news.title}
+                {news.title_en}
               </p>
               <p className="b5 font-medium text-overflow-2 px-6 pt-3 text-[#FFFFFF] hover:underline cursor-pointer">
-                {news.content}
+                {news.content_en}
               </p>
               <p className="b5 font-medium text-grayscale-300 pb-6 px-6 pt-4 text-start">
-                {newstime} · {news.company}
+                {newstime} · {news.publisher}
               </p>
             </div>
           </div>
@@ -129,10 +121,10 @@ export default function Card(props: CardProps) {
           />
           <div className=" h-[114px] absolute text-center bottom-0 inset-x-0 bg-gradient-to-t from-[rgba(63,63,63,1)] to-[rgba(63,63,63,0)]">
             <p className="b1 font-bold px-6 pt-6 pb-4 text-[#FFFFFF] overflow-hidden text-ellipsis whitespace-nowrap hover:underline cursor-pointer">
-              {news.title}
+              {news.title_en}
             </p>
             <p className="b5 font-medium text-grayscale-300 pb-6 px-6 text-start">
-              {newstime} · {news.company}
+              {newstime} · {news.publisher}
             </p>
           </div>
         </div>

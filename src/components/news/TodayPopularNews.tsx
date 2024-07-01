@@ -1,14 +1,11 @@
 import React from 'react';
 import Card from '../shared/Card';
-import { News } from '../shared/NewsListItem';
+import { News } from '@/types/news';
 
-type TodayPopularNewsProps = {
-  newsList: News[];
-};
-
-export default function TodayPopularNews({
-  newsList,
-}: TodayPopularNewsProps) {
+export default async function TodayPopularNews() {
+  const { newsList }: { newsList: News[] } = await (
+    await fetch('http://localhost:3000/api/news/related/news')
+  ).json();
   return (
     <div className="flex gap-5">
       <Card type="News3" news={newsList[0]} />
