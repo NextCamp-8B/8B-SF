@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 
 // TextButton, Language 컴포넌트에서 base로 사용
@@ -6,14 +7,14 @@ import React from 'react';
 type IconButtonBaseProps = {
   disabled?: boolean;
   className?: string;
-  iconClassName?: string;
-  iconSvg: React.ElementType;
+  // iconClassName?: string;
+  iconSvg: React.ReactNode;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const IconButtonBase: React.FC<IconButtonBaseProps> = ({
   disabled = false,
   className,
-  iconClassName,
+  // iconClassName,
   iconSvg: IconSvg,
   onClick,
   ...props
@@ -31,7 +32,7 @@ const IconButtonBase: React.FC<IconButtonBaseProps> = ({
       onClick={handleClick}
       {...props}
     >
-      <IconSvg className={iconClassName} />
+      {IconSvg}
     </button>
   );
 };

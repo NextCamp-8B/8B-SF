@@ -6,6 +6,7 @@ import ButtonBase from '@/components/shared/buttons/ButtonBase';
 import Translate from '@/assets/icons/translate.svg';
 import SmallLogoLight from '@/assets/logos/small_logo_light.svg';
 import { TMP_NEWS } from '@/constants';
+import TextButton from '../shared/buttons/TextButton';
 
 export default function NewsDetail() {
   return (
@@ -20,13 +21,13 @@ export default function NewsDetail() {
             <span>∙</span>
             <span>{'조회수 12,038회'}</span>
           </div>
-          <ButtonBase
+          {/* <ButtonBase
             iconSvg={Translate}
             iconClassName="w-5"
             className="flex b5 font-medium text-grayscale-0 bg-primary-900 rounded-lg w-[176px] h-[36px] items-center justify-center gap-1"
           >
             <span>번역하기</span>
-          </ButtonBase>
+          </ButtonBase> */}
         </div>
       </div>
       <div>

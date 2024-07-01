@@ -40,8 +40,8 @@ export default function FabButton({
     <IconButtonBase
       disabled={disabled}
       className={btnClass}
-      iconClassName="text-grayscale-0 w-12 h-12 b2"
-      iconSvg={FAB}
+      // iconClassName="text-grayscale-0 w-12 h-12 b2"
+      iconSvg={<FAB className="text-grayscale-0 w-12 h-12 b2" />}
       {...props}
     />
   );

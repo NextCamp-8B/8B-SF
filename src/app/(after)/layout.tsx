@@ -51,9 +51,9 @@ export default function AfterLayout({
           </div>
         </div>
         <div className="w-[160px] flex ml-auto ">
-          {/* <Link href="/">
+          <Link href="/">
             <TextButton.Light size="hf"> 로그아웃</TextButton.Light>
-          </Link> */}
+          </Link>
         </div>
       </div>
       {children}

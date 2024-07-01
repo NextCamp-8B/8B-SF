@@ -7,16 +7,16 @@ import React from 'react';
 type ButtonBaseProps = {
   children?: React.ReactNode;
   disabled?: boolean;
-  iconSvg?: React.ElementType;
+  iconSvg?: React.ReactNode;
   className: string;
-  iconClassName?: string;
+  // iconClassName?: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const ButtonBase: React.FC<ButtonBaseProps> = ({
   children,
   disabled = false,
   className,
-  iconClassName,
+  // iconClassName,
   iconSvg: IconSvg,
   onClick,
   ...props
@@ -34,7 +34,7 @@ const ButtonBase: React.FC<ButtonBaseProps> = ({
       onClick={handleClick}
       {...props}
     >
-      {IconSvg && <IconSvg className={iconClassName} />}
+      {IconSvg}
       {children}
     </button>
   );

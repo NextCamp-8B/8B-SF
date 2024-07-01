@@ -45,7 +45,7 @@ const IconButton: React.FC<IconButtonProps> & {
   Google: React.FC<IconButtonProps>;
 } = ({
   styleType = ButtonStyleTypes.Primary,
-  iconSvg = LogoLight,
+  iconSvg: IconSvg = LogoLight,
   size = 'md',
   disabled = false,
   ...props
@@ -107,8 +107,8 @@ const IconButton: React.FC<IconButtonProps> & {
     <IconButtonBase
       {...props}
       className={btnClass}
-      iconClassName={iconClass}
-      iconSvg={iconSvg}
+      // iconClassName={iconClass}
+      iconSvg={<IconSvg className={iconClass} />}
     />
   );
 };

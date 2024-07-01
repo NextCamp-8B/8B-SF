@@ -1,5 +1,4 @@
 import React from 'react';
-import TextButton from '@/components/shared/buttons/TextButton';
 
 type SectionBoxProps = {
   title: string;

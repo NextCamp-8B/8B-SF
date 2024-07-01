@@ -39,7 +39,7 @@ const TextButton: React.FC<TextButtonProps> & {
   Light: React.FC<TextButtonProps>;
 } = ({
   styleType = ButtonStyleTypes.Primary,
-  iconSvg,
+  iconSvg: IconSvg,
   size = 'md',
   disabled = false,
   width,
@@ -100,8 +100,9 @@ const TextButton: React.FC<TextButtonProps> & {
       <ButtonBase
         {...props}
         className={btnClass}
-        iconClassName={iconClass}
-        iconSvg={iconSvg}
+        // iconClassName={iconClass}
+        // iconSvg={iconSvg}
+        iconSvg={IconSvg && <IconSvg className={iconClass} />}
         disabled={disabled}
       />
     </>

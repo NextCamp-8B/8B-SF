@@ -53,8 +53,8 @@ const LanguageButton: React.FC<LanguageButtonProps> & {
     <>
       <ButtonBase
         className={btnClass}
-        iconSvg={IconSvg}
-        iconClassName="w-full h-[72px]"
+        iconSvg={<IconSvg className="w-full h-[72px]" />}
+        // iconClassName="w-full h-[72px]"
         {...props}
       >
         {children}
