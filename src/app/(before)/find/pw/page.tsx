@@ -27,10 +27,39 @@ export default function FindPw() {
     validateForm();
   };
 
-  const handleSubmit = () => {
+  // const handleSubmit = () => {
+  //   setIsSubmit(true);
+  //   if (isFormValid) {
+  //     setIsSuccessFindPw(true);
+  //   }
+  // };
+
+  const fetchData = async () => {
     setIsSubmit(true);
-    if (isFormValid) {
-      setIsSuccessFindPw(true);
+    if (!isFormValid) return;
+
+    try {
+      const response = await fetch('/api/find/pw', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: value.name,
+          user_id: value.loginId,
+          email: value.email,
+        }),
+      });
+
+      if (response.ok) {
+        setIsSuccessFindPw(true);
+      } else {
+        setIsSuccessFindPw(false);
+        alert('입력한 내용을 확인해 주세요');
+      }
+    } catch (error) {
+      setIsSuccessFindPw(false);
+      console.log('오류');
     }
   };
 
@@ -71,7 +100,7 @@ export default function FindPw() {
                 <TextButton
                   className="mt-8"
                   disabled={!isFormValid}
-                  onClick={handleSubmit}
+                  onClick={fetchData}
                 >
                   임시비밀번호 발급
                 </TextButton>

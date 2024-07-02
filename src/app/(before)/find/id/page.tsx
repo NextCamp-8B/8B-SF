@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Wrapper from '@/components/shared/Wrapper';
 import InputSet from '@/components/shared/input/index';
 import useInputChange from '@/hooks/input/useInputChange';
@@ -23,8 +23,14 @@ export default function FindId() {
   const [isSubmit, setIsSubmit] = useState(false);
   const [isSuccessFindId, setISuccessFindId] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
-  // 현재 ui부문에서 dummy로 유저 데이터 출력
 
+  // user 정보
+  const [findUserId, setFindUserId] = useState<{
+    user_id: string;
+    created_at: string;
+  } | null>(null);
+
+  // 현재 ui부문에서 dummy로 유저 데이터 출력
   const socialLogo = {
     kakao: <KakaoLogo className="w-6 h-6 rounded-full" />,
     naver: <NaverLogo className="w-6 h-6 rounded-full" />,
@@ -34,6 +40,40 @@ export default function FindId() {
     id: 'sfacspaceid',
     date: '2023.06.14',
     social: 'google',
+  };
+
+  useEffect(() => {
+    if (findUserId) {
+      console.log('사용자 정보를 성공적으로 찾았습니다:', findUserId);
+    }
+  }, [findUserId]);
+
+  // data 연동
+  const fetchData = async () => {
+    setIsSubmit(true);
+    const response = await fetch('/api/find/id', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: value.name,
+        phone_number: value.loginPhone,
+      }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      setFindUserId({
+        user_id: data.user_id,
+        created_at: new Date(data.created_at).toLocaleDateString(),
+      });
+      setISuccessFindId(true);
+    } else {
+      console.error('정보가 없습니다.');
+      alert('해당하는 유저가 없습니다.');
+      setISuccessFindId(false);
+    }
   };
 
   const validateForm = () => {
@@ -71,19 +111,21 @@ export default function FindId() {
                   <div className="w-1/2 flex justify-center">
                     <div className="flex w-full text-left ">
                       아이디 :
-                      {findUserInfo.social && (
+                      {findUserInfo?.social && (
                         <span className="ml-2">
-                          {socialLogo[findUserInfo.social]}
+                          {/* {socialLogo[findUserInfo.social]} */}
                         </span>
                       )}
-                      <span className="ml-1">{findUserInfo.id}</span>
+                      <span className="ml-1">
+                        {findUserId?.user_id}
+                      </span>
                     </div>
                   </div>
                   <div className="w-1/2 flex justify-center">
                     <div className="w-full text-left">
                       가입일 :
                       <span className="ml-2">
-                        {findUserInfo.date}
+                        {findUserId?.created_at}
                       </span>
                     </div>
                   </div>
@@ -121,8 +163,9 @@ export default function FindId() {
                   className="mt-8"
                   disabled={!isFormValid}
                   onClick={() => {
-                    setIsSubmit(true);
-                    setISuccessFindId(true);
+                    // setIsSubmit(true);
+                    // setISuccessFindId(true);
+                    fetchData();
                   }}
                 >
                   아이디 찾기
