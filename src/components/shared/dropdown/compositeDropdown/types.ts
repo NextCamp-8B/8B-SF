@@ -16,4 +16,5 @@ export type CompDropdownPanelProps = {
     datasetValue: string,
   ) => void;
   onClick: (value: string) => void;
+  className?: string;
 };

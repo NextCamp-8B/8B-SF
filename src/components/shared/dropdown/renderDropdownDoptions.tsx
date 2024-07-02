@@ -37,6 +37,7 @@ export function renderDropdownOptions(
       selectedDataset === '' && selected
         ? selected
         : selectedDataset === value;
+    const isLastOption = index !== options.length - 1;
 
     return (
       <CompositeDropdown.Option
@@ -45,6 +46,9 @@ export function renderDropdownOptions(
         selected={isSelected}
         focusedIndex={focusedIndex}
         index={index}
+        className={`hover:bg-grayscale-100 py-4 pl-4 pr-14 b4 font-normal text-grayscale-900 ${
+          isLastOption ? 'border-b border-grayscale-100' : ''
+        }`}
       >
         {text}
       </CompositeDropdown.Option>

@@ -5,9 +5,11 @@ export default function CompDropDownPanel({
   children,
   handleOptionsKey,
   onClick,
+  className,
 }: CompDropdownPanelProps) {
   return (
     <ul
+      className={className}
       onClick={(e) =>
         handleDropdownStatus(e, onClick, handleOptionsKey)
       }

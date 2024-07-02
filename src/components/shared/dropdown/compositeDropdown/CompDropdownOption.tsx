@@ -14,7 +14,7 @@ export default function CompDropDownOption({
   return (
     <li
       ref={focusedRef}
-      className={`${className} ${selected ? 'bg-primary-50' : ''}`}
+      className={`${className} ${selected ? 'font-semibold' : ''}`}
       value={value}
       data-value={value}
       tabIndex={0}

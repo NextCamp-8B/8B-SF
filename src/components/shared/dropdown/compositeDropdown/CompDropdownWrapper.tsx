@@ -5,6 +5,7 @@ export default function CompDropdownWrapper({
   onClick,
   handlePanelKey,
   isOpen,
+  className,
 }: {
   children: React.ReactNode;
   onClick: (isEnter: boolean) => void;
@@ -13,6 +14,7 @@ export default function CompDropdownWrapper({
     onClick: (isEnter: boolean) => void,
   ) => void;
   isOpen: boolean;
+  className?: string;
 }) {
   function handleKeyDown(e: React.KeyboardEvent<HTMLUListElement>) {
     if (!isOpen) {
@@ -22,6 +24,7 @@ export default function CompDropdownWrapper({
 
   return (
     <section
+      className={className}
       onClick={() => onClick(!isOpen)}
       onKeyDown={handleKeyDown}
     >
