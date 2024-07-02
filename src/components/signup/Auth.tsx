@@ -5,16 +5,14 @@ import useInputChange from '@/hooks/input/useInputChange';
 import TextButton from '@/components/shared/buttons/TextButton';
 import Wrapper from '@/components/shared/Wrapper';
 import { conceptMap } from '@/components/shared/input/inputConfig';
-import Cookies from 'js-cookie';
 
 import AuthPopup from './Popup';
 import LoadingSpinner from '../shared/LoadingSpinner';
+import useUserStore from '@/store/userStore';
 
-type AuthProps = {
-  handleSubmit: () => void;
-};
+export default function Auth() {
+  const { setUser } = useUserStore();
 
-export default function Auth({ handleSubmit }: AuthProps) {
   const [isShowPopup, setIsShowPopup] = useState(false); // 팝업 조건부 렌더링
   const [isLoading, setIsLoading] = useState(false); //api 로딩 체크
   const { value, onChangeInputValue } = useInputChange();
@@ -63,14 +61,13 @@ export default function Auth({ handleSubmit }: AuthProps) {
 
       if (response.ok) {
         const data = await response.json();
-        // JWT 토큰을 쿠키에 저장
-        // Cookies.set('auth-token', data.token, {
-        //   path: '/signup',
-        // });
 
         // 이메일 전송 성공 모달 발생
         setIsLoading(false);
         setIsShowPopup(true);
+        // 서버에서 보내준 데이터를 저장?
+        // 현재 프론트에서 입력한 값 저장
+        setUser({ name: value.name, email:value.email });
 
         // 입력 필드 초기화
         value.name = '';

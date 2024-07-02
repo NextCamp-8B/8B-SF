@@ -66,54 +66,62 @@ export async function GET(request: NextRequest) {
 }
 
 // POST 요청 처리 - 회원가입
-export async function POST(request: Request) {
-  const formData = await request.formData();
-  const signupId = formData.get('signupId') as string;
-  //   const email = formData.get('email') as string;
-  const email = 'eqwewq@ewqewq@com';
-  const password = formData.get('password') as string;
-  const passwordCheck = formData.get('passwordCheck') as string;
-  const signupPhone = formData.get('signupPhone') as string;
-  const birth = formData.get('birth') as string;
-  //   const nickname = formData.get('nickname') as string;
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+      //  const formData = await request.formData();
+      // const signupId = formData.get('signupId') as string;
+      // //   const email = formData.get('email') as string;
+      // const email = 'eqwewq@ewqewq@com';
+      // const password = formData.get('password') as string;
+      // const passwordCheck = formData.get('passwordCheck') as string;
+      // const signupPhone = formData.get('signupPhone') as string;
+      // const birth = formData.get('birth') as string;
+      //   const nickname = formData.get('nickname') as string;
+    const { userId, email, password, phoneNumber, birth, nickname, profileImg, interestStock, name } = body;
 
-  console.log(formData, 'formdata');
+    if (
+      !userId ||
+      !password ||
+      !nickname ||
+      !phoneNumber ||
+      !birth
+    ) {
+      return NextResponse.json(
+        { error: '입력값이 부족합니다.' },
+        { status: 400 },
+      );
+    }
 
-  if (
-    !signupId ||
-    !password ||
-    !passwordCheck ||
-    !signupPhone ||
-    !birth
-  ) {
-    return NextResponse.json(
-      { error: '입력값이 부족합니다.' },
-      { status: 400 },
-    );
-  }
+      // 비밀번호 해시
+      // const hashPassword = await bcrypt.hash(password, 10);
+      const { error: insertError } = await supabase.from('users').insert({
+        user_id: userId,
+        email: email,
+        password: password,
+        phone_number: phoneNumber,
+        nickname,
+        name,
+        interest_stock: interestStock,
+        profile_img: profileImg,
+        birth,
+      });
+      if (insertError) {
+        throw insertError;
+      }
+      // 응답에 쿠키 삭제 설정 추가
+      const response = NextResponse.json(
+        { message: '회원가입 성공' },
+        { status: 200 },
+      );
+      response.cookies.set('auth-token', '', { path: '/signup', expires: new Date(0) });
 
-  // 비밀번호 해시
-  const hashPassword = await bcrypt.hash(password, 10);
-  const { error: insertError } = await supabase.from('users').insert({
-    user_id: signupId,
-    email: email,
-    password: hashPassword,
-    phone_number: signupPhone,
-    nickname: 'text1',
-    interest_stock: 'Tesla',
-    profile_img: 'eqwewqqe/eqwewq.svg',
-    birth,
-  });
-
-  if (insertError) {
+      return response;
+  } catch(error) {
+    console.error('회원가입 중 오류 발생:', error);
     return NextResponse.json(
       { error: '회원가입 중 오류 발생' },
       { status: 500 },
     );
   }
-
-  return NextResponse.json(
-    { message: '회원가입 성공' },
-    { status: 200 },
-  );
 }

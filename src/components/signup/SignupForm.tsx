@@ -1,22 +1,22 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import InputSet from '@/components/shared/input/index';
 import useInputChange from '@/hooks/input/useInputChange';
 import TextButton from '@/components/shared/buttons/TextButton';
 import Wrapper from '@/components/shared/Wrapper';
-import { CheckForDuplicate } from '../shared/input/InputDuplicateCheck';
+import bcrypt from 'bcryptjs';
 
 import { conceptMap } from '@/components/shared/input/inputConfig';
-import { PageStep } from '@/app/(before)/signup/page';
-import { register } from '@/lib/action';
+import useUserStore from '@/store/userStore';
 
 type SignupFormProps = {
-  handleSubmit: (nextPage: PageStep) => void;
+  changePage: () => void;
 };
 
 export default function SignupForm({
-  handleSubmit,
+  changePage,
 }: SignupFormProps) {
+  const { user, clearUser, setUser } = useUserStore();
   const { value, onChangeInputValue } = useInputChange();
   const [isSubmit, setIsSubmit] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
@@ -27,7 +27,6 @@ export default function SignupForm({
       `/api/user?signupId=${value.signupId}`,
     );
     const result = await response.json();
-    console.log('result', result);
     if (result.message === 'duplicate') {
       setDuplicatedCheck(false);
       return 'duplicate';
@@ -36,7 +35,7 @@ export default function SignupForm({
       return 'possible';
     }
   };
-
+  // 폼 입력시 유효성 검사
   const validateForm = () => {
     const isSignupIdValid = duplicatedCheck;
     const isPasswordValid = conceptMap.password.doValidation(
@@ -69,11 +68,15 @@ export default function SignupForm({
     );
   };
 
+  useEffect(() => {
+    validateForm();
+  }, [value, duplicatedCheck]);
+
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     onChangeInputValue(e);
-    validateForm();
   };
 
   const onHandleSubmit = async (e: React.FormEvent) => {
@@ -82,17 +85,16 @@ export default function SignupForm({
 
     if (!isFormValid) return console.log('isFormValid unset');
     setIsFormValid(false);
-    const formData = new FormData(e.currentTarget as HTMLFormElement);
-    const response = await fetch('/api/email', {
-      method: 'POST',
-      body: formData,
-    });
+    const hashPassword = await bcrypt.hash(value.password, 10) as string;
 
-    if (response.ok) {
-      handleSubmit('profile');
-    } else {
-      console.error('회원가입 실패:', await response.json());
-    }
+      setUser({
+        // password: value.password,
+        password: hashPassword,
+        phoneNumber: value.signupPhone,
+        birth: value.birth,
+        userId: value.signupId,
+      })
+      changePage();
   };
   return (
     <Wrapper padding="px-24 py-20" width="w-[590px]">
@@ -141,8 +143,6 @@ export default function SignupForm({
             />
 
             <TextButton
-              // disabled={!isFormValid}
-              // onClick={onHandleSubmit}
               className="w-full mx-auto mt-8"
             >
               다음

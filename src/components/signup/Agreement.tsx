@@ -8,9 +8,9 @@ import TextButton from '@/components/shared/buttons/TextButton';
 import { PageStep } from '@/app/(before)/signup/page';
 
 type AgreementProps = {
-  handleSubmit: () => void;
+  changePage: () => void;
 };
-export default function Agreement({ handleSubmit }: AgreementProps) {
+export default function Agreement({ changePage }: AgreementProps) {
   const serviceTerms = `아잇나우 서비스 이용약관 본 약관은
     (주)스팩스페이스(이하 "회사"라 함)와 이용자 간의
     서비스 이용에 관한 규정을 명시합니다. 서비스를
@@ -192,7 +192,7 @@ export default function Agreement({ handleSubmit }: AgreementProps) {
         <TextButton
           disabled={!allChecked}
           className="w-full mx-auto mt-8"
-          onClick={handleSubmit}
+          onClick={changePage}
         >
           다음
         </TextButton>

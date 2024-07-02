@@ -17,7 +17,7 @@ type Concept =
   | 'name'
   | 'email';
 export type Duplicate = 'duplicate' | 'possible' | 'beforeConfirm';
-export type CheckForDuplicate = Exclude<Duplicate, 'beforeConfirm'>;
+export type CheckForDuplicate = Promise<Exclude<Duplicate, 'beforeConfirm'>>;
 type Props = {
   concept: Concept;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -134,7 +134,7 @@ export default function InputDuplicateCheck({
           `}
           onClick={async () => {
             // api 호출로 인한 async 처리
-            const isDupl = onClick();
+            const isDupl = await onClick();
             setIsDuplicate(isDupl);
           }}
           disabled={!isValidated}

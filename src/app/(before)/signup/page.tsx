@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import jwt from 'jsonwebtoken';
 import { useSearchParams } from 'next/navigation';
 import Cookies from 'js-cookie';
+import useUserStore from '@/store/userStore';
 
 const secret = process.env.NEXT_PUBLIC_JWT_SECRET as string;
 // 페이지 스텝 타입 정의
@@ -20,6 +21,8 @@ export type PageStep =
   | 'welcome';
 
 export default function Signup() {
+  const { clearUser } = useUserStore();
+
   const router = useRouter();
   const [pageStep, setPageStep] = useState<PageStep>('agreement');
   const searchParams = useSearchParams();
@@ -34,14 +37,16 @@ export default function Signup() {
     const token = Cookies.get('auth-token');
     const paramsToken = searchParams.get('token');
     // console.log('token', token);
-    if (token && paramsToken && token === paramsToken) {
+    if (token === paramsToken) {
       try {
-        // token과 secret 값을 비교?
+        // token과 secret 값을 비교
         jwt.verify(token, secret);
         setPageStep('signupForm');
       } catch (e) {
+        console.log('일로 들어옴?', token, paramsToken)
         console.error('Invalid token:', e);
         router.push('/signup'); // 유효하지 않은 경우 리디렉션
+        clearUser();
       }
     }
   }, [searchParams, router]);
@@ -52,18 +57,22 @@ export default function Signup() {
       className={`flex justify-center items-center ${mainMarginClass}`}
     >
       {pageStep === 'agreement' && (
-        <Agreement handleSubmit={() => changePage('auth')} />
+        // 이용 약관
+        <Agreement changePage={() => changePage('auth')} />
       )}
       {pageStep === 'auth' && (
-        <Auth handleSubmit={() => changePage('signupForm')} />
+        // 이메일 링크 인증
+        <Auth />
       )}
       {pageStep === 'signupForm' && (
-        <SignupForm handleSubmit={() => changePage('profile')} />
+        // 회원가입
+        <SignupForm changePage={() => changePage('profile')} />
       )}
       {pageStep === 'profile' && (
+        // 프로필 설정
         <ProfileSetup
           buttonText="가입하기"
-          handleSubmit={() => changePage('welcome')}
+          changePage={() => changePage('welcome')}
         />
       )}
       {pageStep === 'welcome' && <Welcome />}
