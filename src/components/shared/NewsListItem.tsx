@@ -33,6 +33,7 @@ export default function NewsListItem({
                   alt="thumbnail"
                   fill
                   className="group-hover:scale-125 duration-700"
+                  objectFit="cover"
                 />
               ) : (
                 <div>
@@ -68,6 +69,7 @@ export default function NewsListItem({
                   alt="thumbnail"
                   fill
                   className="group-hover:scale-125 duration-700"
+                  objectFit="cover"
                 />
               ) : (
                 <div>
@@ -108,6 +110,7 @@ export default function NewsListItem({
                   alt="thumbnail"
                   fill
                   className="group-hover:scale-125 duration-700"
+                  objectFit="cover"
                 />
               ) : (
                 <div>
@@ -143,6 +146,7 @@ export default function NewsListItem({
                   alt="thumbnail"
                   fill
                   className="group-hover:scale-125 duration-700"
+                  objectFit="cover"
                 />
               ) : (
                 <div>

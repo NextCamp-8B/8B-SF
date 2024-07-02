@@ -38,9 +38,7 @@ export default function Card(props: CardProps) {
               </span>
             </div>
             <div>
-              <StockIcon size="small">
-                <AI className="w-12 h-12 text-grayscale-0" />
-              </StockIcon>
+              <StockIcon size="small" />
             </div>
           </div>
         </div>
@@ -54,17 +52,15 @@ export default function Card(props: CardProps) {
             <p className="b4">{stock.subname}</p>
           </div>
           <div className="pr-2 items-center flex">
-            <StockIcon size="small">
-              <AI className="w-12 h-12 text-grayscale-0" />
-            </StockIcon>
+            <StockIcon size="small" />
           </div>
         </div>
       )}
 
       {/* type == News2 (뉴스제목, 뉴스썸네일, 뉴스시간) */}
       {type === 'News2' && news && (
-        <div className="w-[388px] h-[360px] flex flex-col justify-center items-center bg-grayscale-0">
-          <div className="w-[388px] h-[236px] flex justify-center rounded-t-2xl relative overflow-hidden">
+        <div className="w-[388px] h-[360px] flex flex-col justify-center items-center bg-grayscale-0 rounded-t-2xl overflow-hidden">
+          <div className="w-[388px] h-[236px] flex justify-center items-center relative overflow-hidden">
             {news.thumbnail ? (
               <Image
                 src={news.thumbnail}

@@ -19,6 +19,7 @@ export default function OriginNewsCard({
     <Link
       href={origin_url}
       className="hover:underline flex shadow-lg rounded-lg"
+      target="_blank"
     >
       <div className="relative rounded-l-lg overflow-hidden w-40 h-24">
         <Image src={thumbnail} fill alt="thumbnail" />

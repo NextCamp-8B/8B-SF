@@ -29,7 +29,7 @@ export default async function NewsDetailPage({
       method: 'PATCH',
     })
   ).json();
-  console.log(data);
+  // console.log(data);
 
   return (
     <>
@@ -43,9 +43,7 @@ export default async function NewsDetailPage({
             <span className="b3 font-bold pb-[10px] text-primary-900">
               현재 뉴스와 관련된 주식
             </span>
-            <RelatedStock
-              stockList={[tmpStock, tmpStock, tmpStock]}
-            />
+            <RelatedStock id={params.id} />
           </Wrapper>
           <Wrapper padding="p-8" width="w-96">
             <span className="b3 font-bold pb-[10px] text-primary-900 inline-block">

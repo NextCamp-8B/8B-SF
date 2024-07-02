@@ -1,22 +1,23 @@
 import React from 'react';
-import StockListItem, { Stock } from '../shared/StockListItem';
+import StockListItem from '../shared/StockListItem';
 import AI from '@/assets/icons/ai.svg';
+import { Stock } from '@/types/stock';
 
 type RelatedStockProps = {
-  stockList: Stock[];
+  id: string;
 };
 
-export default function RelatedStock({
-  stockList,
+export default async function RelatedStock({
+  id,
 }: RelatedStockProps) {
+  const { stockList }: { stockList: Stock[] } = await (
+    await fetch(`http://localhost:3000/api/news/related/stock/${id}`)
+  ).json();
+
   return (
     <div>
       {stockList.map((stock) => (
-        <StockListItem
-          stock={stock}
-          key={stock.id}
-          icon={<AI className="w-12 h-12 text-grayscale-0" />}
-        />
+        <StockListItem stock={stock} key={stock.stock_id} />
       ))}
     </div>
   );

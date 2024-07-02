@@ -7,7 +7,7 @@ import TodayPopularNews from '@/components/news/TodayPopularNews';
 
 export default function News() {
   return (
-    <main className="flex items-center justify-center w-full flex-col gap-12">
+    <main className="flex items-center justify-center flex-col gap-12">
       {/* 오늘 인기있는 뉴스 */}
       <NewsSection>
         <NewsHeading>오늘 인기있는 뉴스</NewsHeading>

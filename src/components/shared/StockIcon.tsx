@@ -12,11 +12,11 @@ export default function StockIcon({
 }: StockIconProps) {
   return (
     <div
-      className={` bg-grayscale-900 rounded-full flex items-center justify-center ${
-        size === 'medium' && 'w-16 h-16'
+      className={`rounded-full flex items-center justify-center overflow-hidden ${
+        size === 'medium' && 'w-12 h-12'
       } ${size === 'small' && 'w-12 h-12'}`}
     >
-      <Image width={12} height={12} src={path} alt="icon" />
+      <img className=" text-grayscale-0" src={path} />
     </div>
   );
 }
