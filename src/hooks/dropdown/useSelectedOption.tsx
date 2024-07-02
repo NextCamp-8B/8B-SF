@@ -51,6 +51,8 @@ export function useSelectedOption(
   );
 
   function handleSelected(value: string) {
+    if (value === '') return;
+
     const selected =
       initialOptions.find((option) => option.value === value) ||
       initialOptions[0];
