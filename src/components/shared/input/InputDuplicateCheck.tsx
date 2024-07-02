@@ -17,7 +17,9 @@ type Concept =
   | 'name'
   | 'email';
 export type Duplicate = 'duplicate' | 'possible' | 'beforeConfirm';
-export type CheckForDuplicate = Promise<Exclude<Duplicate, 'beforeConfirm'>>;
+export type CheckForDuplicate = Promise<
+  Exclude<Duplicate, 'beforeConfirm'>
+>;
 type Props = {
   concept: Concept;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -25,6 +27,7 @@ type Props = {
   value: string;
   type: string;
   isSubmit: boolean;
+  isLoading?: boolean;
 };
 
 /**
@@ -75,6 +78,7 @@ export default function InputDuplicateCheck({
   onChange,
   onClick,
   value,
+  isLoading,
   type = 'text',
   isSubmit = false,
 }: Props) {
@@ -125,22 +129,26 @@ export default function InputDuplicateCheck({
           disabled={status === 'disabled'}
         />
         {/* 임시 버튼, 팀원이 개발중 warning-100*/}
-        <button
-          type="button"
-          className={`w-[120px] h-[36px] border rounded-lg bg-${
-            status === 'warning' ? 'warning-100' : 'primary-900'
-          } text-grayscale-0 absolute right-4 top-2.5 
+        {isLoading ? (
+          <div className="absolute right-4 top-2.5 w-10 h-10 rounded-full border-8 border-primary-900 border-t-primary-50 animate-spin"></div>
+        ) : (
+          <button
+            type="button"
+            className={`w-[120px] h-[36px] border rounded-lg bg-${
+              status === 'warning' ? 'warning-100' : 'primary-900'
+            } text-grayscale-0 absolute right-4 top-2.5 
             ${!isValidated ? 'btn-disabled' : 'btn-primary'}
           `}
-          onClick={async () => {
-            // api 호출로 인한 async 처리
-            const isDupl = await onClick();
-            setIsDuplicate(isDupl);
-          }}
-          disabled={!isValidated}
-        >
-          중복 확인
-        </button>
+            onClick={async () => {
+              // api 호출로 인한 async 처리
+              const isDupl = await onClick();
+              setIsDuplicate(isDupl);
+            }}
+            disabled={!isValidated}
+          >
+            중복 확인
+          </button>
+        )}
       </div>
 
       {isMessageVisible && (

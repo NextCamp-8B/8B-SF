@@ -17,7 +17,11 @@ export default function Auth() {
   const [isLoading, setIsLoading] = useState(false); //api 로딩 체크
   const { value, onChangeInputValue } = useInputChange();
   const [isSubmit, setIsSubmit] = useState(false); // 폼 submit
-  const [isAuthError, setIsAuthError] = useState(false); // 인증링크 전송 중 에러
+  // const [isAuthError, setIsAuthError] = useState(false); // 인증링크 전송 중 에러
+  const [authError, setAuthError] = useState({
+    isError: false,
+    message: null,
+  }); // 에러 상태 객체로 관리
   const [isFormValid, setIsFormValid] = useState(false); // 폼 유효성 체크
 
   const validateForm = () => {
@@ -61,34 +65,36 @@ export default function Auth() {
 
       if (response.ok) {
         const data = await response.json();
-
-        // 이메일 전송 성공 모달 발생
+        console.log('data', data);
         setIsLoading(false);
-        setIsShowPopup(true);
         // 서버에서 보내준 데이터를 저장?
         // 현재 프론트에서 입력한 값 저장
-        setUser({ name: value.name, email:value.email });
+        setUser({ name: value.name, email: value.email });
 
         // 입력 필드 초기화
         value.name = '';
         value.email = '';
-
-        // handleSubmit 호출로 페이지 이동
-        // handleSubmit();
-      }
-      if (!response.ok) {
-        throw new Error('이메일 전송 실패');
+      } else {
+        const errorData = await response.json();
+        setAuthError({ isError: true, message: errorData.message }); // 서버로부터 받은 에러 메시지를 상태에 저장
       }
     } catch (error) {
       console.error('이메일 전송 중 오류 발생:', error);
-      setIsAuthError(true);
+      setAuthError({ isError: true, message: null });
+    } finally {
+      // 이메일 전송 성공/실패 팝업 발생
+      setIsShowPopup(true);
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
   return (
     <>
       {isShowPopup && (
-        <AuthPopup onClose={handleClosePopuup} error={isAuthError} />
+        <AuthPopup
+          onClose={handleClosePopuup}
+          error={authError.isError}
+          errorMessage={authError.message}
+        />
       )}
       <Wrapper padding="px-24 py-20" width="w-[590px]">
         <div className="flex flex-col justify-start w-[386px] h-full">
@@ -116,7 +122,6 @@ export default function Auth() {
                 isSubmit={isSubmit}
               />
               <TextButton
-                // disabled={!isFormValid}
                 onClick={onHandleSubmit}
                 className="w-full mx-auto mt-8"
               >

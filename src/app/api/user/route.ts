@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import supabase from '../../../lib/supabaseClient';
-import bcrypt from 'bcryptjs';
 
 export type User = {
   id: number;
@@ -18,8 +17,6 @@ export type User = {
 
 // GET 유저id 중복 처리 확인
 export async function GET(request: NextRequest) {
-  // const url = new URL(request.url);
-  // const signupId = url.searchParams.get('signupId');
   try {
     const signupId = request.nextUrl.searchParams.get('signupId');
 
@@ -33,7 +30,7 @@ export async function GET(request: NextRequest) {
     console.log('signupId', signupId);
 
     const { data, error } = await supabase
-      .from('users')
+      .from('user')
       .select('user_id')
       .eq('user_id', signupId);
 
@@ -69,55 +66,56 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-      //  const formData = await request.formData();
-      // const signupId = formData.get('signupId') as string;
-      // //   const email = formData.get('email') as string;
-      // const email = 'eqwewq@ewqewq@com';
-      // const password = formData.get('password') as string;
-      // const passwordCheck = formData.get('passwordCheck') as string;
-      // const signupPhone = formData.get('signupPhone') as string;
-      // const birth = formData.get('birth') as string;
-      //   const nickname = formData.get('nickname') as string;
-    const { userId, email, password, phoneNumber, birth, nickname, profileImg, interestStock, name } = body;
+    const {
+      userId,
+      email,
+      password,
+      phoneNumber,
+      birth,
+      nickname,
+      profileImg,
+      interestStock,
+      name,
+    } = body;
 
-    if (
-      !userId ||
-      !password ||
-      !nickname ||
-      !phoneNumber ||
-      !birth
-    ) {
+    if (!userId || !password || !nickname || !phoneNumber || !birth) {
       return NextResponse.json(
         { error: '입력값이 부족합니다.' },
         { status: 400 },
       );
     }
 
-      // 비밀번호 해시
-      // const hashPassword = await bcrypt.hash(password, 10);
-      const { error: insertError } = await supabase.from('users').insert({
-        user_id: userId,
-        email: email,
-        password: password,
-        phone_number: phoneNumber,
-        nickname,
-        name,
-        interest_stock: interestStock,
-        profile_img: profileImg,
-        birth,
-      });
-      if (insertError) {
-        throw insertError;
-      }
-      // 응답에 쿠키 삭제 설정 추가
-      const response = NextResponse.json(
-        { message: '회원가입 성공' },
-        { status: 200 },
-      );
-      response.cookies.set('auth-token', '', { path: '/signup', expires: new Date(0) });
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          userId,
+          name,
+          phoneNumber,
+          birth,
+          profileImg,
+          nickname,
+          interestStock,
+        },
+      },
+    });
+    console.log('data', data);
+    if (error) {
+      throw error;
+    }
+    // 응답에 쿠키 삭제 설정 추가
+    const response = NextResponse.json(
+      { message: '회원가입 성공' },
+      { status: 200 },
+    );
+    response.cookies.set('auth-token', '', {
+      path: '/signup',
+      expires: new Date(0),
+    });
 
-      return response;
-  } catch(error) {
+    return response;
+  } catch (error) {
     console.error('회원가입 중 오류 발생:', error);
     return NextResponse.json(
       { error: '회원가입 중 오류 발생' },

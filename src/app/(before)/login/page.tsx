@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Wrapper from '@/components/shared/Wrapper';
 import InputSet from '@/components/shared/input/index';
 import useInputChange from '@/hooks/input/useInputChange';
@@ -7,6 +7,7 @@ import TextButton from '@/components/shared/buttons/TextButton';
 import CheckBox from '@/components/shared/Checkbox';
 import IconButton from '@/components/shared/buttons/IconButton';
 import Link from 'next/link';
+import { conceptMap } from '@/components/shared/input/inputConfig';
 
 // w-[590px]  h-[668px]
 
@@ -14,10 +15,47 @@ export default function Login() {
   const { value, onChangeInputValue } = useInputChange();
   const [isSubmit, setIsSubmit] = useState(false);
   const [isAutoLogin, setIsAutoLogin] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false); //유효성 검사폼
 
-  const handleLoginClick = () => {
+  const onHandleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsSubmit(true);
+    if (!isFormValid) return console.log('isFormValid unset');
+    const loginInfo = {
+      userId: value.loginId,
+      password: value.password,
+    };
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(loginInfo),
+    });
+    console.log(response, 'response');
+
+    if (response.ok) {
+      const { data } = await response.json();
+      const token = data.session.access_token; // 세션 토큰 저장
+      localStorage.setItem('token', token);
+    } else {
+      console.error('프로필 설정 실패:', await response.json());
+    }
   };
+  const validateForm = useCallback(() => {
+    const isPasswordValid = conceptMap.password.doValidation(
+      value.password,
+    );
+    const isLoginIdValid = conceptMap.loginId.doValidation(
+      value.loginId,
+    );
+
+    setIsFormValid(isLoginIdValid && isPasswordValid);
+  }, [value.loginId, value.password]);
+
+  useEffect(() => {
+    validateForm();
+  }, [value, validateForm]);
 
   return (
     <main className="flex justify-center items-center h-screen">
@@ -28,23 +66,26 @@ export default function Login() {
           </h3>
 
           {/* 로그인 입력 폼 */}
-          <InputSet className="flex flex-col gap-4">
-            <InputSet.Validated
-              onChange={onChangeInputValue}
-              value={value.loginId}
-              type="loginId"
-              concept="loginId"
-              isSubmit={isSubmit}
-            />
-            <InputSet.Validated
-              onChange={onChangeInputValue}
-              value={value.password}
-              type="password"
-              concept="password"
-              isSubmit={isSubmit}
-            />
-            <TextButton onClick={handleLoginClick}>로그인</TextButton>
-          </InputSet>
+          <form onSubmit={onHandleSubmit}>
+            <InputSet className="flex flex-col gap-4">
+              <InputSet.Validated
+                onChange={onChangeInputValue}
+                value={value.loginId}
+                type="loginId"
+                concept="loginId"
+                isSubmit={isSubmit}
+              />
+              <InputSet.Validated
+                onChange={onChangeInputValue}
+                value={value.password}
+                type="password"
+                concept="password"
+                isSubmit={isSubmit}
+              />
+              {/* submit 로그인 버튼 */}
+              <TextButton>로그인</TextButton>
+            </InputSet>
+          </form>
 
           {/* 자동로그인, 아이디, 비밀번호 찾기 라우트 */}
           <div className="flex flex-col mt-4 gap-y-4">
@@ -70,8 +111,6 @@ export default function Login() {
                 </Link>
               </div>
             </div>
-
-            {/* submit 로그인 버튼 */}
 
             {/* 회원가입 라우트*/}
             <div className="flex justify-between px-1 b5">

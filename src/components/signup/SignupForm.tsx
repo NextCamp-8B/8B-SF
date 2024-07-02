@@ -1,10 +1,9 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import InputSet from '@/components/shared/input/index';
 import useInputChange from '@/hooks/input/useInputChange';
 import TextButton from '@/components/shared/buttons/TextButton';
 import Wrapper from '@/components/shared/Wrapper';
-import bcrypt from 'bcryptjs';
 
 import { conceptMap } from '@/components/shared/input/inputConfig';
 import useUserStore from '@/store/userStore';
@@ -13,30 +12,32 @@ type SignupFormProps = {
   changePage: () => void;
 };
 
-export default function SignupForm({
-  changePage,
-}: SignupFormProps) {
-  const { user, clearUser, setUser } = useUserStore();
+export default function SignupForm({ changePage }: SignupFormProps) {
+  const [isLoading, setIsLoading] = useState(false); //중복확인 api 로딩
+  const { setUser } = useUserStore();
   const { value, onChangeInputValue } = useInputChange();
   const [isSubmit, setIsSubmit] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
   const [duplicatedCheck, setDuplicatedCheck] = useState(false);
 
   const handleDuplicate = async () => {
+    setIsLoading(true);
     const response = await fetch(
       `/api/user?signupId=${value.signupId}`,
     );
     const result = await response.json();
     if (result.message === 'duplicate') {
+      setIsLoading(false);
       setDuplicatedCheck(false);
       return 'duplicate';
     } else {
+      setIsLoading(false);
       setDuplicatedCheck(true);
       return 'possible';
     }
   };
   // 폼 입력시 유효성 검사
-  const validateForm = () => {
+  const validateForm = useCallback(() => {
     const isSignupIdValid = duplicatedCheck;
     const isPasswordValid = conceptMap.password.doValidation(
       value.password,
@@ -47,18 +48,6 @@ export default function SignupForm({
       value.signupPhone,
     );
     const isBirthValid = conceptMap.birth.doValidation(value.birth);
-    console.log(
-      'isSignupIdValid: ',
-      isSignupIdValid,
-      'isPasswordValid: ',
-      isPasswordValid,
-      'isPasswordCheckValid: ',
-      isPasswordCheckValid,
-      'isSignupPhoneValid: ',
-      isSignupPhoneValid,
-      'isBirthValid: ',
-      isBirthValid,
-    );
     setIsFormValid(
       isSignupIdValid &&
         isPasswordValid &&
@@ -66,17 +55,23 @@ export default function SignupForm({
         isSignupPhoneValid &&
         isBirthValid,
     );
-  };
+  }, [
+    value.birth,
+    value.password,
+    value.signupPhone,
+    duplicatedCheck,
+    value.passwordCheck,
+  ]);
 
   useEffect(() => {
     validateForm();
-  }, [value, duplicatedCheck]);
-
+  }, [value, validateForm, duplicatedCheck]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     onChangeInputValue(e);
+    setDuplicatedCheck(false);
   };
 
   const onHandleSubmit = async (e: React.FormEvent) => {
@@ -85,16 +80,15 @@ export default function SignupForm({
 
     if (!isFormValid) return console.log('isFormValid unset');
     setIsFormValid(false);
-    const hashPassword = await bcrypt.hash(value.password, 10) as string;
-
-      setUser({
-        // password: value.password,
-        password: hashPassword,
-        phoneNumber: value.signupPhone,
-        birth: value.birth,
-        userId: value.signupId,
-      })
-      changePage();
+    // profile에서 데이터를 한번에 보내기 위해 저장
+    setUser({
+      password: value.password,
+      phoneNumber: value.signupPhone,
+      birth: value.birth,
+      userId: value.signupId,
+    });
+    // profile로 이동
+    changePage();
   };
   return (
     <Wrapper padding="px-24 py-20" width="w-[590px]">
@@ -110,6 +104,7 @@ export default function SignupForm({
               value={value.signupId}
               type="text"
               concept="signupId"
+              isLoading={isLoading}
               isSubmit={isSubmit}
             />
             <InputSet.Validated
@@ -142,9 +137,7 @@ export default function SignupForm({
               isSubmit={isSubmit}
             />
 
-            <TextButton
-              className="w-full mx-auto mt-8"
-            >
+            <TextButton className="w-full mx-auto mt-8">
               다음
             </TextButton>
           </InputSet>

@@ -5,7 +5,6 @@ import AgreementBox from '@/components/signup/AgreementBox';
 import Wrapper from '@/components/shared/Wrapper';
 import CheckBox from '@/components/shared/Checkbox';
 import TextButton from '@/components/shared/buttons/TextButton';
-import { PageStep } from '@/app/(before)/signup/page';
 
 type AgreementProps = {
   changePage: () => void;

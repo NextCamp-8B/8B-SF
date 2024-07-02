@@ -15,7 +15,7 @@ interface User {
 }
 
 interface UserStore {
-  user: User | null;
+  user: User;
   setUser: (user: Partial<User>) => void;
   clearUser: () => void;
 }
@@ -23,17 +23,18 @@ interface UserStore {
 const useUserStore = create<UserStore>()(
   persist(
     (set) => ({
-      user: null,
-      setUser: (user: Partial<User>) => set((state) => ({
-        user: { ...state.user, ...user }
-      })),
-      clearUser: () => set({ user: null }),
+      user: {},
+      setUser: (user: Partial<User>) =>
+        set((state) => ({
+          user: { ...state.user, ...user },
+        })),
+      clearUser: () => set({ user: {} }),
     }),
     {
       name: 'user-storage', // 로컬 스토리지에 저장될 이름
       getStorage: () => localStorage, // 기본값은 'localStorage'
-    }
-  )
+    },
+  ),
 );
 
 export default useUserStore;

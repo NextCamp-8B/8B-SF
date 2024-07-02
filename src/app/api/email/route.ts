@@ -3,6 +3,7 @@ import nodemailer from 'nodemailer';
 import fs from 'fs';
 import path from 'path';
 import jwt from 'jsonwebtoken';
+import supabase from '@/lib/supabaseClient';
 
 const secret = process.env.JWT_SECRET as string;
 
@@ -16,8 +17,7 @@ const transporter = nodemailer.createTransport({
   // host: 'smtp.gmail.com',
   host: 'smtp.naver.com',
   secure: true,
-  // port: 465, //구글 포트
-  port: 465, //구글 포트
+  port: 465,
   auth: {
     user: process.env.NAVER_ID,
     pass: process.env.NAVER_PW,
@@ -39,6 +39,27 @@ export async function POST(
 ) {
   try {
     const { name, email } = await request.json();
+
+    // 이메일 중복 체크
+    const { data, error } = await supabase
+      .from('user')
+      .select('email')
+      .eq('email', email);
+
+    if (error) {
+      throw new Error('데이터베이스 에러 발생');
+    }
+
+    if (data.length > 0) {
+      return NextResponse.json(
+        {
+          message:
+            '해당 이메일은 이미 사용 중입니다. 다른 이메일을 사용하시거나, 비밀번호 찾기를 이용해 주세요.',
+        },
+        { status: 409 },
+      );
+    }
+
     const token = jwt.sign({ email }, secret, { expiresIn: '30m' });
 
     // logo_light 이미지 Base64 인코딩
@@ -82,11 +103,59 @@ export async function POST(
     });
 
     return response;
-  } catch (error) {
+  } catch (error: any) {
     console.error('이메일 전송 실패:', error);
     return NextResponse.json(
-      { message: '이메일 전송 실패', error },
+      {
+        message:
+          '인증 링크 전송에 실패했습니다. 다시 시도하시거나 고객센터에 문의해주세요.',
+        error: error.message, // 에러 메시지 포함
+      },
+
       { status: 500 },
     );
   }
 }
+
+// supabase google smtp 사용해보기
+// export async function POST(request: NextRequest) {
+//   try {
+//     const { name, email } = await request.json();
+//     const tempPassword = Math.random().toString(36).slice(-8); // 임시 비밀번호 생성
+
+//     const { error } = await supabase.auth.signUp({
+//       email,
+//       password: tempPassword, // 임시 비밀번호 사용
+//       options: {
+//         data: {
+//           userId:'',
+//           name:'',
+//           phoneNumber:'',
+//           birth:'',
+//           profileImg:'',
+//           nickname:'',
+//           interestStock:'',
+//         },
+//         emailRedirectTo: 'http://localhost:3000/signup-complete', // 이메일 인증 후 리디렉션할 URL
+//       },
+//     });
+//     console.log('error', error);
+//     if (error) {
+//       return NextResponse.json(
+//         { error: error.message },
+//         { status: 400 },
+//       );
+//     }
+
+//     return NextResponse.json(
+//       { message: '이메일로 인증 링크를 보냈습니다.' },
+//       { status: 200 },
+//     );
+//   } catch (error) {
+//     console.error('이메일 인증 중 오류 발생:', error);
+//     return NextResponse.json(
+//       { error: '이메일 인증 중 오류가 발생했습니다.' },
+//       { status: 500 },
+//     );
+//   }
+// }

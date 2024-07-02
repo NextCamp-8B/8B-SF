@@ -43,13 +43,12 @@ export default function Signup() {
         jwt.verify(token, secret);
         setPageStep('signupForm');
       } catch (e) {
-        console.log('일로 들어옴?', token, paramsToken)
         console.error('Invalid token:', e);
         router.push('/signup'); // 유효하지 않은 경우 리디렉션
         clearUser();
       }
     }
-  }, [searchParams, router]);
+  }, [searchParams, clearUser, router]);
 
   const mainMarginClass = pageStep === 'agreement' ? 'mt-12' : '';
   return (
