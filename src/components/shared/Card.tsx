@@ -6,11 +6,13 @@ import { News } from '@/types/news';
 import LogoDark from '@/assets/logos/logo_dark.svg';
 
 type TStock = {
-  name: string;
-  subname: string;
-  value: string;
-  tmp1: number;
-  tmp2: number;
+  stock_id: string;
+  stock_name: string;
+  stock_code: string;
+  compare_to_previous_close_price: number;
+  fluctuations_ratio: number;
+  logo_path: string;
+  price: number;
 };
 
 type CardProps = {
@@ -38,7 +40,7 @@ export default function Card(props: CardProps) {
               </span>
             </div>
             <div>
-              <StockIcon size="small" />
+              <StockIcon size="small" path="logo_path" />
             </div>
           </div>
         </div>
@@ -48,11 +50,11 @@ export default function Card(props: CardProps) {
       {type === 'Stock' && stock && (
         <div className="w-[275px] h-[56px] flex justify-between">
           <div className=" items-center flex overflow-hidden">
-            <p className="b1 font-bold pr-2">{stock.name} </p>
-            <p className="b4">{stock.subname}</p>
+            <p className="b1 font-bold pr-2">{stock.stock_name} </p>
+            <p className="b4">{stock.stock_code}</p>
           </div>
           <div className="pr-2 items-center flex">
-            <StockIcon size="small" />
+            <StockIcon size="small" path="logo_path" />
           </div>
         </div>
       )}

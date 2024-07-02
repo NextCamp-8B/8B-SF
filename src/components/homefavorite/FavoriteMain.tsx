@@ -1,21 +1,8 @@
 import NotFind from '../search/NotFind';
 import FavoriteItem from './FavoriteItem';
+import { Stock } from '@/types/stock';
 
-type recentProps = {
-  id: string;
-  name: string;
-  subname: string;
-  value: string;
-  tmp1: number;
-  tmp2: number;
-  path: string;
-};
-
-export default function Recent({
-  data,
-}: {
-  data: recentProps[] | null;
-}) {
+export default function Recent({ data }: { data: Stock[] | null }) {
   return (
     <>
       <div className="flex flex-col">

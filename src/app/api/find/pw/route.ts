@@ -80,15 +80,3 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-
-// HTTP 요청에 따라 핸들러 호출
-export async function handler(req: NextRequest) {
-  if (req.method === 'POST') {
-    return POST(req);
-  } else {
-    return NextResponse.json(
-      { error: '허용되지 않는 요청입니다.' },
-      { status: 405 },
-    );
-  }
-}

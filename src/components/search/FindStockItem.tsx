@@ -6,17 +6,21 @@ import NotFind from './NotFind';
 import MoreData from './MoreData';
 import Link from 'next/link';
 import SearchHeading from './SearchHeading';
+import { Stock } from '@/types/stock';
 
 export default function FindStockItem({
   tmpStocks,
   searchText,
-}: any) {
+}: {
+  tmpStocks: Stock[];
+  searchText: string;
+}) {
   const [visibleCount, setVisibleCount] = useState(6);
 
   const filteredStocks = tmpStocks.filter(
-    (stock: any) =>
-      stock.name.includes(searchText) ||
-      stock.subname.includes(searchText),
+    (stock: Stock) =>
+      stock.stock_name.includes(searchText) ||
+      stock.stock_code.includes(searchText),
   );
 
   // 검색어 변경 시, 목록 초기화
@@ -58,37 +62,21 @@ export default function FindStockItem({
         <Wrapper width="590px" padding="p-6">
           <div className="w-[542px] flex justify-center gap-4">
             <div className="w-[263px] flex justify-start flex-col">
-              {visibleEvenStocks.map((stock: any) => (
-                <Link href={`/stock/${stock.id}`}>
-                  <StockListItem
-                    key={stock.id}
-                    stock={stock}
-                    icon={
-                      <AI
-                        className="w-9 h-9 text-grayscale-0"
-                        type="find"
-                      />
-                    }
-                    type="find"
-                  />
-                </Link>
+              {visibleEvenStocks.map((stock: Stock) => (
+                <StockListItem
+                  key={stock.stock_id}
+                  stock={stock}
+                  type="find"
+                />
               ))}
             </div>
             <div className="w-[263px] flex justify-start flex-col">
-              {visibleOddStocks.map((stock: any) => (
-                <Link href={`/stock/${stock.id}`}>
-                  <StockListItem
-                    key={stock.id}
-                    stock={stock}
-                    icon={
-                      <AI
-                        className="w-9 h-9 text-grayscale-0"
-                        type="find"
-                      />
-                    }
-                    type="find"
-                  />
-                </Link>
+              {visibleOddStocks.map((stock: Stock) => (
+                <StockListItem
+                  key={stock.stock_id}
+                  stock={stock}
+                  type="find"
+                />
               ))}
             </div>
           </div>

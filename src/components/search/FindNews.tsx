@@ -7,32 +7,16 @@ import MoreData from './MoreData';
 import NotFind from './NotFind';
 import { useState } from 'react';
 import Loading from '@/app/loading';
-
-export type NewsProps = {
-  id: string;
-  thumbnail: string;
-  title: string;
-  content: string;
-  publisher: string;
-  date: string;
-};
-
-type StockProps = {
-  id: string;
-  name: string;
-  subname: string;
-  value: string;
-  tmp1: number;
-  tmp2: number;
-};
+import { Stock } from '@/types/stock';
+import { News } from '@/types/news';
 
 export default function FindNews({
   tmpNews,
   tmpStocks,
   searchText,
 }: {
-  tmpNews: NewsProps[] | null;
-  tmpStocks: StockProps[] | null;
+  tmpNews: News[] | null;
+  tmpStocks: Stock[] | null;
   searchText: string;
 }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -41,25 +25,26 @@ export default function FindNews({
   const filteredStocks =
     tmpStocks &&
     tmpStocks.filter(
-      (stock: any) =>
-        stock.name.includes(searchText) ||
-        stock.subname.includes(searchText),
+      (stock: Stock) =>
+        stock.stock_name.includes(searchText) ||
+        stock.stock_code.includes(searchText),
     );
-
   // 필터링된 주식 종목 이름 배열
   const stockNames =
-    filteredStocks && filteredStocks.map((stock) => stock.name);
+    filteredStocks && filteredStocks.map((stock) => stock.stock_name);
 
   // 주식 종목중, 검색어와 일치하는 종목의 이름이 뉴스에 들어가는 것을 필터링
+
   const filteredNews =
     tmpNews &&
     tmpNews.filter(
-      (news: any) =>
+      (news: News) =>
         stockNames &&
         stockNames.some(
           (stockName) =>
-            news.title.includes(stockName) ||
-            news.content.includes(stockName),
+            // 현재는 한국어 ko, en, fr, ja, zh 로 변경
+            news.title_ko.includes(stockName) ||
+            news.content_ko.includes(stockName),
         ),
     );
 
