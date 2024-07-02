@@ -5,6 +5,7 @@ export async function GET(requset: Request) {
   const { data: news, error } = await supabase
     .from('news')
     .select()
+    .order('view', { ascending: false })
     .limit(3);
 
   return Response.json({

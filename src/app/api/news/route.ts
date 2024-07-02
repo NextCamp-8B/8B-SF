@@ -15,10 +15,13 @@ export async function GET(requset: NextRequest) {
     .range(page * limit, page * limit + limit - 1);
   // .limit(Number(limit));
 
+  const { count } = await supabase
+    .from('news')
+    .select('*', { count: 'exact', head: true });
   // const { data } = await supabase.from('news').select('count(*)');
-
+  // console.log(count);
   return Response.json({
     newsList: news,
-    lastPage: Number(Math.ceil(47 / limit)),
+    lastPage: Number(Math.ceil(count! / limit)),
   });
 }

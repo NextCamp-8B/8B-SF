@@ -2,11 +2,8 @@ import NewsBorder from '@/components/news/NewsBorder';
 import NewsHeading from '@/components/news/NewsHeading';
 import NewsSection from '@/components/news/NewsSection';
 import RecentNews from '@/components/news/RecentNews';
-import RelatedNews from '@/components/news/RelatedNews';
+import RelatedNewsToStock from '@/components/news/RelatedNewsToStock';
 import TodayPopularNews from '@/components/news/TodayPopularNews';
-import Card from '@/components/shared/Card';
-import NewsListItem from '@/components/shared/NewsListItem';
-import { TMP_NEWS } from '@/constants';
 
 export default function News() {
   return (
@@ -14,12 +11,12 @@ export default function News() {
       {/* 오늘 인기있는 뉴스 */}
       <NewsSection>
         <NewsHeading>오늘 인기있는 뉴스</NewsHeading>
-        <TodayPopularNews newsList={[TMP_NEWS, TMP_NEWS, TMP_NEWS]} />
+        <TodayPopularNews />
       </NewsSection>
       {/* 관심종목과 관련된 뉴스 */}
       <NewsSection>
         <NewsHeading>관심종목과 관련된 뉴스</NewsHeading>
-        <RelatedNews newsList={[TMP_NEWS, TMP_NEWS, TMP_NEWS]} />
+        <RelatedNewsToStock />
       </NewsSection>
       {/* 최신 뉴스 */}
       <NewsSection>

@@ -3,6 +3,7 @@ import StockIcon from './StockIcon';
 import AI from '@/assets/icons/ai.svg';
 import { createdDate, diffCreatedTime } from '@/utils/date';
 import { News } from '@/types/news';
+import LogoDark from '@/assets/logos/logo_dark.svg';
 
 type TStock = {
   name: string;
@@ -62,14 +63,18 @@ export default function Card(props: CardProps) {
 
       {/* type == News2 (뉴스제목, 뉴스썸네일, 뉴스시간) */}
       {type === 'News2' && news && (
-        <div className="w-[388px] h-[360px] flex flex-col justify-center items-center ">
+        <div className="w-[388px] h-[360px] flex flex-col justify-center items-center bg-grayscale-0">
           <div className="w-[388px] h-[236px] flex justify-center rounded-t-2xl relative overflow-hidden">
-            <Image
-              src={news.thumbnail}
-              alt="thumbnail"
-              fill
-              className="rounded-t-2xl transform transition-transform duration-700 ease-in-out hover:scale-125 cursor-pointer"
-            />
+            {news.thumbnail ? (
+              <Image
+                src={news.thumbnail}
+                alt="thumbnail"
+                fill
+                className="rounded-t-2xl transform transition-transform duration-700 ease-in-out hover:scale-125 cursor-pointer"
+              />
+            ) : (
+              <LogoDark />
+            )}
           </div>
           <div className="w-[388px] h-[124px] flex flex-col rounded-b-2xl justify-center items-center shadow-md bg-[#FFFFFF]">
             <p className="b3 font-medium px-6 overflow-hidden line-clamp-2  hover:underline cursor-pointer">
@@ -87,14 +92,19 @@ export default function Card(props: CardProps) {
 
       {/* type === News3 (뉴스제목, 뉴스내용, 날짜) */}
       {type === 'News3' && news && (
-        <div className="w-[590px] h-[420px] flex flex-col">
-          <div className=" h-[420px] relative flex flex-col overflow-hidden rounded-2xl ">
-            <Image
-              src={news.thumbnail}
-              alt="thumbnail"
-              fill
-              className=" object-cover transition-transform duration-700 ease-in-out hover:scale-125 cursor-pointer"
-            />
+        <div className="w-[590px] h-[420px] flex flex-col bg-grayscale-0">
+          <div className=" h-[420px] relative flex flex-col overflow-hidden rounded-2xl items-center justify-center">
+            {news.thumbnail ? (
+              <Image
+                src={news.thumbnail}
+                alt="thumbnail"
+                fill
+                className=" object-cover transition-transform duration-700 ease-in-out hover:scale-125 cursor-pointer"
+              />
+            ) : (
+              <LogoDark />
+            )}
+
             <div className="w-full h-[168px] absolute text-center bottom-0 inset-x-0 bg-gradient-to-t from-[rgba(63,63,63,1)] to-[rgba(63,63,63,0)] ">
               <p className="b1 font-bold text-overflow-1 px-6 pt-6 text-[#FFFFFF] hover:underline cursor-pointer ">
                 {news.title_en}
@@ -112,13 +122,18 @@ export default function Card(props: CardProps) {
 
       {/* type === News4 (뉴스제목, 뉴스내용, 날짜) */}
       {type === 'News4' && news && (
-        <div className="w-[590px] h-[200px] relative flex flex-col overflow-hidden rounded-2xl ">
-          <Image
-            src={news.thumbnail}
-            alt="thumbnail"
-            fill
-            className="object-cover transition-transform duration-700 ease-in-out hover:scale-125 cursor-pointer"
-          />
+        <div className="w-[590px] h-[200px] relative flex flex-col overflow-hidden rounded-2xl bg-grayscale-0 items-center justify-center">
+          {news.thumbnail ? (
+            <Image
+              src={news.thumbnail}
+              alt="thumbnail"
+              fill
+              className="object-cover transition-transform duration-700 ease-in-out hover:scale-125 cursor-pointer"
+            />
+          ) : (
+            <LogoDark />
+          )}
+
           <div className=" h-[114px] absolute text-center bottom-0 inset-x-0 bg-gradient-to-t from-[rgba(63,63,63,1)] to-[rgba(63,63,63,0)]">
             <p className="b1 font-bold px-6 pt-6 pb-4 text-[#FFFFFF] overflow-hidden text-ellipsis whitespace-nowrap hover:underline cursor-pointer">
               {news.title_en}

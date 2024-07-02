@@ -4,8 +4,9 @@ import { News } from '@/types/news';
 
 export default async function TodayPopularNews() {
   const { newsList }: { newsList: News[] } = await (
-    await fetch('http://localhost:3000/api/news/related/news')
+    await fetch('http://localhost:3000/api/news/popular')
   ).json();
+
   return (
     <div className="flex gap-5">
       <Card type="News3" news={newsList[0]} />

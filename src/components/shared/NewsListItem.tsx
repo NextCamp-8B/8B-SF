@@ -56,7 +56,7 @@ export default function NewsListItem({
       {type === 'medium' && (
         <Link
           href={`/news/${news_id}`}
-          className="pb-8 pt-8 border-b border-b-grayscale-400 last:border-none last:pb-0 first:pt-0 "
+          className="pb-8 pt-8 border-b border-b-grayscale-400 last-of-type:border-none last-of-type:pb-0 first:pt-0 "
         >
           <article className="flex gap-5 hover:underline cursor-pointer group">
             <div
@@ -96,7 +96,7 @@ export default function NewsListItem({
       {type === 'large' && (
         <Link
           href={`/news/${news_id}`}
-          className="pb-8 pt-8 border-b border-b-grayscale-400 last:border-none last:pb-0 first:pt-0"
+          className="pb-8 pt-8 border-b border-b-grayscale-400 last-of-type:border-none last-of-type:pb-0 first:pt-0"
         >
           <article className="flex gap-5 hover:underline cursor-pointer group">
             <div
@@ -163,14 +163,18 @@ export default function NewsListItem({
       )}
       {type === 'related' && (
         <Link href={`/news/${news_id}`}>
-          <article className="py-[10px] border-b border-b-grayscale-400 cursor-pointer last:border-none last:pb-0">
+          <article className="py-[10px] border-b border-b-grayscale-400 cursor-pointer last-of-type:border-none last-of-type:pb-0">
             <div className="text-overflow-1 b4 font-medium text-grayscale-900  hover:underline">
               {title_en}
             </div>
             <div className="flex b5 font-medium text-grayscale-600 gap-2 pt-[8px]">
-              <span>{diffCreatedTime(published_at)}</span>
+              <span className="text-nowrap">
+                {diffCreatedTime(published_at)}
+              </span>
               <span>∙</span>
-              <span>{publisher}</span>
+              <span className="flex-1 text-overflow-1">
+                {publisher}
+              </span>
             </div>
           </article>
         </Link>

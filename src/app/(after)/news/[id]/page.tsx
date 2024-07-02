@@ -1,10 +1,9 @@
 import React from 'react';
 
 import Wrapper from '@/components/shared/Wrapper';
-import RelatedNews from '@/components/news/RelatedNews';
 import NewsDetail from '@/components/news/NewsDetail';
 import RelatedStock from '@/components/news/RelatedStock';
-import { TMP_NEWS } from '@/constants';
+import RelatedNewsToNews from '@/components/news/RelatedNewsToNews';
 
 const tmpStock = {
   name: '애플',
@@ -22,9 +21,16 @@ type NewsDetailPageProps = {
   };
 };
 
-export default function NewsDetailPage({
+export default async function NewsDetailPage({
   params,
 }: NewsDetailPageProps) {
+  const data = await (
+    await fetch(`http://localhost:3000/api/news/${params.id}`, {
+      method: 'PATCH',
+    })
+  ).json();
+  console.log(data);
+
   return (
     <>
       <main className="flex justify-center gap-5 max-w-[1200px]">
@@ -45,7 +51,7 @@ export default function NewsDetailPage({
             <span className="b3 font-bold pb-[10px] text-primary-900 inline-block">
               관련 기사
             </span>
-            <RelatedNews related="news" id={params.id} />
+            <RelatedNewsToNews id={params.id} />
           </Wrapper>
         </div>
       </main>
