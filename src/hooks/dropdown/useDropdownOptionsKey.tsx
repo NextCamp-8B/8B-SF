@@ -27,11 +27,15 @@ export function useDropdownOptionsKey({
     e: React.KeyboardEvent<HTMLUListElement>,
     datasetValue: string,
   ) {
+    const isMessage = options[0]?.value === '';
+    const startIndex = isMessage ? 1 : 0;
     const len = options.length;
 
     switch (e.key) {
       case 'ArrowUp':
-        setFocusedIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+        setFocusedIndex((prevIndex) =>
+          Math.max(prevIndex - 1, startIndex),
+        );
         break;
       case 'ArrowDown':
         setFocusedIndex((prevIndex) =>
