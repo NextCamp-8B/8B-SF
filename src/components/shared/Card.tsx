@@ -40,7 +40,7 @@ export default function Card(props: CardProps) {
               </span>
             </div>
             <div>
-              <StockIcon size="small" path="logo_path" />
+              <StockIcon size="small" path={stock?.logo_path} />
             </div>
           </div>
         </div>
