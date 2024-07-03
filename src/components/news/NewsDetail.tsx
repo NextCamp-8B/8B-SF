@@ -58,15 +58,19 @@ export default async function NewsDetail({ id }: NewsDetailProps) {
         </div>
         <div className="b4">{summary_en}</div>
       </div>
-      <div className="relative rounded-lg overflow-hidden">
-        <Image
-          src={thumbnail}
-          width="800"
-          height="370"
-          alt="thumbnail"
-        />
-      </div>
+      {thumbnail && (
+        <div className="relative rounded-lg overflow-hidden">
+          <Image
+            src={thumbnail}
+            width="800"
+            height="370"
+            alt="thumbnail"
+          />
+        </div>
+      )}
+
       <div className="b4 ">
+        <h4 className="h4 font-bold pb-4">Article</h4>
         {content_en.split('\n').map((c, i) => (
           <p className="pb-4 last-of-type:pb-14" key={i}>
             {c}

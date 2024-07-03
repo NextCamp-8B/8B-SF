@@ -1,9 +1,9 @@
-import Image from 'next/image';
 import React from 'react';
+import SmallLogoDark from '@/assets/logos/small_logo_dark.svg';
 
 interface StockIconProps {
   size?: 'medium' | 'small';
-  path: string;
+  path?: string;
 }
 
 export default function StockIcon({
@@ -16,7 +16,11 @@ export default function StockIcon({
         size === 'medium' && 'w-12 h-12'
       } ${size === 'small' && 'w-12 h-12'}`}
     >
-      <img className=" text-grayscale-0" src={path} />
+      {path ? (
+        <img className=" text-grayscale-0 w-8" src={path} />
+      ) : (
+        <SmallLogoDark className="w-8" />
+      )}
     </div>
   );
 }

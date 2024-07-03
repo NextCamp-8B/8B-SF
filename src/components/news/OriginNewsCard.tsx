@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import LogoDark from '@/assets/logos/logo_dark.svg';
 
 type OriginNewsCardProps = {
   origin_url: string;
@@ -21,8 +22,14 @@ export default function OriginNewsCard({
       className="hover:underline flex shadow-lg rounded-lg"
       target="_blank"
     >
-      <div className="relative rounded-l-lg overflow-hidden w-40 h-24">
-        <Image src={thumbnail} fill alt="thumbnail" />
+      <div className="relative rounded-l-lg overflow-hidden w-40 h-24 flex items-center justify-center">
+        {thumbnail ? (
+          <Image src={thumbnail} fill alt="thumbnail" />
+        ) : (
+          <div className="scale-75">
+            <LogoDark />
+          </div>
+        )}
       </div>
       <div className="flex-1 px-6">
         <h3 className="font-bold b4 text-overflow-1">{title}</h3>

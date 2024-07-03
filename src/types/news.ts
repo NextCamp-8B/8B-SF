@@ -20,4 +20,5 @@ export type News = {
   content_zh: string;
   summary_zh: string;
   view: number;
+  logo_path?: string;
 };
