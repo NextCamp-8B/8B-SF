@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Agreement from '@/components/signup/Agreement';
 import Auth from '@/components/signup/Auth';
 import SignupForm from '@/components/signup/SignupForm';

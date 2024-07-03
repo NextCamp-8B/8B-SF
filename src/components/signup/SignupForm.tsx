@@ -8,6 +8,7 @@ import { CheckForDuplicate } from '../shared/input/InputDuplicateCheck';
 
 import { conceptMap } from '@/components/shared/input/inputConfig';
 import { PageStep } from '@/app/(before)/signup/page';
+import { register } from '@/lib/action';
 
 type SignupFormProps = {
   handleSubmit: (nextPage: PageStep) => void;
@@ -23,6 +24,7 @@ export default function SignupForm({
 
   const handleDuplicate = (): CheckForDuplicate => {
     // api 요청..
+
     setDuplicatedCheck(true);
     return 'possible';
   };
@@ -66,11 +68,22 @@ export default function SignupForm({
     validateForm();
   };
 
-  const onHandleSubmit = () => {
+  const onHandleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsSubmit(true);
-    if (isFormValid) {
-      setIsFormValid(false);
+
+    if (!isFormValid) return console.log('isFormValid unset');
+    setIsFormValid(false);
+    const formData = new FormData(e.currentTarget as HTMLFormElement);
+    const response = await fetch('/api/user', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (response.ok) {
       handleSubmit('profile');
+    } else {
+      console.error('회원가입 실패:', await response.json());
     }
   };
   return (
@@ -79,52 +92,55 @@ export default function SignupForm({
         <h3 className="h3 font-bold text-center mb-10 text-primary-900">
           회원가입
         </h3>
-        <InputSet className="flex flex-col gap-4">
-          <InputSet.DuplicateCheck
-            onChange={onChangeInputValue}
-            onClick={handleDuplicate}
-            value={value.signupId}
-            type="text"
-            concept="signupId"
-            isSubmit={isSubmit}
-          />
-          <InputSet.Validated
-            onChange={handleInputChange}
-            value={value.password}
-            type="text"
-            concept="password"
-            isSubmit={isSubmit}
-          />
-          <InputSet.Validated
-            onChange={handleInputChange}
-            value={value.passwordCheck}
-            password={value.password}
-            type="text"
-            concept="passwordCheck"
-            isSubmit={isSubmit}
-          />
-          <InputSet.Validated
-            onChange={handleInputChange}
-            value={value.signupPhone}
-            type="text"
-            concept="signupPhone"
-            isSubmit={isSubmit}
-          />
-          <InputSet.Validated
-            onChange={handleInputChange}
-            value={value.birth}
-            type="text"
-            concept="birth"
-            isSubmit={isSubmit}
-          />
-          <TextButton
-            // disabled={!isFormValid}
-            onClick={onHandleSubmit}
-            className="w-full mx-auto mt-8"
-          >
-            다음
-          </TextButton>
-        </InputSet>
+        <form onSubmit={onHandleSubmit}>
+          <InputSet className="flex flex-col gap-4">
+            <InputSet.DuplicateCheck
+              onChange={onChangeInputValue}
+              onClick={handleDuplicate}
+              value={value.signupId}
+              type="text"
+              concept="signupId"
+              isSubmit={isSubmit}
+            />
+            <InputSet.Validated
+              onChange={handleInputChange}
+              value={value.password}
+              type="text"
+              concept="password"
+              isSubmit={isSubmit}
+            />
+            <InputSet.Validated
+              onChange={handleInputChange}
+              value={value.passwordCheck}
+              password={value.password}
+              type="text"
+              concept="passwordCheck"
+              isSubmit={isSubmit}
+            />
+            <InputSet.Validated
+              onChange={handleInputChange}
+              value={value.signupPhone}
+              type="text"
+              concept="signupPhone"
+              isSubmit={isSubmit}
+            />
+            <InputSet.Validated
+              onChange={handleInputChange}
+              value={value.birth}
+              type="text"
+              concept="birth"
+              isSubmit={isSubmit}
+            />
+
+            <TextButton
+              // disabled={!isFormValid}
+              // onClick={onHandleSubmit}
+              className="w-full mx-auto mt-8"
+            >
+              다음
+            </TextButton>
+          </InputSet>
+        </form>
       </div>
     </Wrapper>
   );

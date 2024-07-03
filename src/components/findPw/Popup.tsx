@@ -46,7 +46,7 @@ export default function Popup() {
           <h3 className="b2 font-bold text-primary-900">
             임시비밀번호가 발급되었습니다.
           </h3>
-          <p className="text-center font-normal b4">
+          <p className="text-center font-medium b4">
             이메일을 확인하여 임시 비밀번호로 <br />
             재로그인 후 비밀번호를 변경해주세요.
             {timeLeft < 6 && (

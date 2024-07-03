@@ -126,6 +126,7 @@ export default function InputDuplicateCheck({
         />
         {/* 임시 버튼, 팀원이 개발중 warning-100*/}
         <button
+          type="button"
           className={`w-[120px] h-[36px] border rounded-lg bg-${
             status === 'warning' ? 'warning-100' : 'primary-900'
           } text-grayscale-0 absolute right-4 top-2.5 
