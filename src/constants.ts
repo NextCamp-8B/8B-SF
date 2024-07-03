@@ -178,7 +178,7 @@ Disclaimer: The news article above is a summary of a Bloomberg news report and i
     origin_url:
       'https://finance.yahoo.com/news/claure-bets-ai-startup-k-113000244.html',
     title_en:
-      'Claure Bets on AI Startup K Health at $900 Million Valuation',
+      'amazon Claure Bets on AI Startup K Health at $900 Million Valuation',
     content_en: `(Bloomberg) -- K Health, an artificial intelligence company that provides a chatbot to patients before they speak with primary care-focused physicians, raised $50 million in an equity funding round led by Marcelo Claure’s Claure Group, Chief Executive Officer Allon Bloch said in an interview.
 Most Read from Bloomberg
 BlackRock Buys Preqin for $3.2 Billion in Private Data Push
@@ -221,7 +221,7 @@ Disclaimer: The news article above is a summary of a Bloomberg news report and i
       'https://finance.yahoo.com/news/claure-bets-ai-startup-k-113000244.html',
     title_en:
       'Claure Bets on AI Startup K Health at $900 Million Valuation',
-    content_en: `(Bloomberg) -- K Health, an artificial intelligence company that provides a chatbot to patients before they speak with primary care-focused physicians, raised $50 million in an equity funding round led by Marcelo Claure’s Claure Group, Chief Executive Officer Allon Bloch said in an interview.
+    content_en: `apple (Bloomberg) -- K Health, an artificial intelligence company that provides a chatbot to patients before they speak with primary care-focused physicians, raised $50 million in an equity funding round led by Marcelo Claure’s Claure Group, Chief Executive Officer Allon Bloch said in an interview.
 Most Read from Bloomberg
 BlackRock Buys Preqin for $3.2 Billion in Private Data Push
 Justice Department to Charge Boeing, Seeks Guilty Plea from Planemaker
@@ -254,6 +254,33 @@ Disclaimer: The news article above is a summary of a Bloomberg news report and i
   },
   {
     news_id: 48,
+    published_at: '2024-07-03T11:30:00',
+    publisher: 'Robert Gil',
+
+    thumbnail:
+      'https://s.yimg.com/ny/api/res/1.2/89O0W8LK1mBPZw6D49MPOg--/YXBwaWQ9aGlnaGxhbmRlcjt3PTk2MDtoPTY0MA--/https://media.zenfs.com/en/bloomberg_technology_68/cff64729cbc9c7a30cc5a72f8aa7ce6c',
+    origin_url:
+      'https://finance.yahoo.com/news/claure-bets-ai-startup-k-113000244.html',
+    title_en: `손흥민, 봉준호, BTS, TESLA Let's go`,
+    content_en: `amazon, google, unity
+.`,
+    summary_en: ` apple, samsung, amazon, microsoft`,
+    title_ko: '애플, 삼성, 아마존, 마이크로소프트',
+    content_ko: '애플, 삼성, 아마존, 마이크로소프트',
+    summary_ko: '애플, 삼성, 아마존, 마이크로소프트',
+    title_fr: 'apple, samsung, amazonska, microsoftcontent',
+    content_fr: 'apple, samsung, amazonska, microsoftcontent',
+    summary_fr: 'apple, samsung, amazonska, microsoftcontent',
+    title_ja: 'apple, samsung, amazonska, microsoftcontent',
+    content_ja: 'apple, samsung, amazonska, microsoftcontent',
+    summary_ja: 'apple, samsung, amazonska, microsoftcontent',
+    title_zh: 'apple, samsung, amazonska, microsoftcontent',
+    content_zh: 'apple, samsung, amazonska, microsoftcontent',
+    summary_zh: 'apple, samsung, amazonska, microsoftcontent',
+    view: 11,
+  },
+  {
+    news_id: 48,
     published_at: '2024-07-02T11:30:00',
     publisher: 'Gillian Tan',
 
@@ -262,22 +289,22 @@ Disclaimer: The news article above is a summary of a Bloomberg news report and i
     origin_url:
       'https://finance.yahoo.com/news/claure-bets-ai-startup-k-113000244.html',
     title_en:
-      'Claure Bets on AI Startup K Health at $900 Million Valuation',
-    content_en: `OMG APPLE! SAMSUNG! AMAZONE! MICROSOFT!!
+      'apple, samsung, amazonska, microsoft Claure Bets on AI apple Startup K Health at $900 Million Valuation',
+    content_en: `OMG APPLE! SAMSUNG! amazonska! MICROSOFT!!
 .`,
-    summary_en: ` apple, samsung, amazone, microsoft`,
+    summary_en: ` apple, samsung, amazon, microsoft`,
     title_ko: '애플, 삼성, 아마존, 마이크로소프트',
     content_ko: '애플, 삼성, 아마존, 마이크로소프트',
     summary_ko: '애플, 삼성, 아마존, 마이크로소프트',
-    title_fr: 'apple, samsung, amazone, microsoftcontent',
-    content_fr: 'apple, samsung, amazone, microsoftcontent',
-    summary_fr: 'apple, samsung, amazone, microsoftcontent',
-    title_ja: 'apple, samsung, amazone, microsoftcontent',
-    content_ja: 'apple, samsung, amazone, microsoftcontent',
-    summary_ja: 'apple, samsung, amazone, microsoftcontent',
-    title_zh: 'apple, samsung, amazone, microsoftcontent',
-    content_zh: 'apple, samsung, amazone, microsoftcontent',
-    summary_zh: 'apple, samsung, amazone, microsoftcontent',
+    title_fr: 'apple, samsung, amazonska, microsoftcontent',
+    content_fr: 'apple, samsung, amazonska, microsoftcontent',
+    summary_fr: 'apple, samsung, amazonska, microsoftcontent',
+    title_ja: 'apple, samsung, amazonska, microsoftcontent',
+    content_ja: 'apple, samsung, amazonska, microsoftcontent',
+    summary_ja: 'apple, samsung, amazonska, microsoftcontent',
+    title_zh: 'apple, samsung, amazonska, microsoftcontent',
+    content_zh: 'apple, samsung, amazonska, microsoftcontent',
+    summary_zh: 'apple, samsung, amazonska, microsoftcontent',
     view: 11,
   },
 ];

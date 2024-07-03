@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import StockListItem from '../shared/StockListItem';
 import Wrapper from '../shared/Wrapper';
@@ -9,21 +11,28 @@ import SearchHeading from './SearchHeading';
 import { Stock } from '@/types/stock';
 
 export default function FindStockItem({
-  tmpStocks,
+  stockList,
   searchText,
 }: {
-  tmpStocks: Stock[];
+  stockList: Stock[];
   searchText: string;
 }) {
   const [visibleCount, setVisibleCount] = useState(6);
 
-  const filteredStocks = tmpStocks.filter(
+  // 주식 검색
+  const filteredStocks = stockList.filter(
     (stock: Stock) =>
-      stock.stock_name.includes(searchText) ||
-      stock.stock_code.includes(searchText),
+      (stock.stock_name &&
+        stock.stock_name
+          .toLowerCase()
+          .includes(searchText.toLowerCase())) ||
+      (stock.stock_code &&
+        stock.stock_code
+          .toLowerCase()
+          .includes(searchText.toLowerCase())),
   );
 
-  // 검색어 변경 시, 목록 초기화
+  // 검색어 변경 시, 목록 초기화(6개)
   useEffect(() => {
     setVisibleCount(6);
   }, [searchText]);
