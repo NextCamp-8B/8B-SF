@@ -1,5 +1,4 @@
 import create from 'zustand';
-import { persist } from 'zustand/middleware';
 
 interface User {
   name?: string;
@@ -20,21 +19,13 @@ interface UserStore {
   clearUser: () => void;
 }
 
-const useUserStore = create<UserStore>()(
-  persist(
-    (set) => ({
-      user: {},
-      setUser: (user: Partial<User>) =>
-        set((state) => ({
-          user: { ...state.user, ...user },
-        })),
-      clearUser: () => set({ user: {} }),
-    }),
-    {
-      name: 'user-storage', // 로컬 스토리지에 저장될 이름
-      getStorage: () => localStorage, // 기본값은 'localStorage'
-    },
-  ),
-);
+const useUserStore = create<UserStore>()((set) => ({
+  user: {},
+  setUser: (user: Partial<User>) =>
+    set((state) => ({
+      user: { ...state.user, ...user },
+    })),
+  clearUser: () => set({ user: {} }),
+}));
 
 export default useUserStore;

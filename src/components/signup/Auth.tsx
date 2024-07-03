@@ -8,20 +8,17 @@ import { conceptMap } from '@/components/shared/input/inputConfig';
 
 import AuthPopup from './Popup';
 import LoadingSpinner from '../shared/LoadingSpinner';
-import useUserStore from '@/store/userStore';
 
 export default function Auth() {
-  const { setUser } = useUserStore();
-
   const [isShowPopup, setIsShowPopup] = useState(false); // 팝업 조건부 렌더링
   const [isLoading, setIsLoading] = useState(false); //api 로딩 체크
-  const { value, onChangeInputValue } = useInputChange();
+  const { value, onChangeInputValue } = useInputChange(); // Input 관리
   const [isSubmit, setIsSubmit] = useState(false); // 폼 submit
-  // const [isAuthError, setIsAuthError] = useState(false); // 인증링크 전송 중 에러
   const [authError, setAuthError] = useState({
+    // 인증링크 전송 중 에러
     isError: false,
     message: null,
-  }); // 에러 상태 객체로 관리
+  });
   const [isFormValid, setIsFormValid] = useState(false); // 폼 유효성 체크
 
   const validateForm = () => {
@@ -42,6 +39,7 @@ export default function Auth() {
   };
 
   const onHandleSubmit = async () => {
+    setAuthError({ isError: false, message: null });
     setIsSubmit(true);
     setIsLoading(true);
     if (!isFormValid) {
@@ -65,12 +63,8 @@ export default function Auth() {
 
       if (response.ok) {
         const data = await response.json();
-        console.log('data', data);
+        // console.log('data', data);
         setIsLoading(false);
-        // 서버에서 보내준 데이터를 저장?
-        // 현재 프론트에서 입력한 값 저장
-        setUser({ name: value.name, email: value.email });
-
         // 입력 필드 초기화
         value.name = '';
         value.email = '';

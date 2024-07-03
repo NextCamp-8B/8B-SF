@@ -60,7 +60,9 @@ export async function POST(
       );
     }
 
-    const token = jwt.sign({ email }, secret, { expiresIn: '30m' });
+    const token = jwt.sign({ email, name }, secret, {
+      expiresIn: '30m',
+    });
 
     // logo_light 이미지 Base64 인코딩
     // const logoPath = path.resolve(
@@ -82,7 +84,6 @@ export async function POST(
        `;
 
     await transporter.sendMail({
-      // from: process.env.GMAIL_USER, // 보내는 이메일
       from: process.env.NAVAER_EMAIL, // 보내는 이메일
       to: email, // 받는 이메일 주소
       subject: `이메일 인증: ${name}님`,
@@ -116,46 +117,3 @@ export async function POST(
     );
   }
 }
-
-// supabase google smtp 사용해보기
-// export async function POST(request: NextRequest) {
-//   try {
-//     const { name, email } = await request.json();
-//     const tempPassword = Math.random().toString(36).slice(-8); // 임시 비밀번호 생성
-
-//     const { error } = await supabase.auth.signUp({
-//       email,
-//       password: tempPassword, // 임시 비밀번호 사용
-//       options: {
-//         data: {
-//           userId:'',
-//           name:'',
-//           phoneNumber:'',
-//           birth:'',
-//           profileImg:'',
-//           nickname:'',
-//           interestStock:'',
-//         },
-//         emailRedirectTo: 'http://localhost:3000/signup-complete', // 이메일 인증 후 리디렉션할 URL
-//       },
-//     });
-//     console.log('error', error);
-//     if (error) {
-//       return NextResponse.json(
-//         { error: error.message },
-//         { status: 400 },
-//       );
-//     }
-
-//     return NextResponse.json(
-//       { message: '이메일로 인증 링크를 보냈습니다.' },
-//       { status: 200 },
-//     );
-//   } catch (error) {
-//     console.error('이메일 인증 중 오류 발생:', error);
-//     return NextResponse.json(
-//       { error: '이메일 인증 중 오류가 발생했습니다.' },
-//       { status: 500 },
-//     );
-//   }
-// }

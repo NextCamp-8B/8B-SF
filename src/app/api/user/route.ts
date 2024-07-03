@@ -27,8 +27,6 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    console.log('signupId', signupId);
-
     const { data, error } = await supabase
       .from('user')
       .select('user_id')
@@ -41,7 +39,7 @@ export async function GET(request: NextRequest) {
         { status: 500 },
       );
     }
-    console.log(data, 'data');
+    // console.log(data, 'data');
 
     if (data && data.length > 0) {
       return NextResponse.json(
@@ -66,6 +64,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+    // console.log(body);
     const {
       userId,
       email,
@@ -74,11 +73,19 @@ export async function POST(request: NextRequest) {
       birth,
       nickname,
       profileImg,
-      interestStock,
       name,
+      interestStock,
     } = body;
 
-    if (!userId || !password || !nickname || !phoneNumber || !birth) {
+    if (
+      !userId ||
+      !password ||
+      !nickname ||
+      !phoneNumber ||
+      !birth ||
+      !name ||
+      !email
+    ) {
       return NextResponse.json(
         { error: '입력값이 부족합니다.' },
         { status: 400 },
@@ -92,23 +99,24 @@ export async function POST(request: NextRequest) {
         data: {
           userId,
           name,
-          phoneNumber,
           birth,
+          phoneNumber,
           profileImg,
           nickname,
           interestStock,
         },
       },
     });
-    console.log('data', data);
+    // console.log('data', data);
     if (error) {
       throw error;
     }
-    // 응답에 쿠키 삭제 설정 추가
     const response = NextResponse.json(
       { message: '회원가입 성공' },
       { status: 200 },
     );
+    // 응답에 쿠키 삭제 설정 추가
+
     response.cookies.set('auth-token', '', {
       path: '/signup',
       expires: new Date(0),

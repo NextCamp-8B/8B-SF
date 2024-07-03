@@ -7,19 +7,18 @@ import Wrapper from '@/components/shared/Wrapper';
 
 import { conceptMap } from '@/components/shared/input/inputConfig';
 import useUserStore from '@/store/userStore';
+import usePageStore from '@/store/signupStepStore';
 
-type SignupFormProps = {
-  changePage: () => void;
-};
-
-export default function SignupForm({ changePage }: SignupFormProps) {
+export default function SignupForm() {
   const [isLoading, setIsLoading] = useState(false); //중복확인 api 로딩
-  const { setUser } = useUserStore();
-  const { value, onChangeInputValue } = useInputChange();
-  const [isSubmit, setIsSubmit] = useState(false);
-  const [isFormValid, setIsFormValid] = useState(false);
-  const [duplicatedCheck, setDuplicatedCheck] = useState(false);
+  const { setUser } = useUserStore(); // 유저 store
+  const { value, onChangeInputValue } = useInputChange(); //Input 관리
+  const [isSubmit, setIsSubmit] = useState(false); // 폼 submit
+  const [isFormValid, setIsFormValid] = useState(false); // 폼 유효성 체크
+  const [duplicatedCheck, setDuplicatedCheck] = useState(false); //아이디 중복 체크
+  const { setPageStep } = usePageStore(); //페이지 이동
 
+  // 아이디 중복 검사 api
   const handleDuplicate = async () => {
     setIsLoading(true);
     const response = await fetch(
@@ -71,7 +70,6 @@ export default function SignupForm({ changePage }: SignupFormProps) {
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     onChangeInputValue(e);
-    setDuplicatedCheck(false);
   };
 
   const onHandleSubmit = async (e: React.FormEvent) => {
@@ -88,7 +86,7 @@ export default function SignupForm({ changePage }: SignupFormProps) {
       userId: value.signupId,
     });
     // profile로 이동
-    changePage();
+    setPageStep('profile');
   };
   return (
     <Wrapper padding="px-24 py-20" width="w-[590px]">

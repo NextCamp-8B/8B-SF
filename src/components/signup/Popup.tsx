@@ -1,4 +1,3 @@
-'use client';
 import Wrapper from '@/components/shared/Wrapper';
 import TextButton from '@/components/shared/buttons/TextButton';
 
@@ -6,11 +5,13 @@ type AuthPopupProps = {
   onClose: () => void;
   error: boolean;
   errorMessage?: string | null;
+  title?: string;
 };
 
 export default function AuthPopup({
   onClose,
   error,
+  title,
   errorMessage,
 }: AuthPopupProps) {
   const handleModalClick = (event: React.MouseEvent) => {
@@ -31,9 +32,11 @@ export default function AuthPopup({
           onClick={handleModalClick}
         >
           <h3 className="b2 font-bold text-primary-900">
-            {error
+            {title
+              ? title
+              : error
               ? '인증 링크 전송 실패'
-              : '인증 링크를 전송했습니다'}
+              : '인증 링크를 전송했습니다.'}
           </h3>
           <p className="text-center font-medium b4 whitespace-pre-line">
             {error
