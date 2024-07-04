@@ -19,41 +19,18 @@ export default function FindStockItem({
 }) {
   const [visibleCount, setVisibleCount] = useState(6);
 
-  // 주식 검색
-  const filteredStocks = stockList.filter(
-    (stock: Stock) =>
-      (stock.stock_name &&
-        stock.stock_name
-          .toLowerCase()
-          .includes(searchText.toLowerCase())) ||
-      (stock.stock_code &&
-        stock.stock_code
-          .toLowerCase()
-          .includes(searchText.toLowerCase())),
-  );
-
   // 검색어 변경 시, 목록 초기화(6개)
   useEffect(() => {
     setVisibleCount(6);
   }, [searchText]);
 
-  // 검색 시, 필터링 중복 방지
-  const evenIndexedStocks = filteredStocks.filter(
-    (_: any, idx: number) => idx % 2 === 0,
-  );
-  const oddIndexedStocks = filteredStocks.filter(
-    (_: any, idx: number) => idx % 2 === 1,
-  );
-
-  // 현재 표시되는 항목만 슬라이싱
-  const visibleEvenStocks = evenIndexedStocks.slice(
-    0,
-    visibleCount / 2,
-  );
-  const visibleOddStocks = oddIndexedStocks.slice(
-    0,
-    visibleCount / 2,
-  );
+  // 현재 표시되는 항목중 홀수, 짝수번째 슬라이싱
+  const visibleEvenStocks = stockList
+    .filter((_, index) => index % 2 === 0)
+    .slice(0, visibleCount / 2);
+  const visibleOddStocks = stockList
+    .filter((_, index) => index % 2 !== 0)
+    .slice(0, visibleCount / 2);
 
   const handleLoadMore = () => {
     setVisibleCount((prevCount) => prevCount + 4);
@@ -64,10 +41,10 @@ export default function FindStockItem({
       <div className="flex items-center">
         <SearchHeading> 주식 </SearchHeading>
         <span className="text-sm font-medium text-grayscale-600 underline">
-          {`(${filteredStocks.length})`}
+          {`(${stockList.length})`}
         </span>
       </div>
-      {filteredStocks.length > 0 ? (
+      {stockList.length > 0 ? (
         <Wrapper width="590px" padding="p-6">
           <div className="w-[542px] flex justify-center gap-4">
             <div className="w-[263px] flex justify-start flex-col">
@@ -92,7 +69,7 @@ export default function FindStockItem({
           <div className="pt-3">
             <MoreData
               onClick={handleLoadMore}
-              isVisible={visibleCount < filteredStocks.length}
+              isVisible={visibleCount < stockList.length}
             />
           </div>
         </Wrapper>

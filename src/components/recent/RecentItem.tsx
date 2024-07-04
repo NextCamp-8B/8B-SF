@@ -13,9 +13,8 @@ export default function RecentItem({ stocks }: { stocks: Stock[] }) {
             key={i}
           >
             {/* 상세주식페이지 구성뒤 바꿀것 */}
-            <Link href={`/stock/${i}`}>
-              <StockListItem stock={stock} />
-            </Link>
+
+            <StockListItem stock={stock} />
           </div>
         ))}
     </>

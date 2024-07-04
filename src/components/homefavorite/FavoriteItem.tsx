@@ -17,9 +17,8 @@ export default function FavoriteItem({
             key={i}
           >
             {/* 관심 종목 데이터 추가 */}
-            <Link href={`/stock/${i}`}>
-              <StockListItem stock={stock} />
-            </Link>
+
+            <StockListItem stock={stock} />
           </div>
         ))}
     </>
