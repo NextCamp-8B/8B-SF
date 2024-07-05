@@ -31,13 +31,13 @@ export async function getEmailByUserId(userId: string) {
 // 사용자 이미 소셜로 회원가입한 유저인지 체크 함수
 export async function checkSocialUser(
   email: string,
-  providerAccountId: string,
+  provider: string,
 ) {
   const { data: socialUser, error } = await supabase
     .from('user')
     .select('*')
     .eq('email', email)
-    .eq('provider_account_id', providerAccountId)
+    .eq('provider_account_id', provider)
     .single();
   if (error) {
     console.error('Error checking social user:', error);
