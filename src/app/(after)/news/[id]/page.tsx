@@ -4,16 +4,7 @@ import Wrapper from '@/components/shared/Wrapper';
 import NewsDetail from '@/components/news/NewsDetail';
 import RelatedStock from '@/components/news/RelatedStock';
 import RelatedNewsToNews from '@/components/news/RelatedNewsToNews';
-
-const tmpStock = {
-  name: '애플',
-  subname: 'AAPL',
-  value: '00.00',
-  tmp1: -0.82,
-  tmp2: 1.75,
-  id: '1',
-  path: '',
-};
+import Skeleton from '@/components/skeleton/Skeleton';
 
 type NewsDetailPageProps = {
   params: {

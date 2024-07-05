@@ -67,6 +67,19 @@ const config: Config = {
         'custom-lg':
           '0 4px 8px rgba(0, 0, 0, 0.25), 0 0 10px rgba(0, 0, 0, 0.25), 0 0 10px rgba(0, 0, 0, 0.15)',
       },
+      animation: {
+        'move-skeleton': 'move 2s linear infinite',
+      },
+      keyframes: {
+        move: {
+          '0%': {
+            transform: 'translateX(-150%)',
+          },
+          '100%': {
+            transform: 'translateX(300%)',
+          },
+        },
+      },
     },
   },
   plugins: [
