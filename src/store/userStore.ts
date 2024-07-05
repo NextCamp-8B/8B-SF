@@ -11,6 +11,7 @@ interface User {
   interestStock?: string;
   updatedAt?: string;
   userId?: string;
+  providerAccountId?: string;
 }
 
 interface UserStore {

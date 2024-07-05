@@ -15,6 +15,11 @@ import LoadingSpinner from '../shared/LoadingSpinner';
 import AuthPopup from './Popup';
 import usePageStore from '@/store/signupStepStore';
 import supabase from '@/lib/supabaseClient';
+import {
+  deleteProfileImage,
+  fetchImageAsBlob,
+  uploadProfileImage,
+} from '@/utils/supabase/supabaseHelper';
 
 type ProfileSetupProps = {
   buttonText: string;
@@ -38,8 +43,9 @@ export default function ProfileSetup({
   const [stock, setStock] = useState(''); //관심종목
 
   const [profileImage, setProfileImage] = useState<string | null>(
-    null, //프로필 이미지 / null 값은 기본이지미
+    null,
   );
+  //프로필 이미지 / null 값은 기본이미지
   const { setPageStep } = usePageStore(); //페이지 이동
 
   //에러발생 팝업
@@ -57,6 +63,30 @@ export default function ProfileSetup({
   useEffect(() => {
     validateForm();
   }, [validateForm]);
+
+  // 초기 렌더링 시 프로필 이미지 업로드
+  // useEffect(() => {
+  //   const uploadInitialProfileImage = async () => {
+  //     try {
+  //       if (user.profileImg) {
+  //         const imageBlob = await fetchImageAsBlob(user.profileImg);
+
+  //         const publicUrl = await uploadProfileImage(
+  //           fileName,
+  //           imageBlob as any,
+  //         );
+  //         // console.log('')
+  //         if (publicUrl) {
+  //           setProfileImage(publicUrl);
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error('초기 프로필 이미지 업로드 오류:', error);
+  //     }
+  //   };
+
+  //   uploadInitialProfileImage();
+  // }, [user.profileImg]);
 
   const handleStockChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -107,31 +137,21 @@ export default function ProfileSetup({
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     try {
-      const file = e.target.files?.[0];
-      // 타임스탬프를 파일 이름에 추가하여 고유한 이름 생성
-      const fileName = `${Date.now()}_${file?.name}`;
+      const file = e.target.files?.[0]; // 타임스탬프를 파일 이름에 추가하여 고유한 이름 생성
+
+      // 파일이름에 특수문자, 공백 처리
+      const fileName = `${Date.now()}_${file?.name.replace(
+        /[^A-Za-z0-9_.\-]/g,
+        '_',
+      )}`;
+
       // 이전 이미지가 있다면 삭제
       if (profileImage) {
-        const { error: deleteError } = await supabase.storage
-          .from('8b-sf')
-          .remove([`profile_img/${profileImage}`]);
-        if (deleteError) {
-          throw new Error('프로필이미지 수정 오류');
-        }
+        await deleteProfileImage(profileImage);
       }
       if (file) {
-        const { error } = await supabase.storage
-          .from('8b-sf')
-          .upload(`profile_img/${fileName}`, file);
-        if (error) {
-          console.log(error, 'error');
-          throw new Error('프로필이미지 설정 오류');
-        }
-        const { data: publicUrlData } = supabase.storage
-          .from('8b-sf')
-          .getPublicUrl(`profile_img/${fileName}`);
-
-        setProfileImage(publicUrlData.publicUrl);
+        const publicUrl = await uploadProfileImage(fileName, file);
+        setProfileImage(publicUrl);
       }
     } catch (error) {
       setIsShowPopup(true);
@@ -170,8 +190,9 @@ export default function ProfileSetup({
                     <Image
                       src={profileImage}
                       alt="Profile"
-                      width={10}
-                      height={10}
+                      layout="fill"
+                      objectFit="cover"
+                      quality={100}
                       className="w-full h-full object-cover rounded-full"
                     />
                   ) : (

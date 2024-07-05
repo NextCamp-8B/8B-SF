@@ -68,7 +68,6 @@ export default function User() {
           {isProfileSetup && (
             <ProfileSetup
               buttonText="수정하기"
-              handleSubmit={handleProfileEdit}
               isModal={true}
               onClose={handleCloseModal}
             />

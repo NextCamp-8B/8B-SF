@@ -8,6 +8,7 @@ import CheckBox from '@/components/shared/Checkbox';
 import IconButton from '@/components/shared/buttons/IconButton';
 import Link from 'next/link';
 import { conceptMap } from '@/components/shared/input/inputConfig';
+import { signIn } from 'next-auth/react';
 
 // w-[590px]  h-[668px]
 
@@ -37,7 +38,7 @@ export default function Login() {
     if (response.ok) {
       const { data } = await response.json();
       const token = data.session.access_token; // 세션 토큰 저장
-      localStorage.setItem('token', token);
+      localStorage.setItem('access-token', token);
     } else {
       console.error('프로필 설정 실패:', await response.json());
     }
@@ -56,6 +57,10 @@ export default function Login() {
   useEffect(() => {
     validateForm();
   }, [value, validateForm]);
+
+  const handleKakakoLogin = async () => {
+    await signIn('kakao');
+  };
 
   return (
     <main className="flex justify-center items-center h-screen">
@@ -135,9 +140,7 @@ export default function Login() {
 
           {/* 소셜 로그인 버튼 */}
           <div className="flex items-center justify-center mt-4 space-x-4">
-            <Link href="#">
-              <IconButton.Kakao />
-            </Link>
+            <IconButton.Kakao onClick={handleKakakoLogin} />
             <Link href="#">
               <IconButton.Naver />
             </Link>

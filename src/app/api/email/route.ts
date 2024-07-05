@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import jwt from 'jsonwebtoken';
 import supabase from '@/lib/supabaseClient';
+import { checkEmailExists } from '@/utils/supabase/supabaseHelper';
 
 const secret = process.env.JWT_SECRET as string;
 
@@ -41,16 +42,17 @@ export async function POST(
     const { name, email } = await request.json();
 
     // 이메일 중복 체크
-    const { data, error } = await supabase
-      .from('user')
-      .select('email')
-      .eq('email', email);
+    // const { data, error } = await supabase
+    //   .from('user')
+    //   .select('email')
+    //   .eq('email', email);
+    const data = await checkEmailExists(email);
 
-    if (error) {
-      throw new Error('데이터베이스 에러 발생');
-    }
+    // if (error) {
+    //   throw new Error('데이터베이스 에러 발생');
+    // }
 
-    if (data.length > 0) {
+    if (data) {
       return NextResponse.json(
         {
           message:

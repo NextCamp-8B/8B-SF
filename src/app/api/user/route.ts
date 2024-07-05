@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import supabase from '../../../lib/supabaseClient';
+import { checkUserIdExists } from '@/utils/supabase/supabaseHelper';
 
 export type User = {
   id: number;
@@ -26,22 +27,10 @@ export async function GET(request: NextRequest) {
         { status: 400 },
       );
     }
+    // 아이디 중복 체크
+    const data = await checkUserIdExists(signupId);
 
-    const { data, error } = await supabase
-      .from('user')
-      .select('user_id')
-      .eq('user_id', signupId);
-
-    if (error) {
-      console.error('Supabase error:', error);
-      return NextResponse.json(
-        { error: error.message },
-        { status: 500 },
-      );
-    }
-    // console.log(data, 'data');
-
-    if (data && data.length > 0) {
+    if (data) {
       return NextResponse.json(
         { message: 'duplicate' },
         { status: 200 },
@@ -64,7 +53,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    // console.log(body);
+    console.log(body, '-----------body----------');
     const {
       userId,
       email,
@@ -75,6 +64,7 @@ export async function POST(request: NextRequest) {
       profileImg,
       name,
       interestStock,
+      providerAccountId = '',
     } = body;
 
     if (
@@ -100,14 +90,16 @@ export async function POST(request: NextRequest) {
           userId,
           name,
           birth,
+          phone: phoneNumber,
           phoneNumber,
           profileImg,
           nickname,
           interestStock,
+          provider_account_id: providerAccountId,
         },
       },
     });
-    // console.log('data', data);
+    console.log('data', data);
     if (error) {
       throw error;
     }

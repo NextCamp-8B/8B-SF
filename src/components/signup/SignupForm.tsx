@@ -11,7 +11,7 @@ import usePageStore from '@/store/signupStepStore';
 
 export default function SignupForm() {
   const [isLoading, setIsLoading] = useState(false); //중복확인 api 로딩
-  const { setUser } = useUserStore(); // 유저 store
+  const { user, setUser } = useUserStore(); // 유저 store
   const { value, onChangeInputValue } = useInputChange(); //Input 관리
   const [isSubmit, setIsSubmit] = useState(false); // 폼 submit
   const [isFormValid, setIsFormValid] = useState(false); // 폼 유효성 체크
@@ -36,41 +36,51 @@ export default function SignupForm() {
     }
   };
   // 폼 입력시 유효성 검사
+  // 소셜 로그인시 휴대폰, 생일 유효성 검사
   const validateForm = useCallback(() => {
-    const isSignupIdValid = duplicatedCheck;
-    const isPasswordValid = conceptMap.password.doValidation(
-      value.password,
-    );
-    const isPasswordCheckValid =
-      value.password === value.passwordCheck;
     const isSignupPhoneValid = conceptMap.signupPhone.doValidation(
       value.signupPhone,
     );
     const isBirthValid = conceptMap.birth.doValidation(value.birth);
-    setIsFormValid(
-      isSignupIdValid &&
-        isPasswordValid &&
-        isPasswordCheckValid &&
-        isSignupPhoneValid &&
-        isBirthValid,
-    );
+    if (user.providerAccountId) {
+      // 소셜 로그인일 경우 생일과 전화번호만 유효성 검사
+      setIsFormValid(isSignupPhoneValid && isBirthValid);
+    } else {
+      // 일반 로그인일 경우 모든 필드 유효성 검사
+      const isSignupIdValid = duplicatedCheck;
+      const isPasswordValid = conceptMap.password.doValidation(
+        value.password,
+      );
+      const isPasswordCheckValid =
+        value.password === value.passwordCheck;
+      setIsFormValid(
+        isSignupIdValid &&
+          isPasswordValid &&
+          isPasswordCheckValid &&
+          isSignupPhoneValid &&
+          isBirthValid,
+      );
+    }
   }, [
     value.birth,
     value.password,
     value.signupPhone,
     duplicatedCheck,
     value.passwordCheck,
+    user.providerAccountId,
   ]);
 
   useEffect(() => {
+    console.log(
+      'user',
+      user.name,
+      user.profileImg,
+      user.email,
+      user.userId,
+      user.providerAccountId,
+    );
     validateForm();
   }, [value, validateForm, duplicatedCheck]);
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    onChangeInputValue(e);
-  };
 
   const onHandleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,12 +89,23 @@ export default function SignupForm() {
     if (!isFormValid) return console.log('isFormValid unset');
     setIsFormValid(false);
     // profile에서 데이터를 한번에 보내기 위해 저장
-    setUser({
-      password: value.password,
-      phoneNumber: value.signupPhone,
-      birth: value.birth,
-      userId: value.signupId,
-    });
+    if (user.providerAccountId) {
+      // 소셜 회원가입 폼
+      setUser({
+        phoneNumber: value.signupPhone,
+        birth: value.birth,
+      });
+    } else {
+      // 일반 회원가입 폼
+      setUser({
+        password: value.password,
+        phoneNumber: value.signupPhone,
+        birth: value.birth,
+        userId: value.signupId,
+        providerAccountId: '',
+      });
+    }
+
     // profile로 이동
     setPageStep('profile');
   };
@@ -96,39 +117,43 @@ export default function SignupForm() {
         </h3>
         <form onSubmit={onHandleSubmit}>
           <InputSet className="flex flex-col gap-4">
-            <InputSet.DuplicateCheck
+            {!user.providerAccountId && (
+              <>
+                <InputSet.DuplicateCheck
+                  onChange={onChangeInputValue}
+                  onClick={handleDuplicate}
+                  value={value.signupId}
+                  type="text"
+                  concept="signupId"
+                  isLoading={isLoading}
+                  isSubmit={isSubmit}
+                />
+                <InputSet.Validated
+                  onChange={onChangeInputValue}
+                  value={value.password}
+                  type="password"
+                  concept="password"
+                  isSubmit={isSubmit}
+                />
+                <InputSet.Validated
+                  onChange={onChangeInputValue}
+                  value={value.passwordCheck}
+                  password={value.password}
+                  type="password"
+                  concept="passwordCheck"
+                  isSubmit={isSubmit}
+                />
+              </>
+            )}
+            <InputSet.Validated
               onChange={onChangeInputValue}
-              onClick={handleDuplicate}
-              value={value.signupId}
-              type="text"
-              concept="signupId"
-              isLoading={isLoading}
-              isSubmit={isSubmit}
-            />
-            <InputSet.Validated
-              onChange={handleInputChange}
-              value={value.password}
-              type="text"
-              concept="password"
-              isSubmit={isSubmit}
-            />
-            <InputSet.Validated
-              onChange={handleInputChange}
-              value={value.passwordCheck}
-              password={value.password}
-              type="text"
-              concept="passwordCheck"
-              isSubmit={isSubmit}
-            />
-            <InputSet.Validated
-              onChange={handleInputChange}
               value={value.signupPhone}
               type="text"
               concept="signupPhone"
               isSubmit={isSubmit}
             />
             <InputSet.Validated
-              onChange={handleInputChange}
+              onChange={onChangeInputValue}
               value={value.birth}
               type="text"
               concept="birth"
