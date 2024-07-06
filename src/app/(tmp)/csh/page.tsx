@@ -1,12 +1,16 @@
 'use client';
-import Rechart from '@/components/shared/chart/rechart';
+
+import Chart from '@/components/shared/chart';
 
 export default function CSH() {
   return (
     <>
-      <Rechart>
-        <Rechart.Radar />
-      </Rechart>
+      <Chart>
+        <Chart.StockAIReportCard />
+      </Chart>
+      <Chart>
+        <Chart.SpecificStockAIReport />
+      </Chart>
     </>
   );
 }
