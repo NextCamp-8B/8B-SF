@@ -6,7 +6,7 @@ import React from 'react';
 type WrapperProps = {
   children: React.ReactNode;
   padding?: string;
-  width: string;
+  width?: string;
 };
 
 export default function Wrapper({
