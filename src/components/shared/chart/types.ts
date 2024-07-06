@@ -21,3 +21,20 @@ export type PolarGridPath = {
   className: string;
   d: string;
 };
+
+export type RadarStatus = {
+  width?: number;
+  height?: number;
+  cx?: number;
+  cy?: number;
+  outerRadius?: number;
+  polarRadius?: Array<number>;
+  numberOfSides?: number;
+};
+
+export type RadarData = Array<{
+  subject: string;
+  A: number;
+  B: number;
+  fullMark: number;
+}>;
