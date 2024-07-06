@@ -4,7 +4,7 @@ import React from 'react';
 import { diffCreatedTime } from '@/utils/date';
 import { News } from '@/types/news';
 import LogoDark from '@/assets/logos/logo_dark.svg';
-export type NewsListItem = {
+export type NewsListItemProps = {
   type?: 'related' | 'medium' | 'large' | 'find' | 'important';
   news: News;
 };
@@ -12,7 +12,7 @@ export type NewsListItem = {
 export default function NewsListItem({
   type = 'medium',
   news,
-}: NewsListItem) {
+}: NewsListItemProps) {
   const {
     thumbnail,
     title_en,

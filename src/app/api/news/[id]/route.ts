@@ -4,6 +4,7 @@ export async function GET(
   req: Request,
   { params }: { params: { id: string } },
 ) {
+  await new Promise((resolve) => setTimeout(resolve, 3000));
   const id = params.id;
   const supabase = createClient();
   const { data: news, error } = await supabase

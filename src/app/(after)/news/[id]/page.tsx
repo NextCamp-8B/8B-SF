@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 
 import Wrapper from '@/components/shared/Wrapper';
 import NewsDetail from '@/components/news/NewsDetail';
 import RelatedStock from '@/components/news/RelatedStock';
 import RelatedNewsToNews from '@/components/news/RelatedNewsToNews';
-import Skeleton from '@/components/skeleton/Skeleton';
+import SkeletonNewsDetail from '@/components/skeleton/news/SkeletonNewsDetail';
+import SkeletonRelatedNewsToNews from '@/components/skeleton/news/SkeletonRelatedNewsToNews';
 
 type NewsDetailPageProps = {
   params: {
@@ -26,7 +27,9 @@ export default async function NewsDetailPage({
     <>
       <main className="flex justify-center gap-5 max-w-[1200px]">
         <Wrapper padding="p-8" width="flex-1 flex flex-col gap-8">
-          <NewsDetail id={params.id} />
+          <Suspense fallback={<SkeletonNewsDetail />}>
+            <NewsDetail id={params.id} />
+          </Suspense>
         </Wrapper>
         {/* 오른쪽 */}
         <div className="flex flex-col gap-5">
@@ -40,7 +43,9 @@ export default async function NewsDetailPage({
             <span className="b3 font-bold pb-[10px] text-primary-900 inline-block">
               관련 기사
             </span>
-            <RelatedNewsToNews id={params.id} />
+            <Suspense fallback={<SkeletonRelatedNewsToNews />}>
+              <RelatedNewsToNews id={params.id} />
+            </Suspense>
           </Wrapper>
         </div>
       </main>
