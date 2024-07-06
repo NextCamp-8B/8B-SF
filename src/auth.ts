@@ -1,5 +1,5 @@
 import KakaoProvider from 'next-auth/providers/kakao';
-import { SupabaseAdapter } from '@next-auth/supabase-adapter';
+import Google from 'next-auth/providers/google'
 import jwt from 'jsonwebtoken';
 import supabase from '@/lib/supabaseClient';
 import NextAuth, { Account, CredentialsSignin, User } from 'next-auth';
@@ -64,6 +64,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientId: process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID!,
       clientSecret: process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET!,
     }),
+    Google({
+      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET!
+    })
   ],
   secret: process.env.NEXTAUTH_SECRET!,
   pages: {
@@ -72,13 +76,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   callbacks: {
     async signIn({ user, account } : any): Promise<any> {
-      // console.log(
-      //   '-----------user--------',
-      //   user,
-      //   '------------------account--------------------------------',
-      //   account,
-      // );
-      if (account?.provider === 'kakao') {
+      console.log(
+        '-----------user--------',
+        user,
+        '------------------account--------------------------------',
+        account,
+      );
+    
+      if (account?.provider === 'google' || account?.provider === 'kakao') {  
         const { provider, providerAccountId } = account;
         const { email, name, id, image } = user;
         // user 값 undefinded 일시 처리
@@ -112,14 +117,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           provider,
         );
 
-        // 이미 회원가입한 카카오 유저
+        if (!socialUser) {
+          // 이메일은 존재하지만 다른 제공자로 가입한 경우
+          throw new Error('이미 해당 이메일로 다른 제공자를 통해 회원가입이 되어 있습니다.');
+        }
+        
+        // 이미 회원가입한 소셜 유저
         if (socialUser) {
           // Supabase 로그인 처리 (세션 생성)
-          console.log(
-            '---------소셜 로그인---------',
-            emailAddress,
-            providerAccountId,
-          );
           const { data: socialLogin, error: loginError } =
             await supabase.auth.signInWithPassword({
               email: emailAddress,
@@ -131,23 +136,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           );
           if (loginError) {
             console.error('Supabase 로그인 오류:', loginError);
-            throw new Error('카카오 로그인에 실패했습니다.');
+            throw new Error('소셜 로그인에 실패했습니다.');
           }
-          // user.id = socialLogin.user.id;
-          // user.email = socialLogin.user.email;
-          // user.name = socialLogin.user.user_metadata.name;
-          // user.accessToken = socialLogin.session.access_token;
-          // return true;
+          user.id = socialLogin.user.id;
+          user.email = socialLogin.user.email;
+          user.name = socialLogin.user.user_metadata.name;
+          user.accessToken = socialLogin.session.access_token;
+          return true;
         }
         return true;
       }
       return true;
     },
-    async jwt({ token, account, profile,user }: any) {
+    async jwt({ token, user }: any) {
       console.log('--------------token-------------');
       console.log('----------jwt token-------------', token);
-      // console.log('----------jwt account-------------', account);
-      // console.log('---------jwt profile---------- ', profile);
       console.log('---------jwt user---------- ', user);
       if (user) {
         token.role = user.role;
