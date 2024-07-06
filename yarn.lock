@@ -5493,10 +5493,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"oauth4webapi@npm:^2.9.0":
-  version: 2.11.1
-  resolution: "oauth4webapi@npm:2.11.1"
-  checksum: 10c0/69446298b68ac18179a4e8c818e2ad5610e39271405b8af7df1288e8180d6b9ca4051bd7563d9be1e94aa558453290051fdc7a441ed91a3ac238028908660a79
+"oauth4webapi@npm:@jacobkim/oauth4webapi@^2.10.4":
+  version: 2.10.4
+  resolution: "@jacobkim/oauth4webapi@npm:2.10.4"
+  checksum: 10c0/453f4c44b833f782eb1752e41be004faf2f360e84e84da6ed581106e3eeb478a8cf9c25bec9b94d94f860feb6ba81ff5e5482db1d6af45c39862ac257a1a3be6
   languageName: node
   linkType: hard
 

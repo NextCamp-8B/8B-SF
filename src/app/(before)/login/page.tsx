@@ -49,7 +49,7 @@ export default function Login() {
           msg: '아이디 또는 비밀번호를 다시 확인해주세요.',
         });
       } else {
-        console.log('로그인 성공:', result);
+        // console.log('로그인 성공:', result);
         router.push('/home'); // 홈 페이지로 이동   
       }
     } catch(error) {
@@ -79,13 +79,16 @@ export default function Login() {
   const handleKakakoLogin = async () => {
     setIsLoading(true);
     try {
-      await signIn('kakao', { callbackUrl: '/home' });
+      const result = await signIn('kakao', { callbackUrl: '/home' });
+      if(result?.error) {
+        setIsShowPopup(true);
+        setErrorMsg({
+          title: '카카오 로그인 실패',
+          msg: result.error || '카카오 로그인 오류, 카카오 계정을 다시 확인하거나, 고객센터에 문의해주세요.',
+        });
+      }
     } catch (error : any) {
-      setIsShowPopup(true);
-      setErrorMsg({
-        title: '구글 로그인 실패',
-        msg: error.message || '구글 로그인 오류, 구글 계정을 다시 확인하거나, 고객센터에 문의해주세요.',
-      });
+      console.log(error, '카카오 로그인 요청 중 에러 발생:', error);
     } finally{
       setIsLoading(false);
     }
@@ -95,15 +98,39 @@ export default function Login() {
   const handleGoogleLogin = async () => {
     setIsLoading(true);
     try {
-      await signIn('google', { callbackUrl: '/home' });
+      const result = await signIn('google', { callbackUrl: '/home' });
+
+      if (result?.error) {
+        setIsShowPopup(true);
+        setErrorMsg({
+          title: '구글 로그인 실패',
+          msg: result?.error || '구글 로그인 오류, 구글 계정을 다시 확인하거나, 고객센터에 문의해주세요.',
+        });
+      }
     } catch (error : any) {
-      setIsShowPopup(true);
-      setErrorMsg({
-        title: '구글 로그인 실패',
-        msg: error?.message || '구글 로그인 오류, 구글 계정을 다시 확인하거나, 고객센터에 문의해주세요.',
-      });
+      console.log(error, '구글 로그인 요청 중 에러 발생:', error);
     }
     finally{
+      setIsLoading(false);
+    }
+  };
+
+  // 소셜 구글 로그인
+  const handleNaverLogin = async () => {
+    setIsLoading(true);
+    try {
+      const result = await signIn('naver', { callbackUrl: '/home'});
+  
+      if (result?.error) {
+        setIsShowPopup(true);
+        setErrorMsg({
+          title: '네이버 로그인 실패',
+          msg: result.error || '네이버 오류, 네이버 계정을 다시 확인하거나, 고객센터에 문의해주세요.',
+        });
+      }
+    } catch (error) {
+      console.error('네이버 로그인 요청 중 에러 발생:', error);
+    } finally {
       setIsLoading(false);
     }
   };
@@ -208,12 +235,10 @@ export default function Login() {
               {/* 소셜 로그인 버튼 */}
               <div className="flex items-center justify-center mt-4 space-x-4">
                 <IconButton.Kakao onClick={handleKakakoLogin} />
-                <Link href="#">
-                  <IconButton.Naver />
-                </Link>
-                  <IconButton.Google onClick={handleGoogleLogin} />
+                <IconButton.Naver onClick={handleNaverLogin}/>
+                <IconButton.Google onClick={handleGoogleLogin} />
               </div>
-            </>
+            </> 
             )}
           </div>
         </Wrapper>

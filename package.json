@@ -43,5 +43,8 @@
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   },
+  "resolutions": {
+    "oauth4webapi": "npm:@jacobkim/oauth4webapi@^2.10.4"
+  },
   "packageManager": "yarn@4.3.0"
 }

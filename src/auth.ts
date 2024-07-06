@@ -1,5 +1,6 @@
 import KakaoProvider from 'next-auth/providers/kakao';
-import Google from 'next-auth/providers/google'
+import GoogleProvider from 'next-auth/providers/google';
+import NaverProvider from 'next-auth/providers/naver';
 import jwt from 'jsonwebtoken';
 import supabase from '@/lib/supabaseClient';
 import NextAuth, { Account, CredentialsSignin, User } from 'next-auth';
@@ -64,9 +65,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientId: process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID!,
       clientSecret: process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET!,
     }),
-    Google({
+    GoogleProvider({
       clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
       clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET!
+    }),
+    NaverProvider({
+      clientId: process.env.NEXT_PUBLIC_NAVER_CLIENT_ID!,
+      clientSecret: process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET!,
     })
   ],
   secret: process.env.NEXTAUTH_SECRET!,
@@ -83,7 +88,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         account,
       );
     
-      if (account?.provider === 'google' || account?.provider === 'kakao') {  
+      if (account?.provider === 'naver' || account?.provider === 'google' || account?.provider === 'kakao') {  
         const { provider, providerAccountId } = account;
         const { email, name, id, image } = user;
         // user 값 undefinded 일시 처리
@@ -190,3 +195,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }  
   },
 });
+
+
+export const { GET, POST } = handlers;
