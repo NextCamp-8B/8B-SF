@@ -57,7 +57,7 @@ export default function StockAIReportCore({
   radarStatus,
   data,
 }: {
-  children: React.ReactElement;
+  children?: React.ReactElement;
   radarStatus: RadarStatus;
   data: RadarData;
 }) {
