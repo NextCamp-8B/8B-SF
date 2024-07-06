@@ -71,14 +71,6 @@ export default function SignupForm() {
   ]);
 
   useEffect(() => {
-    console.log(
-      'user',
-      user.name,
-      user.profileImg,
-      user.email,
-      user.userId,
-      user.providerAccountId,
-    );
     validateForm();
   }, [value, validateForm, duplicatedCheck]);
 

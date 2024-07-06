@@ -16,7 +16,7 @@ export async function getUserByEmail(email: string) {
 
 // userId로 이메일 조회 함수
 export async function getEmailByUserId(userId: string) {
-  const { data: userData, error: userError } = await supabase
+  const { data: userData, error: userError } : any = await supabase
     .from('user')
     .select('email')
     .eq('user_id', userId)

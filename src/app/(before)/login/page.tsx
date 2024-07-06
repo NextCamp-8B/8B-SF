@@ -9,40 +9,44 @@ import IconButton from '@/components/shared/buttons/IconButton';
 import Link from 'next/link';
 import { conceptMap } from '@/components/shared/input/inputConfig';
 import { signIn } from 'next-auth/react';
+import AuthPopup from '@/components/signup/Popup';
 
 // w-[590px]  h-[668px]
 
 export default function Login() {
+  const [isShowPopup, setIsShowPopup] = useState(false); // 팝업 조건부 렌더링
+  const [errorMsg, setErrorMsg] = useState({
+    // 로그인 에러 메세지
+    title: '',
+    msg: '',
+  });
   const { value, onChangeInputValue } = useInputChange();
   const [isSubmit, setIsSubmit] = useState(false);
-  const [isAutoLogin, setIsAutoLogin] = useState(false);
+  const [isAutoLogin, setIsAutoLogin] = useState(false); //자동로그인 여부
   const [isFormValid, setIsFormValid] = useState(false); //유효성 검사폼
 
   const onHandleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmit(true);
     if (!isFormValid) return console.log('isFormValid unset');
-    const loginInfo = {
-      userId: value.loginId,
+    const result = await signIn('credentials', {
+      email: value.loginId, // 여기서 loginId는 userId를 의미
       password: value.password,
-    };
-    const response = await fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(loginInfo),
+      redirect: false,
     });
-    console.log(response, 'response');
 
-    if (response.ok) {
-      const { data } = await response.json();
-      const token = data.session.access_token; // 세션 토큰 저장
-      localStorage.setItem('access-token', token);
+    if (result?.error) {
+      console.error('로그인 실패:', result.error);
+      setIsShowPopup(true);
+      setErrorMsg({
+        title: '로그인 실패',
+        msg: '아이디 또는 비밀번호를 다시 확인해주세요.',
+      });
     } else {
-      console.error('프로필 설정 실패:', await response.json());
+      console.log('로그인 성공:', result);
     }
   };
+
   const validateForm = useCallback(() => {
     const isPasswordValid = conceptMap.password.doValidation(
       value.password,
@@ -59,97 +63,119 @@ export default function Login() {
   }, [value, validateForm]);
 
   const handleKakakoLogin = async () => {
-    await signIn('kakao');
+    try {
+      await signIn('kakao', { callbackUrl: '/home' });
+    } catch (error) {
+      setIsShowPopup(true);
+      setErrorMsg({
+        title: '카카오 로그인 실패',
+        msg: '카카오 로그인 오류, 카카오 계정을 다시 확인하거나, 고객센터에 문의해주세요.',
+      });
+    }
+  };
+  // 에러 팝업 닫기
+  const handleClosePopuup = () => {
+    setIsShowPopup(false);
   };
 
   return (
-    <main className="flex justify-center items-center h-screen">
-      <Wrapper padding="px-24 py-20" width="w-[590px]">
-        <div className="flex flex-col w-96 h-full">
-          <h3 className="h3 font-bold text-center mb-10 text-primary-900">
-            로그인
-          </h3>
+    <>
+      {isShowPopup && (
+        <AuthPopup
+          onClose={handleClosePopuup}
+          error={true}
+          title={errorMsg.title}
+          errorMessage={errorMsg.msg}
+        />
+      )}
+      <main className="flex justify-center items-center h-screen">
+        <Wrapper padding="px-24 py-20" width="w-[590px]">
+          <div className="flex flex-col w-96 h-full">
+            <h3 className="h3 font-bold text-center mb-10 text-primary-900">
+              로그인
+            </h3>
 
-          {/* 로그인 입력 폼 */}
-          <form onSubmit={onHandleSubmit}>
-            <InputSet className="flex flex-col gap-4">
-              <InputSet.Validated
-                onChange={onChangeInputValue}
-                value={value.loginId}
-                type="loginId"
-                concept="loginId"
-                isSubmit={isSubmit}
-              />
-              <InputSet.Validated
-                onChange={onChangeInputValue}
-                value={value.password}
-                type="password"
-                concept="password"
-                isSubmit={isSubmit}
-              />
-              {/* submit 로그인 버튼 */}
-              <TextButton>로그인</TextButton>
-            </InputSet>
-          </form>
+            {/* 로그인 입력 폼 */}
+            <form onSubmit={onHandleSubmit}>
+              <InputSet className="flex flex-col gap-4">
+                <InputSet.Validated
+                  onChange={onChangeInputValue}
+                  value={value.loginId}
+                  type="loginId"
+                  concept="loginId"
+                  isSubmit={isSubmit}
+                />
+                <InputSet.Validated
+                  onChange={onChangeInputValue}
+                  value={value.password}
+                  type="password"
+                  concept="password"
+                  isSubmit={isSubmit}
+                />
+                {/* submit 로그인 버튼 */}
+                <TextButton>로그인</TextButton>
+              </InputSet>
+            </form>
 
-          {/* 자동로그인, 아이디, 비밀번호 찾기 라우트 */}
-          <div className="flex flex-col mt-4 gap-y-4">
-            <div className="flex px-1 justify-between font-nomal b5">
-              <CheckBox
-                label="자동 로그인"
-                checked={isAutoLogin}
-                onChange={() => setIsAutoLogin(!isAutoLogin)}
-              />
-              <div className="space-x-2">
+            {/* 자동로그인, 아이디, 비밀번호 찾기 라우트 */}
+            <div className="flex flex-col mt-4 gap-y-4">
+              <div className="flex px-1 justify-between font-nomal b5">
+                <CheckBox
+                  label="자동 로그인"
+                  checked={isAutoLogin}
+                  onChange={() => setIsAutoLogin(!isAutoLogin)}
+                />
+                <div className="space-x-2">
+                  <Link
+                    href="/find/id"
+                    className="text-sm text-blue-500 hover:underline"
+                  >
+                    아이디 찾기
+                  </Link>
+                  <span>|</span>
+                  <Link
+                    href="/find/pw"
+                    className="text-sm text-blue-500 hover:underline"
+                  >
+                    비밀번호 찾기
+                  </Link>
+                </div>
+              </div>
+
+              {/* 회원가입 라우트*/}
+              <div className="flex justify-between px-1 b5">
+                <p className="text-sm">아직 회원이 아니신가요? </p>
                 <Link
-                  href="/find/id"
-                  className="text-sm text-blue-500 hover:underline"
+                  href="/signup"
+                  className="text-secondary-600 underline"
                 >
-                  아이디 찾기
+                  아잇나우 회원가입
                 </Link>
-                <span>|</span>
-                <Link
-                  href="/find/pw"
-                  className="text-sm text-blue-500 hover:underline"
-                >
-                  비밀번호 찾기
-                </Link>
+              </div>
+
+              <div className="relative flex items-center justify-center my-2 b5">
+                <div className="absolute inset-0 flex items-center">
+                  <hr className="w-full border-t border-grayscale-400" />
+                </div>
+                <div className="relative bg-grayscale-0 px-2 text-grayscale-600">
+                  또는
+                </div>
               </div>
             </div>
 
-            {/* 회원가입 라우트*/}
-            <div className="flex justify-between px-1 b5">
-              <p className="text-sm">아직 회원이 아니신가요? </p>
-              <Link
-                href="/signup"
-                className="text-secondary-600 underline"
-              >
-                아잇나우 회원가입
+            {/* 소셜 로그인 버튼 */}
+            <div className="flex items-center justify-center mt-4 space-x-4">
+              <IconButton.Kakao onClick={handleKakakoLogin} />
+              <Link href="#">
+                <IconButton.Naver />
+              </Link>
+              <Link href="#">
+                <IconButton.Google />
               </Link>
             </div>
-
-            <div className="relative flex items-center justify-center my-2 b5">
-              <div className="absolute inset-0 flex items-center">
-                <hr className="w-full border-t border-grayscale-400" />
-              </div>
-              <div className="relative bg-grayscale-0 px-2 text-grayscale-600">
-                또는
-              </div>
-            </div>
           </div>
-
-          {/* 소셜 로그인 버튼 */}
-          <div className="flex items-center justify-center mt-4 space-x-4">
-            <IconButton.Kakao onClick={handleKakakoLogin} />
-            <Link href="#">
-              <IconButton.Naver />
-            </Link>
-            <Link href="#">
-              <IconButton.Google />
-            </Link>
-          </div>
-        </div>
-      </Wrapper>
-    </main>
+        </Wrapper>
+      </main>
+    </>
   );
 }
