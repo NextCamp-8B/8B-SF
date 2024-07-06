@@ -10,10 +10,12 @@ import Link from 'next/link';
 import { conceptMap } from '@/components/shared/input/inputConfig';
 import { signIn } from 'next-auth/react';
 import AuthPopup from '@/components/signup/Popup';
+import {useRouter} from 'next/navigation';
 
 // w-[590px]  h-[668px]
 
 export default function Login() {
+  const router = useRouter();
   const [isShowPopup, setIsShowPopup] = useState(false); // 팝업 조건부 렌더링
   const [errorMsg, setErrorMsg] = useState({
     // 로그인 에러 메세지
@@ -25,6 +27,7 @@ export default function Login() {
   const [isAutoLogin, setIsAutoLogin] = useState(false); //자동로그인 여부
   const [isFormValid, setIsFormValid] = useState(false); //유효성 검사폼
 
+  // 일반 로그인
   const onHandleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmit(true);
@@ -44,9 +47,9 @@ export default function Login() {
       });
     } else {
       console.log('로그인 성공:', result);
+      router.push('/home'); // 홈 페이지로 이동   
     }
-  };
-
+  }
   const validateForm = useCallback(() => {
     const isPasswordValid = conceptMap.password.doValidation(
       value.password,
@@ -62,6 +65,7 @@ export default function Login() {
     validateForm();
   }, [value, validateForm]);
 
+  // 소셜 카카오 로그인
   const handleKakakoLogin = async () => {
     try {
       await signIn('kakao', { callbackUrl: '/home' });
