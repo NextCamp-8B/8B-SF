@@ -13,7 +13,7 @@ export default function StockIcon({
   return (
     <div
       className={`rounded-full flex items-center justify-center overflow-hidden ${
-        size === 'medium' && 'w-12 h-12'
+        size === 'medium' && 'w-16 h-16'
       } ${size === 'small' && 'w-12 h-12'}`}
     >
       {path ? (
