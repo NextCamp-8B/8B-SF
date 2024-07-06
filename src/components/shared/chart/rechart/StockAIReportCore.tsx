@@ -1,41 +1,13 @@
 import { useId } from 'react';
-import { Radar, PolarAngleAxis, RadarChart } from 'recharts';
+import { Radar, RadarChart } from 'recharts';
 import { calculateRadii } from '@/utils/calculateRadii';
 import { generatePaths } from '@/utils/rechart/generatePaths';
-import { PolarGridParam, PolarGridPath } from '../types';
-
-const data = [
-  {
-    subject: 'Math',
-    A: 120,
-    B: 110,
-    fullMark: 150,
-  },
-  {
-    subject: 'Chinese',
-    A: 98,
-    B: 130,
-    fullMark: 150,
-  },
-  {
-    subject: 'English',
-    A: 86,
-    B: 130,
-    fullMark: 150,
-  },
-  {
-    subject: 'Geography',
-    A: 99,
-    B: 100,
-    fullMark: 150,
-  },
-  {
-    subject: 'Physics',
-    A: 85,
-    B: 90,
-    fullMark: 150,
-  },
-];
+import {
+  PolarGridParam,
+  PolarGridPath,
+  RadarData,
+  RadarStatus,
+} from '../types';
 
 /**
  * 주어진 PolarGridParam을 기반으로 극 좌표 그리드를 생성
@@ -57,37 +29,68 @@ function customPolarGrid<T extends PolarGridParam>(props: T) {
 
 /**
  * 주식 AI 리포트 차트 코어 컴포넌트
+ * 
+ * @example
+   // SpecificStockAIReport 구현 <미정>
+   <Reachart>
+    // ...
+   </Reachart>
+
+   // StockAIReportChart 구현
+   <Rechart className={''}>
+      <div className="">
+        <Rechart.Radar radarStatus={radarStatus} data={radarData}>
+          // PolarAngleAxis subject 표시 - children 사용
+          <PolarAngleAxis
+            dataKey="subject"
+            tick={(props) => <CustomTick {...props} />}
+          />
+        </Rechart.Radar>
+        <Rechart.RadarMetricsBox className="w-[176px] bg-grayscale-100 border border-grayscale-0 rounded-3xl">
+          <Rechart.RadarMetrics>주가 0.0%</Rechart.RadarMetrics>
+        </Rechart.RadarMetricsBox>
+      </div>
+    </Rechart>
  */
-export default function StockAIReportCore() {
+export default function StockAIReportCore({
+  children,
+  radarStatus,
+  data,
+}: {
+  children: React.ReactElement;
+  radarStatus: RadarStatus;
+  data: RadarData;
+}) {
+  const {
+    width,
+    height,
+    cx,
+    cy,
+    outerRadius,
+    polarRadius,
+    numberOfSides,
+  } = radarStatus;
   const chartId = useId();
+
   return (
     <RadarChart
       id={chartId}
-      cx={300}
-      cy={250}
-      outerRadius={calculateRadii(120)}
-      width={500}
-      height={500}
+      cx={cx}
+      cy={cy}
+      outerRadius={calculateRadii(outerRadius as number)}
+      width={width}
+      height={height}
       data={data}
     >
       {customPolarGrid({
-        cx: 300,
-        cy: 250,
-        polarRadius: [35.61, 54.95, 78.35, 99.72, 120], // 10.62
-        numberOfSides: 5,
+        cx: cx as number,
+        cy: cy as number,
+        polarRadius: polarRadius as Array<number>,
+        numberOfSides: numberOfSides as number,
       })}
-
-      <PolarAngleAxis
-        dataKey="subject"
-        tick={{
-          fill: '#575757',
-          fontSize: 12,
-          letterSpacing: '0%',
-          fontWeight: '500',
-        }}
-      />
+      {children}
       <Radar
-        name="Mike"
+        name="StockAIReport"
         isAnimationActive={false}
         dataKey="A"
         stroke="#00ACF2"
