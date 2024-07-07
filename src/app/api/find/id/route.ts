@@ -7,11 +7,10 @@ export async function POST(req: NextRequest) {
     const supabase = createClient();
 
     const { data, error } = await supabase
-      .from('users')
-      .select('user_id, created_at')
+      .from('user')
+      .select('user_id, created_at, provider_account_id')
       .eq('name', name)
       .eq('phone_number', phone_number);
-
     if (error) {
       console.error('Supabase 쿼리 오류:', error.message);
       return NextResponse.json(
