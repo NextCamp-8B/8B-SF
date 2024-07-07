@@ -1,5 +1,5 @@
 import React from 'react';
-import Skeleton from '../Skeleton';
+import Skeleton from '../shared/Skeleton';
 
 export default function SkeletonTodayPopularNews() {
   return (

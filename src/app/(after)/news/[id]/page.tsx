@@ -6,6 +6,7 @@ import RelatedStock from '@/components/news/RelatedStock';
 import RelatedNewsToNews from '@/components/news/RelatedNewsToNews';
 import SkeletonNewsDetail from '@/components/skeleton/news/SkeletonNewsDetail';
 import SkeletonRelatedNewsToNews from '@/components/skeleton/news/SkeletonRelatedNewsToNews';
+import SkeletonRelatedStock from '@/components/skeleton/news/SkeletonRelatedStock';
 
 type NewsDetailPageProps = {
   params: {
@@ -37,7 +38,9 @@ export default async function NewsDetailPage({
             <span className="b3 font-bold pb-[10px] text-primary-900">
               현재 뉴스와 관련된 주식
             </span>
-            <RelatedStock id={params.id} />
+            <Suspense fallback={<SkeletonRelatedStock />}>
+              <RelatedStock id={params.id} />
+            </Suspense>
           </Wrapper>
           <Wrapper padding="p-8" width="w-96">
             <span className="b3 font-bold pb-[10px] text-primary-900 inline-block">
