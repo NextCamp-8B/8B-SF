@@ -91,9 +91,9 @@ export default function SignupForm() {
       // 일반 회원가입 폼
       setUser({
         password: value.password.trim(),
-        phoneNumber: value.password.trim(),
-        birth: value.password.trim(),
-        userId: value.password.trim(),
+        phoneNumber: value.signupPhone.trim(),
+        birth: value.birth.trim(),
+        userId: value.signupId.trim(),
         providerAccountId: '',
       });
     }
