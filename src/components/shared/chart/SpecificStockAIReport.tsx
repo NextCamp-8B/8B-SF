@@ -5,12 +5,12 @@ import StockAIReportChart from './StockAIReportChart';
 import Rechart from './rechart';
 
 const radarStatus = {
-  width: 156.57,
+  width: 162.57,
   height: 176,
   cx: 78.4,
-  cy: 93,
-  outerRadius: 113,
-  polarRadius: [55, 70, 85, 100, 115],
+  cy: 96,
+  outerRadius: 112,
+  polarRadius: [54, 69, 84, 99, 114],
   numberOfSides: 5,
 };
 
@@ -49,28 +49,28 @@ const radarData = [
 const btnCommonClass =
   'b4 font-normal px-[43px] py-4 rounded-lg min-w-[160px] hover:bg-opacity-90 active:bg-opacity-95';
 
-/**
- * - StockListItem 컴포넌트 임시 사용 (소통 예정)
- */
 export default function SpecificStockAIReport() {
   const stockTmp: Stock = {
     stock_id: 'tmp',
     stock_name: '애플',
-    stock_code: 'tmp',
-    logo_path: 'tmp',
-    fluctuations_ratio: 1,
-    price: 1,
-    compare_to_previous_close_price: 1,
+    stock_code: 'AAPL',
+    logo_path:
+      'https://zlxqxgiycccjxcwzonsx.supabase.co/storage/v1/object/public/8b-sf/stock_logo/apple_logo.svg',
+    fluctuations_ratio: 0.6,
+    price: 15,
+    compare_to_previous_close_price: -20,
   };
+
   return (
     <Rechart className={'w-[328px] pb-4'}>
-      {/* <div className="w-[328px] h-[56px]">애플</div> */}
-      <StockListItem stock={stockTmp} type="default" />
-      <StockAIReportChart
-        radarData={radarData}
-        radarStatus={radarStatus}
-        specific
-      />
+      <div className="flex flex-col gap-4">
+        <StockListItem stock={stockTmp} type="related" />
+        <StockAIReportChart
+          radarData={radarData}
+          radarStatus={radarStatus}
+          specific
+        />
+      </div>
       <Rechart.RadarBtnWrapper className="w-[328px] flex gap-2 justify-center pt-4">
         <ButtonBase
           className={`${btnCommonClass} text-grayscale-600 bg-grayscale-200 hover:opacity-70 active:opacity-90`}
