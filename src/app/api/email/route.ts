@@ -3,7 +3,6 @@ import nodemailer from 'nodemailer';
 import fs from 'fs';
 import path from 'path';
 import jwt from 'jsonwebtoken';
-import supabase from '@/lib/supabaseClient';
 import { checkEmailExists } from '@/utils/supabase/supabaseHelper';
 
 const secret = process.env.JWT_SECRET as string;

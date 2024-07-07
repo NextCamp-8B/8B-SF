@@ -3,12 +3,11 @@ import GoogleProvider from 'next-auth/providers/google';
 import NaverProvider from 'next-auth/providers/naver';
 import jwt from 'jsonwebtoken';
 import supabase from '@/lib/supabaseClient';
-import NextAuth, { Account, CredentialsSignin, User } from 'next-auth';
+import NextAuth, { CredentialsSignin } from 'next-auth';
 import credentials from 'next-auth/providers/credentials';
 import {
   checkEmailExists,
   checkSocialUser,
-  getEmailByUserId,
 } from './utils/supabase/supabaseHelper';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -32,12 +31,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           .eq('user_id', email)
           .single();
        
-        // if (userError) {
-        //   console.error('Error fetching email by user ID:', userError);
-        //   throw userError;
-        // }
-          console.log('-------email 유저 찾기---------',userData, )
-
         if (userError || !userData) {
           throw new CredentialsSignin('사용자를 찾을 수 없습니다.');
         }
@@ -47,7 +40,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           email: userData?.email,
           password,
         });
-        console.log('-------login---------',loginData, )
+        
         if (loginError || !loginData) {
           throw new CredentialsSignin('로그인에 실패했습니다.');
         }
@@ -154,9 +147,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true;
     },
     async jwt({ token, user }: any) {
-      console.log('--------------token-------------');
-      console.log('----------jwt token-------------', token);
-      console.log('---------jwt user---------- ', user);
+      // console.log('--------------token-------------');
+      // console.log('----------jwt token-------------', token);
+      // console.log('---------jwt user---------- ', user);
       if (user) {
         token.role = user.role;
         token.id = user.id;

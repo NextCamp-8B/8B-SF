@@ -14,10 +14,9 @@ import useUserStore from '@/store/userStore';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import AuthPopup from './Popup';
 import usePageStore from '@/store/signupStepStore';
-import supabase from '@/lib/supabaseClient';
+
 import {
   deleteProfileImage,
-  fetchImageAsBlob,
   uploadProfileImage,
 } from '@/utils/supabase/supabaseHelper';
 
@@ -65,6 +64,9 @@ export default function ProfileSetup({
   }, [validateForm]);
 
   // 초기 렌더링 시 프로필 이미지 업로드
+  //  소셜로그인시 주는 이미지 주소url을 blob 형태로 저장하여
+  // supabase에 저장 시도
+  // 이미지 주소url을 blob 형태로 저장이 불가함?
   // useEffect(() => {
   //   const uploadInitialProfileImage = async () => {
   //     try {
@@ -101,7 +103,7 @@ export default function ProfileSetup({
     setIsLoading(true);
     setUser({
       profileImg: profileImage || '',
-      nickname: value.nickname,
+      nickname: value.nickname.trim(),
       interestStock: stock,
     });
     // Zustand에서 유저 정보 가져오기

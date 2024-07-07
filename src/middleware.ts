@@ -26,9 +26,9 @@ export async function middleware(request: NextRequest) {
     // login 페이지로 이동
   if (isMatch(pathname, protectedPages)) {
     const session = await getSession();
-    return session
-      ? NextResponse.next()
-      : NextResponse.redirect(new URL('/login', request.url));
+    // return session
+    //   ? NextResponse.next()
+    //   : NextResponse.redirect(new URL('/login', request.url));
   }
 
   // 세션이 있는 상태 -> 회원이 세션불필요 페이지로 동작시
@@ -36,9 +36,9 @@ export async function middleware(request: NextRequest) {
   if (isMatch(pathname, publicPages)) {
     const session = await getSession();
 
-    return session
-      ? NextResponse.redirect(new URL('/home', request.url))
-      : NextResponse.next();
+    // return session
+    //   ? NextResponse.redirect(new URL('/home', request.url))
+    //   : NextResponse.next();
   }
   return NextResponse.next();
 }

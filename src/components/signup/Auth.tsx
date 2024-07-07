@@ -56,8 +56,8 @@ export default function Auth() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: value.name,
-          email: value.email,
+          name: value.name.trim(),
+          email: value.email.trim(),
         }),
       });
 

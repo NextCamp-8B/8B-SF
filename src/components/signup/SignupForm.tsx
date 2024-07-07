@@ -84,16 +84,16 @@ export default function SignupForm() {
     if (user.providerAccountId) {
       // 소셜 회원가입 폼
       setUser({
-        phoneNumber: value.signupPhone,
-        birth: value.birth,
+        phoneNumber: value.signupPhone.trim(),
+        birth: value.birth.trim(),
       });
     } else {
       // 일반 회원가입 폼
       setUser({
-        password: value.password,
-        phoneNumber: value.signupPhone,
-        birth: value.birth,
-        userId: value.signupId,
+        password: value.password.trim(),
+        phoneNumber: value.password.trim(),
+        birth: value.password.trim(),
+        userId: value.password.trim(),
         providerAccountId: '',
       });
     }
