@@ -19,7 +19,7 @@ export function generatePaths<T extends PolarGridParam>({
 }: T) {
   const radii = convertPolarToRadii({ polarRadius });
 
-  return radii.map((radius: any, i: any) => {
+  return radii.map((radius: number, i: number) => {
     const points = calculatePolygonPoints({
       cx,
       cy,
