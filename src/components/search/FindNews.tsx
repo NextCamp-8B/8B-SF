@@ -5,10 +5,11 @@ import SearchHeading from './SearchHeading';
 import NewsItem from './NewsItem';
 import MoreData from './MoreData';
 import NotFind from './NotFind';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Loading from '@/app/loading';
 import { Stock } from '@/types/stock';
 import { News } from '@/types/news';
+import SkeletonNewsListItem from '../skeleton/news/SkeletonNewsListItem';
 
 export default function FindNews({
   newsList,
@@ -17,7 +18,7 @@ export default function FindNews({
   searchText: string;
 }) {
   const [isLoading, setIsLoading] = useState(false);
-
+  const [showSkeleton, setShowSkeleton] = useState(true);
   // 현재 표시되는 뉴스 항목 슬라이싱
   const [visibleCount, setVisibleCount] = useState(6);
   const visibleNews = newsList?.slice(0, visibleCount);
@@ -25,11 +26,23 @@ export default function FindNews({
   const loadMoreHandler = () => {
     setIsLoading(true);
     setTimeout(() => {
-      setVisibleCount((prevCount) => prevCount + 4);
+      setVisibleCount((prevCount) => prevCount + 6);
       setIsLoading(false);
     }, 200);
-    // 정보를 더 불러오는 동안 0.2초간 로딩(클릭시 바로 나오는 뉴스 클릭 방지)
   };
+  useEffect(() => {
+    setVisibleCount(6);
+  }, [newsList]);
+
+  useEffect(() => {
+    if (newsList && newsList.length > 0) {
+      const timer = setTimeout(() => {
+        setShowSkeleton(false);
+      }, 300); // 0.3초 후에 스켈레톤 숨기기
+      return () => clearTimeout(timer);
+    }
+  }, [newsList]);
+
   return (
     <>
       <div className="flex items-center">
@@ -39,14 +52,22 @@ export default function FindNews({
         </span>
       </div>
 
-      {isLoading ? (
-        <Loading />
-      ) : newsList && newsList.length > 0 ? (
+      {newsList && newsList.length > 0 ? (
         <Wrapper width="590px" padding="p-6">
           <div className="w-[542px] flex flex-col justify-center gap-4">
-            {visibleNews &&
-              visibleNews.map((news, idx) => (
-                <NewsItem news={news} key={idx} />
+            {showSkeleton
+              ? visibleNews &&
+                visibleNews.map((_, idx) => (
+                  <SkeletonNewsListItem key={idx} type="medium" />
+                ))
+              : visibleNews &&
+                visibleNews.map((news, idx) => (
+                  <NewsItem news={news} key={idx} />
+                ))}
+            {isLoading &&
+              visibleNews &&
+              visibleNews.map((_, idx) => (
+                <SkeletonNewsListItem key={idx} type="medium" />
               ))}
           </div>
           <div className="pt-3">
