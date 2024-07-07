@@ -1,5 +1,3 @@
-import { SelectedOption } from '../types';
-
 export type CompDropdownOptionProps = {
   children: React.ReactNode;
   className?: string;

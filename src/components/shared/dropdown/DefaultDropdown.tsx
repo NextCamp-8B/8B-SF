@@ -69,7 +69,6 @@ export default function DefaultDropdown({
           {label}
         </CompositeDropdown.Label>
         <CompositeDropdown.Select
-          // className={selectedOption?.value === '' ? '' : ''}
           classNameWrapper={
             'flex border border-grayscale-300 rounded-lg w-full p-4 gap-4 my-1 hover:bg-grayscale-100'
           }

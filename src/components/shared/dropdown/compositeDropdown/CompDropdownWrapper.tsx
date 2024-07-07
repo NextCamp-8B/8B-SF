@@ -1,5 +1,3 @@
-import { SetIsOpenType } from '../types';
-
 export default function CompDropdownWrapper({
   children,
   onClick,

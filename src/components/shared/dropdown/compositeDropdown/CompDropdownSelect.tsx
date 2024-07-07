@@ -18,10 +18,8 @@ export default function CompDropdownSelect({
    */
   return (
     <div tabIndex={0} className={classNameWrapper}>
-      {/* <span className={`b4 font-medium text-grayscale-900`}> */}
       <span className={classNameSelected}>{children}</span>
       <Down className={classNameSVG} />
-      {/* <Down className={`text-grayscale-900 w-6 h-6`} /> */}
     </div>
   );
 }
