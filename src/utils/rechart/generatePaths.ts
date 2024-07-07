@@ -28,11 +28,10 @@ export function generatePaths<T extends PolarGridParam>({
     });
     const isLastStroke = i === polarRadius.length - 1;
     const strokeColor = isLastStroke ? '#9F9F9F' : '#E9E9E9';
-    const strokeWidth = isLastStroke ? 2 : 1;
 
     return {
       key: `radius-line-${i}`,
-      strokeWidth,
+      strokeWidth: 1,
       stroke: strokeColor,
       fill: 'none',
       className: 'recharts-polar-grid-concentric-polygon',
