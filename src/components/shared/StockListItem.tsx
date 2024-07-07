@@ -38,7 +38,7 @@ export default function StockListItem({
             </div>
             <div className="flex flex-col">
               <span className={`text-right b3 font-medium`}>
-                ${price}
+                ${price.toFixed(2)}
               </span>
               <div
                 className={`flex gap-2 b4 font-normal
@@ -78,7 +78,7 @@ export default function StockListItem({
             </div>
             <div className="flex flex-col">
               <span className={`text-right b5 font-medium`}>
-                ${price}
+                ${price.toFixed(2)}
               </span>
               <div
                 className={`flex gap-2 
@@ -124,7 +124,7 @@ export default function StockListItem({
               caption`}
           >
             <span className={`b4 font-medium text-grayscale-900`}>
-              ${price}
+              ${price.toFixed(2)}
             </span>
             <span className={`b4 font-normal`}>{`${
               cp > 0 ? '▲' : cp === 0 ? '' : '▼'
