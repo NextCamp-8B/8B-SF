@@ -1,19 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
-import { sendTmpPassword } from '@/utils/sendTmpPassword';
-
-// 임시 비밀번호 생성 함수
-const generateTemporaryPassword = (length: number) => {
-  const characters =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
-  let password = '';
-  for (let i = 0; i < length; i++) {
-    password += characters.charAt(
-      Math.floor(Math.random() * characters.length),
-    );
-  }
-  return password;
-};
 
 export async function POST(req: NextRequest) {
   try {
@@ -22,8 +8,8 @@ export async function POST(req: NextRequest) {
 
     // 사용자가 일치하는지 확인
     const { data, error } = await supabase
-      .from('users')
-      .select('id')
+      .from('user')
+      .select('id, provider_account_id')
       .eq('name', name)
       .eq('user_id', user_id)
       .eq('email', email)
@@ -44,27 +30,32 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const temporaryPassword = generateTemporaryPassword(12);
-
-    const { error: updateError } = await supabase
-      .from('users')
-      .update({ password: temporaryPassword })
-      .eq('id', data.id);
-
-    if (updateError) {
-      console.error('비밀번호 업데이트 오류:', updateError.message);
+    if (data.provider_account_id) {
       return NextResponse.json(
-        { error: updateError.message },
-        { status: 500 },
+        { error: '해당 사용자는 소셜 회원가입을 한 유저입니다.' },
+        { status: 400 },
       );
     }
 
-    // 임시 비밀번호 이메일로 전송
-    const emailSent = await sendTmpPassword(email, temporaryPassword);
+    // reset password를 유저에게 보낸후 로그인 페이지로 리다이렉트
+    //  PKCE 흐름
+    // 사용자가 비밀번호 재설정 링크를 클릭하면 SIGNED_IN 및 PASSWORD_RECOVERY 이벤트 발생.
+    // onAuthStateChange()를 사용하여 이러한 이벤트를 수신하고 콜백 함수를 호출 가능.
+    const { data: resetPasswordData, error: resetError } =
+      await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: 'http://localhost:3000/update-pw',
+      });
 
-    if (!emailSent) {
+    if (resetError) {
+      console.error(
+        '비밀번호 재설정 이메일 전송 오류:',
+        resetError.message,
+      );
       return NextResponse.json(
-        { error: '이메일 발송 실패' },
+        {
+          error:
+            '비밀번호 재설정 이메일 전송에 실패했습니다. 나중에 다시 시도해주세요.',
+        },
         { status: 500 },
       );
     }

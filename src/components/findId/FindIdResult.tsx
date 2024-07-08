@@ -54,9 +54,11 @@ export default function FindIdResult({
       <Link href="/login" className="flex justify-center">
         <TextButton className="mt-8">로그인 하기</TextButton>
       </Link>
-      <Link href="/find/pw" className="flex justify-center">
-        <TextButton className="mt-4">비밀번호 찾기</TextButton>
-      </Link>
+      {!social && (
+        <Link href="/find/pw" className="flex justify-center">
+          <TextButton className="mt-4">비밀번호 찾기</TextButton>
+        </Link>
+      )}
     </>
   );
 }
