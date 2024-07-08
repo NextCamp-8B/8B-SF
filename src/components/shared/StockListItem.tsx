@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export type StockListItemProps = {
   stock: Stock;
-  type?: 'related' | 'find' | 'default';
+  type?: 'related' | 'find' | 'default' | 'report' | 'description';
 };
 
 export default function StockListItem({
@@ -130,6 +130,60 @@ export default function StockListItem({
               cp > 0 ? '▲' : cp === 0 ? '' : '▼'
             }${Math.abs(cp).toFixed(2)}`}</span>
             <span className={`b4 font-normal`}>
+              {fluctuations_ratio > 0 && '+'}
+              {(fluctuations_ratio * 100).toFixed(2)}%
+            </span>
+          </div>
+        </div>
+      )}
+      {type === 'report' && (
+        <div className="flex items-center gap-2">
+          <div className="flex gap-1 items-center">
+            <StockIcon path={logo_path} size="small" />
+            <span className="b3 font-medium">{stock_name}</span>
+            <span className="b2">∙</span>
+            <span className="b3">{stock_code}</span>
+          </div>
+          <span className="b4 font-medium">${price.toFixed(2)}</span>
+          <div
+            className={`flex h-full items-center gap-2 ${
+              fluctuations_ratio > 0
+                ? 'text-warning-100'
+                : fluctuations_ratio === 0
+                ? ''
+                : 'text-secondary-600'
+            }`}
+          >
+            <span className="b4">{`${
+              cp > 0 ? '▲' : cp === 0 ? '' : '▼'
+            }${Math.abs(cp).toFixed(2)}`}</span>
+            <span className={`b4 `}>
+              {fluctuations_ratio > 0 && '+'}
+              {(fluctuations_ratio * 100).toFixed(2)}%
+            </span>
+          </div>
+        </div>
+      )}
+      {type === 'description' && (
+        <div>
+          <div className="text-primary-900 flex items-center gap-1">
+            <span className="b1 font-bold">${price.toFixed(2)}</span>
+            <span className="b1 font-bold">∙</span>
+            <span className="b2">{stock_code}</span>
+          </div>
+          <div
+            className={`b2 font-medium flex items-center gap-2 ${
+              fluctuations_ratio > 0
+                ? 'text-warning-100'
+                : fluctuations_ratio === 0
+                ? ''
+                : 'text-secondary-600'
+            }`}
+          >
+            <span>{`${cp > 0 ? '▲' : cp === 0 ? '' : '▼'}${Math.abs(
+              cp,
+            ).toFixed(2)}`}</span>
+            <span>
               {fluctuations_ratio > 0 && '+'}
               {(fluctuations_ratio * 100).toFixed(2)}%
             </span>
