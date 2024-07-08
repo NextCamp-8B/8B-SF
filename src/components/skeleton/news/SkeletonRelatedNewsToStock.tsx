@@ -1,12 +1,12 @@
 import React from 'react';
-import Skeleton from '../shared/Skeleton';
+import SkeletonCard from '../shared/SkeletonCard';
 
 export default function SkeletonRelatedNewsToStock() {
   return (
     <div className="flex gap-5">
-      <Skeleton className="w-[388px] h-[360px] rounded-2xl" />
-      <Skeleton className="w-[388px] h-[360px] rounded-2xl" />
-      <Skeleton className="w-[388px] h-[360px] rounded-2xl" />
+      <SkeletonCard type="News2" />
+      <SkeletonCard type="News2" />
+      <SkeletonCard type="News2" />
     </div>
   );
 }

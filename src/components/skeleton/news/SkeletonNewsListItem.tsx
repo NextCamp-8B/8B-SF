@@ -10,6 +10,15 @@ export default function SkeletonNewsListItem({
 }: SkeletonNewsListItemProps) {
   return (
     <>
+      {type === 'find' && (
+        <div className="flex gap-4 items-center">
+          <Skeleton className="w-[120px] h-16 rounded-lg" />
+          <div className="flex-1">
+            <SkeletonText type="b3" className="mb-[14px] w-10/12" />
+            <SkeletonText type="b5" className="w-24" />
+          </div>
+        </div>
+      )}
       {type === 'medium' && (
         <div className="flex gap-5 py-8 border-b border-b-grayscale-400 last-of-type:border-none last-of-type:pb-0 first:pt-0 items-center">
           <Skeleton className="w-[172px] h-[100px] rounded-2xl" />
