@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import AddInterest from './AddInterest';
 import ShowingInterest from './ShowingInterest';
-import { InView, useInView } from 'react-intersection-observer';
+import { useInView } from 'react-intersection-observer';
 
 export default function RequestWrapper() {
   const [isLoading, setIsLoading] = useState(false);
