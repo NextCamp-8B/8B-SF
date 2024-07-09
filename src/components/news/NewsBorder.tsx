@@ -12,7 +12,7 @@ export default function NewsBorder({
   return (
     <div
       className={`border rounded-2xl border-primary-100 p-12 flex flex-col ${
-        background === 'white' && 'bg-grayscale-0'
+        background === 'white' && 'bg-grayscale-0 border-none'
       }`}
     >
       {children}

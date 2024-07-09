@@ -2,12 +2,10 @@
 
 import React, { useEffect, useState } from 'react';
 import NewsListItem from '../shared/NewsListItem';
-// import { useInView } from 'react-intersection-observer';
-import { TMP_NEWS } from '@/constants';
 import { useInView } from 'react-intersection-observer';
 import { News } from '@/types/news';
 
-export default function RecentNews() {
+function RecentNews() {
   const { ref, inView } = useInView();
   const [newsList, setNewsList] = useState<News[]>([]);
   const [page, setPage] = useState(0);
@@ -31,10 +29,6 @@ export default function RecentNews() {
     }, 1000);
   };
 
-  // useEffect(() => {
-  //   getNewsList();
-  // }, []);
-
   useEffect(() => {
     getNewsList();
   }, [inView]);
@@ -48,3 +42,5 @@ export default function RecentNews() {
     </div>
   );
 }
+
+export default RecentNews;

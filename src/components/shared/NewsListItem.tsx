@@ -9,10 +9,7 @@ export type NewsListItemProps = {
   news: News;
 };
 
-export default function NewsListItem({
-  type = 'medium',
-  news,
-}: NewsListItemProps) {
+function NewsListItem({ type = 'medium', news }: NewsListItemProps) {
   const {
     thumbnail,
     title_en,
@@ -186,3 +183,5 @@ export default function NewsListItem({
     </>
   );
 }
+
+export default React.memo(NewsListItem);
