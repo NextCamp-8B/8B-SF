@@ -1,11 +1,11 @@
 'use client';
-import React, { useState } from 'react';
+
+import React, { useCallback, useEffect, useState } from 'react';
 import InputSet from '@/components/shared/input/index';
 import useInputChange from '@/hooks/input/useInputChange';
 import TextButton from '@/components/shared/buttons/TextButton';
 import Wrapper from '@/components/shared/Wrapper';
 import { conceptMap } from '@/components/shared/input/inputConfig';
-
 import AuthPopup from './Popup';
 import LoadingSpinner from '../shared/LoadingSpinner';
 
@@ -21,18 +21,15 @@ export default function Auth() {
   });
   const [isFormValid, setIsFormValid] = useState(false); // 폼 유효성 체크
 
-  const validateForm = () => {
+  const validateForm = useCallback(() => {
     const isNameValid = conceptMap.name.doValidation(value.name);
     const isEmailValid = conceptMap.email.doValidation(value.email);
     setIsFormValid(isNameValid && isEmailValid);
-  };
+  }, [value.name, value.email]);
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    onChangeInputValue(e);
+  useEffect(() => {
     validateForm();
-  };
+  }, [validateForm]);
 
   const handleClosePopuup = () => {
     setIsShowPopup(false);
@@ -102,14 +99,14 @@ export default function Auth() {
           ) : (
             <InputSet className="flex flex-col gap-4">
               <InputSet.Validated
-                onChange={handleInputChange}
+                onChange={onChangeInputValue}
                 value={value.name}
                 type="text"
                 concept="name"
                 isSubmit={isSubmit}
               />
               <InputSet.Validated
-                onChange={handleInputChange}
+                onChange={onChangeInputValue}
                 value={value.email}
                 type="text"
                 concept="email"

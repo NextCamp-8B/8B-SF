@@ -7,13 +7,11 @@ import useInputChange from '@/hooks/input/useInputChange';
 import TextButton from '@/components/shared/buttons/TextButton';
 import Wrapper from '@/components/shared/Wrapper';
 import { conceptMap } from '@/components/shared/input/inputConfig';
-import ProfileSvg from '@/assets/icons/profile.svg';
-import Pencial from '@/assets/icons/pencil.svg';
-import Image from 'next/image';
 import useUserStore from '@/store/userStore';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import AuthPopup from './Popup';
 import usePageStore from '@/store/signupStepStore';
+import ProfileImageEditor from './ProfileImageEditor';
 
 type ProfileSetupProps = {
   buttonText: string;
@@ -27,7 +25,7 @@ export default function ProfileSetup({
   onClose,
   isModal = false, // 기본값은 false
 }: ProfileSetupProps) {
-  const { user, setUser, clearUser } = useUserStore();
+  const { clearUser } = useUserStore();
   const [errorMsg, setErrorMsg] = useState({ title: '', msg: '' });
   const [isShowPopup, setIsShowPopup] = useState(false); // 팝업 조건부 렌더링
   const [isLoading, setIsLoading] = useState(false); //api 로딩 체크
@@ -122,6 +120,7 @@ export default function ProfileSetup({
 
   const content = (
     <>
+      {/* 에러메시지 팝업 */}
       {isShowPopup && (
         <AuthPopup
           onClose={handleClosePopuup}
@@ -142,35 +141,11 @@ export default function ProfileSetup({
             </div>
           ) : (
             <>
-              <div className="flex flex-col items-center mb-10">
-                <div className="relative w-32 h-32">
-                  {profileImage ? (
-                    <Image
-                      src={profileImage}
-                      alt="Profile"
-                      layout="fill"
-                      objectFit="cover"
-                      quality={100}
-                      className="w-full h-full object-cover rounded-full"
-                    />
-                  ) : (
-                    <ProfileSvg className="w-full h-full object-cover rounded-full" />
-                  )}
-                  <label
-                    htmlFor="profileImage"
-                    className="absolute bottom-0 right-0 w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center cursor-pointer bg-grayscale-400"
-                  >
-                    <Pencial className="w-6 h-6 h1" />
-                    <input
-                      type="file"
-                      id="profileImage"
-                      className="hidden"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                    />
-                  </label>
-                </div>
-              </div>
+              {/* 프로필 이미지 설정 */}
+              <ProfileImageEditor
+                profileImage={profileImage}
+                handleImageUpload={handleImageUpload}
+              />
               {/* 닉네임 */}
               <InputSet className="flex flex-col gap-4">
                 <InputSet.Validated

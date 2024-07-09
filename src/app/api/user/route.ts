@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import supabase from '../../../lib/supabaseClient';
-import { checkUserIdExists, uploadProfileImage } from '@/utils/supabase/supabaseHelper';
+import {
+  checkUserIdExists,
+  uploadProfileImage,
+} from '@/utils/supabase/supabaseHelper';
 
 export type User = {
   id: number;
@@ -61,9 +64,10 @@ export async function POST(request: NextRequest) {
     const nickname = formData.get('nickname') as string;
     const name = formData.get('name') as string;
     const interestStock = formData.get('interestStock') as string;
-    const providerAccountId = formData.get('providerAccountId') as string;
+    const providerAccountId = formData.get(
+      'providerAccountId',
+    ) as string;
     const profileImg = formData.get('profileImg') as File;
-
     if (
       !userId ||
       !password ||
@@ -79,14 +83,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
-  // Profile image upload
-  let profileFileImageUrl : any= null;
-  if (profileImg) {
-    const fileName = `${Date.now()}_${profileImg?.name.replace(/[^A-Za-z0-9_.\-]/g, '_')}`;
-    const publicUrl = await uploadProfileImage(fileName, profileImg);
-    profileFileImageUrl = publicUrl;
-  }
-
+    // 프로필 이미지 supabase 스토리지에 저장
+    let profileFileImageUrl: any = null;
+    if (profileImg && profileImg.name) {
+      const fileName = `${Date.now()}_${profileImg?.name.replace(
+        /[^A-Za-z0-9_.\-]/g,
+        '_',
+      )}`;
+      const publicUrl = await uploadProfileImage(
+        fileName,
+        profileImg,
+      );
+      profileFileImageUrl = publicUrl;
+    }
 
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -98,14 +107,14 @@ export async function POST(request: NextRequest) {
           birth,
           phone: phoneNumber,
           phoneNumber,
-          profileImg : profileFileImageUrl,
+          profileImg: profileFileImageUrl,
           nickname,
           interestStock,
           provider_account_id: providerAccountId,
         },
       },
     });
-    console.log('data', data);
+
     if (error) {
       throw error;
     }
