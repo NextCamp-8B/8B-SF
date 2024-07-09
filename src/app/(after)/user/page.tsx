@@ -10,8 +10,13 @@ import LanguageSection from '@/components/user/LanguageSection';
 import { LanguageType, SectionType } from '@/components/user/types';
 import ProfileSection from '@/components/user/ProfileSection';
 import TermsSection from '@/components/user/TermsSection';
+import { useSession } from 'next-auth/react';
+import { User as UserType } from '@/store/userStore';
+import { useRouter } from 'next/navigation';
+import SkeletonProfileSection from '@/components/skeleton/mypage/SkeletonProfile';
 
 export default function User() {
+  const router = useRouter();
   const [isProfileSetup, setIsProfileSetup] = useState(false); //프로필 수정
   const [isPasswordCheck, setIsPasswordCheck] = useState(false); //비밀번호 체크
   const [isUserProfileEdit, setIsUserProfileEdit] = useState(false); //정보 수정
@@ -20,11 +25,16 @@ export default function User() {
     useState<SectionType>('profile'); // 사이드바 섹션 종류
   const [selectedLanguage, setSelectedLanguage] =
     useState<LanguageType>('kr');
-  const userInfo = [
-    { label: '아이디', value: 'sfacspaceid' },
-    { label: '이름', value: '김스펙' },
-    { label: '생년월일', value: '991231' },
-  ];
+
+  const { data: session, status } = useSession();
+
+  if (status === 'unauthenticated') {
+    router.replace('/login');
+  }
+
+  // useSession 로딩에 따른 skeleton ui 처리
+  const loading = status === 'loading' ? true : false;
+
   const handleProfileEdit = () => {
     // 프로필 수정 로직
     setIsProfileSetup(true);
@@ -95,25 +105,29 @@ export default function User() {
       {isWithdrawal ? (
         <WithdrawalComplete />
       ) : (
-        <main className="w-full min-w-[1200px] min-h-dvh  bg-background-100 pt-6 pb-20 px-16 text-grayscale-900">
+        <main className="w-full max-w-[1200px] min-h-dvh  bg-background-100 pt-6 pb-20 text-grayscale-900 m-auto">
           <h1 className="h4 font-bold text-primary-900">
             마이 페이지
           </h1>
-          <div className="flex mt-6 gap-x-10 min-h-[720px]">
-            {/*  Sidebar */}
+          <div className="flex mt-6 gap-x-8 min-h-[720px]">
+            {/*  사이드 바 */}
             <Sidebar
               handleSelectedSection={handleSelectedSection}
               selectedSection={selectedSection}
             />
-            {/* Content */}
-            <Wrapper padding="px-6 py-8" width="w-full">
+            {/* 유저 정보, 언어설정, 이용약관*/}
+            <Wrapper padding="px-8 py-8" width="w-[900px]">
               {selectedSection === 'profile' ? (
                 // 유저 정보설정
-                <ProfileSection
-                  handleProfileEdit={handleProfileEdit}
-                  handleAccountEdit={handleAccountEdit}
-                  userInfo={userInfo}
-                />
+                loading ? (
+                  <SkeletonProfileSection />
+                ) : (
+                  <ProfileSection
+                    handleProfileEdit={handleProfileEdit}
+                    handleAccountEdit={handleAccountEdit}
+                    user={session?.user as UserType}
+                  />
+                )
               ) : selectedSection === 'language' ? (
                 // 언어설정
                 <LanguageSection

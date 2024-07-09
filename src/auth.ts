@@ -19,28 +19,33 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        const { email, password } = credentials as { email: string; password: string };
+        const { email, password } = credentials as {
+          email: string;
+          password: string;
+        };
         if (!email || !password) {
           throw new CredentialsSignin('입력값이 부족합니다.');
         }
         console.log(email, password, '----login input 값');
         // 이메일 찾기
-        const { data: userData, error: userError } : any = await supabase
-          .from('user')
-          .select('email')
-          .eq('user_id', email)
-          .single();
-       
+        const { data: userData, error: userError }: any =
+          await supabase
+            .from('user')
+            .select('email')
+            .eq('user_id', email)
+            .single();
+
         if (userError || !userData) {
           throw new CredentialsSignin('사용자를 찾을 수 없습니다.');
         }
 
         // 이메일로 로그인 시도
-        const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
-          email: userData?.email,
-          password,
-        });
-        
+        const { data: loginData, error: loginError } =
+          await supabase.auth.signInWithPassword({
+            email: userData?.email,
+            password,
+          });
+
         if (loginError || !loginData) {
           throw new CredentialsSignin('로그인에 실패했습니다.');
         }
@@ -50,7 +55,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           name: loginData.user.user_metadata.name,
           email: loginData.user.email,
           role: loginData.user.role,
-          accessToken: loginData.session.access_token
+          nickname: loginData.user.user_metadata.nickname,
+          profileImg: loginData.user.user_metadata.profileImg,
+          birth: loginData.user.user_metadata.birth,
+          phoneNumber: loginData.user.user_metadata.phoneNumber,
+          interestStock: loginData.user.user_metadata.interestStock,
+          accessToken: loginData.session.access_token,
         };
       },
     }),
@@ -60,12 +70,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
     GoogleProvider({
       clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET!
+      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET!,
     }),
     NaverProvider({
       clientId: process.env.NEXT_PUBLIC_NAVER_CLIENT_ID!,
       clientSecret: process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET!,
-    })
+    }),
   ],
   secret: process.env.NEXTAUTH_SECRET!,
   pages: {
@@ -73,15 +83,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     error: '/login/error', // 커스텀 에러 페이지 설정
   },
   callbacks: {
-    async signIn({ user, account } : any): Promise<any> {
+    async signIn({ user, account }: any): Promise<any> {
       console.log(
         '-----------user--------',
         user,
         '------------------account--------------------------------',
         account,
       );
-    
-      if (account?.provider === 'naver' || account?.provider === 'google' || account?.provider === 'kakao') {  
+
+      if (
+        account?.provider === 'naver' ||
+        account?.provider === 'google' ||
+        account?.provider === 'kakao'
+      ) {
         const { provider, providerAccountId } = account;
         const { email, name, id, image } = user;
         // user 값 undefinded 일시 처리
@@ -117,9 +131,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         if (!socialUser) {
           // 이메일은 존재하지만 다른 제공자로 가입한 경우
-          throw new Error('이미 해당 이메일로 다른 제공자를 통해 회원가입이 되어 있습니다.');
+          throw new Error(
+            '이미 해당 이메일로 다른 제공자를 통해 회원가입이 되어 있습니다.',
+          );
         }
-        
+
         // 이미 회원가입한 소셜 유저
         if (socialUser) {
           // Supabase 로그인 처리 (세션 생성)
@@ -139,6 +155,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           user.id = socialLogin.user.id;
           user.email = socialLogin.user.email;
           user.name = socialLogin.user.user_metadata.name;
+          user.nickname = socialLogin.user.user_metadata.nickname;
+          user.profileImg = socialLogin.user.user_metadata.profileImg;
+          user.birth = socialLogin.user.user_metadata.birth;
+          user.phoneNumber =
+            socialLogin.user.user_metadata.phoneNumber;
+          user.interestStock =
+            socialLogin.user.user_metadata.interestStock;
           user.accessToken = socialLogin.session.access_token;
           return true;
         }
@@ -147,7 +170,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true;
     },
     async jwt({ token, user }: any) {
-      // console.log('--------------token-------------');
+      console.log('--------------token-------------');
       // console.log('----------jwt token-------------', token);
       // console.log('---------jwt user---------- ', user);
       if (user) {
@@ -156,38 +179,49 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.email = user.email;
         token.name = user.name;
         token.image = user.image;
-        token.accessToken = user.token; // JWT에 액세스 토큰을 추가
+        token.nickname = user.nickname;
+        token.profileImg = user.profileImg;
+        token.birth = user.birth;
+        token.phoneNumber = user.phoneNumber;
+        token.interestStock = user.interestStock;
+        token.accessToken = user.accessToken; // JWT에 액세스 토큰을 추가
       }
       return token;
     },
     async session({ session, token }: any) {
       // 세션에 사용자 정보를 추가
-      // console.log('--------------session-------------');
-      // console.log('session:', session);
+      console.log('--------------session-------------');
       // console.log('token :', token);
       if (token) {
         session.user.id = token.id;
         session.user.email = token.email;
         session.user.name = token.name;
+        session.user.nickname = token.nickname;
+        session.user.profileImg = token.profileImg;
+        session.user.birth = token.birth;
+        session.user.phoneNumber = token.phoneNumber;
+        session.user.interestStock = token.interestStock;
         session.user.accessToken = token.accessToken; // 세션에 액세스 토큰을 추가
       }
+      console.log('session:', session);
       return session;
     },
     redirect: async ({ url, baseUrl }) => {
-      if (url.startsWith('/')) return `${baseUrl}${url}`
+      if (url.startsWith('/')) return `${baseUrl}${url}`;
       if (url) {
-        const { search, origin } = new URL(url)
-        const callbackUrl = new URLSearchParams(search).get('callbackUrl')
+        const { search, origin } = new URL(url);
+        const callbackUrl = new URLSearchParams(search).get(
+          'callbackUrl',
+        );
         if (callbackUrl)
           return callbackUrl.startsWith('/')
             ? `${baseUrl}${callbackUrl}`
-            : callbackUrl
-        if (origin === baseUrl) return url
+            : callbackUrl;
+        if (origin === baseUrl) return url;
       }
-      return baseUrl
-    }  
+      return baseUrl;
+    },
   },
 });
-
 
 export const { GET, POST } = handlers;

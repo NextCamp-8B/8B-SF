@@ -9,7 +9,7 @@ export default function MyPageSection({
 }: MyPageSectionProps) {
   return (
     <>
-      <section className={`flex flex-col pr-14 ${className}`}>
+      <section className={`flex flex-col ${className}`}>
         {children}
       </section>
     </>

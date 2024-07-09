@@ -42,21 +42,21 @@ const TextButton: React.FC<TextButtonProps> & {
   iconSvg: IconSvg,
   size = 'md',
   disabled = false,
-  width,
+  width = 'w-96',
   height,
   className = '',
   ...props
 }) => {
   const type = disabled ? ButtonStyleTypes.Disabled : styleType;
-  const btnWidth = width ? width : '';
+  // const btnWidth = width ? width : '';
   const btnHeight = height ? height : '';
   const baseClass = `group gap-x-1 box-border flex justify-center items-center rounded-lg whitespace-nowrap`;
 
   const sizeClass = {
     text: {
-      sm: 'h-9 w-96 b-5',
-      md: 'h-14 w-96 b-4',
-      lg: 'h-16 w-96 b-3',
+      sm: 'h-9  b-5',
+      md: 'h-14  b-4',
+      lg: 'h-16  b-3',
       hf: 'h-9 w-[120px] b5',
       social: '',
     },
@@ -92,7 +92,7 @@ const TextButton: React.FC<TextButtonProps> & {
   };
 
   const btnClass =
-    `${baseClass} ${sizeClass['text'][size]} ${typeClasses[type]} ${btnWidth} ${btnHeight} ${className} `.trim();
+    `${baseClass} ${sizeClass['text'][size]} ${typeClasses[type]} ${width} ${btnHeight} ${className} `.trim();
   const iconClass = `${iconTypeClasses[type]} ${sizeClass['icon'][size]}`;
 
   return (

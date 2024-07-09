@@ -7,12 +7,6 @@ export async function POST(request: NextRequest) {
   try {
     const { userId, password } = await request.json();
 
-    // userId로 이메일 조회
-    // const { data: userData, error: userError } = await supabase
-    //   .from('user')
-    //   .select('email')
-    //   .eq('user_id', userId)
-    //   .single();
     const email = await getEmailByUserId(userId);
 
     if (!email) {
@@ -22,15 +16,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // const email = userData;
-
     // 이메일로 로그인 시도
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
-    console.log(data, 'data');
-    // const { error } = await supabase.auth.signOut();
+    console.log(data, '----login------');
 
     if (error) {
       return NextResponse.json(

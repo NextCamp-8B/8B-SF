@@ -2,19 +2,39 @@ import TextButton from '../shared/buttons/TextButton';
 import SectionBox from './SectionBox';
 import MyPageSection from './MyPageSection';
 import UserInfoList from './UserInfoList';
+import SkeletonIcon from '../skeleton/shared/SkeletonIcon';
 import ProfileSvg from '@/assets/icons/profile.svg';
+import { User } from '@/store/userStore';
+import Image from 'next/image';
+import dynamic from 'next/dynamic';
+
+const DynamicProfileSvg = dynamic(
+  () => import('@/assets/icons/profile.svg'),
+  {
+    ssr: false,
+    loading: () => <SkeletonIcon type="medium" />,
+  },
+);
 
 type ProfileSectionProps = {
   handleProfileEdit: () => void;
   handleAccountEdit: () => void;
-  userInfo: any;
+  user: User;
 };
 
 export default function ProfileSection({
   handleProfileEdit,
   handleAccountEdit,
-  userInfo,
+  user,
 }: ProfileSectionProps) {
+  const { id, name, birth, nickname, profileImg } = user;
+  console.log(profileImg, '-------profileImg-------');
+  const userInfo = [
+    { label: '아이디', value: id! },
+    { label: '이름', value: name! },
+    { label: '생년월일', value: birth! },
+  ];
+
   return (
     <>
       <MyPageSection>
@@ -30,11 +50,24 @@ export default function ProfileSection({
             프로필 수정
           </TextButton>
         </SectionBox>
+
         <div className="flex gap-x-32">
           <h3 className="b3 font-semibold">프로필 선택</h3>
-          <div className="flex items-center justify-between w-28">
-            <ProfileSvg className="w-14 h-14 rounded-full" />
-            <span className="font-bold">김스택</span>
+          <div className="flex items-center justify-between gap-x-4">
+            <>
+              {profileImg ? (
+                <Image
+                  src={profileImg as string}
+                  alt="Profile"
+                  width={56}
+                  height={56}
+                  className="rounded-full"
+                />
+              ) : (
+                <ProfileSvg className="w-14 h-14 rounded-full" />
+              )}
+              <span className="font-bold">{nickname}</span>
+            </>
           </div>
         </div>
       </MyPageSection>

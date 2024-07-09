@@ -23,11 +23,11 @@ export default function TermsBox({ title, content }: TermsBoxProps) {
           </span>
         </div>
         <div
-          className={`w-full ${
+          className={`w-[800px] border-box ${
             isExpanded ? 'h-auto' : 'h-[250px]'
           } flex flex-col gap-y-6 border border-grayscale-300 rounded-lg overflow-y-auto p-4 b4`}
         >
-          <pre className="w-[1200px] h-full p-4">{content}</pre>
+          <pre className="h-full p-4">{content}</pre>
         </div>
       </div>
     </div>

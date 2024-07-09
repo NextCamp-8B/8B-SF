@@ -1,6 +1,7 @@
 import create from 'zustand';
 
-interface User {
+export type User = {
+  id?: string;
   name?: string;
   email?: string;
   password?: string;
@@ -12,7 +13,7 @@ interface User {
   updatedAt?: string;
   userId?: string;
   providerAccountId?: string;
-}
+};
 
 interface UserStore {
   user: User;
