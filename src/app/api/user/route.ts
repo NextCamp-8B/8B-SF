@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import supabase from '../../../lib/supabaseClient';
-import { checkUserIdExists } from '@/utils/supabase/supabaseHelper';
+import { checkUserIdExists, uploadProfileImage } from '@/utils/supabase/supabaseHelper';
 
 export type User = {
   id: number;
@@ -52,20 +52,17 @@ export async function GET(request: NextRequest) {
 // POST 요청 처리 - 회원가입
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    console.log(body, '-----------body----------');
-    const {
-      userId,
-      email,
-      password,
-      phoneNumber,
-      birth,
-      nickname,
-      profileImg,
-      name,
-      interestStock,
-      providerAccountId = '',
-    } = body;
+    const formData = await request.formData();
+    const userId = formData.get('userId') as string;
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+    const phoneNumber = formData.get('phoneNumber') as string;
+    const birth = formData.get('birth') as string;
+    const nickname = formData.get('nickname') as string;
+    const name = formData.get('name') as string;
+    const interestStock = formData.get('interestStock') as string;
+    const providerAccountId = formData.get('providerAccountId') as string;
+    const profileImg = formData.get('profileImg') as File;
 
     if (
       !userId ||
@@ -82,6 +79,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
+  // Profile image upload
+  let profileFileImageUrl : any= null;
+  if (profileImg) {
+    const fileName = `${Date.now()}_${profileImg?.name.replace(/[^A-Za-z0-9_.\-]/g, '_')}`;
+    const publicUrl = await uploadProfileImage(fileName, profileImg);
+    profileFileImageUrl = publicUrl;
+  }
+
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -92,7 +98,7 @@ export async function POST(request: NextRequest) {
           birth,
           phone: phoneNumber,
           phoneNumber,
-          profileImg,
+          profileImg : profileFileImageUrl,
           nickname,
           interestStock,
           provider_account_id: providerAccountId,
@@ -107,8 +113,8 @@ export async function POST(request: NextRequest) {
       { message: '회원가입 성공' },
       { status: 200 },
     );
-    // 응답에 쿠키 삭제 설정 추가
 
+    // 응답에 쿠키 삭제 설정 추가
     response.cookies.set('auth-token', '', {
       path: '/signup',
       expires: new Date(0),

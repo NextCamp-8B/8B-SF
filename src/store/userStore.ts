@@ -6,7 +6,7 @@ interface User {
   password?: string;
   phoneNumber?: string;
   birth?: string;
-  profileImg?: string;
+  profileImg?: File | string;
   nickname?: string;
   interestStock?: string;
   updatedAt?: string;

@@ -15,11 +15,6 @@ import LoadingSpinner from '../shared/LoadingSpinner';
 import AuthPopup from './Popup';
 import usePageStore from '@/store/signupStepStore';
 
-import {
-  deleteProfileImage,
-  uploadProfileImage,
-} from '@/utils/supabase/supabaseHelper';
-
 type ProfileSetupProps = {
   buttonText: string;
   isModal?: boolean; // 모달 여부를 판단하는 props 추가
@@ -41,9 +36,8 @@ export default function ProfileSetup({
   const [isFormValid, setIsFormValid] = useState(false); //폼 유효성 체크
   const [stock, setStock] = useState(''); //관심종목
 
-  const [profileImage, setProfileImage] = useState<string | null>(
-    null,
-  );
+  const [profileImage, setProfileImage] = useState(''); //base54 프로필 이미지
+  const [profileFile, setProfileFile] = useState<File>(); // 프로필 이미지 파일
   //프로필 이미지 / null 값은 기본이미지
   const { setPageStep } = usePageStore(); //페이지 이동
 
@@ -63,33 +57,6 @@ export default function ProfileSetup({
     validateForm();
   }, [validateForm]);
 
-  // 초기 렌더링 시 프로필 이미지 업로드
-  //  소셜로그인시 주는 이미지 주소url을 blob 형태로 저장하여
-  // supabase에 저장 시도
-  // 이미지 주소url을 blob 형태로 저장이 불가함?
-  // useEffect(() => {
-  //   const uploadInitialProfileImage = async () => {
-  //     try {
-  //       if (user.profileImg) {
-  //         const imageBlob = await fetchImageAsBlob(user.profileImg);
-
-  //         const publicUrl = await uploadProfileImage(
-  //           fileName,
-  //           imageBlob as any,
-  //         );
-  //         // console.log('')
-  //         if (publicUrl) {
-  //           setProfileImage(publicUrl);
-  //         }
-  //       }
-  //     } catch (error) {
-  //       console.error('초기 프로필 이미지 업로드 오류:', error);
-  //     }
-  //   };
-
-  //   uploadInitialProfileImage();
-  // }, [user.profileImg]);
-
   const handleStockChange = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -97,33 +64,36 @@ export default function ProfileSetup({
   };
 
   const onHandleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsSubmit(true);
     if (!isFormValid) return console.log('isFormValid unset');
     setIsFormValid(false);
     setIsLoading(true);
-    setUser({
-      profileImg: profileImage || '',
-      nickname: value.nickname.trim(),
-      interestStock: stock,
-    });
+
+    const formData = new FormData();
+    formData.append('nickname', value.nickname.trim());
+    formData.append('interestStock', stock);
+    formData.append('profileImg', profileFile as File);
+
     // Zustand에서 유저 정보 가져오기
     const updatedUser = useUserStore.getState().user;
+    Object.entries(updatedUser).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
 
     try {
       const response = await fetch('/api/user', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedUser),
+        body: formData,
       });
+
       if (response.ok) {
         clearUser(); // Zustand 스토리지에서 유저 데이터 삭제
         setPageStep('welcome');
       } else {
         setErrorMsg({
           title: '회원가입 오류',
-          msg: '죄송합니다. 오류가 발생했습니다. 회원가입을 처음부터 디시 시도하시거나, 고객센터에 문의해주세요.',
+          msg: '죄송합니다. 오류가 발생했습니다. 회원가입을 처음부터 다시 시도하시거나, 고객센터에 문의해주세요.',
         });
         throw new Error('회원가입 실패');
       }
@@ -135,32 +105,18 @@ export default function ProfileSetup({
     }
   };
 
-  const handleImageUpload = async (
+  const handleImageUpload = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    try {
-      const file = e.target.files?.[0]; // 타임스탬프를 파일 이름에 추가하여 고유한 이름 생성
-
-      // 파일이름에 특수문자, 공백 처리
-      const fileName = `${Date.now()}_${file?.name.replace(
-        /[^A-Za-z0-9_.\-]/g,
-        '_',
-      )}`;
-
-      // 이전 이미지가 있다면 삭제
-      if (profileImage) {
-        await deleteProfileImage(profileImage);
-      }
-      if (file) {
-        const publicUrl = await uploadProfileImage(fileName, file);
-        setProfileImage(publicUrl);
-      }
-    } catch (error) {
-      setIsShowPopup(true);
-      setErrorMsg({
-        title: '프로필이미지 설정 오류',
-        msg: '죄송합니다. 오류가 발생했습니다. 프로필이미지를 다시 설정해주세요.',
-      });
+    const file = e.target.files?.[0] as File;
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader?.result?.toString() as string;
+        setProfileImage(base64String); //프론트에서 보여질 이미지
+        setProfileFile(file); //api 보낼 이미지 파일
+      };
+      reader.readAsDataURL(file);
     }
   };
 
