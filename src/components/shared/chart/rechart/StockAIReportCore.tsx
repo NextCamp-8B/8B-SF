@@ -95,7 +95,7 @@ export default function StockAIReportCore({
         dataKey="A"
         stroke="#00ACF2"
         fill="#B2E6FA"
-        fillOpacity={0.6}
+        fillOpacity={0.3}
       />
     </RadarChart>
   );
