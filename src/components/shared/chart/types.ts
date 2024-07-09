@@ -38,3 +38,19 @@ export type RadarData = Array<{
   B: number;
   fullMark: number;
 }>;
+
+export type Duration = {
+  amount: number;
+  unit: 'day' | 'month' | 'year';
+};
+
+export type CustomizedXAxisTickProps = {
+  x: number;
+  y: number;
+  payload: {
+    value: string | number;
+    coordinate: number;
+    index: number;
+  };
+  index: number;
+};

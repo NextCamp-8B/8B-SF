@@ -13,7 +13,7 @@ export default function StockAIReportChart({
   specific?: boolean;
 }) {
   return (
-    <div className={`flex gap-[13.43px] justify-between w-full`}>
+    <div className={`flex justify-between w-full`}>
       <Rechart.Radar radarStatus={radarStatus} data={radarData}>
         {children}
       </Rechart.Radar>

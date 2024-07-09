@@ -1,6 +1,6 @@
 import ButtonBase from '../shared/buttons/ButtonBase';
 
-export default function AddInterest() {
+export default function ThatGoAddInterest() {
   const name = '최석호';
 
   return (

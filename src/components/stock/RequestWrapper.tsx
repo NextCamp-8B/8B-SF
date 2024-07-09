@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import AddInterest from './AddInterest';
+import ThatGoAddInterest from './ThatGoAddInterest';
 import ShowingInterest from './ShowingInterest';
 import { useInView } from 'react-intersection-observer';
 
@@ -62,7 +62,7 @@ export default function RequestWrapper() {
 
   return (
     <>
-      <AddInterest />
+      <ThatGoAddInterest />
       <ShowingInterest stocks={stocks} isLoading={isLoading} />
       <span ref={ref} />
     </>
