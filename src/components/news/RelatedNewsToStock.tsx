@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import Card from '../shared/Card';
 import { News } from '@/types/news';
 

@@ -7,7 +7,7 @@ export default function AfterLayout({
 }>) {
   return (
     <div
-      className={`min-w-full min-h-dvh bg-background-100 pt-32 pb-20 px-14 text-grayscale-900 flex justify-center`}
+      className={`min-w-full w-fit  min-h-dvh bg-background-100 pt-32 pb-20 px-14 text-grayscale-900 flex justify-center`}
     >
       <HeadersNav />
       {children}

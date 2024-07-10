@@ -1,6 +1,5 @@
 import React from 'react';
 import StockListItem from '../shared/StockListItem';
-import AI from '@/assets/icons/ai.svg';
 import { Stock } from '@/types/stock';
 
 type RelatedStockProps = {

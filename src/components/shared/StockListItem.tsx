@@ -2,6 +2,7 @@ import React from 'react';
 import StockIcon from './StockIcon';
 import { Stock } from '@/types/stock';
 import Link from 'next/link';
+import { compareToZero, formattingPrice } from '@/utils/stock';
 
 export type StockListItemProps = {
   stock: Stock;
@@ -21,6 +22,9 @@ export default function StockListItem({
     price,
     compare_to_previous_close_price: cp,
   } = stock;
+
+  const compare = compareToZero(cp);
+
   return (
     <>
       {type === 'default' && (
@@ -38,24 +42,28 @@ export default function StockListItem({
             </div>
             <div className="flex flex-col">
               <span className={`text-right b3 font-medium`}>
-                ${price.toFixed(2)}
+                ${formattingPrice(price)}
               </span>
               <div
                 className={`flex gap-2 b4 font-normal
               ${
-                fluctuations_ratio > 0
+                compare === 'up'
                   ? 'text-warning-100'
-                  : fluctuations_ratio === 0
+                  : compare === 'equal'
                   ? ''
                   : 'text-secondary-600'
               }
               `}
               >
                 <span>{`${
-                  cp > 0 ? '▲' : cp === 0 ? '' : '▼'
+                  compare === 'up'
+                    ? '▲'
+                    : compare === 'equal'
+                    ? ''
+                    : '▼'
                 }${Math.abs(cp).toFixed(2)}`}</span>
                 <span>
-                  {fluctuations_ratio > 0 && '+'}
+                  {compare === 'up' && '+'}
                   {(fluctuations_ratio * 100).toFixed(2)}%
                 </span>
               </div>
@@ -78,24 +86,28 @@ export default function StockListItem({
             </div>
             <div className="flex flex-col">
               <span className={`text-right b5 font-medium`}>
-                ${price.toFixed(2)}
+                ${formattingPrice(price)}
               </span>
               <div
                 className={`flex gap-2 
               ${
-                fluctuations_ratio > 0
+                compare === 'up'
                   ? 'text-warning-100'
-                  : fluctuations_ratio === 0
+                  : compare === 'equal'
                   ? ''
                   : 'text-secondary-600'
               }
               caption`}
               >
                 <span>{`${
-                  cp > 0 ? '▲' : cp === 0 ? '' : '▼'
+                  compare === 'up'
+                    ? '▲'
+                    : compare === 'equal'
+                    ? ''
+                    : '▼'
                 }${Math.abs(cp).toFixed(2)}`}</span>
                 <span>
-                  {fluctuations_ratio > 0 && '+'}
+                  {compare === 'up' && '+'}
                   {(fluctuations_ratio * 100).toFixed(2)}%
                 </span>
               </div>
@@ -115,22 +127,22 @@ export default function StockListItem({
           <div
             className={`flex gap-2 
               ${
-                fluctuations_ratio > 0
+                compare === 'up'
                   ? 'text-warning-100'
-                  : fluctuations_ratio === 0
+                  : compare === 'equal'
                   ? ''
                   : 'text-secondary-600'
               }
               caption`}
           >
             <span className={`b4 font-medium text-grayscale-900`}>
-              ${price.toFixed(2)}
+              ${formattingPrice(price)}
             </span>
             <span className={`b4 font-normal`}>{`${
-              cp > 0 ? '▲' : cp === 0 ? '' : '▼'
+              compare === 'up' ? '▲' : compare === 'equal' ? '' : '▼'
             }${Math.abs(cp).toFixed(2)}`}</span>
             <span className={`b4 font-normal`}>
-              {fluctuations_ratio > 0 && '+'}
+              {compare === 'up' && '+'}
               {(fluctuations_ratio * 100).toFixed(2)}%
             </span>
           </div>
@@ -144,21 +156,23 @@ export default function StockListItem({
             <span className="b2">∙</span>
             <span className="b3">{stock_code}</span>
           </div>
-          <span className="b4 font-medium">${price.toFixed(2)}</span>
+          <span className="b4 font-medium">
+            ${formattingPrice(price)}
+          </span>
           <div
             className={`flex h-full items-center gap-2 ${
-              fluctuations_ratio > 0
+              compare === 'up'
                 ? 'text-warning-100'
-                : fluctuations_ratio === 0
+                : compare === 'equal'
                 ? ''
                 : 'text-secondary-600'
             }`}
           >
             <span className="b4">{`${
-              cp > 0 ? '▲' : cp === 0 ? '' : '▼'
+              compare === 'up' ? '▲' : compare === 'equal' ? '' : '▼'
             }${Math.abs(cp).toFixed(2)}`}</span>
             <span className={`b4 `}>
-              {fluctuations_ratio > 0 && '+'}
+              {compare === 'up' && '+'}
               {(fluctuations_ratio * 100).toFixed(2)}%
             </span>
           </div>
@@ -167,24 +181,26 @@ export default function StockListItem({
       {type === 'description' && (
         <div>
           <div className="text-primary-900 flex items-center gap-1">
-            <span className="b1 font-bold">${price.toFixed(2)}</span>
+            <span className="b1 font-bold">
+              ${formattingPrice(price)}
+            </span>
             <span className="b1 font-bold">∙</span>
             <span className="b2">{stock_code}</span>
           </div>
           <div
             className={`b2 font-medium flex items-center gap-2 ${
-              fluctuations_ratio > 0
+              compare === 'up'
                 ? 'text-warning-100'
-                : fluctuations_ratio === 0
+                : compare === 'equal'
                 ? ''
                 : 'text-secondary-600'
             }`}
           >
-            <span>{`${cp > 0 ? '▲' : cp === 0 ? '' : '▼'}${Math.abs(
-              cp,
-            ).toFixed(2)}`}</span>
+            <span>{`${
+              compare === 'up' ? '▲' : compare === 'equal' ? '' : '▼'
+            }${Math.abs(cp).toFixed(2)}`}</span>
             <span>
-              {fluctuations_ratio > 0 && '+'}
+              {compare === 'up' && '+'}
               {(fluctuations_ratio * 100).toFixed(2)}%
             </span>
           </div>

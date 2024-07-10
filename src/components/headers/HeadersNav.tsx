@@ -4,8 +4,8 @@ import TextButton from '../shared/buttons/TextButton';
 export default function HeadersNav() {
   return (
     <>
-      <div className="w-full h-[80px] flex items-center bg-[#FFFFFF] fixed top-0 z-50">
-        <div className="w-[1200px] flex items-center mx-auto">
+      <div className="w-full h-[80px] flex justify-center bg-[#FFFFFF] fixed top-0 left-0 z-50">
+        <div className="w-[1200px] flex items-center justify-center">
           <Link href="/home">
             <Logo />
           </Link>

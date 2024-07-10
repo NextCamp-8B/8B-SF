@@ -15,9 +15,7 @@ function RecentNews() {
     if (inView && !loading) {
       setLoadging(true);
       const { newsList, lastPage } = await (
-        await fetch(
-          `${process.env.NEXTAUTH_URL}/api/news?page=${page}`,
-        )
+        await fetch(`/api/news?page=${page}`)
       ).json();
 
       if (page < lastPage) {

@@ -22,7 +22,6 @@ export default async function NewsDetailPage({
       method: 'PATCH',
     })
   ).json();
-  // console.log(data);
 
   return (
     <>
