@@ -6,7 +6,7 @@ export default async function HomeRelatedNews() {
   const { newsList }: { newsList: News[] } = await (
     await fetch('http://localhost:3000/api/news/related/stock')
   ).json();
-  // console.log(newsList);
+
   return (
     <div className="flex gap-5">
       {newsList.map((news) => (

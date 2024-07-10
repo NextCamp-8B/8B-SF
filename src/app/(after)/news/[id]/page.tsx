@@ -17,7 +17,7 @@ type NewsDetailPageProps = {
 export default async function NewsDetailPage({
   params,
 }: NewsDetailPageProps) {
-  const data = await (
+  await (
     await fetch(`http://localhost:3000/api/news/${params.id}`, {
       method: 'PATCH',
     })

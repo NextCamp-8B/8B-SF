@@ -1,11 +1,4 @@
-import NewsSection from '@/components/news/NewsSection';
 import Recent from '../../../components/recent/Recent';
-import Card from '@/components/shared/Card';
-import NewsBorder from '@/components/news/NewsBorder';
-import NewsListItem from '@/components/shared/NewsListItem';
-import HomeRecentNews from '@/components/news/HomeRecentNews';
-import { TMP_NEWS } from '@/constants';
-import HomeRelatedNews from '@/components/news/HomeRelatedNews';
 import HomeNewsTab from '@/components/news/HomeNewsTab';
 import FavoriteMain from '@/components/homefavorite/FavoriteMain';
 
