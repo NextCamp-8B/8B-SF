@@ -11,7 +11,9 @@ export default async function RelatedStock({
   id,
 }: RelatedStockProps) {
   const { stockList }: { stockList: Stock[] } = await (
-    await fetch(`http://localhost:3000/api/news/related/stock/${id}`)
+    await fetch(
+      `${process.env.NEXTAUTH_URL}/api/news/related/stock/${id}`,
+    )
   ).json();
 
   return (

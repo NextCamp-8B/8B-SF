@@ -11,7 +11,9 @@ export default async function RelatedNewsToNews({
   id,
 }: RelatedNewsToNewsProps) {
   const { newsList }: { newsList: News[] } = await (
-    await fetch(`http://localhost:3000/api/news/related/news/${id}`)
+    await fetch(
+      `${process.env.NEXTAUTH_URL}/api/news/related/news/${id}`,
+    )
   ).json();
 
   return (

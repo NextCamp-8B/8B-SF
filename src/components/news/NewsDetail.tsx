@@ -21,7 +21,7 @@ export default function NewsDetail({ id }: NewsDetailProps) {
   const [lang, setLang] = useState<Lang>('en');
   const getNews = async () => {
     const { news }: { news: News } = await (
-      await fetch(`http://localhost:3000/api/news/${id}`)
+      await fetch(`${process.env.NEXTAUTH_URL}/api/news/${id}`)
     ).json();
     setNews(news);
   };
