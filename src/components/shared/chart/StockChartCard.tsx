@@ -4,7 +4,7 @@ import AreaBtn from './rechart/AreaBtn';
 export default function StockChartCard({
   as,
 }: {
-  as: React.ElementType;
+  as?: React.ElementType;
 }) {
   return (
     <Rechart>

@@ -52,7 +52,7 @@ const radarData = [
 export default function StockAIReportCard({
   as,
 }: {
-  as: React.ElementType;
+  as?: React.ElementType;
 }) {
   const score = 70;
 
