@@ -4,11 +4,7 @@ import { match } from 'path-to-regexp';
 import { auth as getSession } from '@/auth';
 
 // 세션없이 사용가능한 페이지
-const publicPages = [
-  '/login',
-  '/signup',
-  '/find'
-];
+const publicPages = ['/login', '/signup', '/find'];
 
 // 세션필요 페이지
 const protectedPages = [
@@ -16,14 +12,14 @@ const protectedPages = [
   '/stock',
   '/search',
   '/user',
-  '/news'
+  '/news',
 ];
 
-export async function middleware(request: NextRequest) {
+export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-    //세션이 없는 상태 -> 세션필요 페이지로 동작시
-    // login 페이지로 이동
+  //세션이 없는 상태 -> 세션필요 페이지로 동작시
+  // login 페이지로 이동
   if (isMatch(pathname, protectedPages)) {
     const session = await getSession();
     // return session
@@ -45,7 +41,7 @@ export async function middleware(request: NextRequest) {
 
 //유저 경로 체크 함수
 function isMatch(pathname: string, urls: string[]) {
-  return urls.some(url => !!match(url)(pathname));
+  return urls.some((url) => !!match(url)(pathname));
 }
 
 // 미들웨어가 적용될 경로를 설정
@@ -58,6 +54,6 @@ export const config = {
     '/news/:path*',
     '/login',
     '/signup',
-    '/find/:path*'
+    '/find/:path*',
   ],
 };

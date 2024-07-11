@@ -1,6 +1,11 @@
 'use client';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import InputSet from '@/components/shared/input/index';
 import CompositeInput from '@/components/shared/input/CompositeInput/index';
 import useInputChange from '@/hooks/input/useInputChange';
@@ -50,6 +55,7 @@ export default function ProfileSetup({
   const [profileFile, setProfileFile] = useState<File>(); // 프로필 이미지 파일
   //프로필 이미지 / null 값은 기본이미지
   const { setPageStep } = usePageStore(); //페이지 이동
+  const initialNicknameRef = useRef(false); // 초기 nickname 값 설정 여부
 
   //에러발생 팝업
   const handleClosePopuup = () => {
@@ -68,10 +74,11 @@ export default function ProfileSetup({
   }, [validateForm]);
 
   useEffect(() => {
-    if (nickname) {
+    if (!initialNicknameRef.current && nickname) {
       value.nickname = nickname;
+      initialNicknameRef.current = true;
     }
-  }, []);
+  }, [nickname, value]);
 
   const handleStockChange = (
     e: React.ChangeEvent<HTMLInputElement>,

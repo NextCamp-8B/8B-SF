@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
       console.log('authError', authError);
       throw authError;
     }
-    // 새로운 세션으로 signIn하기 위해 클라이언트로 보냄
+    // 새로운 세션으로 signIn하여 세션 초기화
     // const newSession = data?.session;
     // await signIn('credentials', {
     //   accessToken: newSession.access_token,
