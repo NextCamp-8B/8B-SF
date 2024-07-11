@@ -36,6 +36,16 @@ export default function FindStockItem({
     setVisibleCount((prevCount) => prevCount + 4);
   };
 
+  const viewUpdate = async (stock_id: string) => {
+    const response = await fetch('/api/search/popular', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ stock_id }),
+    });
+  };
+
   return (
     <>
       <div className="flex items-center">
@@ -49,20 +59,22 @@ export default function FindStockItem({
           <div className="w-[542px] flex justify-center gap-4">
             <div className="w-[263px] flex justify-start flex-col">
               {visibleEvenStocks.map((stock: Stock) => (
-                <StockListItem
+                <div
                   key={stock.stock_id}
-                  stock={stock}
-                  type="find"
-                />
+                  onClick={() => viewUpdate(stock.stock_id)}
+                >
+                  <StockListItem stock={stock} type="find" />
+                </div>
               ))}
             </div>
             <div className="w-[263px] flex justify-start flex-col">
               {visibleOddStocks.map((stock: Stock) => (
-                <StockListItem
+                <div
                   key={stock.stock_id}
-                  stock={stock}
-                  type="find"
-                />
+                  onClick={() => viewUpdate(stock.stock_id)}
+                >
+                  <StockListItem stock={stock} type="find" />
+                </div>
               ))}
             </div>
           </div>

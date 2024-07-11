@@ -1,24 +1,28 @@
+'use client';
+
 import Link from 'next/link';
+import { popularProps } from './InputItem';
 
-// Search Page 주식 이름 출력
+// type dataProps = {
+//   stock_id: string;
+//   stock_name: string;
+//   stock_code: string;
+// };
 
-type dataProps = {
-  id: string;
-  name: string;
-  subname: string;
-  date: string;
-};
-
-export default function SearchLabel({ data }: { data: dataProps }) {
+export default function SearchLabel({
+  data,
+}: {
+  data: popularProps;
+}) {
   return (
     <>
-      <Link href={`/stock/${data.id}`}>
+      <Link href={`/stock/${data.stock_id}`}>
         <p className="text-overflow-1 px-2 hover:underline cursor-pointer">
-          {data.name}
+          {data.stock_name}
         </p>
       </Link>
       {/* <p className="b5 text-grayscale-400 flex items-center px-1">
-        {data.subname}
+        {data.stock_code}
       </p> */}
     </>
   );

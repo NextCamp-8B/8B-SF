@@ -1,15 +1,14 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import FindStock from './FindStock';
 import RecentSearch from './RecentSearch';
 import PopularSearch from './PopularSearch';
 import NoSearchData from './NoSearchData';
 
 export type popularProps = {
-  id: string;
-  name: string;
-  subname: string;
-  date: string;
+  stock_id: string;
+  stock_name?: string;
+  stock_code?: string;
 };
 
 export type searchDatasProps = {
@@ -23,10 +22,8 @@ export type searchDatasProps = {
 
 export default function InputItem({
   searchDatas,
-  popularDatas,
 }: {
   searchDatas: searchDatasProps[];
-  popularDatas: popularProps[];
 }) {
   const [text, setText] = useState('');
 
@@ -53,7 +50,7 @@ export default function InputItem({
             )}
           </div>
           <div className="py-4">
-            <PopularSearch popularDatas={popularDatas} />
+            <PopularSearch />
           </div>
         </>
       )}

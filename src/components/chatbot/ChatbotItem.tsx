@@ -1,20 +1,12 @@
 'use client';
 
 import FAB from '@/assets/icons/fab.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ChatbotChat from './ChatbotChat';
 
-export type TMPProps = {
-  role: 'bot' | 'user';
-  text: string;
-};
-
-export default function ChatbotItem({
-  chatting,
-}: {
-  chatting: TMPProps[];
-}) {
+export default function ChatbotItem({}: {}) {
   const [openActive, setOpenActive] = useState<Boolean>(false);
+  const [chatting, setChatting] = useState<string[] | null>(null);
 
   const openHandler = () => {
     setOpenActive(true);
@@ -23,6 +15,24 @@ export default function ChatbotItem({
   const closeHandler = () => {
     setOpenActive(false);
   };
+
+  useEffect(() => {
+    const user_id = 1;
+    if (openActive) {
+      const fetchChatbot = async () => {
+        const response = await fetch(
+          `/api/chatbot?user_id=${user_id}`,
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          // console.log(data.chat);
+          setChatting(data.chat);
+        }
+      };
+      fetchChatbot();
+    }
+  }, [openActive]);
 
   return (
     <>

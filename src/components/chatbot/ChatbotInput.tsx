@@ -1,12 +1,11 @@
 'use client';
 
 import { FormEvent, useState } from 'react';
-import { TMPProps } from './ChatbotItem';
 
 export default function ChatbotInput() {
-  const [chatting, setChatting] = useState<TMPProps[]>([]);
+  const [message, setMessage] = useState<string>('');
 
-  const submitHandler = (e: FormEvent) => {
+  const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
     //
     const target = e.target as typeof e.target & {
@@ -15,7 +14,24 @@ export default function ChatbotInput() {
 
     const message = target.message.value;
 
-    console.log('role : user', message);
+    const userId = 1;
+
+    const response = await fetch(`/api/chatbot?user_id=${userId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        question: message,
+        temperature: 0.1,
+        top_p: 0.1,
+      }),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      setMessage('');
+    }
   };
 
   return (
@@ -26,6 +42,8 @@ export default function ChatbotInput() {
             <input
               type="text"
               id="message"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
               className="w-[377px] h-14 border-grayscale-100 border-2 rounded-lg pl-4"
             />
 

@@ -27,77 +27,11 @@ const searchDatas = [
   },
 ];
 
-const popularDatas = [
-  {
-    id: '1a1a1a',
-    name: '애플1',
-    subname: 'AAPL',
-    date: '2024-06-25T04:30:00.000Z',
-  },
-  {
-    id: '2b2b2b',
-    name: '테슬라',
-    subname: 'AAPL',
-    date: '2024-06-25T04:30:00.000Z',
-  },
-  {
-    id: '3b3b3b',
-    name: '마이크로소프트',
-    subname: 'AAPL',
-    date: '2024-06-25T04:30:00.000Z',
-  },
-  {
-    id: '4d4d4d',
-    name: '삼성전자',
-    subname: 'AAPL',
-    date: '2024-06-25T04:30:00.000Z',
-  },
-  {
-    id: '5e5e5e',
-    name: '아마존',
-    subname: 'AAPL',
-    date: '2024-06-25T04:30:00.000Z',
-  },
-  {
-    id: '6f6f6f',
-    name: '애플',
-    subname: 'AAPL',
-    date: '2024-06-25T04:30:00.000Z',
-  },
-  {
-    id: '7g7g7g',
-    name: '엔비디아',
-    subname: 'AAPL',
-    date: '2024-06-25T04:30:00.000Z',
-  },
-  {
-    id: '8h8h8h',
-    name: 'LG',
-    subname: 'AAPL',
-    date: '2024-06-25T04:30:00.000Z',
-  },
-  {
-    id: '9i9i9i',
-    name: 'SK 하이닉스',
-    subname: 'AAPL',
-    date: '2024-06-25T04:30:00.000Z',
-  },
-  {
-    id: '10j10j10j',
-    name: 'AMD',
-    subname: 'AAPL',
-    date: '2024-06-25T04:30:00.000Z',
-  },
-];
-
 export default function Search() {
   return (
     <div className="flex flex-col">
       <div className="py-4">
-        <InputItem
-          searchDatas={searchDatas}
-          popularDatas={popularDatas}
-        />
+        <InputItem searchDatas={searchDatas} />
       </div>
       {/* <div className="py-4">
         {searchDatas.length > 0 ? (

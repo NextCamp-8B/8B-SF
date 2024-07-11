@@ -1,14 +1,13 @@
 import ChatbotContent from './ChatbotContent';
 import ChatbotHeader from './ChatbotHeader';
 import ChatbotInput from './ChatbotInput';
-import { TMPProps } from './ChatbotItem';
 
 export default function ChatbotChat({
   closeHandler,
   chatting,
 }: {
   closeHandler: () => void;
-  chatting: TMPProps[];
+  chatting: string[] | null;
 }) {
   return (
     <>
