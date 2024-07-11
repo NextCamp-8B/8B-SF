@@ -51,7 +51,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
         // 유효한 사용자라면
         return {
-          id: loginData.user.user_metadata.id,
+          id: loginData.user.id,
           name: loginData.user.user_metadata.name,
           email: loginData.user.email,
           role: loginData.user.role || '',
