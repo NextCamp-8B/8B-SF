@@ -10,7 +10,9 @@ export default function SkeletonProfileSection({}) {
         <SectionBox
           title="프로필 설정"
           description="서비스 사용시 보여지는 프로필을 생성 및 변경합니다. 프로필을 설정해보세요."
-        ></SectionBox>
+        >
+          <SkeletonText type="h4" className="w-40" />
+        </SectionBox>
 
         <div className="flex gap-x-32">
           <h3 className="b3 font-semibold">프로필 선택</h3>
@@ -25,7 +27,9 @@ export default function SkeletonProfileSection({}) {
         <SectionBox
           title="계정 설정"
           description="서비스 이용시 사용하는 계정을 생성 및 변경합니다. 계정을 인증하여 다양한 서비스를 이용해보세요."
-        ></SectionBox>
+        >
+          <SkeletonText type="h4" className="w-40" />
+        </SectionBox>
         <div className="flex flex-col gap-y-4">
           <div className="flex gap-x-24 items-center">
             <SkeletonText type="b1" className="w-32" />

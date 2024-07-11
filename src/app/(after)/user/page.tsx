@@ -29,7 +29,7 @@ export default function User() {
   const { data: session, status } = useSession();
 
   if (status === 'unauthenticated') {
-    router.replace('/login');
+    router.push('/login');
   }
 
   // useSession 로딩에 따른 skeleton ui 처리
@@ -72,35 +72,37 @@ export default function User() {
   return (
     <>
       {/* 모달 */}
-      {(isProfileSetup || isPasswordCheck || isUserProfileEdit) && (
-        <>
-          {/* 프로필 수정 */}
-          {isProfileSetup && (
-            <ProfileSetup
-              buttonText="수정하기"
-              isModal={true}
-              onClose={handleCloseModal}
-            />
-          )}
-          {/* 비밀번호 확인 */}
-          {isPasswordCheck && (
-            <CheckPassword
-              handleSubmit={handleCheckPassword}
-              onClose={handleCloseModal}
-            />
-          )}
-          {/* 유저 정보 수정 */}
-          {isUserProfileEdit && (
-            <UserProfileEdit
-              isWithdrawal={isWithdrawal}
-              setIsWithdrawal={setIsWithdrawal}
-              handleSubmit={handleUserProfileEdit}
-              handleSetWithdrawal={handleSetWithdrawal}
-              onClose={handleCloseModal}
-            />
-          )}
-        </>
-      )}
+      {(isProfileSetup || isPasswordCheck || isUserProfileEdit) &&
+        !loading && (
+          <>
+            {/* 프로필 수정 */}
+            {isProfileSetup && (
+              <ProfileSetup
+                buttonText="수정하기"
+                isModal={true}
+                onClose={handleCloseModal}
+                user={session?.user}
+              />
+            )}
+            {/* 비밀번호 확인 */}
+            {isPasswordCheck && (
+              <CheckPassword
+                handleSubmit={handleCheckPassword}
+                onClose={handleCloseModal}
+              />
+            )}
+            {/* 유저 정보 수정 */}
+            {isUserProfileEdit && (
+              <UserProfileEdit
+                isWithdrawal={isWithdrawal}
+                setIsWithdrawal={setIsWithdrawal}
+                handleSubmit={handleUserProfileEdit}
+                handleSetWithdrawal={handleSetWithdrawal}
+                onClose={handleCloseModal}
+              />
+            )}
+          </>
+        )}
       {/* 회원탈퇴 성공 */}
       {isWithdrawal ? (
         <WithdrawalComplete />

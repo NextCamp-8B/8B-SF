@@ -12,11 +12,13 @@ import LoadingSpinner from '../shared/LoadingSpinner';
 import AuthPopup from './Popup';
 import usePageStore from '@/store/signupStepStore';
 import ProfileImageEditor from './ProfileImageEditor';
+import { User } from 'next-auth';
 
 type ProfileSetupProps = {
   buttonText: string;
   isModal?: boolean; // 모달 여부를 판단하는 props 추가
   onClose?: () => void; // onClose prop 추가
+  user?: User;
 };
 
 // 마이페이지 설정에서 모달 과 회원가입 페이지에서 사용
@@ -24,17 +26,27 @@ export default function ProfileSetup({
   buttonText,
   onClose,
   isModal = false, // 기본값은 false
+  user,
 }: ProfileSetupProps) {
+  const {
+    nickname,
+    interestStock,
+    profileImg: userImage, //유저의 기존 이미지,
+    profileImgName: userImageName, //유저의 기존 이미지 이름,
+    accessToken,
+    refreshToken,
+  } = user || {};
+  console.log(user, '-------userInfo--------');
   const { clearUser } = useUserStore();
-  const [errorMsg, setErrorMsg] = useState({ title: '', msg: '' });
+  const [errorMsg, setErrorMsg] = useState({ title: '', msg: '' }); //팝업에 에러 메세지
   const [isShowPopup, setIsShowPopup] = useState(false); // 팝업 조건부 렌더링
   const [isLoading, setIsLoading] = useState(false); //api 로딩 체크
   const { value, onChangeInputValue } = useInputChange(); //Input 관리
   const [isSubmit, setIsSubmit] = useState(false); // 폼 submit
   const [isFormValid, setIsFormValid] = useState(false); //폼 유효성 체크
-  const [stock, setStock] = useState(''); //관심종목
+  const [stock, setStock] = useState(interestStock || ''); //관심종목
 
-  const [profileImage, setProfileImage] = useState(''); //base54 프로필 이미지
+  const [profileImage, setProfileImage] = useState(userImage || ''); //base54 프로필 이미지
   const [profileFile, setProfileFile] = useState<File>(); // 프로필 이미지 파일
   //프로필 이미지 / null 값은 기본이미지
   const { setPageStep } = usePageStore(); //페이지 이동
@@ -55,6 +67,12 @@ export default function ProfileSetup({
     validateForm();
   }, [validateForm]);
 
+  useEffect(() => {
+    if (nickname) {
+      value.nickname = nickname;
+    }
+  }, []);
+
   const handleStockChange = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -73,21 +91,32 @@ export default function ProfileSetup({
     formData.append('interestStock', stock);
     formData.append('profileImg', profileFile as File);
 
-    // Zustand에서 유저 정보 가져오기
-    const updatedUser = useUserStore.getState().user;
-    Object.entries(updatedUser).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
+    // Zustand에서 유저 정보 가져오기 (회원가입일 경우)
+    if (!isModal) {
+      const updatedUser = useUserStore.getState().user;
+      Object.entries(updatedUser).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+    } else {
+      // 프로필 수정이라면 token 전달
+      formData.append('accessToken', accessToken || '');
+      formData.append('refreshToken', refreshToken || '');
+      formData.append('userBaseImg', userImageName || '');
+    }
 
     try {
-      const response = await fetch('/api/user', {
+      // 모달은 수정 api/mypage , 회원가입은 /api/user
+      const endpoint = isModal ? '/api/mypage' : '/api/user';
+      const response = await fetch(endpoint, {
         method: 'POST',
         body: formData,
       });
 
       if (response.ok) {
-        clearUser(); // Zustand 스토리지에서 유저 데이터 삭제
-        setPageStep('welcome');
+        if (!isModal) {
+          clearUser(); // Zustand 스토리지에서 유저 데이터 삭제
+          setPageStep('welcome');
+        }
       } else {
         setErrorMsg({
           title: '회원가입 오류',

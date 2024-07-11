@@ -23,10 +23,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           email: string;
           password: string;
         };
+
         if (!email || !password) {
           throw new CredentialsSignin('입력값이 부족합니다.');
         }
-        console.log(email, password, '----login input 값');
         // 이메일 찾기
         const { data: userData, error: userError }: any =
           await supabase
@@ -45,7 +45,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             email: userData?.email,
             password,
           });
-
+        console.log(loginData, '-----login 로그인-------');
         if (loginError || !loginData) {
           throw new CredentialsSignin('로그인에 실패했습니다.');
         }
@@ -54,13 +54,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           id: loginData.user.user_metadata.id,
           name: loginData.user.user_metadata.name,
           email: loginData.user.email,
-          role: loginData.user.role,
+          role: loginData.user.role || '',
           nickname: loginData.user.user_metadata.nickname,
           profileImg: loginData.user.user_metadata.profileImg,
+          profileImgName: loginData.user.user_metadata.profileImgName,
           birth: loginData.user.user_metadata.birth,
           phoneNumber: loginData.user.user_metadata.phoneNumber,
           interestStock: loginData.user.user_metadata.interestStock,
           accessToken: loginData.session.access_token,
+          refreshToken: loginData.session.refresh_token,
         };
       },
     }),
@@ -117,8 +119,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             process.env.NEXT_PUBLIC_JWT_SECRET!,
             { expiresIn: '30m' },
           );
-          const baseUrl =
-            process.env.NEXTAUTH_URL || 'http://localhost:3000';
+          const baseUrl = process.env.NEXTAUTH_URL!;
           // cookie 값 세팅을 위한 route api 핸들러 라우팅
           return `${baseUrl}/api/cookie?token=${jwtToken}`;
         }
@@ -157,12 +158,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           user.name = socialLogin.user.user_metadata.name;
           user.nickname = socialLogin.user.user_metadata.nickname;
           user.profileImg = socialLogin.user.user_metadata.profileImg;
+          user.profileImgName =
+            socialLogin.user.user_metadata.profileImgName;
           user.birth = socialLogin.user.user_metadata.birth;
           user.phoneNumber =
             socialLogin.user.user_metadata.phoneNumber;
           user.interestStock =
             socialLogin.user.user_metadata.interestStock;
           user.accessToken = socialLogin.session.access_token;
+          user.refreshToken = socialLogin.session.refresh_token;
           return true;
         }
         return true;
@@ -170,7 +174,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true;
     },
     async jwt({ token, user }: any) {
-      console.log('--------------token-------------');
+      // console.log('--------------token-------------');
       // console.log('----------jwt token-------------', token);
       // console.log('---------jwt user---------- ', user);
       if (user) {
@@ -181,16 +185,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.image = user.image;
         token.nickname = user.nickname;
         token.profileImg = user.profileImg;
+        token.profileImgName = user.profileImgName;
         token.birth = user.birth;
         token.phoneNumber = user.phoneNumber;
         token.interestStock = user.interestStock;
-        token.accessToken = user.accessToken; // JWT에 액세스 토큰을 추가
+        token.accessToken = user.accessToken;
+        token.refreshToken = user.refreshToken;
       }
       return token;
     },
     async session({ session, token }: any) {
       // 세션에 사용자 정보를 추가
-      console.log('--------------session-------------');
+      // console.log('--------------session-------------');
       // console.log('token :', token);
       if (token) {
         session.user.id = token.id;
@@ -198,12 +204,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.name = token.name;
         session.user.nickname = token.nickname;
         session.user.profileImg = token.profileImg;
+        session.user.profileImgName = token.profileImgName;
         session.user.birth = token.birth;
         session.user.phoneNumber = token.phoneNumber;
         session.user.interestStock = token.interestStock;
-        session.user.accessToken = token.accessToken; // 세션에 액세스 토큰을 추가
+        session.user.accessToken = token.accessToken;
+        session.user.refreshToken = token.refreshToken;
       }
-      console.log('session:', session);
+      // console.log('session:', session);
       return session;
     },
     redirect: async ({ url, baseUrl }) => {

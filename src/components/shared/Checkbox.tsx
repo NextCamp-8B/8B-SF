@@ -64,4 +64,7 @@ Checkbox.Rounded = ({ className = '', ...props }) => (
   <CheckboxBase type="rounded" {...props} />
 );
 
+Checkbox.Primary.displayName = 'Checkbox.Primary';
+Checkbox.Rounded.displayName = 'Checkbox.Rounded';
+
 export default Checkbox;

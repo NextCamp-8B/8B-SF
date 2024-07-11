@@ -4,6 +4,7 @@ import {
   checkUserIdExists,
   uploadProfileImage,
 } from '@/utils/supabase/supabaseHelper';
+import generateFileName from '@/utils/generateFileName';
 
 export type User = {
   id: number;
@@ -84,14 +85,13 @@ export async function POST(request: NextRequest) {
     }
 
     // 프로필 이미지 supabase 스토리지에 저장
-    let profileFileImageUrl: any = null;
+    let profileFileImageUrl: any = null; //이미지 파일 url
+    let profilFileImageName: any = null; //이미지 이름
     if (profileImg && profileImg.name) {
-      const fileName = `${Date.now()}_${profileImg?.name.replace(
-        /[^A-Za-z0-9_.\-]/g,
-        '_',
-      )}`;
+      profilFileImageName = generateFileName(profileImg?.name);
+
       const publicUrl = await uploadProfileImage(
-        fileName,
+        profilFileImageName,
         profileImg,
       );
       profileFileImageUrl = publicUrl;
@@ -108,12 +108,14 @@ export async function POST(request: NextRequest) {
           phone: phoneNumber,
           phoneNumber,
           profileImg: profileFileImageUrl,
+          profileImgName: profilFileImageName,
           nickname,
           interestStock,
           provider_account_id: providerAccountId,
         },
       },
     });
+    console.log('----data-===', data);
 
     if (error) {
       throw error;
