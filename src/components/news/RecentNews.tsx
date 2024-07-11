@@ -1,9 +1,17 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import NewsListItem from '../shared/NewsListItem';
 import { useInView } from 'react-intersection-observer';
 import { News } from '@/types/news';
+import dynamic from 'next/dynamic';
+import SkeletonNewsListItem from '../skeleton/news/SkeletonNewsListItem';
+
+const NewsListItem = dynamic(
+  () => import('@/components/shared/NewsListItem'),
+  {
+    loading: () => <SkeletonNewsListItem type="large" />,
+  },
+);
 
 function RecentNews() {
   const { ref, inView } = useInView();

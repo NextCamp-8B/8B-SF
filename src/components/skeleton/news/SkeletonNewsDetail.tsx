@@ -6,7 +6,7 @@ import SkeletonOriginNewsCard from './SkeletonOriginNewsCard';
 export default function SkeletonNewsDetail() {
   return (
     <>
-      <div>
+      <div className="w-[740px]">
         <SkeletonText type="h4" className="mb-4" />
         <div className="flex justify-between">
           <div className="flex gap-[6px]">

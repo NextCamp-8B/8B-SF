@@ -26,7 +26,10 @@ export default async function NewsDetailPage({
   return (
     <>
       <main className="flex justify-center gap-5 max-w-[1200px]">
-        <Wrapper padding="p-8" width="flex-1 flex flex-col gap-8">
+        <Wrapper
+          padding="p-8"
+          width="flex-1 flex flex-col gap-8 h-fit"
+        >
           <Suspense fallback={<SkeletonNewsDetail />}>
             <NewsDetail id={params.id} />
           </Suspense>
