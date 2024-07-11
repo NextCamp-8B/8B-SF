@@ -2,31 +2,32 @@ import Time from '@/assets/icons/time.svg';
 import Link from 'next/link';
 import { searchDate } from '@/utils/date';
 import DeleteSearch from './DeleteSearch';
-import { searchDatasProps } from './InputItem';
 import SearchHeading from './SearchHeading';
 import SearchLabel from './SearchLabel';
-
-// type deleteProps = {
-//   type: 'all' | 'select';
-//   id?: string;
-//   data?: string;
-//   iscompleted?: boolean;
-// };
+import { stocksProps } from './InputItem';
 
 export default function RecentSearch({
-  searchDatas,
+  recentDatas,
+  session,
+  setRecentDatas,
 }: {
-  searchDatas: searchDatasProps[] | null;
+  recentDatas: stocksProps[] | null;
+  session: any;
+  setRecentDatas: (data: stocksProps[] | null) => void;
 }) {
   return (
     <div className="w-[590px]">
       <div className="flex items-center justify-between">
         <SearchHeading> 최근 검색어</SearchHeading>
-        <DeleteSearch type="all" />
+        <DeleteSearch
+          type="all"
+          session={session.user}
+          setRecentDatas={setRecentDatas}
+        />
       </div>
       <div className="w-full rounded-2xl shadow-md bg-grayscale-0 py-6 ">
-        {searchDatas &&
-          searchDatas.map((searchData, i) => {
+        {recentDatas &&
+          recentDatas.map((recentData, i) => {
             return (
               <div
                 className="flex justify-between items-center px-6 py-2 "
@@ -36,14 +37,19 @@ export default function RecentSearch({
                   <div>
                     <Time width={24} height={24} />
                   </div>
-                  <SearchLabel data={searchData} />
+                  <SearchLabel data={recentData} />
                 </div>
                 <div className="flex items-center">
                   <p className="b5 text-grayscale-400 px-2 cursor-default">
-                    {searchDate(searchData.date)}
+                    {searchDate(recentData.created_at)}
                   </p>
                   <button type="submit">
-                    <DeleteSearch type="select" />
+                    <DeleteSearch
+                      type="select"
+                      session={session.user}
+                      data={recentData}
+                      setRecentDatas={setRecentDatas}
+                    />
                   </button>
                 </div>
               </div>

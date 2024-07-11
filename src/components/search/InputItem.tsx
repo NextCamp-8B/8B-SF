@@ -1,31 +1,40 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import FindStock from './FindStock';
 import RecentSearch from './RecentSearch';
 import PopularSearch from './PopularSearch';
 import NoSearchData from './NoSearchData';
+import { useSession } from 'next-auth/react';
 
-export type popularProps = {
-  stock_id: string;
+export type stocksProps = {
+  stock_id?: string;
   stock_name?: string;
   stock_code?: string;
+  created_at?: string;
 };
 
-export type searchDatasProps = {
-  id?: string;
-  name?: string;
-  subname?: string;
-  date?: string;
-  iscompleted?: boolean;
-  path?: string;
-};
-
-export default function InputItem({
-  searchDatas,
-}: {
-  searchDatas: searchDatasProps[];
-}) {
+export default function InputItem({}: {}) {
+  const { data: session, status } = useSession();
   const [text, setText] = useState('');
+  const [recentDatas, setRecentDatas] = useState<
+    stocksProps[] | null
+  >([]);
+
+  const fetchRecentSearch = useCallback(async () => {
+    if (session) {
+      const response = await fetch(
+        `/api/search/recent?userId=${session?.user.id}`,
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setRecentDatas(data.stocks);
+      }
+    }
+  }, [session]);
+
+  useEffect(() => {
+    fetchRecentSearch();
+  }, [fetchRecentSearch]);
 
   return (
     <div className="">
@@ -43,14 +52,18 @@ export default function InputItem({
       ) : (
         <>
           <div className="py-4">
-            {searchDatas.length > 0 ? (
-              <RecentSearch searchDatas={searchDatas} />
+            {recentDatas && recentDatas.length > 0 ? (
+              <RecentSearch
+                recentDatas={recentDatas}
+                session={session}
+                setRecentDatas={setRecentDatas}
+              />
             ) : (
               <NoSearchData />
             )}
           </div>
           <div className="py-4">
-            <PopularSearch />
+            <PopularSearch session={session} />
           </div>
         </>
       )}

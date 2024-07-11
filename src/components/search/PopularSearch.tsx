@@ -4,10 +4,10 @@ import Wrapper from '../shared/Wrapper';
 import PopularItem from './PopularItem';
 import SearchHeading from './SearchHeading';
 import SkeletonPopularStock from '../skeleton/search/SkeletonPopularStock';
-import { popularProps } from './InputItem';
+import { stocksProps } from './InputItem';
 
-export default function PopularSearch() {
-  const [popularList, setPopularList] = useState<popularProps[]>([]);
+export default function PopularSearch({ session }: { session: any }) {
+  const [popularList, setPopularList] = useState<stocksProps[]>([]);
   const [showSkeleton, setShowSkeleton] = useState(true);
   useEffect(() => {
     const fetchPopular = async () => {
@@ -36,6 +36,16 @@ export default function PopularSearch() {
     });
   };
 
+  const recentUpdate = async (stock_id: string) => {
+    const response = await fetch('/api/search/recent', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ stock_id, session }),
+    });
+  };
+
   return (
     <>
       <div className="w-[590px]">
@@ -57,9 +67,11 @@ export default function PopularSearch() {
                       return (
                         <div
                           key={idx}
-                          onClick={() =>
-                            viewUpdate(popularData.stock_id)
-                          }
+                          onClick={() => {
+                            popularData.stock_id &&
+                              (viewUpdate(popularData.stock_id),
+                              recentUpdate(popularData.stock_id));
+                          }}
                         >
                           <PopularItem
                             popularData={popularData}
@@ -78,11 +90,20 @@ export default function PopularSearch() {
                 : popularList.map((popularData, idx) => {
                     if (idx >= 5) {
                       return (
-                        <PopularItem
-                          popularData={popularData}
-                          idx={idx}
+                        <div
                           key={idx}
-                        />
+                          onClick={() =>
+                            popularData.stock_id &&
+                            (viewUpdate(popularData.stock_id),
+                            recentUpdate(popularData.stock_id))
+                          }
+                        >
+                          <PopularItem
+                            popularData={popularData}
+                            idx={idx}
+                            key={idx}
+                          />
+                        </div>
                       );
                     }
                   })}

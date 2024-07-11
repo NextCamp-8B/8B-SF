@@ -1,11 +1,11 @@
-import { popularProps } from './InputItem';
+import { stocksProps } from './InputItem';
 import SearchLabel from './SearchLabel';
 
 export default function PopularItem({
   popularData,
   idx,
 }: {
-  popularData: popularProps;
+  popularData: stocksProps;
   idx: number;
 }) {
   return (

@@ -13,9 +13,11 @@ import { Stock } from '@/types/stock';
 export default function FindStockItem({
   stockList,
   searchText,
+  session,
 }: {
   stockList: Stock[];
   searchText: string;
+  session: any;
 }) {
   const [visibleCount, setVisibleCount] = useState(6);
 
@@ -46,6 +48,16 @@ export default function FindStockItem({
     });
   };
 
+  const recentUpdate = async (stock_id: string) => {
+    const response = await fetch('/api/search/recent', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ stock_id, session }),
+    });
+  };
+
   return (
     <>
       <div className="flex items-center">
@@ -61,7 +73,10 @@ export default function FindStockItem({
               {visibleEvenStocks.map((stock: Stock) => (
                 <div
                   key={stock.stock_id}
-                  onClick={() => viewUpdate(stock.stock_id)}
+                  onClick={() => {
+                    viewUpdate(stock.stock_id),
+                      recentUpdate(stock.stock_id);
+                  }}
                 >
                   <StockListItem stock={stock} type="find" />
                 </div>
@@ -71,7 +86,10 @@ export default function FindStockItem({
               {visibleOddStocks.map((stock: Stock) => (
                 <div
                   key={stock.stock_id}
-                  onClick={() => viewUpdate(stock.stock_id)}
+                  onClick={() => {
+                    viewUpdate(stock.stock_id),
+                      recentUpdate(stock.stock_id);
+                  }}
                 >
                   <StockListItem stock={stock} type="find" />
                 </div>

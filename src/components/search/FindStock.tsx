@@ -6,6 +6,7 @@ import FindNews from '../search/FindNews';
 import { TMP_NEWS_LIST } from '@/constants';
 import { Stock } from '@/types/stock';
 import { News } from '@/types/news';
+import { useSession } from 'next-auth/react';
 
 export default function FindStock({
   searchText,
@@ -32,6 +33,8 @@ export default function FindStock({
 
     return () => clearTimeout(debounceTimeout);
   }, [searchText]);
+  const { data: session, status } = useSession();
+
   useEffect(() => {
     const fetchNews = async () => {
       if (stocksList.length > 0) {
@@ -64,6 +67,7 @@ export default function FindStock({
           <FindStockItem
             stockList={stocksList}
             searchText={searchText}
+            session={session}
           />
         )}
       </div>
