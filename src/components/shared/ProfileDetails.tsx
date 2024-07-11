@@ -30,7 +30,7 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({
   buttonText,
 }) => {
   return (
-    <>
+    <form onSubmit={onHandleSubmit}>
       <ProfileImageEditor
         profileImage={profileImage}
         handleImageUpload={handleImageUpload}
@@ -59,11 +59,11 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({
             placeholder="#관심 종목을 추가해주세요"
           />
         </CompositeInput>
-        <TextButton onClick={onHandleSubmit} className="w-full mt-8">
+        <TextButton type="submit" className="w-full mt-8">
           {buttonText}
         </TextButton>
       </InputSet>
-    </>
+    </form>
   );
 };
 

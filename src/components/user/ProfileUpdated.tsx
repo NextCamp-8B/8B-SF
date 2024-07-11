@@ -10,11 +10,10 @@ import useInputChange from '@/hooks/input/useInputChange';
 import Wrapper from '@/components/shared/Wrapper';
 import { conceptMap } from '@/components/shared/input/inputConfig';
 import LoadingSpinner from '../shared/LoadingSpinner';
-// import { User } from 'next-auth';
-import { UpdateSession, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import AuthPopup from '../signup/Popup';
 import ProfileDetails from '../shared/ProfileDetails';
-import { useProfileUpdate } from '@/hooks/mypage/useProfileUpdated';
+import { useProfileUpdate } from '@/hooks/user/useProfileUpdated';
 
 type ProfileUpdateProps = {
   onClose?: () => void;
@@ -39,14 +38,13 @@ export default function ProfileUpdate({
   const [profileImage, setProfileImage] = useState(userImage || ''); //base54 프로필 이미지
   const [profileFile, setProfileFile] = useState<File>(); // 프로필 이미지 파일
   const initialNicknameRef = useRef(false); //닉네임 초기값 설정
-  const { update } = useSession();
   const {
     isLoading,
     isShowPopup,
     popupMsg,
     setIsShowPopup,
     handleProfileUpdate,
-  } = useProfileUpdate(update); //로딩. 팝업, api요청 관리
+  } = useProfileUpdate(); //로딩. 팝업, api요청 관리
 
   //팝업 닫기
   const handleClosePopuup = () => setIsShowPopup(false);

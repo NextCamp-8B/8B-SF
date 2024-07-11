@@ -5,6 +5,7 @@ declare module 'next-auth' {
   interface Session {
     user: {
       id: string;
+      userId: string;
       email: string;
       name: string;
       role: string;
@@ -14,6 +15,7 @@ declare module 'next-auth' {
       birth: string;
       phoneNumber: string;
       interestStock: string;
+      provider:string;
       accessToken: string;
       refreshToken: string;
     };
@@ -21,6 +23,7 @@ declare module 'next-auth' {
 
   interface User {
     id: string;
+    userId: string;
     email: string;
     name: string;
     role: string;
@@ -30,6 +33,7 @@ declare module 'next-auth' {
     birth: string;
     phoneNumber: string;
     interestStock: string;
+    provider:string;
     accessToken: string;
     refreshToken: string;
   }

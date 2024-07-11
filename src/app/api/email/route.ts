@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
-import fs from 'fs';
-import path from 'path';
 import jwt from 'jsonwebtoken';
 import { checkEmailExists } from '@/utils/supabase/supabaseHelper';
 
@@ -21,8 +19,6 @@ const transporter = nodemailer.createTransport({
   auth: {
     user: process.env.NAVER_ID,
     pass: process.env.NAVER_PW,
-    // user: process.env.GMAIL_USER,
-    // pass: process.env.GMAIL_APP_KEY,
   },
 });
 
@@ -35,21 +31,12 @@ const transporter = nodemailer.createTransport({
 // POST 요청 처리 - 이메일 인증 링크 전송
 export async function POST(
   request: NextRequest,
-  // response: NextResponse,
 ) {
   try {
     const { name, email } = await request.json();
 
     // 이메일 중복 체크
-    // const { data, error } = await supabase
-    //   .from('user')
-    //   .select('email')
-    //   .eq('email', email);
     const data = await checkEmailExists(email);
-
-    // if (error) {
-    //   throw new Error('데이터베이스 에러 발생');
-    // }
 
     if (data) {
       return NextResponse.json(

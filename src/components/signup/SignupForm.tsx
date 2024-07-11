@@ -4,37 +4,20 @@ import InputSet from '@/components/shared/input/index';
 import useInputChange from '@/hooks/input/useInputChange';
 import TextButton from '@/components/shared/buttons/TextButton';
 import Wrapper from '@/components/shared/Wrapper';
-
 import { conceptMap } from '@/components/shared/input/inputConfig';
 import useUserStore from '@/store/userStore';
 import usePageStore from '@/store/signupStepStore';
+import useDuplicateCheck from '@/hooks/user/useDuplicateCheck';
 
 export default function SignupForm() {
-  const [isLoading, setIsLoading] = useState(false); //중복확인 api 로딩
   const { user, setUser } = useUserStore(); // 유저 store
   const { value, onChangeInputValue } = useInputChange(); //Input 관리
   const [isSubmit, setIsSubmit] = useState(false); // 폼 submit
   const [isFormValid, setIsFormValid] = useState(false); // 폼 유효성 체크
-  const [duplicatedCheck, setDuplicatedCheck] = useState(false); //아이디 중복 체크
   const { setPageStep } = usePageStore(); //페이지 이동
+  const { isLoading, duplicatedCheck, handleDuplicate } =
+    useDuplicateCheck(value.signupId); // 아이디 중복 검사 api
 
-  // 아이디 중복 검사 api
-  const handleDuplicate = async () => {
-    setIsLoading(true);
-    const response = await fetch(
-      `/api/user?signupId=${value.signupId}`,
-    );
-    const result = await response.json();
-    if (result.message === 'duplicate') {
-      setIsLoading(false);
-      setDuplicatedCheck(false);
-      return 'duplicate';
-    } else {
-      setIsLoading(false);
-      setDuplicatedCheck(true);
-      return 'possible';
-    }
-  };
   // 폼 입력시 유효성 검사
   // 소셜 로그인시 휴대폰, 생일 유효성 검사
   const validateForm = useCallback(() => {

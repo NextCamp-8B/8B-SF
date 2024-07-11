@@ -49,5 +49,5 @@ export default function useInputChange() {
     setValue((prev) => ({ ...prev, [name]: value }));
   };
 
-  return { value, onChangeInputValue };
+  return { value, onChangeInputValue, setValue };
 }

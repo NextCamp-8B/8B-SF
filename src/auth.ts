@@ -61,6 +61,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           birth: loginData.user.user_metadata.birth,
           phoneNumber: loginData.user.user_metadata.phoneNumber,
           interestStock: loginData.user.user_metadata.interestStock,
+          provider: loginData.user.user_metadata.provider_account_id,
+          userId: loginData.user.user_metadata.userId,
           accessToken: loginData.session.access_token,
           refreshToken: loginData.session.refresh_token,
         };
@@ -154,6 +156,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             throw new Error('소셜 로그인에 실패했습니다.');
           }
           user.id = socialLogin.user.id;
+          user.userId = socialLogin.user.user_metadata.userId;
           user.email = socialLogin.user.email;
           user.name = socialLogin.user.user_metadata.name;
           user.nickname = socialLogin.user.user_metadata.nickname;
@@ -165,6 +168,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             socialLogin.user.user_metadata.phoneNumber;
           user.interestStock =
             socialLogin.user.user_metadata.interestStock;
+          user.provider = socialLogin.user.user_metadata.provider_account_id,
           user.accessToken = socialLogin.session.access_token;
           user.refreshToken = socialLogin.session.refresh_token;
           return true;
@@ -174,12 +178,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true;
     },
     async jwt({ token, user, trigger, session }: any) {
-      console.log('--------------token-------------');
-      console.log('----------jwt trigger-------------', trigger);
-      console.log('---------jwt session---------- ', session);
+      // console.log('--------------token-------------');
+      // console.log('----------jwt trigger-------------', trigger);
+      // console.log('---------jwt session---------- ', session);
       if (user) {
         token.role = user.role;
         token.id = user.id;
+        token.userId = user.userId;
         token.email = user.email;
         token.name = user.name;
         token.image = user.image;
@@ -189,18 +194,27 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.birth = user.birth;
         token.phoneNumber = user.phoneNumber;
         token.interestStock = user.interestStock;
+        token.provider = user.provider,
         token.accessToken = user.accessToken;
         token.refreshToken = user.refreshToken;
       }
 
       if (trigger === 'update' && session !== null) {
         const {
+          userId,
+          birth,
+          phoneNumber,
+          name,
           nickname,
           profileImg,
           profileImgName,
           interestStock,
         } = session;
 
+        token.userId = userId;
+        token.birth = birth;
+        token.phoneNumber = phoneNumber;
+        token.name = name;
         token.nickname = nickname;
         token.profileImg = profileImg;
         token.profileImgName = profileImgName;
@@ -214,6 +228,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // console.log('token :', token);
       if (token) {
         session.user.id = token.id;
+        session.user.userId = token.userId;
         session.user.email = token.email;
         session.user.name = token.name;
         session.user.nickname = token.nickname;
@@ -222,10 +237,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.birth = token.birth;
         session.user.phoneNumber = token.phoneNumber;
         session.user.interestStock = token.interestStock;
+        session.user.provider = token.provider,
         session.user.accessToken = token.accessToken;
         session.user.refreshToken = token.refreshToken;
       }
-      console.log('session:', session);
+      // console.log('session:', session);
       return session;
     },
     redirect: async ({ url, baseUrl }) => {

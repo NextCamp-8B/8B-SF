@@ -1,27 +1,52 @@
-import React, { useState } from 'react';
+'use client';
+
+import React, { useCallback, useEffect, useState } from 'react';
 import ModalWrapper from './ModalWrapper';
 import Wrapper from '@/components/shared/Wrapper';
 import TextButton from '@/components/shared/buttons/TextButton';
 import InputSet from '@/components/shared/input';
 import useInputChange from '@/hooks/input/useInputChange';
+import { conceptMap } from '../shared/input/inputConfig';
+import { useCheckPassword } from '@/hooks/user/useCheckPw';
 
 type CheckPasswordProps = {
-  handleSubmit: () => void;
   onClose: () => void;
+  onSuccess: () => void;
 };
 
-const CheckPassword: React.FC<CheckPasswordProps> = ({
-  handleSubmit,
+const CheckPassword = ({
+  onSuccess,
   onClose,
-}) => {
+}: CheckPasswordProps) => {
   const { value, onChangeInputValue } = useInputChange();
-  const [isSubmit, setIsSubmit] = useState(false);
+  const [isSubmit, setIsSubmit] = useState(false); // 폼 submit
+  const [isFormValid, setIsFormValid] = useState(false); //폼 유효성 체크
+  const { checkPassword } = useCheckPassword();
 
-  const handleCheckPassword = () => {
+  const onHandleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsSubmit(true);
+    if (!isFormValid) {
+      console.log('isFormValid unset');
+      return;
+    }
 
-    handleSubmit();
+    const isValid = await checkPassword(value.password);
+    if (isValid) {
+      onSuccess();
+    }
   };
+  const validateForm = useCallback(() => {
+    const isPasswordValid = conceptMap.password.doValidation(
+      value.password,
+    );
+    setIsFormValid(isPasswordValid);
+  }, [value.password]);
+
+  useEffect(() => {
+    validateForm();
+  }, [validateForm]);
+
   return (
     <ModalWrapper onClose={onClose}>
       <Wrapper padding="px-24 py-20" width="w-[590px]">
@@ -29,23 +54,23 @@ const CheckPassword: React.FC<CheckPasswordProps> = ({
           비밀번호 인증
         </h3>
 
-        <div className="flex flex-col justify-start w-[386px] h-full">
+        <form className="flex flex-col justify-start w-[386px] h-full">
           <InputSet className="flex flex-col gap-4">
             <InputSet.Validated
               onChange={onChangeInputValue}
               value={value.password}
-              type="text"
+              type="password"
               concept="password"
               isSubmit={isSubmit}
             />
             <TextButton
-              onClick={handleCheckPassword}
+              onClick={onHandleSubmit}
               className="w-full mt-8"
             >
-              수정하기
+              확인
             </TextButton>
           </InputSet>
-        </div>
+        </form>
       </Wrapper>
     </ModalWrapper>
   );

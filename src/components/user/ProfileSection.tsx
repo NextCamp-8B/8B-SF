@@ -7,19 +7,19 @@ import UserProfile from './UserProfile';
 
 type ProfileSectionProps = {
   handleProfileEdit: () => void;
-  handleAccountEdit: () => void;
+  handlePwCheckModal: () => void;
   user: User;
 };
 
 export default function ProfileSection({
   handleProfileEdit,
-  handleAccountEdit,
+  handlePwCheckModal,
   user,
 }: ProfileSectionProps) {
-  const { id, name, birth, nickname, profileImg } = user;
+  const { userId, name, birth, nickname, profileImg } = user;
 
   const userInfo = [
-    { label: '아이디', value: id! },
+    { label: '아이디', value: userId! },
     { label: '이름', value: name! },
     { label: '생년월일', value: birth! },
   ];
@@ -55,7 +55,7 @@ export default function ProfileSection({
           <TextButton
             size="sm"
             width="w-40"
-            onClick={handleAccountEdit}
+            onClick={handlePwCheckModal}
           >
             개인정보 수정
           </TextButton>

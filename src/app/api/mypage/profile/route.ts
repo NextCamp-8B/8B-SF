@@ -16,16 +16,6 @@ export async function POST(request: NextRequest) {
     const refreshToken = formData.get('refreshToken') as string; // refresh_token 가져오기
     const userBaseImage = formData.get('userBaseImg') as string; // refresh_token 가져오기
 
-    console.log(
-      interestStock,
-      nickname,
-      profileImg,
-      accessToken,
-      refreshToken,
-      userBaseImage,
-      '-----수정 정보-----',
-    );
-    // Supabase 클라이언트를 인증된 사용자로 설정
     // Supabase 클라이언트를 인증된 사용자로 설정
     const { data: sessionData, error: sessionError } =
       await supabase.auth.setSession({
