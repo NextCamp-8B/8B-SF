@@ -173,10 +173,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return true;
     },
-    async jwt({ token, user }: any) {
-      // console.log('--------------token-------------');
-      // console.log('----------jwt token-------------', token);
-      // console.log('---------jwt user---------- ', user);
+    async jwt({ token, user, trigger, session }: any) {
+      console.log('--------------token-------------');
+      console.log('----------jwt trigger-------------', trigger);
+      console.log('---------jwt session---------- ', session);
       if (user) {
         token.role = user.role;
         token.id = user.id;
@@ -192,11 +192,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.accessToken = user.accessToken;
         token.refreshToken = user.refreshToken;
       }
+
+      if (trigger === 'update' && session !== null) {
+        const {
+          nickname,
+          profileImg,
+          profileImgName,
+          interestStock,
+        } = session;
+
+        token.nickname = nickname;
+        token.profileImg = profileImg;
+        token.profileImgName = profileImgName;
+        token.interestStock = interestStock;
+      }
       return token;
     },
     async session({ session, token }: any) {
       // 세션에 사용자 정보를 추가
-      // console.log('--------------session-------------');
+      console.log('--------------session-------------');
       // console.log('token :', token);
       if (token) {
         session.user.id = token.id;
@@ -211,7 +225,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.accessToken = token.accessToken;
         session.user.refreshToken = token.refreshToken;
       }
-      // console.log('session:', session);
+      console.log('session:', session);
       return session;
     },
     redirect: async ({ url, baseUrl }) => {

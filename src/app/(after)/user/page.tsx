@@ -1,7 +1,6 @@
 'use client';
 import Wrapper from '@/components/shared/Wrapper';
 import Sidebar from '@/components/user/Sidebar';
-import ProfileSetup from '@/components/signup/ProfileSetup';
 import { useState } from 'react';
 import CheckPassword from '@/components/user/CheckPassword';
 import UserProfileEdit from '@/components/user/UserProfileEdit';
@@ -12,11 +11,10 @@ import ProfileSection from '@/components/user/ProfileSection';
 import TermsSection from '@/components/user/TermsSection';
 import { useSession } from 'next-auth/react';
 import { User as UserType } from '@/store/userStore';
-import { useRouter } from 'next/navigation';
 import SkeletonProfileSection from '@/components/skeleton/mypage/SkeletonProfile';
+import ProfileUpdate from '@/components/user/ProfileUpdated';
 
 export default function User() {
-  const router = useRouter();
   const [isProfileSetup, setIsProfileSetup] = useState(false); //프로필 수정
   const [isPasswordCheck, setIsPasswordCheck] = useState(false); //비밀번호 체크
   const [isUserProfileEdit, setIsUserProfileEdit] = useState(false); //정보 수정
@@ -27,11 +25,7 @@ export default function User() {
     useState<LanguageType>('kr');
 
   const { data: session, status } = useSession();
-
-  if (status === 'unauthenticated') {
-    router.push('/login');
-  }
-
+  // console.log('---------session------------', session);
   // useSession 로딩에 따른 skeleton ui 처리
   const loading = status === 'loading' ? true : false;
 
@@ -77,12 +71,7 @@ export default function User() {
           <>
             {/* 프로필 수정 */}
             {isProfileSetup && (
-              <ProfileSetup
-                buttonText="수정하기"
-                isModal={true}
-                onClose={handleCloseModal}
-                user={session?.user}
-              />
+              <ProfileUpdate onClose={handleCloseModal} />
             )}
             {/* 비밀번호 확인 */}
             {isPasswordCheck && (

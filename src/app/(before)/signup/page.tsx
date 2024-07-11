@@ -91,7 +91,7 @@ export default function Signup() {
       )}
       {pageStep === 'profile' && (
         // 프로필 설정
-        <ProfileSetup buttonText="가입하기" />
+        <ProfileSetup />
       )}
       {pageStep === 'welcome' && <Welcome />}
     </main>
