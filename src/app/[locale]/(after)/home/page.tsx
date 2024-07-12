@@ -1,7 +1,6 @@
 import Recent from '../../../../components/recent/Recent';
 import HomeNewsTab from '@/components/news/HomeNewsTab';
 import FavoriteMain from '@/components/homefavorite/FavoriteMain';
-import { useSession } from 'next-auth/react';
 const tmpStock = [
   {
     stock_id: '1a1a1a',
