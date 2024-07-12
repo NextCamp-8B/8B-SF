@@ -1,6 +1,7 @@
 import React from 'react';
 import StockListItem from '../shared/StockListItem';
 import { Stock } from '@/types/stock';
+import SkeletonStockListItem from '../skeleton/stock/SkeletonStockListItem';
 
 type LimitStocksProps = {
   type: 'increase' | 'decrease';

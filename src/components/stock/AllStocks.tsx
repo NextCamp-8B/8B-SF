@@ -3,7 +3,15 @@
 import { Stock } from '@/types/stock';
 import React, { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import StockListItem from '../shared/StockListItem';
+import SkeletonStockListItem from '../skeleton/stock/SkeletonStockListItem';
+import dynamic from 'next/dynamic';
+
+const StockListItem = dynamic(
+  () => import('@/components/shared/StockListItem'),
+  {
+    loading: () => <SkeletonStockListItem />,
+  },
+);
 
 export default function AllStocks() {
   const { ref, inView } = useInView();

@@ -1,5 +1,7 @@
+import SkeletonLimitStocks from '@/components/skeleton/stock/SkeletonLimitStocks';
 import AllStocks from '@/components/stock/AllStocks';
 import LimitStocks from '@/components/stock/LimitStocks';
+import { Suspense } from 'react';
 
 export default function Stock() {
   return (
@@ -10,13 +12,17 @@ export default function Stock() {
             <div className="h4 font-bold text-primary-900">
               급상승 종목
             </div>
-            <LimitStocks type="increase" />
+            <Suspense fallback={<SkeletonLimitStocks />}>
+              <LimitStocks type="increase" />
+            </Suspense>
           </div>
           <div className="flex flex-col flex-1">
             <div className="h4 font-bold text-primary-900">
               급하락 종목
             </div>
-            <LimitStocks type="decrease" />
+            <Suspense fallback={<SkeletonLimitStocks />}>
+              <LimitStocks type="decrease" />
+            </Suspense>
           </div>
         </div>
         <div className="w-[1200px] flex gap-5">
