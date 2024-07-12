@@ -10,6 +10,7 @@ import { diffCreatedTime } from '@/utils/date';
 import OriginNewsCard from './OriginNewsCard';
 import { News } from '@/types/news';
 import SkeletonNewsDetail from '../skeleton/news/SkeletonNewsDetail';
+import { useTranslations } from 'next-intl';
 
 type NewsDetailProps = {
   id: string;
@@ -45,6 +46,7 @@ export default function NewsDetail({ id }: NewsDetailProps) {
   //   origin_url,
   //   view,
   // } = news;
+  const t = useTranslations('NewsDetail');
   return (
     <>
       {loading ? (
@@ -65,7 +67,7 @@ export default function NewsDetail({ id }: NewsDetailProps) {
                     <span>∙</span>
                     <span>{diffCreatedTime(news.published_at)}</span>
                     <span>∙</span>
-                    <span>{`${news.view}회`}</span>
+                    <span>{t('views', { view: news.view })}</span>
                   </div>
                   <ButtonBase
                     iconSvg={<Translate className="w-6" />}
@@ -76,7 +78,7 @@ export default function NewsDetail({ id }: NewsDetailProps) {
                       );
                     }}
                   >
-                    <span>번역하기</span>
+                    <span>{t('translate')}</span>
                   </ButtonBase>
                 </div>
               </div>
@@ -85,9 +87,7 @@ export default function NewsDetail({ id }: NewsDetailProps) {
                   <div className="w-6 h-6 bg-primary-900 rounded flex items-center justify-center">
                     <SmallLogoLight className="w-4" />
                   </div>
-                  <span className="b4 font-bold">
-                    아잇나우 AI요약
-                  </span>
+                  <span className="b4 font-bold">{t('summary')}</span>
                 </div>
                 <div className="b4">
                   {lang === 'ko'
@@ -107,7 +107,7 @@ export default function NewsDetail({ id }: NewsDetailProps) {
               )}
 
               <div className="b4 ">
-                <h4 className="h4 font-bold pb-4">Article</h4>
+                <h4 className="h4 font-bold pb-4">{t('article')}</h4>
                 {lang === 'ko'
                   ? news.content_ko.split('\n').map((c, i) => (
                       <p className="pb-4 last-of-type:pb-14" key={i}>

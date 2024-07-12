@@ -82,7 +82,8 @@
     "news": "뉴스",
     "interest": "관심 종목",
     "my": "마이 페이지",
-    "logout": "로그아웃"
+    "logout": "로그아웃",
+    "stock": "주식"
   },
   "Home": {
     "ai_report": "{nickname}님의 AI 리포트",
@@ -111,7 +112,10 @@
   "NewsDetail": {
     "summary": "아잇나우 AI 요약",
     "stock_related_news": "현재 뉴스와 관련된 주식",
-    "related_news": "관련 기사"
+    "related_news": "관련 기사",
+    "translate": "번역하기",
+    "article": "기사",
+    "views": "{view}회"
   },
   "InterestStock": {
     "interest_stock": "{nickname}님의 관심종목",
@@ -210,5 +214,10 @@
     "not_found_title": "요청하신 페이지를 찾을 수 없습니다.",
     "not_found_content": "페이지의 주소가 잘못 입력되었거나 주소가 변경 혹은 삭제되어 요청하신 페이지를 찾을 수 없습니다.",
     "go_to_home": "홈으로"
+  },
+  "Stock": {
+    "all": "전체 종목",
+    "trending_stocks": "급상승 종목",
+    "pluging_stocks": "급하락 종목"
   }
 }

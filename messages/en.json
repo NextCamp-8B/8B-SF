@@ -82,7 +82,8 @@
     "news": "News",
     "interest": "Interest",
     "my": "My",
-    "logout": "Sign-out"
+    "logout": "Sign-out",
+    "stock": "Stock"
   },
   "Home": {
     "ai_report": "{nickname}'s AI Report",
@@ -111,7 +112,10 @@
   "NewsDetail": {
     "summary": "Aightnow AI Summary",
     "stock_related_news": "Stock Related News",
-    "related_news": "Related News"
+    "related_news": "Related News",
+    "translate": "Translate",
+    "article": "Article",
+    "views": "{view}views"
   },
   "InterestStock": {
     "interest_stock": "{nickname}'s Interests Stock",
@@ -210,5 +214,10 @@
     "not_found_title": "The page you requested could not be found.",
     "not_found_content": "We couldn't find the page you requested because the address of the page was entered incorrectly, or the address has been changed or deleted.",
     "go_to_home": "Go to Home"
+  },
+  "Stock": {
+    "all": "All stocks",
+    "trending_stocks": "Trending stocks",
+    "pluging_stocks": "Plunging stocks"
   }
 }

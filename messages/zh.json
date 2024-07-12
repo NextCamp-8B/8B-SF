@@ -82,7 +82,8 @@
     "news": "新闻",
     "interest": "关注",
     "my": "我的",
-    "logout": "登出"
+    "logout": "登出",
+    "stock": "股票"
   },
   "Home": {
     "ai_report": "来自 {nickname} 的 AI 报告",
@@ -111,7 +112,10 @@
   "NewsDetail": {
     "summary": "Aightnow AI摘要",
     "stock_related_news": "相关股票新闻",
-    "related_news": "相关新闻"
+    "related_news": "相关新闻",
+    "translate": "翻译",
+    "article": "文章",
+    "views": "{view}次"
   },
   "InterestStock": {
     "interest_stock": "{nickname}的兴趣",
@@ -212,5 +216,10 @@
     "not_found_title": "您请求的页面未找到。",
     "not_found_content": "我们无法找到您请求的页面，可能是因为页面地址输入错误，或者地址已更改或删除。",
     "go_to_home": "返回首页"
+  },
+  "Stock": {
+    "all": "全部股票",
+    "trending_stocks": "热门股票",
+    "pluging_stocks": "暴跌股票"
   }
 }

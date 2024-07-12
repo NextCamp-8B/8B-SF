@@ -82,7 +82,8 @@
     "news": "ニュース",
     "interest": "興味",
     "my": "私の",
-    "logout": "サインアウト"
+    "logout": "サインアウト",
+    "stock": "株"
   },
   "Home": {
     "ai_report": "{nickname}のAIレポート",
@@ -111,7 +112,10 @@
   "NewsDetail": {
     "summary": "Aightnow AI 要約",
     "stock_related_news": "株式関連ニュース",
-    "related_news": "関連ニュース"
+    "related_news": "関連ニュース",
+    "translate": "翻訳する",
+    "article": "記事",
+    "views": "{view}回"
   },
   "InterestStock": {
     "interest_stock": "{nickname}の関心株",
@@ -210,5 +214,10 @@
     "not_found_title": "リクエストされたページが見つかりません。",
     "not_found_content": "リクエストされたページは、ページのアドレスが間違って入力されたか、アドレスが変更または削除されたため、見つけることができませんでした。",
     "go_to_home": "ホームに戻る"
+  },
+  "Stock": {
+    "all": "全銘柄",
+    "trending_stocks": "急上昇銘柄",
+    "pluging_stocks": "急落銘柄"
   }
 }

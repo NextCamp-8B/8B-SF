@@ -82,7 +82,8 @@
     "news": "Nouvelles",
     "interest": "Intérêt",
     "my": "Mon",
-    "logout": "Déconnexion"
+    "logout": "Déconnexion",
+    "stock": "Action"
   },
   "Home": {
     "ai_report": "Rapports AI de {nickname}",
@@ -111,7 +112,10 @@
   "NewsDetail": {
     "summary": "Résumé AI d'Aightnow",
     "stock_related_news": "Nouvelles liées aux actions",
-    "related_news": "Nouvelles liées"
+    "related_news": "Nouvelles liées",
+    "translate": "Traduire",
+    "article": "Article",
+    "views": "{view}fois"
   },
   "InterestStock": {
     "interest_stock": "Les intérêts de {nickname}",
@@ -210,5 +214,10 @@
     "not_found_title": "La page que vous avez demandée est introuvable.",
     "not_found_content": "Nous n'avons pas pu trouver la page que vous avez demandée car l'adresse de la page a été entrée incorrectement, ou l'adresse a été modifiée ou supprimée.",
     "go_to_home": "Aller à la page d'accueil"
+  },
+  "Stock": {
+    "all": "Toutes les actions",
+    "trending_stocks": "Actions en forte hausse",
+    "pluging_stocks": "Actions en forte baisse"
   }
 }
