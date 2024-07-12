@@ -1,6 +1,9 @@
 {
-  "Index": {
-    "title": "중국어!"
+  "Landing": {
+    "title": "与Aightnow一起投资海外股票！",
+    "text_1": "实时翻译海外股票新闻和",
+    "text_2": "AI分析师解读复杂的海外股票报告",
+    "login": "登录"
   },
   "Login": {
     "login": "登录",

@@ -1,6 +1,9 @@
 {
-  "Index": {
-    "title": "프랑스어!"
+  "Landing": {
+    "title": "Investissez dans les actions étrangères avec Aightnow !",
+    "text_1": "Traduction en temps réel des actualités sur les actions étrangères et",
+    "text_2": "rapports complexes sur les actions étrangères expliqués par des analystes IA",
+    "login": "Se connecter"
   },
   "Login": {
     "login": "Se connecter",

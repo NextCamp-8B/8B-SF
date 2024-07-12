@@ -1,6 +1,9 @@
 {
-  "Index": {
-    "title": "영어!"
+  "Landing": {
+    "title": "Invest in Overseas Stocks with Aightnow!",
+    "text_1": "Real-time translation of overseas stock news and",
+    "text_2": "difficult overseas stock reports explained by AI analysts",
+    "login": "Sign in"
   },
   "Login": {
     "login": "Sign in",
