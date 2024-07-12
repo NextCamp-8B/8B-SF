@@ -15,7 +15,8 @@ declare module 'next-auth' {
       birth: string;
       phoneNumber: string;
       interestStock: string;
-      provider:string;
+      provider: string;
+      language: string;
       accessToken: string;
       refreshToken: string;
     };
@@ -33,7 +34,8 @@ declare module 'next-auth' {
     birth: string;
     phoneNumber: string;
     interestStock: string;
-    provider:string;
+    provider: string;
+    language: string;
     accessToken: string;
     refreshToken: string;
   }

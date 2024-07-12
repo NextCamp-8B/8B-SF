@@ -45,7 +45,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             email: userData?.email,
             password,
           });
-        console.log(loginData, '-----login 로그인-------');
+        // console.log(loginData, '-----login 로그인-------');
         if (loginError || !loginData) {
           throw new CredentialsSignin('로그인에 실패했습니다.');
         }
@@ -63,6 +63,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           interestStock: loginData.user.user_metadata.interestStock,
           provider: loginData.user.user_metadata.provider_account_id,
           userId: loginData.user.user_metadata.userId,
+          language: loginData.user.user_metadata.language,
           accessToken: loginData.session.access_token,
           refreshToken: loginData.session.refresh_token,
         };
@@ -88,12 +89,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   callbacks: {
     async signIn({ user, account }: any): Promise<any> {
-      console.log(
-        '-----------user--------',
-        user,
-        '------------------account--------------------------------',
-        account,
-      );
+      // console.log(
+      //   '-----------user--------',
+      //   user,
+      //   '------------------account--------------------------------',
+      //   account,
+      // );
 
       if (
         account?.provider === 'naver' ||
@@ -147,12 +148,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               email: emailAddress,
               password: providerAccountId,
             });
-          console.log(
-            '-----------socialLogin-----------',
-            socialLogin,
-          );
+          // console.log(
+          //   '-----------socialLogin-----------',
+          //   socialLogin,
+          // );
           if (loginError) {
-            console.error('Supabase 로그인 오류:', loginError);
             throw new Error('소셜 로그인에 실패했습니다.');
           }
           user.id = socialLogin.user.id;
@@ -168,7 +168,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             socialLogin.user.user_metadata.phoneNumber;
           user.interestStock =
             socialLogin.user.user_metadata.interestStock;
-          user.provider = socialLogin.user.user_metadata.provider_account_id,
+          user.provider =
+            socialLogin.user.user_metadata.provider_account_id;
+          user.language = socialLogin.user.user_metadata.language;
           user.accessToken = socialLogin.session.access_token;
           user.refreshToken = socialLogin.session.refresh_token;
           return true;
@@ -194,7 +196,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.birth = user.birth;
         token.phoneNumber = user.phoneNumber;
         token.interestStock = user.interestStock;
-        token.provider = user.provider,
+        token.provider = user.provider;
+        token.language = user.language;
         token.accessToken = user.accessToken;
         token.refreshToken = user.refreshToken;
       }
@@ -224,7 +227,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     async session({ session, token }: any) {
       // 세션에 사용자 정보를 추가
-      console.log('--------------session-------------');
+      // console.log('--------------session-------------');
       // console.log('token :', token);
       if (token) {
         session.user.id = token.id;
@@ -237,7 +240,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.birth = token.birth;
         session.user.phoneNumber = token.phoneNumber;
         session.user.interestStock = token.interestStock;
-        session.user.provider = token.provider,
+        session.user.provider = token.provider;
+        session.user.language = token.language;
         session.user.accessToken = token.accessToken;
         session.user.refreshToken = token.refreshToken;
       }

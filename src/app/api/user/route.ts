@@ -45,7 +45,6 @@ export async function GET(request: NextRequest) {
       { status: 200 },
     );
   } catch (err) {
-    console.error('Unexpected error:', err);
     return NextResponse.json(
       { error: 'Unexpected error occurred' },
       { status: 500 },
@@ -112,10 +111,10 @@ export async function POST(request: NextRequest) {
           nickname,
           interestStock,
           provider_account_id: providerAccountId,
+          // language: 'kr', //언어 설정 값 기본 'kr'
         },
       },
     });
-    console.log('----data-===', data);
 
     if (error) {
       throw error;
@@ -127,13 +126,12 @@ export async function POST(request: NextRequest) {
 
     // 응답에 쿠키 삭제 설정 추가
     response.cookies.set('auth-token', '', {
-      path: '/signup',
+      path: '/',
       expires: new Date(0),
     });
 
     return response;
   } catch (error) {
-    console.error('회원가입 중 오류 발생:', error);
     return NextResponse.json(
       { error: '회원가입 중 오류 발생' },
       { status: 500 },

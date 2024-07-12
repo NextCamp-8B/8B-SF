@@ -29,9 +29,7 @@ const transporter = nodemailer.createTransport({
 // }
 
 // POST 요청 처리 - 이메일 인증 링크 전송
-export async function POST(
-  request: NextRequest,
-) {
+export async function POST(request: NextRequest) {
   try {
     const { name, email } = await request.json();
 
@@ -60,8 +58,9 @@ export async function POST(
     // const logoBase64 = encodeImageToBase64(logoPath);
     // const logoDataUri = `data:image/svg+xml;base64,${logoBase64}`;
 
-    // 회원가입 폼 링크 (예시)
-    const signupLink = `http://localhost:3000/signup?token=${token}`;
+    // 회원가입 폼 링크
+    const currentUrl = new URL(request.url);
+    const signupLink = `${currentUrl.origin}/signup?token=${token}`;
     // <img src="${logoDataUri}" alt="Logo" style="width: 200px; height: auto;"/>
 
     const htmlContent = `
@@ -84,11 +83,12 @@ export async function POST(
     );
 
     // 쿠키 설정
+    // Todo:
+    // 현재 언어설정으로 인해 동적으로 url 이 변경됨 /fr/signup /us/signup 등
+    // 이에 대한 auth-token 에 대한 path 처리 필요!
     response.cookies.set('auth-token', token, {
-      // httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
       maxAge: 60 * 30, // 30분
-      path: '/signup',
+      path: '/',
     });
 
     return response;
