@@ -32,6 +32,14 @@ export default function HeadersNav() {
                 href="/stock"
                 className="hover:underline hover:scale-110"
               >
+                종목
+              </Link>
+            </div>
+            <div className="w-[160px] justify-center flex b3 font-medium text-grayscale-900">
+              <Link
+                href="/stock/interest"
+                className="hover:underline hover:scale-110"
+              >
                 관심종목
               </Link>
             </div>
