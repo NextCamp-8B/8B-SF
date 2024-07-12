@@ -1,4 +1,4 @@
-import Recent from '../../../components/recent/Recent';
+import Recent from '../../../../components/recent/Recent';
 import HomeNewsTab from '@/components/news/HomeNewsTab';
 import FavoriteMain from '@/components/homefavorite/FavoriteMain';
 import { useSession } from 'next-auth/react';
@@ -42,12 +42,11 @@ const tmpStock = [
   },
 ];
 export default function Home() {
-  const { data: session, status } = useSession();
   return (
     <>
       <main className="flex items-center justify-center w-full flex-col gap-12">
         <div className="w-[1200px] flex gap-5">
-          <Recent session={session?.user} />
+          <Recent />
           <FavoriteMain data={tmpStock} />
         </div>
         <HomeNewsTab />
