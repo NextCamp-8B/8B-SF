@@ -1,9 +1,13 @@
 import { GenerationRequest } from './serviceType';
 import HttpClient from './httpClient';
+import { UUID } from 'crypto';
 
 export default class AightnowClient {
   constructor(private httpClient: HttpClient) {
     this.loginLLM = this.loginLLM.bind(this);
+    this.generatePrompt = this.generatePrompt.bind(this);
+    this.updateRecentSearch = this.updateRecentSearch.bind(this);
+    this.deleteRecentSearch = this.deleteRecentSearch.bind(this);
   }
 
   async loginLLM({ isServer = false }: { isServer?: boolean } = {}) {
@@ -48,6 +52,24 @@ export default class AightnowClient {
       url: authURL,
       headers,
       body: generateBody,
+    });
+  }
+
+  async updateRecentSearch({
+    userId,
+    stockId,
+  }: {
+    userId: UUID;
+    stockId: UUID;
+  }) {
+    const nextURL = `/api/search/recent`;
+
+    return this.httpClient.post({
+      url: nextURL,
+      body: {
+        userId,
+        stockId,
+      },
     });
   }
 }
