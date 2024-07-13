@@ -1,4 +1,5 @@
 'use client';
+
 import { useCallback, useEffect, useState } from 'react';
 import FindStock from './FindStock';
 import RecentSearch from './RecentSearch';
@@ -13,17 +14,18 @@ export type stocksProps = {
   created_at?: string;
 };
 
-export default function InputItem({}: {}) {
-  const { data: session, status } = useSession();
+export default function InputItem() {
   const [text, setText] = useState('');
   const [recentDatas, setRecentDatas] = useState<
     stocksProps[] | null
   >([]);
+  const { data: session, status } = useSession();
+  const isAuthenticated = status === 'authenticated';
 
   const fetchRecentSearch = useCallback(async () => {
-    if (session) {
+    if (isAuthenticated) {
       const response = await fetch(
-        `/api/search/recent?userId=${session?.user.id}`,
+        `/api/search/recent?userId=${session?.user?.id || ''}`,
       );
       if (response.ok) {
         const data = await response.json();
@@ -48,7 +50,7 @@ export default function InputItem({}: {}) {
       />
 
       {text.trim().length > 0 ? (
-        <FindStock searchText={text} />
+        <FindStock searchText={text} session={session} />
       ) : (
         <>
           <div className="py-4">

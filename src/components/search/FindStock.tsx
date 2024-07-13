@@ -3,15 +3,16 @@
 import { useEffect, useState } from 'react';
 import FindStockItem from './FindStockItem';
 import FindNews from '../search/FindNews';
-import { TMP_NEWS_LIST } from '@/constants';
 import { Stock } from '@/types/stock';
 import { News } from '@/types/news';
-import { useSession } from 'next-auth/react';
+import { Session } from 'next-auth';
 
 export default function FindStock({
   searchText,
+  session,
 }: {
   searchText: string;
+  session: Session | null;
 }) {
   const [stocksList, setStocksList] = useState<Stock[]>([]);
   const [newsList, setNewsList] = useState<News[]>([]);
@@ -33,7 +34,6 @@ export default function FindStock({
 
     return () => clearTimeout(debounceTimeout);
   }, [searchText]);
-  const { data: session, status } = useSession();
 
   useEffect(() => {
     const fetchNews = async () => {

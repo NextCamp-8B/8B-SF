@@ -3,12 +3,13 @@
 import { useEffect, useState } from 'react';
 import StockListItem from '../shared/StockListItem';
 import Wrapper from '../shared/Wrapper';
-import AI from '@/assets/icons/ai.svg';
 import NotFind from './NotFind';
 import MoreData from './MoreData';
-import Link from 'next/link';
 import SearchHeading from './SearchHeading';
 import { Stock } from '@/types/stock';
+import { businessAPI } from '@/service/apiInstance';
+import { UUID } from 'crypto';
+import { Session } from 'next-auth';
 
 export default function FindStockItem({
   stockList,
@@ -17,22 +18,15 @@ export default function FindStockItem({
 }: {
   stockList: Stock[];
   searchText: string;
-  session: any;
+  session: Session | null;
 }) {
   const [visibleCount, setVisibleCount] = useState(6);
+  const userId = session?.user.id as UUID;
 
   // 검색어 변경 시, 목록 초기화(6개)
   useEffect(() => {
     setVisibleCount(6);
   }, [searchText]);
-
-  // 현재 표시되는 항목중 홀수, 짝수번째 슬라이싱
-  const visibleEvenStocks = stockList
-    .filter((_, index) => index % 2 === 0)
-    .slice(0, visibleCount / 2);
-  const visibleOddStocks = stockList
-    .filter((_, index) => index % 2 !== 0)
-    .slice(0, visibleCount / 2);
 
   const handleLoadMore = () => {
     setVisibleCount((prevCount) => prevCount + 4);
@@ -48,15 +42,7 @@ export default function FindStockItem({
     });
   };
 
-  const recentUpdate = async (stock_id: string) => {
-    const response = await fetch('/api/search/recent', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ stock_id, session }),
-    });
-  };
+  const { updateRecentSearch } = businessAPI;
 
   return (
     <>
@@ -68,34 +54,26 @@ export default function FindStockItem({
       </div>
       {stockList.length > 0 ? (
         <Wrapper width="590px" padding="p-6">
-          <div className="w-[542px] flex justify-center gap-4">
-            <div className="w-[263px] flex justify-start flex-col">
-              {visibleEvenStocks.map((stock: Stock) => (
-                <div
-                  key={stock.stock_id}
-                  onClick={() => {
-                    viewUpdate(stock.stock_id),
-                      recentUpdate(stock.stock_id);
-                  }}
-                >
-                  <StockListItem stock={stock} type="find" />
-                </div>
-              ))}
-            </div>
-            <div className="w-[263px] flex justify-start flex-col">
-              {visibleOddStocks.map((stock: Stock) => (
-                <div
-                  key={stock.stock_id}
-                  onClick={() => {
-                    viewUpdate(stock.stock_id),
-                      recentUpdate(stock.stock_id);
-                  }}
-                >
-                  <StockListItem stock={stock} type="find" />
-                </div>
-              ))}
-            </div>
-          </div>
+          <ul className="w-[542px] flex flex-wrap justify-between">
+            {stockList.map(
+              (stock: Stock, index: number) =>
+                index < 4 && (
+                  <li
+                    className="w-[263px]"
+                    key={stock.stock_id}
+                    onClick={() => {
+                      viewUpdate(stock.stock_id);
+                      updateRecentSearch({
+                        stockId: stock.stock_id as UUID,
+                        userId,
+                      });
+                    }}
+                  >
+                    <StockListItem stock={stock} type="find" />
+                  </li>
+                ),
+            )}
+          </ul>
           <div className="pt-3">
             <MoreData
               onClick={handleLoadMore}

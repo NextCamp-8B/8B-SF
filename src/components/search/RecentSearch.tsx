@@ -1,10 +1,11 @@
 import Time from '@/assets/icons/time.svg';
-import Link from 'next/link';
 import { searchDate } from '@/utils/date';
 import DeleteSearch from './DeleteSearch';
 import SearchHeading from './SearchHeading';
 import SearchLabel from './SearchLabel';
 import { stocksProps } from './InputItem';
+import { Session } from 'next-auth';
+import { UUID } from 'crypto';
 
 export default function RecentSearch({
   recentDatas,
@@ -12,16 +13,18 @@ export default function RecentSearch({
   setRecentDatas,
 }: {
   recentDatas: stocksProps[] | null;
-  session: any;
+  session: Session | null;
   setRecentDatas: (data: stocksProps[] | null) => void;
 }) {
+  const { user } = session || { user: null };
+
   return (
     <div className="w-[590px]">
       <div className="flex items-center justify-between">
         <SearchHeading> 최근 검색어</SearchHeading>
         <DeleteSearch
           type="all"
-          session={session.user}
+          userId={user?.id as UUID}
           setRecentDatas={setRecentDatas}
         />
       </div>
@@ -46,8 +49,8 @@ export default function RecentSearch({
                   <button type="submit">
                     <DeleteSearch
                       type="select"
-                      session={session.user}
-                      data={recentData}
+                      userId={user?.id as UUID}
+                      stockId={recentData?.stock_id as UUID}
                       setRecentDatas={setRecentDatas}
                     />
                   </button>

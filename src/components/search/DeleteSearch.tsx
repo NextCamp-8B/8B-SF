@@ -1,35 +1,39 @@
-'use client';
-
 import Close from '@/assets/icons/close.svg';
 import { stocksProps } from './InputItem';
+import { UUID } from 'crypto';
+import { businessAPI } from '@/service/apiInstance';
 
 export default function DeleteSearch({
-  type,
-  data,
-  session,
+  type = 'all',
+  stockId,
+  userId,
   setRecentDatas,
 }: {
-  type: 'all' | 'select';
-  data?: stocksProps | null;
-  session: any;
+  type?: 'all' | 'select';
+  stockId?: UUID;
+  userId: UUID;
   setRecentDatas: (data: stocksProps[] | null) => void;
 }) {
-  const deleteStock = async () => {
-    let url = `/api/search/recent?type=${type}&userId=${session.id}`;
+  const { deleteRecentSearch, getRecentSearch } = businessAPI;
+  const deleteSerachStock = async ({
+    type = 'all',
+    userId,
+    stockId,
+  }: {
+    type?: 'all' | 'select';
+    userId: UUID;
+    stockId?: UUID | undefined;
+  }) => {
+    const response = await deleteRecentSearch({
+      type,
+      userId,
+      stockId,
+    });
+    const { success } = response;
 
-    if (type === 'select' && data) {
-      url += `&stockId=${data.stock_id}`;
-    }
-
-    const response = await fetch(url, { method: 'DELETE' });
-    if (response.ok) {
-      const updatedResponse = await fetch(
-        `/api/search/recent?userId=${session.id}`,
-      );
-      if (updatedResponse.ok) {
-        const updatedData = await updatedResponse.json();
-        setRecentDatas(updatedData.stocks);
-      }
+    if (success) {
+      const { stocks } = await getRecentSearch({ userId });
+      setRecentDatas(stocks);
     }
   };
 
@@ -38,13 +42,17 @@ export default function DeleteSearch({
       {type === 'all' && (
         <button
           className="text-grayscale-600 font-medium text-md underline"
-          onClick={() => deleteStock()}
+          onClick={() => deleteSerachStock({ userId })}
         >
           전체삭제
         </button>
       )}
       {type === 'select' && (
-        <div onClick={() => deleteStock()}>
+        <div
+          onClick={() =>
+            deleteSerachStock({ type: 'select', userId, stockId })
+          }
+        >
           <Close width={24} height={24} />
         </div>
       )}

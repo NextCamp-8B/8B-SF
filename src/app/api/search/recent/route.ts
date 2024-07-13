@@ -47,14 +47,13 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   const supabase = createClient();
 
-  const { stock_id, session } = await request.json();
-  const userId = session.user.id;
+  const { stockId, userId } = await request.json();
 
   const { data: existingData, error: selectError } = await supabase
     .from('recent_search_stocks')
     .select('*')
     .eq('id', userId)
-    .eq('stock_id', stock_id)
+    .eq('stock_id', stockId)
     .single();
 
   if (existingData !== null) {
@@ -63,7 +62,7 @@ export async function POST(request: Request) {
       .from('recent_search_stocks')
       .update({ created_at: new Date().toISOString() })
       .eq('id', userId)
-      .eq('stock_id', stock_id);
+      .eq('stock_id', stockId);
 
     return new Response(JSON.stringify({ updateData }), {
       status: 200,
@@ -73,7 +72,7 @@ export async function POST(request: Request) {
   else {
     const { data: insertData, error: insertError } = await supabase
       .from('recent_search_stocks')
-      .insert([{ id: userId, stock_id }]);
+      .insert([{ id: userId, stock_id: stockId }]);
 
     return new Response(JSON.stringify({ insertData }), {
       status: 200,
@@ -89,7 +88,6 @@ export async function DELETE(request: Request) {
   const stockId = url.searchParams.get('stockId');
   let result;
 
-  console.log(type, userId, stockId);
   if (type === 'all') {
     // userId가 일치하는 모든 데이터 삭제
     const { data, error } = await supabase
