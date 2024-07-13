@@ -8,6 +8,7 @@ export default class AightnowClient {
     this.generatePrompt = this.generatePrompt.bind(this);
     this.updateRecentSearch = this.updateRecentSearch.bind(this);
     this.deleteRecentSearch = this.deleteRecentSearch.bind(this);
+    this.getRecentSearch = this.getRecentSearch.bind(this);
   }
 
   async loginLLM({ isServer = false }: { isServer?: boolean } = {}) {
@@ -82,15 +83,22 @@ export default class AightnowClient {
     userId: UUID;
     stockId?: UUID | undefined;
   }) {
-    const nextURL = `/api/search/recent?type=${type}&userId=${userId}`;
-    const isAll = type === 'all';
-
-    if (!isAll) {
-      nextURL.concat('', `&stockId=${stockId}`);
-    }
+    const isSelected = type === 'select';
+    const selectedQ = isSelected ? `&stockId=${stockId}` : '';
+    const nextURL =
+      `/api/search/recent?type=${type}&userId=${userId}`.concat(
+        '',
+        selectedQ,
+      );
 
     return this.httpClient.delete({
       url: nextURL,
     });
+  }
+
+  async getRecentSearch({ userId }: { userId: UUID }) {
+    const nextURL = `/api/search/recent?userId=${userId}`;
+
+    return this.httpClient.get({ url: nextURL });
   }
 }
