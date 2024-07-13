@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { updateUserData } from '@/utils/user/updateUserData';
+import usePopupStore from '@/store/userPopup';
 
 type PopupMessage = {
   title: string;
@@ -12,11 +13,7 @@ type PopupMessage = {
 export function useProfileUpdate() {
   const { update } = useSession();
   const [isLoading, setIsLoading] = useState(false);
-  const [isShowPopup, setIsShowPopup] = useState(false);
-  const [popupMsg, setPopupMsg] = useState<PopupMessage>({
-    title: '',
-    msg: '',
-  });
+  const { showPopup } = usePopupStore();
 
   const handleProfileUpdate = async (formData: FormData) => {
     setIsLoading(true);
@@ -24,17 +21,13 @@ export function useProfileUpdate() {
       '/api/mypage/profile',
       formData,
       update,
-      setPopupMsg,
+      showPopup,
     );
-    setIsShowPopup(true);
     setIsLoading(false);
   };
 
   return {
     isLoading,
-    isShowPopup,
-    popupMsg,
-    setIsShowPopup,
     handleProfileUpdate,
   };
 }

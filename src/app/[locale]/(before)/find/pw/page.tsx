@@ -6,18 +6,15 @@ import useInputChange from '@/hooks/input/useInputChange';
 import TextButton from '@/components/shared/buttons/TextButton';
 import { conceptMap } from '@/components/shared/input/inputConfig';
 import AuthPopup from '@/components/signup/Popup';
-import LoadingSpinner from '@/components/shared/LoadingSpinner';
+import LoadingSpinnerWrapper from '@/components/shared/LoadingSpinnerWrapper';
+import usePopupStore from '@/store/userPopup';
 
 export default function FindPw() {
   const [isLoading, setIsLoading] = useState(false); // api 로딩 스피너
   const { value, onChangeInputValue } = useInputChange();
   const [isSubmit, setIsSubmit] = useState(false);
-  const [popupMsg, setPopupMsg] = useState({
-    // 비밀번호 찾기 팝업 메세지
-    title: '',
-    msg: '',
-  });
-  const [isShowPopup, setIsShowPopup] = useState(false); //팝업
+  const { isShowPopup, popupMsg, hidePopup, showPopup } =
+    usePopupStore();
   const [isFormValid, setIsFormValid] = useState(false); //폼 유효성 체크
 
   const validateForm = useCallback(() => {
@@ -49,38 +46,31 @@ export default function FindPw() {
         email: value.email.trim(),
       }),
     });
-    // 팝업 창 띄위기
-    setIsShowPopup(true);
 
     if (response.ok) {
       // 에러 메시지 설정
-      setPopupMsg({
-        title: '비밀번호 재설정 링크 전송',
-        msg: '이메일 확인 후 비밀번호를 변경해주세요',
-      });
+      showPopup(
+        '비밀번호 재설정 링크 전송',
+        '이메일 확인 후 비밀번호를 변경해주세요',
+      );
       // 입력값비우기
       value.name = '';
       value.loginId = '';
       value.email = '';
     } else {
-      setPopupMsg({
-        title: '비밀번호 찾기 오류',
-        msg: '입력한 내용을 다시 확인해주세요.',
-      });
+      showPopup(
+        '비밀번호 찾기 오류',
+        '입력한 내용을 다시 확인해주세요.',
+      );
     }
     setIsLoading(false);
-  };
-
-  // 팝업 닫기
-  const handleClosePopuup = () => {
-    setIsShowPopup(false);
   };
 
   return (
     <>
       {isShowPopup && (
         <AuthPopup
-          onClose={handleClosePopuup}
+          onClose={hidePopup}
           error={true}
           title={popupMsg.title}
           errorMessage={popupMsg.msg}
@@ -92,11 +82,7 @@ export default function FindPw() {
             <h3 className="h3 font-bold text-center mb-10 text-primary-900">
               비밀번호 찾기
             </h3>
-            {isLoading ? (
-              <div className="w-full h-full flex items-center justify-center">
-                <LoadingSpinner />
-              </div>
-            ) : (
+            <LoadingSpinnerWrapper isLoading={isLoading}>
               <InputSet className="flex flex-col gap-4">
                 {/* 이름 / 아이디 / 이메일 입력 폼 */}
                 <InputSet.Validated
@@ -125,7 +111,7 @@ export default function FindPw() {
                   확인
                 </TextButton>
               </InputSet>
-            )}
+            </LoadingSpinnerWrapper>
           </div>
         </Wrapper>
       </main>

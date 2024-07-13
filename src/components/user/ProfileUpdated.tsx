@@ -15,6 +15,7 @@ import { useProfileUpdate } from '@/hooks/user/useProfileUpdated';
 import LoadingSpinnerWrapper from '../shared/LoadingSpinnerWrapper';
 import useSessionData from '@/hooks/user/useSessionData';
 import ModalWrapper from './ModalWrapper';
+import usePopupStore from '@/store/userPopup';
 
 type TProfileUpdate = {
   onClose: () => void;
@@ -37,16 +38,8 @@ const ProfileUpdate = ({ onClose }: TProfileUpdate) => {
   const [profileImage, setProfileImage] = useState(userImage || ''); //base54 프로필 이미지
   const [profileFile, setProfileFile] = useState<File>(); // 프로필 이미지 파일
   const initialNicknameRef = useRef(false); //닉네임 초기값 설정
-  const {
-    isLoading,
-    isShowPopup,
-    popupMsg,
-    setIsShowPopup,
-    handleProfileUpdate,
-  } = useProfileUpdate(); //프로필 수정 api
-
-  // 결과 팝업 닫기
-  const handleCloseResultPopup = () => setIsShowPopup(false);
+  const { isLoading, handleProfileUpdate } = useProfileUpdate(); //프로필 수정 api
+  const { isShowPopup, popupMsg, hidePopup } = usePopupStore();
 
   const validateForm = useCallback(() => {
     const isNicknameValid = conceptMap.nickname.doValidation(
@@ -119,7 +112,7 @@ const ProfileUpdate = ({ onClose }: TProfileUpdate) => {
           {/* 수정 성공/에러 메시지 팝업 */}
           {isShowPopup && (
             <AuthPopup
-              onClose={handleCloseResultPopup}
+              onClose={hidePopup}
               error={true}
               title={popupMsg.title}
               errorMessage={popupMsg.msg}

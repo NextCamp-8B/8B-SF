@@ -1,21 +1,14 @@
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { updateUserData } from '@/utils/user/updateUserData';
-
-type PopupMessage = {
-  title: string;
-  msg: string;
-};
+import usePopupStore from '@/store/userPopup';
 
 // 계정 수정 커스텀 훅
 export function useAccountUpdated() {
   const { update } = useSession();
   const [isLoading, setIsLoading] = useState(false);
-  const [isShowPopup, setIsShowPopup] = useState(false);
-  const [popupMsg, setPopupMsg] = useState<PopupMessage>({
-    title: '',
-    msg: '',
-  });
+
+  const { showPopup } = usePopupStore();
 
   const handleAccountUpdate = async (formData: FormData) => {
     setIsLoading(true);
@@ -23,17 +16,13 @@ export function useAccountUpdated() {
       '/api/mypage/account',
       formData,
       update,
-      setPopupMsg,
+      showPopup,
     );
-    setIsShowPopup(true);
     setIsLoading(false);
   };
 
   return {
     isLoading,
-    isShowPopup,
-    popupMsg,
-    setIsShowPopup,
     handleAccountUpdate,
   };
 }

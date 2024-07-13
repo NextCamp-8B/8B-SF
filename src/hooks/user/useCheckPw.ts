@@ -1,5 +1,6 @@
 import { useSession } from 'next-auth/react';
 import supabase from '@/lib/supabaseClient';
+import usePopupStore from '@/store/userPopup';
 
 // 현재 로그인된 사용자 password check 함수
 // checkPassword 함수
@@ -9,10 +10,14 @@ import supabase from '@/lib/supabaseClient';
 export const useCheckPassword = () => {
   const { data: session, status } = useSession();
   const loading = status === 'loading';
+  const { showPopup } = usePopupStore();
 
   const checkPassword = async (password: string) => {
     if (!session || !session.user || !session.user.email || loading) {
-      window.alert('세션이 유효하지 않거나 잘못된 접근입니다.');
+      showPopup(
+        '오류',
+        '사용자 정보를 가져올 수 없습니다. 다시 로그인 해주세요.',
+      );
       return false;
     }
 
@@ -22,7 +27,7 @@ export const useCheckPassword = () => {
     });
 
     if (error) {
-      window.alert('비밀번호가 틀렸습니다.');
+      showPopup('오류', '비밀번호를 다시 확인해주세요.');
       return false;
     }
 

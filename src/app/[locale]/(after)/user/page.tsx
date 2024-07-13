@@ -58,8 +58,7 @@ export default function MyPage() {
                   handleProfileEdit={handleProfileEdit}
                   handlePwCheckModal={handlePwCheckModal}
                 />
-              ) : // 유저 정보설정
-              selectedSection === 'language' ? (
+              ) : selectedSection === 'language' ? (
                 // 언어설정
                 <LanguageSection
                   selectedLanguage={selectedLanguage}

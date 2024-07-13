@@ -8,6 +8,7 @@ import { conceptMap } from '@/components/shared/input/inputConfig';
 import LoadingSpinner from '@/components/shared/LoadingSpinner';
 import FindIdResult from '@/components/findId/FindIdResult';
 import AuthPopup from '@/components/signup/Popup';
+import LoadingSpinnerWrapper from '@/components/shared/LoadingSpinnerWrapper';
 
 // 사용자 경험을 위해 비밀번호 찾기 추가
 // 소셜로그인 id를 찾았다면 찾은 유저id에 해당 소셜로그인 로고 추가
@@ -53,7 +54,6 @@ export default function FindId() {
 
     if (response.ok) {
       const data = await response.json();
-      console.log('--------유저 아이디 찾기---------', data);
 
       setFindUserId({
         user_id: data.user_id,
@@ -62,7 +62,6 @@ export default function FindId() {
       });
       setISuccessFindId(true);
     } else {
-      console.error('정보가 없습니다.');
       setISuccessFindId(false);
       setIsShowPopup(true);
     }
@@ -111,39 +110,33 @@ export default function FindId() {
                 />
               </>
             ) : (
-              <>
-                {isLoading ? (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <LoadingSpinner />
-                  </div>
-                ) : (
-                  <InputSet className="flex flex-col gap-4">
-                    {/* 이름 / 휴대폰번호 입력 폼 */}
-                    <InputSet.Validated
-                      onChange={onChangeInputValue}
-                      value={value.name}
-                      type="text"
-                      isSubmit={isSubmit}
-                      concept="name"
-                    />
-                    <InputSet.Validated
-                      onChange={onChangeInputValue}
-                      value={value.loginPhone}
-                      isSubmit={isSubmit}
-                      type="text"
-                      concept="loginPhone"
-                    />
-                    {/* submit 아이디 찾기 버튼 */}
-                    <TextButton
-                      className="mt-8"
-                      disabled={!isFormValid}
-                      onClick={fetchData}
-                    >
-                      아이디 찾기
-                    </TextButton>
-                  </InputSet>
-                )}
-              </>
+              <LoadingSpinnerWrapper isLoading={isLoading}>
+                <InputSet className="flex flex-col gap-4">
+                  {/* 이름 / 휴대폰번호 입력 폼 */}
+                  <InputSet.Validated
+                    onChange={onChangeInputValue}
+                    value={value.name}
+                    type="text"
+                    isSubmit={isSubmit}
+                    concept="name"
+                  />
+                  <InputSet.Validated
+                    onChange={onChangeInputValue}
+                    value={value.loginPhone}
+                    isSubmit={isSubmit}
+                    type="text"
+                    concept="loginPhone"
+                  />
+                  {/* submit 아이디 찾기 버튼 */}
+                  <TextButton
+                    className="mt-8"
+                    disabled={!isFormValid}
+                    onClick={fetchData}
+                  >
+                    아이디 찾기
+                  </TextButton>
+                </InputSet>
+              </LoadingSpinnerWrapper>
             )}
           </div>
         </Wrapper>

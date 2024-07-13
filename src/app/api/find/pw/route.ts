@@ -16,7 +16,6 @@ export async function POST(req: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Supabase 쿼리 오류:', error.message);
       return NextResponse.json(
         { error: error.message },
         { status: 500 },
@@ -41,16 +40,17 @@ export async function POST(req: NextRequest) {
     //  PKCE 흐름
     // 사용자가 비밀번호 재설정 링크를 클릭하면 SIGNED_IN 및 PASSWORD_RECOVERY 이벤트 발생.
     // onAuthStateChange()를 사용하여 이러한 이벤트를 수신하고 콜백 함수를 호출 가능.
+    const currentUrl = new URL(req.url);
+    const languageSegment = `/${
+      req.cookies.get('NEXT_LOCALE')?.value
+    }`; //언어값 추출
+    const redirectToUpdatePw = `${currentUrl.origin}${languageSegment}/update-pw`;
     const { data: resetPasswordData, error: resetError } =
       await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: 'http://localhost:3000/update-pw',
+        redirectTo: redirectToUpdatePw,
       });
 
     if (resetError) {
-      console.error(
-        '비밀번호 재설정 이메일 전송 오류:',
-        resetError.message,
-      );
       return NextResponse.json(
         {
           error:
@@ -64,7 +64,6 @@ export async function POST(req: NextRequest) {
       message: '임시 비밀번호가 이메일로 발송되었습니다.',
     });
   } catch (error) {
-    console.error('서버 오류:', error);
     return NextResponse.json(
       { error: '서버 오류가 발생했습니다.' },
       { status: 500 },
