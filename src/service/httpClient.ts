@@ -98,7 +98,7 @@ export default class HttpClient {
     });
   }
 
-  async deleteRequest({
+  async delete({
     url,
     headers = {},
     isServer = false,

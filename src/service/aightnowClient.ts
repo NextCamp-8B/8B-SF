@@ -72,4 +72,25 @@ export default class AightnowClient {
       },
     });
   }
+
+  async deleteRecentSearch({
+    type = 'all',
+    userId,
+    stockId,
+  }: {
+    type?: string;
+    userId: UUID;
+    stockId?: UUID | undefined;
+  }) {
+    const nextURL = `/api/search/recent?type=${type}&userId=${userId}`;
+    const isAll = type === 'all';
+
+    if (!isAll) {
+      nextURL.concat('', `&stockId=${stockId}`);
+    }
+
+    return this.httpClient.delete({
+      url: nextURL,
+    });
+  }
 }

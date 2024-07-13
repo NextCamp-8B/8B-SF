@@ -1,3 +1,5 @@
+import { Locale } from '@/types/next-auth';
+
 interface HTTPParamType<BodyType = any> {
   url: string;
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
@@ -16,4 +18,22 @@ export interface GenerationRequest {
   userMessage: string;
   temperature: number;
   topP: number;
+}
+
+export interface UserData {
+  id: string;
+  userId: string;
+  email: string;
+  name: string;
+  role: string;
+  nickname: string;
+  profileImg: string;
+  profileImgName: string;
+  birth: string;
+  phoneNumber: string;
+  interestStock: string;
+  provider: string;
+  language: Locale;
+  accessToken: string;
+  refreshToken: string;
 }
