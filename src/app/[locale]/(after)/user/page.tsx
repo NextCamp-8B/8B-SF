@@ -112,6 +112,7 @@ export default function User() {
                     handleProfileEdit={handleProfileEdit}
                     handlePwCheckModal={handlePwCheckModal}
                     user={user as UserType}
+                    isSocial={isSocial}
                   />
                 )
               ) : selectedSection === 'language' ? (

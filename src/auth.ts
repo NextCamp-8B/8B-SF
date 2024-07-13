@@ -45,7 +45,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             email: userData?.email,
             password,
           });
-        // console.log(loginData, '-----login 로그인-------');
+        // // console.log(loginData, '-----login 로그인-------');
         if (loginError || !loginData) {
           throw new CredentialsSignin('로그인에 실패했습니다.');
         }
@@ -180,9 +180,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true;
     },
     async jwt({ token, user, trigger, session }: any) {
-      // console.log('--------------token-------------');
-      // console.log('----------jwt trigger-------------', trigger);
-      // console.log('---------jwt session---------- ', session);
       if (user) {
         token.role = user.role;
         token.id = user.id;

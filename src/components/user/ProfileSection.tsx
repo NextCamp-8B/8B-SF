@@ -9,19 +9,24 @@ type ProfileSectionProps = {
   handleProfileEdit: () => void;
   handlePwCheckModal: () => void;
   user: User;
+  isSocial: boolean;
 };
 
 export default function ProfileSection({
   handleProfileEdit,
   handlePwCheckModal,
   user,
+  isSocial,
 }: ProfileSectionProps) {
-  const { userId, name, birth, nickname, profileImg } = user;
+  const { userId, name, birth, nickname, profileImg, phoneNumber } =
+    user;
 
   const userInfo = [
-    { label: '아이디', value: userId! },
+    // isSocal값이 true라면 id값 보이게
+    ...(!isSocial ? [{ label: '아이디', value: userId! }] : []),
     { label: '이름', value: name! },
     { label: '생년월일', value: birth! },
+    { label: '핸드폰번호', value: phoneNumber! },
   ];
 
   return (

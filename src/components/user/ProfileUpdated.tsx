@@ -77,7 +77,7 @@ export default function ProfileUpdate({
   const onHandleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmit(true);
-    if (!isFormValid) return console.log('isFormValid unset');
+    if (!isFormValid) return;
     setIsFormValid(false);
 
     const formData = new FormData();
