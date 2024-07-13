@@ -20,10 +20,10 @@ const ProfileSection = ({
 
   const userInfo = [
     // isSocal값이 true라면 id값 보이게
-    ...(!isSocial ? [{ label: '아이디', value: user.userId! }] : []),
-    { label: '이름', value: user.name! },
-    { label: '생년월일', value: user.birth! },
-    { label: '핸드폰번호', value: user.phoneNumber! },
+    ...(!isSocial ? [{ label: '아이디', value: user?.userId! }] : []),
+    { label: '이름', value: user?.name! },
+    { label: '생년월일', value: user?.birth! },
+    { label: '핸드폰번호', value: user?.phoneNumber! },
   ];
 
   // useSession loading이라면 skeleton ui

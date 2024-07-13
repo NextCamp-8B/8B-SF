@@ -74,7 +74,7 @@ function UserAccountEdit({
   const onHandleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmit(true);
-    if (!duplicatedCheck)
+    if (!duplicatedCheck && !isSocial)
       window.alert('아이디 중복검사를 확인해주세요');
     if (!isFormValid) return;
     const formData = new FormData();
@@ -134,19 +134,19 @@ function UserAccountEdit({
               정보 수정
             </h3>
             <LoadingSpinnerWrapper isLoading={updateLoading}>
+              {/* 수정 성공/에러 메시지 팝업 */}
+              {isShowPopup && (
+                <AuthPopup
+                  error={true}
+                  title={popupMsg.title}
+                  errorMessage={popupMsg.msg}
+                  onClose={handleCloseResultPopup}
+                />
+              )}
               <form
                 onSubmit={onHandleSubmit}
                 className="flex flex-col justify-start w-[386px] h-full"
               >
-                {/* 수정 성공/에러 메시지 팝업 */}
-                {isShowPopup && (
-                  <AuthPopup
-                    error={true}
-                    title={popupMsg.title}
-                    errorMessage={popupMsg.msg}
-                    onClose={handleCloseResultPopup}
-                  />
-                )}
                 <InputSet className="flex flex-col gap-4">
                   {/* 소셜 회원이 아닌경우에 아이디 수정*/}
                   {!isSocial && (
