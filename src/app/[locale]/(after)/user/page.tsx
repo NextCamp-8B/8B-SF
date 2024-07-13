@@ -9,12 +9,9 @@ import LanguageSection from '@/components/user/LanguageSection';
 import { LanguageType, SectionType } from '@/components/user/types';
 import ProfileSection from '@/components/user/ProfileSection';
 import TermsSection from '@/components/user/TermsSection';
-import { User as UserType } from '@/store/userStore';
-import SkeletonProfileSection from '@/components/skeleton/mypage/SkeletonProfile';
 import ProfileUpdate from '@/components/user/ProfileUpdated';
-import useSessionData from '@/hooks/user/useSessionData';
 
-export default function User() {
+export default function MyPage() {
   const [isProfileSetup, setIsProfileSetup] = useState(false); //프로필 수정
   const [isPasswordCheck, setIsPasswordCheck] = useState(false); //비밀번호 체크
   const [isUserProfileEdit, setIsUserProfileEdit] = useState(false); //정보 수정
@@ -24,22 +21,21 @@ export default function User() {
   const [selectedLanguage, setSelectedLanguage] =
     useState<LanguageType>('kr');
 
-  const { user, isSocial, loading } = useSessionData();
-
   // 프로필 수정 모달 열기
   const handleProfileEdit = () => setIsProfileSetup(true);
+  // 개인 정보 수정 모달 열기
+  const handleAccountEdit = () => setIsUserProfileEdit(true);
   // 비밀번호 체크 모달 열기
-  const handlePwCheckModal = () => {
+  const handlePwCheckModal = (isSocial: boolean) => {
     if (isSocial) {
       setIsUserProfileEdit(true);
     }
     setIsPasswordCheck(true);
   };
-  // 개인 정보 수정 모달 열기
-  const handleAccountEdit = () => setIsUserProfileEdit(true);
 
-  const handleUserProfileEdit = () => {
-    //유저 정보수정 로직
+  // 비밀번호 체크 모달 딛기
+  const handleClosePwCheckModal = () => {
+    setIsPasswordCheck(false);
   };
 
   const handleSetWithdrawal = () => {
@@ -47,6 +43,7 @@ export default function User() {
     setIsWithdrawal(true);
     handleCloseModal();
   };
+  // 모달 창 닫기
   const handleCloseModal = () => {
     setIsProfileSetup(false);
     setIsPasswordCheck(false);
@@ -60,33 +57,27 @@ export default function User() {
   return (
     <>
       {/* 모달 */}
-      {!loading && (
-        <>
-          {/* 프로필 수정 */}
-          {isProfileSetup && (
-            <ProfileUpdate onClose={handleCloseModal} />
-          )}
-          {/* 비밀번호 확인 */}
-          {isPasswordCheck && (
-            <CheckPassword
-              onClose={handleCloseModal}
-              onSuccess={handleAccountEdit} // 성공시 개인정보 수정 모달
-            />
-          )}
-          {/* 유저 정보 수정 */}
-          {isUserProfileEdit && (
-            <UserAccountEdit
-              isWithdrawal={isWithdrawal}
-              setIsWithdrawal={setIsWithdrawal}
-              handleSubmit={handleUserProfileEdit}
-              handleSetWithdrawal={handleSetWithdrawal}
-              onClose={handleCloseModal}
-              isSocial={isSocial}
-              user={user}
-            />
-          )}
-        </>
-      )}
+      <>
+        {/* 프로필 수정 */}
+        {isProfileSetup && (
+          <ProfileUpdate onClose={handleCloseModal} />
+        )}
+        {/* 비밀번호 확인 */}
+        {isPasswordCheck && (
+          <CheckPassword
+            onClose={handleClosePwCheckModal}
+            onSuccess={handleAccountEdit} // 성공시 개인정보 수정 모달
+          />
+        )}
+        {/* 유저 정보 수정 */}
+        {isUserProfileEdit && (
+          <UserAccountEdit
+            isWithdrawal={isWithdrawal}
+            handleSetWithdrawal={handleSetWithdrawal}
+            onClose={handleCloseModal}
+          />
+        )}
+      </>
       {/* 회원탈퇴 성공 */}
       {isWithdrawal ? (
         <WithdrawalComplete />
@@ -104,18 +95,12 @@ export default function User() {
             {/* 유저 정보, 언어설정, 이용약관*/}
             <Wrapper padding="px-8 py-8" width="w-[900px]">
               {selectedSection === 'profile' ? (
-                // 유저 정보설정
-                loading ? (
-                  <SkeletonProfileSection />
-                ) : (
-                  <ProfileSection
-                    handleProfileEdit={handleProfileEdit}
-                    handlePwCheckModal={handlePwCheckModal}
-                    user={user as UserType}
-                    isSocial={isSocial}
-                  />
-                )
-              ) : selectedSection === 'language' ? (
+                <ProfileSection
+                  handleProfileEdit={handleProfileEdit}
+                  handlePwCheckModal={handlePwCheckModal}
+                />
+              ) : // 유저 정보설정
+              selectedSection === 'language' ? (
                 // 언어설정
                 <LanguageSection
                   selectedLanguage={selectedLanguage}

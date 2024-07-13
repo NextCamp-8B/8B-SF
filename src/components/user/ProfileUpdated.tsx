@@ -9,20 +9,19 @@ import React, {
 import useInputChange from '@/hooks/input/useInputChange';
 import Wrapper from '@/components/shared/Wrapper';
 import { conceptMap } from '@/components/shared/input/inputConfig';
-import LoadingSpinner from '../shared/LoadingSpinner';
-import { useSession } from 'next-auth/react';
 import AuthPopup from '../signup/Popup';
 import ProfileDetails from '../shared/ProfileDetails';
 import { useProfileUpdate } from '@/hooks/user/useProfileUpdated';
+import LoadingSpinnerWrapper from '../shared/LoadingSpinnerWrapper';
+import useSessionData from '@/hooks/user/useSessionData';
+import ModalWrapper from './ModalWrapper';
 
-type ProfileUpdateProps = {
-  onClose?: () => void;
+type TProfileUpdate = {
+  onClose: () => void;
 };
 
-export default function ProfileUpdate({
-  onClose,
-}: ProfileUpdateProps) {
-  const { data: session, status } = useSession();
+const ProfileUpdate = ({ onClose }: TProfileUpdate) => {
+  const { user } = useSessionData();
   const {
     nickname,
     interestStock,
@@ -30,7 +29,7 @@ export default function ProfileUpdate({
     profileImgName: userImageName,
     accessToken,
     refreshToken,
-  } = session?.user || {};
+  } = user || {};
   const { value, onChangeInputValue } = useInputChange(); //Input 관리
   const [isSubmit, setIsSubmit] = useState(false); // 폼 submit
   const [isFormValid, setIsFormValid] = useState(false); //폼 유효성 체크
@@ -44,10 +43,10 @@ export default function ProfileUpdate({
     popupMsg,
     setIsShowPopup,
     handleProfileUpdate,
-  } = useProfileUpdate(); //로딩. 팝업, api요청 관리
+  } = useProfileUpdate(); //프로필 수정 api
 
-  //팝업 닫기
-  const handleClosePopuup = () => setIsShowPopup(false);
+  // 결과 팝업 닫기
+  const handleCloseResultPopup = () => setIsShowPopup(false);
 
   const validateForm = useCallback(() => {
     const isNicknameValid = conceptMap.nickname.doValidation(
@@ -60,7 +59,7 @@ export default function ProfileUpdate({
     validateForm();
   }, [validateForm]);
 
-  //닉네임 값 초기 설정
+  // 닉네임 값 초기 설정
   useEffect(() => {
     if (!initialNicknameRef.current && nickname) {
       value.nickname = nickname;
@@ -104,50 +103,45 @@ export default function ProfileUpdate({
       reader.readAsDataURL(file);
     }
   };
+  // session값 loadindg이면 팝업창 닫기 불가
+  const handleCloseProfileModal = () => {
+    if (isLoading) return;
+    onClose();
+  };
 
   return (
-    <>
-      {/* 수정 성공/에러 메시지 팝업 */}
-      {isShowPopup && (
-        <AuthPopup
-          onClose={handleClosePopuup}
-          error={true}
-          title={popupMsg.title}
-          errorMessage={popupMsg.msg}
-        />
-      )}
-      <div
-        className="fixed inset-0 z-40 bg-grayscale-900 bg-opacity-65 flex justify-center items-center h-[100%] w-[100%]"
-        onClick={onClose}
-      >
-        <div onClick={(e) => e.stopPropagation()}>
-          <Wrapper padding="px-24 py-20" width="w-[590px]">
-            <div className="flex flex-col justify-start w-[386px] h-full">
-              <h3 className="h3 font-bold text-center mb-8 text-primary-900">
-                프로필 수정
-              </h3>
-
-              {isLoading ? (
-                <div className="w-full h-full flex items-center justify-center">
-                  <LoadingSpinner />
-                </div>
-              ) : (
-                <ProfileDetails
-                  profileImage={profileImage}
-                  handleImageUpload={handleImageUpload}
-                  nickname={value.nickname}
-                  onChangeNickname={onChangeInputValue}
-                  isSubmit={isSubmit}
-                  stock={stock}
-                  handleStockChange={handleStockChange}
-                  onHandleSubmit={onHandleSubmit}
-                  buttonText="수정하기"
-                />
-              )}
-            </div>
-          </Wrapper>
+    <ModalWrapper onClose={handleCloseProfileModal}>
+      <Wrapper padding="px-24 py-20" width="w-[590px]">
+        <div className="flex flex-col justify-start w-[386px] h-full">
+          <h3 className="h3 font-bold text-center mb-8 text-primary-900">
+            프로필 수정
+          </h3>
+          {/* 수정 성공/에러 메시지 팝업 */}
+          {isShowPopup && (
+            <AuthPopup
+              onClose={handleCloseResultPopup}
+              error={true}
+              title={popupMsg.title}
+              errorMessage={popupMsg.msg}
+            />
+          )}
+          <LoadingSpinnerWrapper isLoading={isLoading}>
+            <ProfileDetails
+              profileImage={profileImage}
+              handleImageUpload={handleImageUpload}
+              nickname={value.nickname}
+              onChangeNickname={onChangeInputValue}
+              isSubmit={isSubmit}
+              stock={stock}
+              handleStockChange={handleStockChange}
+              onHandleSubmit={onHandleSubmit}
+              buttonText="수정하기"
+            />
+          </LoadingSpinnerWrapper>
         </div>
-      </div>
-    </>
+      </Wrapper>
+    </ModalWrapper>
   );
-}
+};
+
+export default ProfileUpdate;

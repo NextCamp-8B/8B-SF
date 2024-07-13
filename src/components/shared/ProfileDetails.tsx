@@ -6,7 +6,7 @@ import CompositeInput from '@/components/shared/input/CompositeInput/index';
 import TextButton from '@/components/shared/buttons/TextButton';
 import ProfileImageEditor from '../signup/ProfileImageEditor';
 
-type ProfileDetailsProps = {
+type TProfileDetails = {
   profileImage: string;
   handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
   nickname: string;
@@ -18,7 +18,7 @@ type ProfileDetailsProps = {
   buttonText: string;
 };
 
-const ProfileDetails: React.FC<ProfileDetailsProps> = ({
+const ProfileDetails = ({
   profileImage,
   handleImageUpload,
   nickname,
@@ -28,7 +28,7 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({
   handleStockChange,
   onHandleSubmit,
   buttonText,
-}) => {
+}: TProfileDetails) => {
   return (
     <form onSubmit={onHandleSubmit}>
       <ProfileImageEditor

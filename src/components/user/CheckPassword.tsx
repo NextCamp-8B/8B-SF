@@ -26,14 +26,12 @@ const CheckPassword = ({
   const onHandleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmit(true);
-    if (!isFormValid) {
-      console.log('isFormValid unset');
-      return;
-    }
+    if (!isFormValid) return;
 
     const isValid = await checkPassword(value.password);
     if (isValid) {
       onSuccess();
+      onClose();
     }
   };
   const validateForm = useCallback(() => {

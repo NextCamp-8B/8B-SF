@@ -1,33 +1,35 @@
+'use client';
 import TextButton from '../shared/buttons/TextButton';
 import SectionBox from './SectionBox';
 import MyPageSection from './MyPageSection';
 import UserInfoList from './UserInfoList';
-import { User } from '@/store/userStore';
 import UserProfile from './UserProfile';
+import useSessionData from '@/hooks/user/useSessionData';
+import SkeletonProfileSection from '../skeleton/mypage/SkeletonProfile';
 
-type ProfileSectionProps = {
+type TProfileSection = {
   handleProfileEdit: () => void;
-  handlePwCheckModal: () => void;
-  user: User;
-  isSocial: boolean;
+  handlePwCheckModal: (isSocial: boolean) => void;
 };
 
-export default function ProfileSection({
+const ProfileSection = ({
   handleProfileEdit,
   handlePwCheckModal,
-  user,
-  isSocial,
-}: ProfileSectionProps) {
-  const { userId, name, birth, nickname, profileImg, phoneNumber } =
-    user;
+}: TProfileSection) => {
+  const { user, isSocial, loading } = useSessionData();
 
   const userInfo = [
     // isSocal값이 true라면 id값 보이게
-    ...(!isSocial ? [{ label: '아이디', value: userId! }] : []),
-    { label: '이름', value: name! },
-    { label: '생년월일', value: birth! },
-    { label: '핸드폰번호', value: phoneNumber! },
+    ...(!isSocial ? [{ label: '아이디', value: user.userId! }] : []),
+    { label: '이름', value: user.name! },
+    { label: '생년월일', value: user.birth! },
+    { label: '핸드폰번호', value: user.phoneNumber! },
   ];
+
+  // useSession loading이라면 skeleton ui
+  if (loading) {
+    return <SkeletonProfileSection />;
+  }
 
   return (
     <>
@@ -47,8 +49,8 @@ export default function ProfileSection({
         </SectionBox>
         {/* 유저 프로필 정보 */}
         <UserProfile
-          nickname={nickname!}
-          profileImg={profileImg as string}
+          nickname={user.nickname!}
+          profileImg={user.profileImg as string}
         />
       </MyPageSection>
       {/* 유저 계정 설정 */}
@@ -60,7 +62,7 @@ export default function ProfileSection({
           <TextButton
             size="sm"
             width="w-40"
-            onClick={handlePwCheckModal}
+            onClick={() => handlePwCheckModal(isSocial)}
           >
             개인정보 수정
           </TextButton>
@@ -71,4 +73,6 @@ export default function ProfileSection({
       </MyPageSection>
     </>
   );
-}
+};
+
+export default ProfileSection;
