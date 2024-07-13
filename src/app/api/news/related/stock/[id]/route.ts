@@ -11,7 +11,7 @@ export async function GET(
   });
 
   // console.log('data', data);
-  console.log(error);
+  // console.log(error);
   return Response.json({
     stockList: data,
   });

@@ -16,7 +16,7 @@ declare module 'next-auth' {
       phoneNumber: string;
       interestStock: string;
       provider: string;
-      language: string;
+      language: Locale;
       accessToken: string;
       refreshToken: string;
     };
@@ -35,8 +35,10 @@ declare module 'next-auth' {
     phoneNumber: string;
     interestStock: string;
     provider: string;
-    language: string;
+    language: Locale;
     accessToken: string;
     refreshToken: string;
   }
 }
+
+export type Locale = 'ko' | 'en' | 'fr' | 'ja' | 'zh';

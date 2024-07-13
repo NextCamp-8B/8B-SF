@@ -5,6 +5,8 @@ import { useInView } from 'react-intersection-observer';
 import { News } from '@/types/news';
 import dynamic from 'next/dynamic';
 import SkeletonNewsListItem from '../skeleton/news/SkeletonNewsListItem';
+import { useParams } from 'next/navigation';
+import { Locale } from '@/types/next-auth';
 
 const NewsListItem = dynamic(
   () => import('@/components/shared/NewsListItem'),
@@ -14,11 +16,11 @@ const NewsListItem = dynamic(
 );
 
 function RecentNews() {
+  const { locale }: { locale: Locale } = useParams();
   const { ref, inView } = useInView();
   const [newsList, setNewsList] = useState<News[]>([]);
   const [page, setPage] = useState(0);
   const [loading, setLoadging] = useState(false);
-
   const getNewsList = async () => {
     if (inView && !loading) {
       setLoadging(true);
@@ -44,7 +46,12 @@ function RecentNews() {
   return (
     <div className="bg-grayscale-0 p-12 flex flex-col rounded-2xl">
       {newsList.map((news) => (
-        <NewsListItem type="large" news={news} key={news.news_id} />
+        <NewsListItem
+          type="large"
+          news={news}
+          key={news.news_id}
+          locale={locale}
+        />
       ))}
       <span ref={ref} />
     </div>

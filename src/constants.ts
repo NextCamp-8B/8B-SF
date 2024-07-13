@@ -335,3 +335,59 @@ export const TMP_CHATBOT: { role: 'bot' | 'user'; text: string }[] = [
     text: '테슬라의 주가를 분석한 리포트가 있습니다. 다만 투자 결정을 내리기 전에 전문가나 금융 자문가와 상담하는 것이 좋습니다.',
   },
 ];
+
+type TranslateNews = {
+  ko: {
+    title: 'title_ko';
+    content: 'content_ko';
+    summary: 'summary_ko';
+  };
+  en: {
+    title: 'title_en';
+    content: 'content_en';
+    summary: 'summary_en';
+  };
+  fr: {
+    title: 'title_fr';
+    content: 'content_fr';
+    summary: 'summary_fr';
+  };
+  ja: {
+    title: 'title_ja';
+    content: 'content_ja';
+    summary: 'summary_ja';
+  };
+  zh: {
+    title: 'title_zh';
+    content: 'content_zh';
+    summary: 'summary_zh';
+  };
+};
+
+export const translateNews: TranslateNews = {
+  ko: {
+    title: 'title_ko',
+    content: 'content_ko',
+    summary: 'summary_ko',
+  },
+  en: {
+    title: 'title_en',
+    content: 'content_en',
+    summary: 'summary_en',
+  },
+  fr: {
+    title: 'title_fr',
+    content: 'content_fr',
+    summary: 'summary_fr',
+  },
+  ja: {
+    title: 'title_ja',
+    content: 'content_ja',
+    summary: 'summary_ja',
+  },
+  zh: {
+    title: 'title_zh',
+    content: 'content_zh',
+    summary: 'summary_zh',
+  },
+};

@@ -110,7 +110,8 @@
   "News": {
     "popular_news_today": "Nouvelles populaires aujourd'hui",
     "news_about_interest_stocks": "Nouvelles sur les actions d'intérêt",
-    "latest_news": "Dernières nouvelles"
+    "latest_news": "Dernières nouvelles",
+    "related_warning": "Il n'y a pas de nouvelles concernant l'action sélectionnée."
   },
   "NewsDetail": {
     "summary": "Résumé AI d'Aightnow",
@@ -118,7 +119,8 @@
     "related_news": "Nouvelles liées",
     "translate": "Traduire",
     "article": "Article",
-    "views": "{view}fois"
+    "views": "{view}fois",
+    "warning": "Aucun article traduit disponible."
   },
   "InterestStock": {
     "interest_stock": "Les intérêts de {nickname}",

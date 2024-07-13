@@ -110,7 +110,8 @@
   "News": {
     "popular_news_today": "今日の人気ニュース",
     "news_about_interest_stocks": "インタレスト・ストックに関するニュース",
-    "latest_news": "最新ニュース"
+    "latest_news": "最新ニュース",
+    "related_warning": "関心のある銘柄に関連するニュースはありません。"
   },
   "NewsDetail": {
     "summary": "Aightnow AI 要約",
@@ -118,7 +119,8 @@
     "related_news": "関連ニュース",
     "translate": "翻訳する",
     "article": "記事",
-    "views": "{view}回"
+    "views": "{view}回",
+    "warning": "翻訳された記事はありません。"
   },
   "InterestStock": {
     "interest_stock": "{nickname}の関心株",

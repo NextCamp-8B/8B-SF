@@ -110,7 +110,8 @@
   "News": {
     "popular_news_today": "오늘 인기있는 뉴스",
     "news_about_interest_stocks": "관심종목과 관련된 뉴스 ",
-    "latest_news": "최신 뉴스"
+    "latest_news": "최신 뉴스",
+    "related_warning": "관심종목과 관련된 뉴스가 없습니다"
   },
   "NewsDetail": {
     "summary": "아잇나우 AI 요약",
@@ -118,7 +119,8 @@
     "related_news": "관련 기사",
     "translate": "번역하기",
     "article": "기사",
-    "views": "{view}회"
+    "views": "{view}회",
+    "warning": "번역된 기사가 없습니다."
   },
   "InterestStock": {
     "interest_stock": "{nickname}님의 관심종목",

@@ -110,7 +110,8 @@
   "News": {
     "popular_news_today": "今日热门新闻",
     "news_about_interest_stocks": "关注股票新闻",
-    "latest_news": "最新新闻"
+    "latest_news": "最新新闻",
+    "related_warning": "没有与感兴趣的股票相关的新闻。"
   },
   "NewsDetail": {
     "summary": "Aightnow AI摘要",
@@ -118,7 +119,8 @@
     "related_news": "相关新闻",
     "translate": "翻译",
     "article": "文章",
-    "views": "{view}次"
+    "views": "{view}次",
+    "warning": "没有翻译的文章。"
   },
   "InterestStock": {
     "interest_stock": "{nickname}的兴趣",

@@ -110,7 +110,8 @@
   "News": {
     "popular_news_today": "Popular news Today",
     "news_about_interest_stocks": "News About Interest Stock",
-    "latest_news": "Latest News"
+    "latest_news": "Latest News",
+    "related_warning": "There is no news related to the interest stock."
   },
   "NewsDetail": {
     "summary": "Aightnow AI Summary",
@@ -118,7 +119,8 @@
     "related_news": "Related News",
     "translate": "Translate",
     "article": "Article",
-    "views": "{view}views"
+    "views": "{view}views",
+    "warning": "No translated articles available."
   },
   "InterestStock": {
     "interest_stock": "{nickname}'s Interests Stock",
