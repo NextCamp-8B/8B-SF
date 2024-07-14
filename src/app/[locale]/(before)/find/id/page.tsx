@@ -5,10 +5,10 @@ import InputSet from '@/components/shared/input/index';
 import useInputChange from '@/hooks/input/useInputChange';
 import TextButton from '@/components/shared/buttons/TextButton';
 import { conceptMap } from '@/components/shared/input/inputConfig';
-import LoadingSpinner from '@/components/shared/LoadingSpinner';
 import FindIdResult from '@/components/findId/FindIdResult';
 import AuthPopup from '@/components/signup/Popup';
 import LoadingSpinnerWrapper from '@/components/shared/LoadingSpinnerWrapper';
+import usePopupStore from '@/store/userPopup';
 
 // 사용자 경험을 위해 비밀번호 찾기 추가
 // 소셜로그인 id를 찾았다면 찾은 유저id에 해당 소셜로그인 로고 추가
@@ -20,7 +20,8 @@ export default function FindId() {
   const [isSuccessFindId, setISuccessFindId] = useState(false); //아이디 찾기 성공 여부
   const [isFormValid, setIsFormValid] = useState(false); //폼 유효성 체크
   const [isLoading, setIsLoading] = useState(false); //로딩스피너 처리
-  const [isShowPopup, setIsShowPopup] = useState(false); // 해당하는 유저 없을 시 에러팝업
+  const { isShowPopup, popupMsg, hidePopup, showPopup } =
+    usePopupStore();
 
   // user 정보
   const [findUserId, setFindUserId] = useState<{
@@ -63,7 +64,10 @@ export default function FindId() {
       setISuccessFindId(true);
     } else {
       setISuccessFindId(false);
-      setIsShowPopup(true);
+      showPopup(
+        '아이디 찾기 실패',
+        '입력한 내용을 다시 확인해주세요.',
+      );
     }
     setIsLoading(false);
   };
@@ -72,22 +76,15 @@ export default function FindId() {
     validateForm();
   }, [validateForm]);
 
-  // 에러 팝업 닫기
-  const handleClosePopuup = () => {
-    setIsShowPopup(false);
-  };
-
   const titleMarginBottom = isSuccessFindId ? 'mb-6' : 'mb-10';
   return (
     <>
       {isShowPopup && (
         <AuthPopup
-          onClose={handleClosePopuup}
+          onClose={hidePopup}
           error={true}
-          title={'아이디 찾기 실패'}
-          errorMessage={
-            '이메일, 휴대폰번호와 일치하는 유저가 없습니다.'
-          }
+          title={popupMsg.title}
+          errorMessage={popupMsg.msg}
         />
       )}
       <main className="flex justify-center items-center h-screen">

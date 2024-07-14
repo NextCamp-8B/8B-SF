@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server';
 import { match } from 'path-to-regexp';
 import { auth as getSession } from '@/auth';
 import createMiddleware from 'next-intl/middleware';
+import { Session } from 'next-auth';
 
 // 세션없이 사용가능한 페이지
 const publicPages = ['/login', '/signup', '/find'];
@@ -30,6 +31,13 @@ export default async function middleware(request: NextRequest) {
     request.headers.get('x-your-custom-locale') || 'ko';
   i18nResponse.headers.set('x-your-custom-locale', defaultLocale);
 
+  const session = await getSession() as Session;
+  if (session) {
+    const userLanguage = session.user.language || 'ko';
+
+     // 유저 세션이 있다면 NEXT_LOCALE 쿠키 설정
+     i18nResponse.cookies.set('NEXT_LOCALE', userLanguage);
+  }
   //세션이 없는 상태 -> 세션필요 페이지로 동작시
   // login 페이지로 이동
   if (isMatch(pathname, protectedPages)) {

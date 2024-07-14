@@ -209,6 +209,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           profileImg,
           profileImgName,
           interestStock,
+          language,
         } = session;
 
         token.userId = userId;
@@ -219,6 +220,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.profileImg = profileImg;
         token.profileImgName = profileImgName;
         token.interestStock = interestStock;
+        token.language = language;
       }
       return token;
     },
