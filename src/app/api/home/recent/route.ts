@@ -1,5 +1,5 @@
 import { createClient } from '@/utils/supabase/server';
-
+import { auth } from '@/auth';
 export async function GET(request: Request) {
   const supabase = createClient();
   const url = new URL(request.url);
@@ -7,11 +7,11 @@ export async function GET(request: Request) {
 
   // 최근 조회한 stock_id 찾기
   const { data: stocks, error: stocksError } = await supabase
-    .from('recent_main_stocks')
+    .from('recent_home_stocks')
     .select('stock_id')
     .eq('id', userId)
-    .order('created_at', { ascending: false });
-
+    .order('created_at', { ascending: false })
+    .limit(4);
   if (stocksError) {
     console.log('최근 조회 fetch 실패:', stocksError);
     return new Response(
@@ -25,7 +25,7 @@ export async function GET(request: Request) {
   const stockDetailsPromises = stocks.map(async (stock) => {
     const { data, error } = await supabase
       .from('stock')
-      .select('stock_id, stock_name, stock_code')
+      .select('*')
       .eq('stock_id', stock.stock_id)
       .single();
 
@@ -47,8 +47,10 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   const supabase = createClient();
 
-  const { stock_id, session } = await request.json();
-  const userId = session.user.id;
+  const session = await auth();
+
+  const { stock_id } = await request.json();
+  const userId = session && session.user.id;
 
   const { data: existingData, error: selectError } = await supabase
     .from('recent_home_stocks')
@@ -73,7 +75,7 @@ export async function POST(request: Request) {
   else {
     const { data: insertData, error: insertError } = await supabase
       .from('recent_home_stocks')
-      .insert([{ id: userId, stock_id }]);
+      .insert([{ id: userId, stock_id: stock_id }]);
 
     return new Response(JSON.stringify({ insertData }), {
       status: 200,

@@ -9,6 +9,7 @@ export default class AightnowClient {
     this.updateRecentSearch = this.updateRecentSearch.bind(this);
     this.deleteRecentSearch = this.deleteRecentSearch.bind(this);
     this.getRecentSearch = this.getRecentSearch.bind(this);
+    this.getRecentHome = this.getRecentHome.bind(this);
   }
 
   async loginLLM({ isServer = false }: { isServer?: boolean } = {}) {
@@ -98,6 +99,12 @@ export default class AightnowClient {
 
   async getRecentSearch({ userId }: { userId: UUID }) {
     const nextURL = `/api/search/recent?userId=${userId}`;
+
+    return this.httpClient.get({ url: nextURL });
+  }
+
+  async getRecentHome({ userId }: { userId: UUID }) {
+    const nextURL = `/api/home/recent?userId=${userId}`;
 
     return this.httpClient.get({ url: nextURL });
   }

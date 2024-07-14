@@ -1,8 +1,11 @@
+'use client';
 import React from 'react';
 import StockIcon from './StockIcon';
 import { Stock } from '@/types/stock';
 import Link from 'next/link';
 import { compareToZero, formattingPrice } from '@/utils/stock';
+import { useRouter } from 'next/navigation';
+import { UUID } from 'crypto';
 
 export type StockListItemProps = {
   stock: Stock;
@@ -25,12 +28,28 @@ export default function StockListItem({
 
   const compare = compareToZero(cp);
 
+  const updateRecentHome = async (stock_id: string) => {
+    const response = await fetch('/api/home/recent', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ stock_id }),
+    });
+  };
+
+  const router = useRouter();
+  const handleClick = async (stock_id: string) => {
+    await updateRecentHome(stock_id);
+    router.push(`/stock/${stock_id}`);
+  };
+
   return (
     <>
       {type === 'default' && (
-        <Link
-          href={`/stock/${stock_id}`}
+        <button
           className="py-2 flex text-grayscale-900 gap-4 items-center cursor-pointer group"
+          onClick={() => handleClick(stock_id)}
         >
           <StockIcon size="medium" path={logo_path} />
           <div className="flex-1 flex justify-between">
@@ -69,12 +88,12 @@ export default function StockListItem({
               </div>
             </div>
           </div>
-        </Link>
+        </button>
       )}
       {type === 'find' && (
-        <Link
-          href={`/stock/${stock_id}`}
+        <button
           className="py-2 flex text-grayscale-900 gap-4 items-center cursor-pointer group"
+          onClick={() => handleClick(stock_id)}
         >
           <StockIcon size={'small'} path={logo_path} />
           <div className="flex-1 flex justify-between">
@@ -113,7 +132,7 @@ export default function StockListItem({
               </div>
             </div>
           </div>
-        </Link>
+        </button>
       )}
       {type === 'related' && (
         <div className="w-full">
