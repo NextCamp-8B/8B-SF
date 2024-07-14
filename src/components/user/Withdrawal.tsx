@@ -5,19 +5,28 @@ import TextButton from '@/components/shared/buttons/TextButton';
 import InputSet from '@/components/shared/input';
 import useInputChange from '@/hooks/input/useInputChange';
 import CompositeInput from '../shared/input/CompositeInput';
+import myPageStore from '@/store/myPageStore';
 
-type WithdrawalProps = {
-  handleSubmit: () => void;
-  onClose: () => void;
-};
-
-export default function Withdrawal({
-  handleSubmit,
-  onClose,
-}: WithdrawalProps) {
+// 회원탈퇴
+export default function Withdrawal() {
   const { value, onChangeInputValue } = useInputChange();
   const [isSubmit, setIsSubmit] = useState(false);
   const [selectedReason, setSelectedReason] = useState('');
+  const {
+    closeModal,
+    closeAllModals,
+    setIsWithdrawal,
+    isWithdrawal,
+  } = myPageStore();
+
+  //회원 삭제처리 되었는지
+  const handleSetWithdrawal = () => {
+    setIsWithdrawal();
+    closeAllModals();
+  };
+
+  // 회원정보 수정 모달 닫기
+  const handleCloseWidthdrawl = () => closeModal('isWithdrawal');
 
   const reasons = [
     '이용이 불편하고 장애가 많아서',
@@ -44,7 +53,10 @@ export default function Withdrawal({
   };
 
   return (
-    <ModalWrapper onClose={onClose}>
+    <ModalWrapper
+      onClose={handleCloseWidthdrawl}
+      isOpen={isWithdrawal}
+    >
       <Wrapper padding="px-24 py-20" width="w-[590px]">
         <h3 className="h3 font-bold text-center text-primary-900 mb-8">
           회원 탈퇴
@@ -82,7 +94,10 @@ export default function Withdrawal({
             />
           </InputSet>
 
-          <TextButton onClick={handleSubmit} className="w-full mt-8">
+          <TextButton
+            onClick={handleSetWithdrawal}
+            className="w-full mt-8"
+          >
             회원탈퇴
           </TextButton>
         </div>

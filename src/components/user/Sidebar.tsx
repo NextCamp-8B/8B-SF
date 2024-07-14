@@ -1,17 +1,16 @@
 'use client';
-import { SectionType } from './types';
 import Wrapper from '@/components/shared/Wrapper';
 import SidebarItem from '@/components/user/SidebarItem';
+import { usePathname } from 'next/navigation';
+import { SectionType } from '@/types/mypage';
 
-type SidebarProps = {
-  handleSelectedSection: (section: SectionType) => void;
-  selectedSection: SectionType;
-};
+export default function Sidebar() {
+  const pathname = usePathname();
+  const pathSegments = pathname.split('/');
+  const selectedSection = pathSegments[
+    pathSegments.length - 1
+  ] as SectionType; // 경로의 마지막 부분 추출
 
-export default function Sidebar({
-  handleSelectedSection,
-  selectedSection,
-}: SidebarProps) {
   return (
     <>
       <Wrapper padding="px-6 py-8" width="w-[285px]">
@@ -20,19 +19,16 @@ export default function Sidebar({
             <SidebarItem
               section="profile"
               selectedSection={selectedSection}
-              handleSelectedSection={handleSelectedSection}
               label="개인정보 수정"
             />
             <SidebarItem
               section="language"
               selectedSection={selectedSection}
-              handleSelectedSection={handleSelectedSection}
               label="언어 설정"
             />
             <SidebarItem
               section="terms"
               selectedSection={selectedSection}
-              handleSelectedSection={handleSelectedSection}
               label="서비스 이용약관"
             />
           </ul>

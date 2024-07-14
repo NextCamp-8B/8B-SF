@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import InputSet from '@/components/shared/input/index';
 import CompositeInput from '@/components/shared/input/CompositeInput/index';
@@ -18,7 +16,7 @@ type TProfileDetails = {
   buttonText: string;
 };
 
-const ProfileDetails = ({
+export default function ProfileDetails({
   profileImage,
   handleImageUpload,
   nickname,
@@ -28,7 +26,8 @@ const ProfileDetails = ({
   handleStockChange,
   onHandleSubmit,
   buttonText,
-}: TProfileDetails) => {
+}: TProfileDetails) {
+  console.log('최하위------', profileImage, stock);
   return (
     <form onSubmit={onHandleSubmit}>
       <ProfileImageEditor
@@ -65,6 +64,4 @@ const ProfileDetails = ({
       </InputSet>
     </form>
   );
-};
-
-export default ProfileDetails;
+}

@@ -10,21 +10,23 @@ import { conceptMap } from '../shared/input/inputConfig';
 import { useCheckPassword } from '@/hooks/user/useCheckPw';
 import AuthPopup from '../signup/Popup';
 import usePopupStore from '@/store/userPopup';
+import myPageStore from '@/store/myPageStore';
 
-type CheckPasswordProps = {
-  onClose: () => void;
-  onSuccess: () => void;
-};
-
-const CheckPassword = ({
-  onSuccess,
-  onClose,
-}: CheckPasswordProps) => {
+const CheckPassword = () => {
   const { value, onChangeInputValue } = useInputChange();
   const [isSubmit, setIsSubmit] = useState(false); // 폼 submit
   const [isFormValid, setIsFormValid] = useState(false); //폼 유효성 체크
   const { checkPassword } = useCheckPassword();
   const { isShowPopup, popupMsg, hidePopup } = usePopupStore();
+  const { openModal, closeModal, isPasswordCheck } = myPageStore();
+
+  // 개인정보 수정 모달 열기
+  const handleOpenAccountEdit = () => openModal('isUserAccountdit');
+
+  // 비밀번호 체크 모달 딛기
+  const handleClosePwCheckModal = () => {
+    closeModal('isPasswordCheck');
+  };
 
   const onHandleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,8 +35,8 @@ const CheckPassword = ({
 
     const isValid = await checkPassword(value.password);
     if (isValid) {
-      onSuccess();
-      onClose();
+      handleOpenAccountEdit();
+      handleClosePwCheckModal();
     }
   };
   const validateForm = useCallback(() => {
@@ -49,41 +51,42 @@ const CheckPassword = ({
   }, [validateForm]);
 
   return (
-    <>
-      <ModalWrapper onClose={onClose}>
-        <Wrapper padding="px-24 py-20" width="w-[590px]">
-          <h3 className="h3 font-bold text-center text-primary-900 mb-8">
-            비밀번호 인증
-          </h3>
-          {/* 수정 성공/에러 메시지 팝업 */}
-          {isShowPopup && (
-            <AuthPopup
-              onClose={hidePopup}
-              error={true}
-              title={popupMsg.title}
-              errorMessage={popupMsg.msg}
+    <ModalWrapper
+      onClose={handleClosePwCheckModal}
+      isOpen={isPasswordCheck}
+    >
+      <Wrapper padding="px-24 py-20" width="w-[590px]">
+        <h3 className="h3 font-bold text-center text-primary-900 mb-8">
+          비밀번호 인증
+        </h3>
+        {/* 수정 성공/에러 메시지 팝업 */}
+        {isShowPopup && (
+          <AuthPopup
+            onClose={hidePopup}
+            error={true}
+            title={popupMsg.title}
+            errorMessage={popupMsg.msg}
+          />
+        )}
+        <form className="flex flex-col justify-start w-[386px] h-full">
+          <InputSet className="flex flex-col gap-4">
+            <InputSet.Validated
+              onChange={onChangeInputValue}
+              value={value.password}
+              type="password"
+              concept="password"
+              isSubmit={isSubmit}
             />
-          )}
-          <form className="flex flex-col justify-start w-[386px] h-full">
-            <InputSet className="flex flex-col gap-4">
-              <InputSet.Validated
-                onChange={onChangeInputValue}
-                value={value.password}
-                type="password"
-                concept="password"
-                isSubmit={isSubmit}
-              />
-              <TextButton
-                onClick={onHandleSubmit}
-                className="w-full mt-8"
-              >
-                확인
-              </TextButton>
-            </InputSet>
-          </form>
-        </Wrapper>
-      </ModalWrapper>
-    </>
+            <TextButton
+              onClick={onHandleSubmit}
+              className="w-full mt-8"
+            >
+              확인
+            </TextButton>
+          </InputSet>
+        </form>
+      </Wrapper>
+    </ModalWrapper>
   );
 };
 

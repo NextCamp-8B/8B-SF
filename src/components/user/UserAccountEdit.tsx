@@ -15,21 +15,14 @@ import { usePasswordUpdate } from '@/hooks/user/useUpdatePw';
 import UserAccountForm from './UserAccountForm';
 import usePopupStore from '@/store/userPopup';
 
-type TUserAccountEdit = {
-  handleSetWithdrawal: () => void; //회원탈퇴 처리를 위한
-  onClose: () => void;
-  isWithdrawal: boolean;
-};
-
 // 정보수정 모달에서 회원탈퇴 모달을 관리
 // isWithdrawal 값에 따라 회원탈퇴모달이 발생
 // handleSetWithdrawal 로 회원탈퇴 처리 되었다면
 // WithdrawalComplete 페이지 렌더링
-function UserAccountEdit({
-  handleSetWithdrawal,
-  onClose,
-}: TUserAccountEdit) {
-  const { isWithdrawal, openModal, closeModal } = myPageStore();
+function UserAccountEdit() {
+  const { openModal, closeAllModals, isUserAccountdit } =
+    myPageStore();
+
   const { value, onChangeInputValue, setValue } = useInputChange();
   const [isSubmit, setIsSubmit] = useState(false); // 폼 submit
   const [isFormValid, setIsFormValid] = useState(false); //폼 유효성 체크
@@ -57,13 +50,11 @@ function UserAccountEdit({
 
   // 회원탈퇴 모달 열기
   const handleShowWidthdrawl = () => openModal('isWithdrawal');
-  // 회원정보 수정 모달 닫기
-  const handleCloseWidthdrawl = () => closeModal('isWithdrawal');
 
   // session값 loadindg이면 팝업창 닫기 불가
   const handleCloseAccountModal = () => {
     if (updateLoading) return;
-    onClose();
+    closeAllModals();
   };
 
   const { isUpdatePwLoading, handleUpdatePw } = usePasswordUpdate(); // 비밀번호 변경 훅
@@ -119,44 +110,42 @@ function UserAccountEdit({
 
   return (
     <>
-      {isWithdrawal ? (
-        <Withdrawal
-          handleSubmit={handleSetWithdrawal}
-          onClose={handleCloseWidthdrawl}
-        />
-      ) : (
-        <ModalWrapper onClose={handleCloseAccountModal}>
-          <Wrapper padding="px-24 py-20" width="w-[590px]">
-            <h3 className="h3 font-bold text-center text-primary-900 mb-8">
-              정보 수정
-            </h3>
-            <LoadingSpinnerWrapper
-              isLoading={updateLoading || isUpdatePwLoading}
-            >
-              {/* 수정 성공/에러 메시지 팝업 */}
-              {isShowPopup && (
-                <AuthPopup
-                  error={true}
-                  title={popupMsg.title}
-                  errorMessage={popupMsg.msg}
-                  onClose={hidePopup}
-                />
-              )}
-              <UserAccountForm
-                onSubmit={onHandleSubmit}
-                isSubmit={isSubmit}
-                value={value}
-                onChangeInputValue={onChangeInputValue}
-                handleDuplicate={handleDuplicate}
-                isLoading={isLoading}
-                isSocial={isSocial}
-                handleUpdatePw={handleUpdatePw}
-                handleShowWidthdrawl={handleShowWidthdrawl}
+      {/* 회원 탈퇴 */}
+      <Withdrawal />
+      <ModalWrapper
+        onClose={handleCloseAccountModal}
+        isOpen={isUserAccountdit}
+      >
+        <Wrapper padding="px-24 py-20" width="w-[590px]">
+          <h3 className="h3 font-bold text-center text-primary-900 mb-8">
+            정보 수정
+          </h3>
+          <LoadingSpinnerWrapper
+            isLoading={updateLoading || isUpdatePwLoading}
+          >
+            {/* 수정 성공/에러 메시지 팝업 */}
+            {isShowPopup && (
+              <AuthPopup
+                error={true}
+                title={popupMsg.title}
+                errorMessage={popupMsg.msg}
+                onClose={hidePopup}
               />
-            </LoadingSpinnerWrapper>
-          </Wrapper>
-        </ModalWrapper>
-      )}
+            )}
+            <UserAccountForm
+              onSubmit={onHandleSubmit}
+              isSubmit={isSubmit}
+              value={value}
+              onChangeInputValue={onChangeInputValue}
+              handleDuplicate={handleDuplicate}
+              isLoading={isLoading}
+              isSocial={isSocial}
+              handleUpdatePw={handleUpdatePw}
+              handleShowWidthdrawl={handleShowWidthdrawl}
+            />
+          </LoadingSpinnerWrapper>
+        </Wrapper>
+      </ModalWrapper>
     </>
   );
 }

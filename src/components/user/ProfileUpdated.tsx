@@ -16,13 +16,11 @@ import LoadingSpinnerWrapper from '../shared/LoadingSpinnerWrapper';
 import useSessionData from '@/hooks/user/useSessionData';
 import ModalWrapper from './ModalWrapper';
 import usePopupStore from '@/store/userPopup';
+import myPageStore from '@/store/myPageStore';
 
-type TProfileUpdate = {
-  onClose: () => void;
-};
-
-const ProfileUpdate = ({ onClose }: TProfileUpdate) => {
+const ProfileUpdate = () => {
   const { user } = useSessionData();
+  const { closeAllModals, isProfileSetup } = myPageStore();
   const {
     nickname,
     interestStock,
@@ -34,8 +32,8 @@ const ProfileUpdate = ({ onClose }: TProfileUpdate) => {
   const { value, onChangeInputValue } = useInputChange(); //Input 관리
   const [isSubmit, setIsSubmit] = useState(false); // 폼 submit
   const [isFormValid, setIsFormValid] = useState(false); //폼 유효성 체크
-  const [stock, setStock] = useState(interestStock || ''); //관심종목
-  const [profileImage, setProfileImage] = useState(userImage || ''); //base54 프로필 이미지
+  const [stock, setStock] = useState(interestStock); //관심종목
+  const [profileImage, setProfileImage] = useState(userImage); //base54 프로필 이미지
   const [profileFile, setProfileFile] = useState<File>(); // 프로필 이미지 파일
   const initialNicknameRef = useRef(false); //닉네임 초기값 설정
   const { isLoading, handleProfileUpdate } = useProfileUpdate(); //프로필 수정 api
@@ -99,11 +97,14 @@ const ProfileUpdate = ({ onClose }: TProfileUpdate) => {
   // session값 loadindg이면 팝업창 닫기 불가
   const handleCloseProfileModal = () => {
     if (isLoading) return;
-    onClose();
+    closeAllModals();
   };
 
   return (
-    <ModalWrapper onClose={handleCloseProfileModal}>
+    <ModalWrapper
+      onClose={handleCloseProfileModal}
+      isOpen={isProfileSetup}
+    >
       <Wrapper padding="px-24 py-20" width="w-[590px]">
         <div className="flex flex-col justify-start w-[386px] h-full">
           <h3 className="h3 font-bold text-center mb-8 text-primary-900">

@@ -1,16 +1,13 @@
-import { LanguageType } from './types';
+'use client';
+import { useState } from 'react';
 import LanguageButton from '../shared/buttons/LanguageButton';
 import SectionBox from './SectionBox';
+import { Locale } from '@/types/next-auth';
 
-type LanguageSectionProps = {
-  selectedLanguage: LanguageType;
-  setSelectedLanguage: (language: LanguageType) => void;
-};
+export default function LanguageSection() {
+  const [selectedLanguage, setSelectedLanguage] =
+    useState<Locale>('ko');
 
-export default function LanguageSection({
-  selectedLanguage,
-  setSelectedLanguage,
-}: LanguageSectionProps) {
   return (
     <>
       <SectionBox
@@ -22,20 +19,20 @@ export default function LanguageSection({
       <div className="flex gap-4 flex-wrap">
         {/* language 버튼 */}
         <LanguageButton
-          checked={selectedLanguage === 'kr'}
-          onClick={() => setSelectedLanguage('kr')}
+          checked={selectedLanguage === 'ko'}
+          onClick={() => setSelectedLanguage('ko')}
         />
         <LanguageButton.Us
-          checked={selectedLanguage === 'us'}
-          onClick={() => setSelectedLanguage('us')}
+          checked={selectedLanguage === 'en'}
+          onClick={() => setSelectedLanguage('en')}
         />
         <LanguageButton.Cn
-          checked={selectedLanguage === 'cn'}
-          onClick={() => setSelectedLanguage('cn')}
+          checked={selectedLanguage === 'zh'}
+          onClick={() => setSelectedLanguage('zh')}
         />
         <LanguageButton.Jp
-          checked={selectedLanguage === 'jp'}
-          onClick={() => setSelectedLanguage('jp')}
+          checked={selectedLanguage === 'ja'}
+          onClick={() => setSelectedLanguage('ja')}
         />
         <LanguageButton.Fr
           checked={selectedLanguage === 'fr'}

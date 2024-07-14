@@ -6,17 +6,22 @@ import UserInfoList from './UserInfoList';
 import UserProfile from './UserProfile';
 import useSessionData from '@/hooks/user/useSessionData';
 import SkeletonProfileSection from '../skeleton/mypage/SkeletonProfile';
+import myPageStore from '@/store/myPageStore';
 
-type TProfileSection = {
-  handleProfileEdit: () => void;
-  handlePwCheckModal: (isSocial: boolean) => void;
-};
-
-const ProfileSection = ({
-  handleProfileEdit,
-  handlePwCheckModal,
-}: TProfileSection) => {
+export default function ProfileSection() {
   const { user, isSocial, loading } = useSessionData();
+  const { openModal } = myPageStore();
+
+  // // 비밀번호 체크 모달 열기
+  const handlePwCheckModal = (isSocial: boolean) => {
+    if (isSocial) {
+      openModal('isUserAccountdit');
+    }
+    openModal('isPasswordCheck');
+  };
+
+  // 프로필 수정 모달 열기
+  const handleProfileEdit = () => openModal('isProfileSetup');
 
   const userInfo = [
     // isSocal값이 true라면 id값 보이게
@@ -73,6 +78,4 @@ const ProfileSection = ({
       </MyPageSection>
     </>
   );
-};
-
-export default ProfileSection;
+}
