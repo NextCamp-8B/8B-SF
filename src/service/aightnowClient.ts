@@ -11,6 +11,7 @@ export default class AightnowClient {
     this.getRecentSearch = this.getRecentSearch.bind(this);
     this.getRecentHome = this.getRecentHome.bind(this);
     this.addInterestStock = this.addInterestStock.bind(this);
+    this.getInterestStock = this.getInterestStock.bind(this);
   }
 
   async loginLLM({ isServer = false }: { isServer?: boolean } = {}) {
@@ -190,5 +191,11 @@ export default class AightnowClient {
         stockId,
       },
     });
+  }
+
+  async getInterestStock({ userId }: { userId: UUID }) {
+    const nextURL = `/api/stock/interest?userId=${userId}`;
+
+    return this.httpClient.get({ url: nextURL });
   }
 }

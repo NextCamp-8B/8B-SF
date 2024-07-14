@@ -1,7 +1,7 @@
 import { createClient } from '@/utils/supabase/server';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   const supabase = createClient();
   const { stockId, userId } = await req.json();
 
@@ -25,6 +25,19 @@ export async function POST(req: Request) {
       .single();
   };
   const response = isExist ? data : await addInterest();
+
+  return NextResponse.json(response);
+}
+
+export async function GET(req: NextRequest) {
+  const supabase = createClient();
+  const userId = new URL(req.url).searchParams.get('userId');
+  const { data, statusText, error } = await supabase
+    .from(`interest_stock`)
+    .select(`stock (*)`)
+    .eq(`user_id`, userId)
+    .order(`created_at`, { ascending: false });
+  const response = statusText === 'OK' ? data : error;
 
   return NextResponse.json(response);
 }
