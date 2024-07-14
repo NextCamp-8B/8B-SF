@@ -336,7 +336,7 @@ export const TMP_CHATBOT: { role: 'bot' | 'user'; text: string }[] = [
   },
 ];
 
-type TranslateNews = {
+type TranslateNewsDict = {
   ko: {
     title: 'title_ko';
     content: 'content_ko';
@@ -364,7 +364,7 @@ type TranslateNews = {
   };
 };
 
-export const translateNews: TranslateNews = {
+export const translateNewsDict: TranslateNewsDict = {
   ko: {
     title: 'title_ko',
     content: 'content_ko',

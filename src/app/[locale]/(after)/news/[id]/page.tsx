@@ -7,8 +7,8 @@ import RelatedNewsToNews from '@/components/news/RelatedNewsToNews';
 import SkeletonNewsDetail from '@/components/skeleton/news/SkeletonNewsDetail';
 import SkeletonRelatedNewsToNews from '@/components/skeleton/news/SkeletonRelatedNewsToNews';
 import SkeletonRelatedStock from '@/components/skeleton/news/SkeletonRelatedStock';
-import { getMessages, getTranslations } from 'next-intl/server';
-import { NextIntlClientProvider } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
+import IntlClientProvider from '@/components/shared/IntlClientProvider';
 
 type NewsDetailPageProps = {
   params: {
@@ -26,7 +26,6 @@ export default async function NewsDetailPage({
   ).json();
 
   const t = await getTranslations('NewsDetail');
-  const messages = await getMessages();
   return (
     <>
       <main className="flex justify-center gap-5 max-w-[1200px]">
@@ -35,9 +34,9 @@ export default async function NewsDetailPage({
           width="flex-1 flex flex-col gap-8 h-fit"
         >
           <Suspense fallback={<SkeletonNewsDetail />}>
-            <NextIntlClientProvider messages={messages}>
+            <IntlClientProvider>
               <NewsDetail id={params.id} />
-            </NextIntlClientProvider>
+            </IntlClientProvider>
           </Suspense>
         </Wrapper>
         {/* 오른쪽 */}

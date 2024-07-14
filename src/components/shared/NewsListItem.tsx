@@ -4,9 +4,9 @@ import React from 'react';
 import { diffCreatedTime } from '@/utils/date';
 import { News } from '@/types/news';
 import LogoDark from '@/assets/logos/logo_dark.svg';
-import { Locale } from '../news/NewsDetail';
-import { translateNews } from '@/constants';
-import { useLocale } from 'next-intl';
+import { Locale } from '@/types/next-auth';
+import { getTranslatedNews } from '@/utils/translate';
+
 export type NewsListItemProps = {
   type?: 'related' | 'medium' | 'large' | 'find' | 'important';
   news: News;
@@ -42,9 +42,7 @@ function NewsListItem({
             </div>
             <div className="py-1 flex flex-col justify-between">
               <h2 className="b4 font-medium flex-1 hover:underline">
-                {news[translateNews[locale].title]
-                  ? news[translateNews[locale].title]
-                  : news[translateNews['en'].title]}
+                {getTranslatedNews(news, locale, 'title')}
               </h2>
               <div className="flex b5 font-medium text-grayscale-600 gap-2">
                 <span>{diffCreatedTime(published_at)}</span>
@@ -58,7 +56,7 @@ function NewsListItem({
       {type === 'medium' && (
         <Link
           href={`/news/${news_id}`}
-          className="pb-8 pt-8 border-b border-b-grayscale-400 last-of-type:border-none last-of-type:pb-0 first:pt-0 "
+          className="pb-8 pt-8 border-b border-b-grayscale-400 last-of-type:border-none last-of-type:pb-0 first-of-type:pt-0 "
         >
           <article className="flex gap-5 hover:underline cursor-pointer group">
             <div
@@ -81,9 +79,7 @@ function NewsListItem({
             <div className="flex-1 flex flex-col gap-4">
               <div className="flex justify-between items-center gap-3">
                 <h2 className="b3 font-bold flex-1 text-overflow-1">
-                  {news[translateNews[locale].title]
-                    ? news[translateNews[locale].title]
-                    : news[translateNews['en'].title]}
+                  {getTranslatedNews(news, locale, 'title')}
                 </h2>
                 <div className="flex b5 font-medium text-grayscale-600 gap-2 hover:no-underline">
                   <span>{diffCreatedTime(published_at)}</span>
@@ -92,9 +88,7 @@ function NewsListItem({
                 </div>
               </div>
               <div className={`b4 font-normal text-overflow-2`}>
-                {news[translateNews[locale].content]
-                  ? news[translateNews[locale].content]
-                  : news[translateNews['en'].content]}
+                {getTranslatedNews(news, locale, 'content')}
               </div>
             </div>
           </article>
@@ -126,9 +120,7 @@ function NewsListItem({
             <div className="flex-1 flex flex-col gap-4">
               <div className="flex justify-between items-center gap-3">
                 <h2 className="b3 font-bold flex-1 text-overflow-1">
-                  {news[translateNews[locale].title]
-                    ? news[translateNews[locale].title]
-                    : news[translateNews['en'].title]}
+                  {getTranslatedNews(news, locale, 'title')}
                 </h2>
                 <div className="flex b5 font-medium text-grayscale-600 gap-2 no-underline">
                   <span>{diffCreatedTime(published_at)}</span>
@@ -137,9 +129,7 @@ function NewsListItem({
                 </div>
               </div>
               <div className={`b4 font-normal text-overflow-4`}>
-                {news[translateNews[locale].content]
-                  ? news[translateNews[locale].content]
-                  : news[translateNews['en'].content]}
+                {getTranslatedNews(news, locale, 'content')}
               </div>
             </div>
           </article>
@@ -165,14 +155,10 @@ function NewsListItem({
             </div>
             <div className="flex-1">
               <h2 className="b1 font-medium pb-4 border-b border-b-grayscale-400">
-                {news[translateNews[locale].title]
-                  ? news[translateNews[locale].title]
-                  : news[translateNews['en'].title]}
+                {getTranslatedNews(news, locale, 'title')}
               </h2>
               <p className="pt-4 b3 font-normal text-overflow-5 ">
-                {news[translateNews[locale].content]
-                  ? news[translateNews[locale].content]
-                  : news[translateNews['en'].content]}
+                {getTranslatedNews(news, locale, 'content')}
               </p>
             </div>
           </article>
@@ -182,9 +168,7 @@ function NewsListItem({
         <Link href={`/news/${news_id}`}>
           <article className="py-[10px] border-b border-b-grayscale-400 cursor-pointer last-of-type:border-none last-of-type:pb-0">
             <div className="text-overflow-1 b4 font-medium text-grayscale-900  hover:underline">
-              {news[translateNews[locale].title]
-                ? news[translateNews[locale].title]
-                : news[translateNews['en'].title]}
+              {getTranslatedNews(news, locale, 'title')}
             </div>
             <div className="flex b5 font-medium text-grayscale-600 gap-2 pt-[8px]">
               <span className="text-nowrap">

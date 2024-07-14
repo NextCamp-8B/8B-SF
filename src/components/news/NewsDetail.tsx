@@ -12,8 +12,11 @@ import { News } from '@/types/news';
 import SkeletonNewsDetail from '../skeleton/news/SkeletonNewsDetail';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
-import { translateNews } from '@/constants';
 import { Locale } from '@/types/next-auth';
+import {
+  getTranslatedNews,
+  hasTranslatedNews,
+} from '@/utils/translate';
 
 type NewsDetailProps = {
   id: string;
@@ -53,11 +56,7 @@ export default function NewsDetail({ id }: NewsDetailProps) {
             <>
               <div>
                 <h1 className="h4 font-bold pb-4">
-                  {lang === 'en'
-                    ? news[translateNews['en'].title]
-                    : news[translateNews[lang].title]
-                    ? news[translateNews[lang].title]
-                    : news[translateNews['en'].title]}
+                  {getTranslatedNews(news, lang, 'title')}
                 </h1>
                 <div className="flex justify-between">
                   <div className="b5 font-medium text-grayscale-600 flex gap-[6px]">
@@ -89,15 +88,12 @@ export default function NewsDetail({ id }: NewsDetailProps) {
                     </span>
                   </div>
                   <span className="text-warning-100">
-                    {t('warning')}
+                    {!hasTranslatedNews(news, locale as Locale) &&
+                      t('warning')}
                   </span>
                 </div>
                 <div className="b4">
-                  {lang === 'en'
-                    ? news[translateNews['en'].summary]
-                    : news[translateNews[lang].summary]
-                    ? news[translateNews[lang].summary]
-                    : news[translateNews['en'].summary]}
+                  {getTranslatedNews(news, lang, 'summary')}
                 </div>
               </div>
               {news.thumbnail && (
@@ -113,38 +109,14 @@ export default function NewsDetail({ id }: NewsDetailProps) {
 
               <div className="b4 ">
                 <h4 className="h4 font-bold pb-4">{t('article')}</h4>
-                {lang === 'en'
-                  ? news[translateNews['en'].content]
-                      .split('\n')
-                      .map((c, i) => (
-                        <p
-                          className="pb-4 last-of-type:pb-14"
-                          key={i}
-                        >
-                          {c}
-                        </p>
-                      ))
-                  : news[translateNews[lang].content]
-                  ? news[translateNews[lang].content]
-                      .split('\n')
-                      .map((c, i) => (
-                        <p
-                          className="pb-4 last-of-type:pb-14"
-                          key={i}
-                        >
-                          {c}
-                        </p>
-                      ))
-                  : news[translateNews['en'].content]
-                      .split('\n')
-                      .map((c, i) => (
-                        <p
-                          className="pb-4 last-of-type:pb-14"
-                          key={i}
-                        >
-                          {c}
-                        </p>
-                      ))}
+                {getTranslatedNews(news, lang, 'content')
+                  .split('\n')
+                  .map((c, i) => (
+                    <p className="pb-4 last-of-type:pb-14" key={i}>
+                      {c}
+                    </p>
+                  ))}
+
                 <OriginNewsCard
                   origin_url={news.origin_url}
                   content={news.content_en}
