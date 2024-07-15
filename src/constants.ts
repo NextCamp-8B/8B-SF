@@ -1,5 +1,3 @@
-import { SelectedOption } from './components/shared/dropdown/types';
-
 const ABC = 1;
 
 export const TMP_NEWS = {
@@ -394,11 +392,11 @@ export const translateNewsDict: TranslateNewsDict = {
   },
 };
 
-export const stockOptions: SelectedOption[] = [
-  { value: 'APPL.O', text: 'Apple' },
-  { value: 'U', text: 'Unity' },
-  { value: 'GOOGL.O', text: 'Google' },
-  { value: 'TESLA.O', text: 'Tesla' },
-  { value: 'AMAZ.O', text: 'Amazon' },
-  { value: 'MSFT.O', text: 'MS' },
+export const stockList = [
+  '#Apple',
+  '#Unity',
+  '#Google',
+  '#Tesla',
+  '#Amazon',
+  '#MS',
 ];

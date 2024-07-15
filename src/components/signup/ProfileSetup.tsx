@@ -10,7 +10,7 @@ import LoadingSpinnerWrapper from '../shared/LoadingSpinnerWrapper';
 import usePopupStore from '@/store/userPopup';
 import { useImageUpload } from '@/hooks/user/useImageUpload';
 import { useStockSelection } from '@/hooks/user/useStockSelection';
-import { stockOptions } from '@/constants';
+import { stockList } from '@/constants';
 
 // 마이페이지 설정에서 모달 과 회원가입 페이지에서 사용
 export default function ProfileSetup() {
@@ -30,13 +30,26 @@ export default function ProfileSetup() {
 
   const {
     stock,
+    setStock,
+    options,
     selectedDataset,
     focusedIndex,
     setFocusedIndex,
     handleSelected,
     handleOptionsKey,
-  } = useStockSelection('', stockOptions); // 관심종목 설정 훅
+  } = useStockSelection(''); // 관심종목 설정 훅
 
+  // 유효하지 않은 주식 값 제거
+  const validateAndUpdateStock = () => {
+    const validStocks = stock
+      .split(' ')
+      .filter(
+        (part) => part.startsWith('#') && stockList.includes(part),
+      ) // #으로 시작하고 유효한 주식인지 검사
+      .join(' ');
+
+    return validStocks;
+  };
   const validateForm = useCallback(() => {
     const isNicknameValid = conceptMap.nickname.doValidation(
       value.nickname,
@@ -51,13 +64,16 @@ export default function ProfileSetup() {
   const onHandleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmit(true);
-    if (!isFormValid) return console.log('isFormValid unset');
+    if (!isFormValid) return;
     setIsFormValid(false);
     setIsLoading(true);
 
+    const validStock = validateAndUpdateStock(); // 유효하지 않은 입력, 주식 값 제거
+    console.log('stock', validStock);
+
     const formData = new FormData();
     formData.append('nickname', value.nickname.trim());
-    formData.append('interestStock', stock);
+    formData.append('interestStock', validStock);
     formData.append('profileImg', profileFile as File);
 
     // Zustand에서 유저 정보 가져오기 (회원가입일 경우)
@@ -107,9 +123,10 @@ export default function ProfileSetup() {
               nickname={value.nickname}
               onChangeNickname={onChangeInputValue}
               isSubmit={isSubmit}
-              options={stockOptions}
+              options={options}
               focusedIndex={focusedIndex}
               stock={stock}
+              setStock={setStock}
               selectedDataset={selectedDataset}
               handleSelected={handleSelected}
               handleOptionsKey={handleOptionsKey}

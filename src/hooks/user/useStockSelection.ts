@@ -1,29 +1,52 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SelectedOption } from '@/components/shared/dropdown/types';
 
-export const useStockSelection = (
-  initialStock = '',
-  options: SelectedOption[],
-) => {
+export const useStockSelection = (initialStock = '') => {
   const [stock, setStock] = useState(initialStock);
   const [selectedDataset, setSelectedDataset] = useState('');
   const [focusedIndex, setFocusedIndex] = useState(0);
+  const [options, setOptions] = useState<SelectedOption[]>([]);
+
+  useEffect(() => {
+    const fetchStocks = async () => {
+      const response = await fetch(
+        `/api/search/stock?searchText=${stock}`,
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        const newStockOptions = data.stocks.map((stock: any) => ({
+          value: stock.stock_code,
+          text: stock.stock_name,
+        }));
+        setOptions(newStockOptions);
+      }
+    };
+    const debounceTimeout: number = window.setTimeout(() => {
+      fetchStocks();
+    }, 500);
+
+    return () => clearTimeout(debounceTimeout);
+  }, [stock]);
 
   const handleSelected = (value: string) => {
     const selectedOption = options.find(
-      (option) => option.value === value,
+      (item) => item.value === value,
     );
+    // 기존의 #으로 시작하지 않는 값들을 제거
+    const cleanedStock = stock
+      .split(' ')
+      .filter((part) => part.startsWith('#'))
+      .join(' ');
 
     if (selectedOption) {
       const newStock = `#${selectedOption.text}`;
-      if (stock.includes(newStock)) {
-        setStock((prevStock) =>
-          prevStock.replace(newStock, '').trim(),
-        );
+      if (cleanedStock.includes(newStock)) {
+        setStock((prev) => prev.replace(newStock, '').trim());
         setSelectedDataset('');
       } else {
-        setStock((prevStock) =>
-          prevStock ? `${prevStock} ${newStock}` : newStock,
+        setStock((prev) =>
+          cleanedStock ? `${cleanedStock} ${newStock}` : newStock,
         );
         setSelectedDataset(value);
       }
@@ -37,6 +60,8 @@ export const useStockSelection = (
 
   return {
     stock,
+    setStock,
+    options,
     selectedDataset,
     focusedIndex,
     setFocusedIndex,

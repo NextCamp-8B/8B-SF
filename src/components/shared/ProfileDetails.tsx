@@ -7,7 +7,7 @@ import CompositeDropdown from './dropdown/compositeDropdown';
 import { SelectedOption } from './dropdown/types';
 import { renderDropdownOptions } from './dropdown/renderDropdownDoptions';
 
-type TProfileDetails = {
+type ProfileDetails = {
   profileImage: string;
   handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
   nickname: string;
@@ -19,6 +19,7 @@ type TProfileDetails = {
   selectedDataset: string;
   focusedIndex: number;
   stock: string;
+  setStock: (stock: string) => void;
   handleSelected: (value: string) => void;
   handleOptionsKey: (e: React.KeyboardEvent) => void;
 };
@@ -35,9 +36,10 @@ export default function ProfileDetails({
   selectedDataset,
   focusedIndex,
   stock,
+  setStock,
   handleSelected,
   handleOptionsKey,
-}: TProfileDetails) {
+}: ProfileDetails) {
   return (
     <form onSubmit={onHandleSubmit}>
       <ProfileImageEditor
@@ -63,6 +65,7 @@ export default function ProfileDetails({
             id="stock"
             type="text"
             value={stock}
+            onChange={(e) => setStock(e.target.value)}
             className="border border-grayscale-400 b4 font-normal placeholder-grayscale-400 p-4 rounded-lg"
             placeholder="#관심 종목을 추가해주세요"
           />

@@ -19,7 +19,7 @@ import myPageStore from '@/store/myPageStore';
 import { useImageUpload } from '@/hooks/user/useImageUpload';
 import { useStockSelection } from '@/hooks/user/useStockSelection';
 import { User } from 'next-auth';
-import { stockOptions } from '@/constants';
+import { stockList } from '@/constants';
 
 type ProfileUpdate = {
   user: User;
@@ -47,12 +47,26 @@ export default function ProfileUpdate({ user }: ProfileUpdate) {
 
   const {
     stock,
+    setStock,
+    options,
     selectedDataset,
     focusedIndex,
     setFocusedIndex,
     handleSelected,
     handleOptionsKey,
-  } = useStockSelection(interestStock, stockOptions); // 관심종목 설정 훅
+  } = useStockSelection(interestStock); // 관심종목 설정 훅
+
+  // 유효하지 않은 주식 값 제거
+  const validateAndUpdateStock = () => {
+    const validStocks = stock
+      .split(' ')
+      .filter(
+        (part) => part.startsWith('#') && stockList.includes(part),
+      ) // #으로 시작하고 유효한 주식인지 검사
+      .join(' ');
+
+    return validStocks;
+  };
 
   const validateForm = useCallback(() => {
     const isNicknameValid = conceptMap.nickname.doValidation(
@@ -79,9 +93,11 @@ export default function ProfileUpdate({ user }: ProfileUpdate) {
     if (!isFormValid) return;
     setIsFormValid(false);
 
+    const validStock = validateAndUpdateStock(); // 유효하지 않은 입력, 주식 값 제거
+
     const formData = new FormData();
     formData.append('nickname', value.nickname.trim());
-    formData.append('interestStock', stock);
+    formData.append('interestStock', validStock);
     formData.append('profileImg', profileFile as File);
     formData.append('accessToken', accessToken || '');
     formData.append('refreshToken', refreshToken || '');
@@ -122,7 +138,8 @@ export default function ProfileUpdate({ user }: ProfileUpdate) {
               onChangeNickname={onChangeInputValue}
               isSubmit={isSubmit}
               stock={stock}
-              options={stockOptions}
+              setStock={setStock}
+              options={options}
               focusedIndex={focusedIndex}
               onHandleSubmit={onHandleSubmit}
               selectedDataset={selectedDataset}
