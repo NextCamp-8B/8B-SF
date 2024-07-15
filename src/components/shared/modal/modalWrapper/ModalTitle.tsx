@@ -5,5 +5,9 @@ export default function ModalTitle({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <h2 className={className}>{children}</h2>;
+  return (
+    <h2 className={className} id="modal-title">
+      {children}
+    </h2>
+  );
 }

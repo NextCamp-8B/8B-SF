@@ -11,5 +11,14 @@ export default function ModalMain({
 
   const el = document.getElementById('root-modal') as HTMLElement;
 
-  return createPortal(<>{children}</>, el);
+  return createPortal(
+    <div
+      role="dialog"
+      aria-modal={isOpen}
+      aria-labelledby="modal-title"
+    >
+      {children}
+    </div>,
+    el,
+  );
 }

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import ModalWrapper from './modalWrapper';
 import Closing from '@/assets/icons/closing.svg';
+import { useFocusTrap } from '@/hooks/useFocusTrap';
 
 export default function ModalLayout({
   title,
@@ -13,6 +14,8 @@ export default function ModalLayout({
   handleIsOpen: () => void;
   children: React.ReactNode;
 }) {
+  const { focusRef } = useFocusTrap(isOpen);
+
   return (
     <ModalWrapper isOpen={isOpen}>
       <ModalWrapper.DimmedLayer
@@ -20,6 +23,7 @@ export default function ModalLayout({
         handleIsOpen={handleIsOpen}
       />
       <ModalWrapper.Box
+        ref={focusRef}
         className={`p-10 fixed top-2/4 left-2/4 z-50 
         bg-grayscale-0 translate-center 
         border-none rounded-[32px] shadow-md`}
@@ -30,7 +34,11 @@ export default function ModalLayout({
               {title}
             </ModalWrapper.Title>
           </div>
-          <button onClick={handleIsOpen} className="flex-none">
+          <button
+            onClick={handleIsOpen}
+            className="flex-none"
+            aria-label="Close modal"
+          >
             <Closing className="text-icon-closing w-6 h-6" />
           </button>
         </div>
