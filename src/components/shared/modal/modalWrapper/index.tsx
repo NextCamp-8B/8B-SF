@@ -1,3 +1,4 @@
+import ModalBox from './ModalBox';
 import ModalDimmedLayer from './ModalDimmedLayer';
 import ModalMain from './ModalMain';
 import ModalTitle from './ModalTitle';
@@ -32,9 +33,9 @@ import ModalTitle from './ModalTitle';
         </Modal.ModalBox>
       </Modal>
  */
-export const ModalWrapper = Object.assign(ModalDimmedLayer, {
+export const ModalWrapper = Object.assign(ModalMain, {
   Title: ModalTitle,
   DimmedLayer: ModalDimmedLayer,
-  ModalBox: ModalMain,
+  Box: ModalBox,
 });
 export default ModalWrapper;

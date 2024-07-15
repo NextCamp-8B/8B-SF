@@ -1,7 +1,9 @@
-export default function PopupTitle({
+export default function ModalTitle({
   children,
+  className,
 }: {
   children: React.ReactNode;
+  className?: string;
 }) {
-  return <>{children}</>;
+  return <h2 className={className}>{children}</h2>;
 }
