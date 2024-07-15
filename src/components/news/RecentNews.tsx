@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic';
 import SkeletonNewsListItem from '../skeleton/news/SkeletonNewsListItem';
 import { useParams } from 'next/navigation';
 import { Locale } from '@/types/next-auth';
+import { businessAPI } from '@/service/apiInstance';
 
 const NewsListItem = dynamic(
   () => import('@/components/shared/NewsListItem'),
@@ -24,10 +25,11 @@ function RecentNews() {
   const getNewsList = async () => {
     if (inView && !loading) {
       setLoadging(true);
-      const { newsList, lastPage } = await (
-        await fetch(`/api/news?page=${page}`)
-      ).json();
-
+      const { newsList, lastPage } = await businessAPI.getRecentNews({
+        page,
+        limit: 20,
+        isServer: false,
+      });
       if (page < lastPage) {
         setNewsList((prev) => [...prev, ...newsList]);
         setPage((prev) => prev + 1);

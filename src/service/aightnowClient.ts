@@ -108,4 +108,68 @@ export default class AightnowClient {
 
     return this.httpClient.get({ url: nextURL });
   }
+
+  // News
+  // 오늘 인기있는 뉴스
+  async getTodayPopularNews() {
+    const nextURL = `/api/news/popular`;
+    return this.httpClient.get({ url: nextURL, isServer: true });
+  }
+  // 관심종목과 관련된 뉴스
+  async getRelatedNewsToStock() {
+    const nextURL = `/api/news/related/stock`;
+
+    return this.httpClient.get({ url: nextURL, isServer: true });
+  }
+  // 최신 뉴스 불러오기
+  async getRecentNews({
+    page,
+    limit,
+    isServer,
+  }: {
+    page?: number;
+    limit?: number;
+    isServer: boolean;
+  }) {
+    const nextURL = `/api/news?page=${page}&limit=${limit}`;
+    return this.httpClient.get({ url: nextURL, isServer });
+  }
+  // 뉴스 상세 불러오기
+  async getNewsDetail({ newsId }: { newsId: string }) {
+    const nextURL = `/api/news/${newsId}`;
+
+    return this.httpClient.get({ url: nextURL });
+  }
+  // 현재 뉴스와 관련된 주식 불러오기
+  async getRelatedStock({ newsId }: { newsId: string }) {
+    const nextURL = `/api/news/related/stock/${newsId}`;
+
+    return this.httpClient.get({ url: nextURL, isServer: true });
+  }
+
+  // 현재 뉴스와 관련된 뉴스 불러오기
+  async getRelatedNews({ newsId }: { newsId: string }) {
+    const nextURL = `/api/news/related/news/${newsId}`;
+
+    return this.httpClient.get({ url: nextURL, isServer: true });
+  }
+
+  // 뉴스 조회수 갱신
+  async updateNewsView({ newsId }: { newsId: string }) {
+    const nextURL = `/api/news/${newsId}`;
+
+    return this.httpClient.patch({ url: nextURL, isServer: true });
+  }
+
+  // 관심종목과 관련된 뉴스 불러오기
+  async getRelatedNewsToInterestStock({ userId }: { userId: UUID }) {
+    const nextURL = `/api/news/related/stock?user=${userId}`;
+    return this.httpClient.get({ url: nextURL, isServer: true });
+  }
+
+  // 주요뉴스 불러오기
+  async getImportantNews() {
+    const nextURL = `/api/news/important`;
+    return this.httpClient.get({ url: nextURL, isServer: true });
+  }
 }

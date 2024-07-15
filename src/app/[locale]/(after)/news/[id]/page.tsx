@@ -9,6 +9,7 @@ import SkeletonRelatedNewsToNews from '@/components/skeleton/news/SkeletonRelate
 import SkeletonRelatedStock from '@/components/skeleton/news/SkeletonRelatedStock';
 import { getTranslations } from 'next-intl/server';
 import IntlClientProvider from '@/components/shared/IntlClientProvider';
+import { businessAPI } from '@/service/apiInstance';
 
 type NewsDetailPageProps = {
   params: {
@@ -19,12 +20,6 @@ type NewsDetailPageProps = {
 export default async function NewsDetailPage({
   params,
 }: NewsDetailPageProps) {
-  await (
-    await fetch(`http://localhost:3000/api/news/${params.id}`, {
-      method: 'PATCH',
-    })
-  ).json();
-
   const t = await getTranslations('NewsDetail');
   return (
     <>

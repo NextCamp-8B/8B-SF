@@ -17,6 +17,7 @@ import {
   getTranslatedNews,
   hasTranslatedNews,
 } from '@/utils/translate';
+import { businessAPI } from '@/service/apiInstance';
 
 type NewsDetailProps = {
   id: string;
@@ -29,15 +30,20 @@ export default function NewsDetail({ id }: NewsDetailProps) {
   const [lang, setLang] = useState<Locale>('en');
   const getNews = async () => {
     setLoading(true);
-    const { news }: { news: News } = await (
-      await fetch(`/api/news/${id}`)
-    ).json();
+    const { news }: { news: News } = await businessAPI.getNewsDetail({
+      newsId: id,
+    });
     setNews(news);
     setLoading(false);
   };
 
+  const updateView = async () => {
+    await businessAPI.updateNewsView({ newsId: id });
+  };
+
   useEffect(() => {
     getNews();
+    updateView();
     setLang(locale as Locale);
   }, []);
 
