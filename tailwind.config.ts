@@ -53,6 +53,12 @@ const config: Config = {
       success: {
         100: '#1FCE65',
       },
+      icon: {
+        closing: '#989898',
+      },
+      modal: {
+        dim: 'rgba(76, 76, 76, 0.53)',
+      },
     },
     extend: {
       boxShadow: {
