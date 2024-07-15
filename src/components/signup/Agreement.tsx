@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState, useEffect } from 'react';
 import AgreementBox from '@/components/signup/AgreementBox';
 import Wrapper from '@/components/shared/Wrapper';

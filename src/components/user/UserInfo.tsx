@@ -1,11 +1,11 @@
 import React from 'react';
 
-type UserInfoProps = {
+type UserInfo = {
   label: string;
   value: string;
 };
 
-export default function UserInfo({ label, value }: UserInfoProps) {
+export default function UserInfo({ label, value }: UserInfo) {
   return (
     <div className="flex gap-x-32">
       <h3 className="b3 font-semibold w-20">{label}</h3>

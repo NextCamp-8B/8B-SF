@@ -13,14 +13,20 @@ import AuthPopup from '../signup/Popup';
 import ProfileDetails from '../shared/ProfileDetails';
 import { useProfileUpdate } from '@/hooks/user/useProfileUpdated';
 import LoadingSpinnerWrapper from '../shared/LoadingSpinnerWrapper';
-import useSessionData from '@/hooks/user/useSessionData';
 import ModalWrapper from './ModalWrapper';
 import usePopupStore from '@/store/userPopup';
 import myPageStore from '@/store/myPageStore';
+import { useImageUpload } from '@/hooks/user/useImageUpload';
+import { useStockSelection } from '@/hooks/user/useStockSelection';
+import { User } from 'next-auth';
+import { stockOptions } from '@/constants';
 
-const ProfileUpdate = () => {
-  const { user } = useSessionData();
+type ProfileUpdate = {
+  user: User;
+};
+export default function ProfileUpdate({ user }: ProfileUpdate) {
   const { closeAllModals, isProfileSetup } = myPageStore();
+
   const {
     nickname,
     interestStock,
@@ -28,16 +34,25 @@ const ProfileUpdate = () => {
     profileImgName: userImageName,
     accessToken,
     refreshToken,
-  } = user || {};
+  } = user;
+
   const { value, onChangeInputValue } = useInputChange(); //Input 관리
   const [isSubmit, setIsSubmit] = useState(false); // 폼 submit
   const [isFormValid, setIsFormValid] = useState(false); //폼 유효성 체크
-  const [stock, setStock] = useState(interestStock); //관심종목
-  const [profileImage, setProfileImage] = useState(userImage); //base54 프로필 이미지
-  const [profileFile, setProfileFile] = useState<File>(); // 프로필 이미지 파일
+  const { profileImage, profileFile, handleImageUpload } =
+    useImageUpload(userImage); // 이미지 업로드 훅
   const initialNicknameRef = useRef(false); //닉네임 초기값 설정
   const { isLoading, handleProfileUpdate } = useProfileUpdate(); //프로필 수정 api
   const { isShowPopup, popupMsg, hidePopup } = usePopupStore();
+
+  const {
+    stock,
+    selectedDataset,
+    focusedIndex,
+    setFocusedIndex,
+    handleSelected,
+    handleOptionsKey,
+  } = useStockSelection(interestStock, stockOptions); // 관심종목 설정 훅
 
   const validateForm = useCallback(() => {
     const isNicknameValid = conceptMap.nickname.doValidation(
@@ -58,12 +73,6 @@ const ProfileUpdate = () => {
     }
   }, [nickname, value]);
 
-  const handleStockChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setStock(e.target.value);
-  };
-
   const onHandleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmit(true);
@@ -80,20 +89,6 @@ const ProfileUpdate = () => {
     handleProfileUpdate(formData);
   };
 
-  const handleImageUpload = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const file = e.target.files?.[0] as File;
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64String = reader?.result?.toString() as string;
-        setProfileImage(base64String);
-        setProfileFile(file);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
   // session값 loadindg이면 팝업창 닫기 불가
   const handleCloseProfileModal = () => {
     if (isLoading) return;
@@ -127,8 +122,12 @@ const ProfileUpdate = () => {
               onChangeNickname={onChangeInputValue}
               isSubmit={isSubmit}
               stock={stock}
-              handleStockChange={handleStockChange}
+              options={stockOptions}
+              focusedIndex={focusedIndex}
               onHandleSubmit={onHandleSubmit}
+              selectedDataset={selectedDataset}
+              handleSelected={handleSelected}
+              handleOptionsKey={handleOptionsKey}
               buttonText="수정하기"
             />
           </LoadingSpinnerWrapper>
@@ -136,6 +135,4 @@ const ProfileUpdate = () => {
       </Wrapper>
     </ModalWrapper>
   );
-};
-
-export default ProfileUpdate;
+}

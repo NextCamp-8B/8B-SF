@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { SectionType } from '@/types/mypage';
-type SidebarItemProps = {
+type SidebarItem = {
   section: SectionType;
   selectedSection: SectionType;
   label: string;
@@ -10,7 +10,7 @@ export default function SidebarItem({
   section,
   selectedSection,
   label,
-}: SidebarItemProps) {
+}: SidebarItem) {
   const isSelected = selectedSection === section;
   return (
     <li className={`${isSelected ? 'relative font-bold' : ''}`}>

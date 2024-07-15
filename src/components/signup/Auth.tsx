@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useCallback, useEffect, useState } from 'react';
 import InputSet from '@/components/shared/input/index';
 import useInputChange from '@/hooks/input/useInputChange';

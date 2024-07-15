@@ -1,6 +1,6 @@
 import React from 'react';
 
-type ModalWrapperProps = {
+type ModalWrapper = {
   children: React.ReactNode;
   onClose: () => void;
   isOpen: boolean;
@@ -10,7 +10,7 @@ export default function ModalWrapper({
   children,
   onClose,
   isOpen,
-}: ModalWrapperProps) {
+}: ModalWrapper) {
   const handleModalClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
   };

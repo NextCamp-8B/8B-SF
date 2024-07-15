@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import ProfileSvg from '@/assets/icons/profile.svg';
 
-type TUserProfile = {
+type UserProfile = {
   profileImg?: string;
   nickname: string;
 };
@@ -10,7 +10,7 @@ type TUserProfile = {
 export default function UserProfile({
   profileImg,
   nickname,
-}: TUserProfile) {
+}: UserProfile) {
   return (
     <div className="flex gap-x-32">
       <h3 className="b3 font-semibold">프로필 선택</h3>

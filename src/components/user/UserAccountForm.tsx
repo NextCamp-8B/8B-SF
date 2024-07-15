@@ -2,7 +2,7 @@ import InputSet from '../shared/input';
 import TextButton from '../shared/buttons/TextButton';
 import { ChangeEvent, FormEvent } from 'react';
 
-type TUserAccountForm = {
+type UserAccountForm = {
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;
   isSubmit: boolean;
   value: {
@@ -29,7 +29,7 @@ export default function UserAccountForm({
   isSocial,
   handleUpdatePw,
   handleShowWidthdrawl,
-}: TUserAccountForm) {
+}: UserAccountForm) {
   return (
     <form
       onSubmit={onSubmit}

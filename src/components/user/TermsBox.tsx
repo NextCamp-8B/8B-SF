@@ -1,12 +1,12 @@
 'use client';
 import { useState } from 'react';
 
-type TermsBoxProps = {
+type TermsBox = {
   title: string;
   content: string;
 };
 
-export default function TermsBox({ title, content }: TermsBoxProps) {
+export default function TermsBox({ title, content }: TermsBox) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (

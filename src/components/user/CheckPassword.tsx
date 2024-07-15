@@ -12,7 +12,7 @@ import AuthPopup from '../signup/Popup';
 import usePopupStore from '@/store/userPopup';
 import myPageStore from '@/store/myPageStore';
 
-const CheckPassword = () => {
+export default function CheckPassword() {
   const { value, onChangeInputValue } = useInputChange();
   const [isSubmit, setIsSubmit] = useState(false); // 폼 submit
   const [isFormValid, setIsFormValid] = useState(false); //폼 유효성 체크
@@ -26,6 +26,7 @@ const CheckPassword = () => {
   // 비밀번호 체크 모달 딛기
   const handleClosePwCheckModal = () => {
     closeModal('isPasswordCheck');
+    value.password = '';
   };
 
   const onHandleSubmit = async (e: React.FormEvent) => {
@@ -37,6 +38,7 @@ const CheckPassword = () => {
     if (isValid) {
       handleOpenAccountEdit();
       handleClosePwCheckModal();
+      value.password = '';
     }
   };
   const validateForm = useCallback(() => {
@@ -88,6 +90,4 @@ const CheckPassword = () => {
       </Wrapper>
     </ModalWrapper>
   );
-};
-
-export default CheckPassword;
+}

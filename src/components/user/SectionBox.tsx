@@ -1,16 +1,16 @@
 import React from 'react';
 
-type SectionBoxProps = {
+type SectionBox = {
   title: string;
   description: string;
   children?: React.ReactNode;
 };
 
-const SectionBox: React.FC<SectionBoxProps> = ({
+export default function SectionBox({
   title,
   description,
   children,
-}) => {
+}: SectionBox) {
   return (
     <div className="flex justify-between mb-10">
       <div>
@@ -22,6 +22,4 @@ const SectionBox: React.FC<SectionBoxProps> = ({
       {children}
     </div>
   );
-};
-
-export default SectionBox;
+}

@@ -19,7 +19,7 @@ import usePopupStore from '@/store/userPopup';
 // isWithdrawal 값에 따라 회원탈퇴모달이 발생
 // handleSetWithdrawal 로 회원탈퇴 처리 되었다면
 // WithdrawalComplete 페이지 렌더링
-function UserAccountEdit() {
+export default function UserAccountEdit() {
   const { openModal, closeAllModals, isUserAccountdit } =
     myPageStore();
 
@@ -149,5 +149,3 @@ function UserAccountEdit() {
     </>
   );
 }
-
-export default UserAccountEdit;

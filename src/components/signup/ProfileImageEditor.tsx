@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import Image from 'next/image';
 import ProfileSvg from '@/assets/icons/profile.svg';
@@ -12,10 +10,10 @@ type ProfileImageEditor = {
   ) => void;
 };
 // 프로필 이미지 설정
-const ProfileImageEditor = ({
+export default function ProfileImageEditor({
   profileImage,
   handleImageUpload,
-}: ProfileImageEditor) => {
+}: ProfileImageEditor) {
   return (
     <div className="flex flex-col items-center mb-10">
       <div className="relative w-32 h-32">
@@ -47,6 +45,4 @@ const ProfileImageEditor = ({
       </div>
     </div>
   );
-};
-
-export default ProfileImageEditor;
+}
