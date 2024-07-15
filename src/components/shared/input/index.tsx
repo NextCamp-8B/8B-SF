@@ -1,5 +1,6 @@
 import InputDuplicateCheck from './InputDuplicateCheck';
 import InputMain from './InputMain';
+import InputSearch from './InputSearch';
 import InputValidated from './InputValidated';
 
 /**
@@ -9,6 +10,7 @@ import InputValidated from './InputValidated';
 export const InputSet = Object.assign(InputMain, {
   DuplicateCheck: InputDuplicateCheck,
   Validated: InputValidated,
+  Search: InputSearch,
 });
 
 export default InputSet;
