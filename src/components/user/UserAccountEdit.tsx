@@ -20,7 +20,7 @@ import usePopupStore from '@/store/userPopup';
 // handleSetWithdrawal 로 회원탈퇴 처리 되었다면
 // WithdrawalComplete 페이지 렌더링
 export default function UserAccountEdit() {
-  const { openModal, closeAllModals, isUserAccountdit } =
+  const { openModal, closeModal, closeAllModals, isUserAccountdit } =
     myPageStore();
 
   const { value, onChangeInputValue, setValue } = useInputChange();
@@ -49,7 +49,11 @@ export default function UserAccountEdit() {
   }, [user, setValue]);
 
   // 회원탈퇴 모달 열기
-  const handleShowWidthdrawl = () => openModal('isWithdrawal');
+  // 개인정보 수정 모달 닫기
+  const handleShowWidthdrawl = () => {
+    openModal('isWithdrawal');
+    closeModal('isUserAccountdit');
+  };
 
   // session값 loadindg이면 팝업창 닫기 불가
   const handleCloseAccountModal = () => {

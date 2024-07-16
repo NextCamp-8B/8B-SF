@@ -69,7 +69,6 @@ export default function ProfileSetup() {
     setIsLoading(true);
 
     const validStock = validateAndUpdateStock(); // 유효하지 않은 입력, 주식 값 제거
-    console.log('stock', validStock);
 
     const formData = new FormData();
     formData.append('nickname', value.nickname.trim());
@@ -95,7 +94,6 @@ export default function ProfileSetup() {
         '회원가입 오류',
         '죄송합니다. 오류가 발생했습니다. 회원가입을 처음부터 다시 시도하시거나, 고객센터에 문의해주세요.',
       );
-      throw new Error('회원가입 실패');
     }
     setIsLoading(false);
   };

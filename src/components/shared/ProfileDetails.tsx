@@ -69,18 +69,21 @@ export default function ProfileDetails({
             className="border border-grayscale-400 b4 font-normal placeholder-grayscale-400 p-4 rounded-lg"
             placeholder="#관심 종목을 추가해주세요"
           />
-          <CompositeDropdown.Panel
-            onClick={handleSelected}
-            handleOptionsKey={handleOptionsKey}
-          >
-            {() =>
-              renderDropdownOptions(
-                options,
-                selectedDataset,
-                focusedIndex,
-              )
-            }
-          </CompositeDropdown.Panel>
+          {options.length > 0 && stock.length > 0 && (
+            <CompositeDropdown.Panel
+              onClick={handleSelected}
+              handleOptionsKey={handleOptionsKey}
+              className="border border-grayscale-400 rounded-lg h-52 overflow-y-auto no-scrollbar"
+            >
+              {() =>
+                renderDropdownOptions(
+                  options,
+                  selectedDataset,
+                  focusedIndex,
+                )
+              }
+            </CompositeDropdown.Panel>
+          )}
         </CompositeInput>
         <TextButton type="submit" className="w-full mt-8">
           {buttonText}

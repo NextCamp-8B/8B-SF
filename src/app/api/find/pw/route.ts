@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({
-      message: '임시 비밀번호가 이메일로 발송되었습니다.',
+      message: '비밀번호 재설정 이메일이 전송되었습니다.',
     });
   } catch (error) {
     return NextResponse.json(

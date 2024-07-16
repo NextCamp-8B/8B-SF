@@ -38,9 +38,9 @@ export default function CheckPassword() {
     if (isValid) {
       handleOpenAccountEdit();
       handleClosePwCheckModal();
-      value.password = '';
     }
   };
+
   const validateForm = useCallback(() => {
     const isPasswordValid = conceptMap.password.doValidation(
       value.password,
