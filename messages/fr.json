@@ -224,5 +224,13 @@
     "all": "Toutes les actions",
     "trending_stocks": "Actions en forte hausse",
     "pluging_stocks": "Actions en forte baisse"
+  },
+  "Date": {
+    "year": "il y a {period} ans",
+    "month": "il y a {period} mois",
+    "day": "il y a {period} jours",
+    "hour": "il y a {period} heures",
+    "minute": "il y a {period} minutes",
+    "second": "il y a {period} secondes"
   }
 }

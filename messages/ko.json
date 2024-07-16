@@ -224,5 +224,13 @@
     "all": "전체 종목",
     "trending_stocks": "급상승 종목",
     "pluging_stocks": "급하락 종목"
+  },
+  "Date": {
+    "year": "{period}년 전",
+    "month": "{period}개월 전",
+    "day": "{period}일 전",
+    "hour": "{period}시간 전",
+    "minute": "{period}분 전",
+    "second": "{period}초 전"
   }
 }

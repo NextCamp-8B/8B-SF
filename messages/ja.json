@@ -224,5 +224,13 @@
     "all": "全銘柄",
     "trending_stocks": "急上昇銘柄",
     "pluging_stocks": "急落銘柄"
+  },
+  "Date": {
+    "year": "{period}年前",
+    "month": "{period}ヶ月前",
+    "day": "{period}日前",
+    "hour": "{period}時間前",
+    "minute": "{period}分前",
+    "second": "{period}秒前"
   }
 }

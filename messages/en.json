@@ -224,5 +224,13 @@
     "all": "All stocks",
     "trending_stocks": "Trending stocks",
     "pluging_stocks": "Plunging stocks"
+  },
+  "Date": {
+    "year": "{period}years ago",
+    "month": "{period}months ago",
+    "day": "{period}days ago",
+    "hour": "{period}hours ago",
+    "minute": "{period}minutes ago",
+    "second": "{period}seconds ago"
   }
 }

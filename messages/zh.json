@@ -226,5 +226,13 @@
     "all": "全部股票",
     "trending_stocks": "热门股票",
     "pluging_stocks": "暴跌股票"
+  },
+  "Date": {
+    "year": "{period}年前",
+    "month": "{period}个月前",
+    "day": "{period}天前",
+    "hour": "{period}小时前",
+    "minute": "{period}分钟前",
+    "second": "{period}秒前"
   }
 }
