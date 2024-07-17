@@ -32,7 +32,6 @@ function NewsListItem({
                   alt="thumbnail"
                   fill
                   className="group-hover:scale-125 duration-700"
-                  objectFit="cover"
                 />
               ) : (
                 <div>
@@ -68,7 +67,6 @@ function NewsListItem({
                   alt="thumbnail"
                   fill
                   className="group-hover:scale-125 duration-700"
-                  objectFit="cover"
                 />
               ) : (
                 <div>
@@ -109,7 +107,6 @@ function NewsListItem({
                   alt="thumbnail"
                   fill
                   className="group-hover:scale-125 duration-700"
-                  objectFit="cover"
                 />
               ) : (
                 <div>
@@ -145,7 +142,6 @@ function NewsListItem({
                   alt="thumbnail"
                   fill
                   className="group-hover:scale-125 duration-700"
-                  objectFit="cover"
                 />
               ) : (
                 <div>
