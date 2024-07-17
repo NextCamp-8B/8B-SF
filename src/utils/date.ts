@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import { getTranslations } from 'next-intl/server';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -28,26 +29,26 @@ export const diffCreatedTime = (date: string) => {
   const secondsDiff = now.diff(newsTime, 'second');
 
   if (yearsDiff >= 1) {
-    return `${yearsDiff}년 전`;
+    return { periodType: 'year', period: yearsDiff };
   }
 
   if (monthsDiff >= 1) {
-    return `${monthsDiff}개월 전`;
+    return { periodType: 'month', period: monthsDiff };
   }
 
   if (daysDiff >= 1) {
-    return `${daysDiff}일 전`;
+    return { periodType: 'day', period: daysDiff };
   }
 
   if (hoursDiff >= 1) {
-    return `${hoursDiff}시간 전`;
+    return { periodType: 'hour', period: hoursDiff };
   }
 
   if (minutesDiff >= 1) {
-    return `${minutesDiff}분 전`;
+    return { periodType: 'minute', period: minutesDiff };
   }
 
-  return `${secondsDiff}초 전`;
+  return { periodType: 'second', period: secondsDiff };
 };
 
 // 최근 검색어 시간

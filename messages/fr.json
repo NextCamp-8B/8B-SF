@@ -95,7 +95,8 @@
     "stock_news_for_user": "Actualités boursières pour {nickname}",
     "news_about_interest_stocks": "Nouvelles sur les actions d'intérêt",
     "featured_news": "Nouvelles en vedette",
-    "latest_news": "Dernières nouvelles"
+    "latest_news": "Dernières nouvelles",
+    "recent_not_search": "Il n'y a pas de liste récemment consultée."
   },
   "Search": {
     "placeholder_search": "Veuillez rechercher une action",
@@ -105,7 +106,9 @@
     "standard": "à",
     "stock": "Action",
     "news": "Nouvelles",
-    "view_more": "voir plus"
+    "view_more": "voir plus",
+    "not_found_stock": "L'action en question n'existe pas.",
+    "not_found_news": "Aucune information n'est disponible pour cette action."
   },
   "News": {
     "popular_news_today": "Nouvelles populaires aujourd'hui",
@@ -225,6 +228,7 @@
     "trending_stocks": "Actions en forte hausse",
     "pluging_stocks": "Actions en forte baisse"
   },
+
   "Date": {
     "year": "il y a {period} ans",
     "month": "il y a {period} mois",
@@ -232,5 +236,9 @@
     "hour": "il y a {period} heures",
     "minute": "il y a {period} minutes",
     "second": "il y a {period} secondes"
+  },
+  "Chatbot": {
+    "comment": "Bonjour, je suis le chatbot Aightnow. Si vous avez des questions sur les actions étrangères, n'hésitez pas à me demander !",
+    "send": "Envoyer"
   }
 }

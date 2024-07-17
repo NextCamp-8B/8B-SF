@@ -1,10 +1,11 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { FormEvent, useState } from 'react';
 
 export default function ChatbotInput() {
   const [message, setMessage] = useState<string>('');
-
+  const t = useTranslations('Chatbot');
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
     //
@@ -51,7 +52,7 @@ export default function ChatbotInput() {
               type="submit"
               className="w-16 h-14 rounded-lg bg-primary-900 "
             >
-              <span className="text-[#FFFFFF]"> 전송 </span>
+              <span className="text-[#FFFFFF]"> {t('send')} </span>
             </button>
           </div>
         </form>

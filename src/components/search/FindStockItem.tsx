@@ -10,6 +10,7 @@ import { Stock } from '@/types/stock';
 import { businessAPI } from '@/service/apiInstance';
 import { UUID } from 'crypto';
 import { Session } from 'next-auth';
+import { useTranslations } from 'next-intl';
 
 export default function FindStockItem({
   stockList,
@@ -22,7 +23,7 @@ export default function FindStockItem({
 }) {
   const [visibleCount, setVisibleCount] = useState(6);
   const userId = session?.user.id as UUID;
-
+  const t = useTranslations('Search');
   // 검색어 변경 시, 목록 초기화(6개)
   useEffect(() => {
     setVisibleCount(6);
@@ -47,7 +48,7 @@ export default function FindStockItem({
   return (
     <>
       <div className="flex items-center">
-        <SearchHeading> 주식 </SearchHeading>
+        <SearchHeading> {t('stock')} </SearchHeading>
         <span className="text-sm font-medium text-grayscale-600 underline">
           {`(${stockList.length})`}
         </span>

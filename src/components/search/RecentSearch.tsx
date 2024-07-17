@@ -6,6 +6,7 @@ import SearchLabel from './SearchLabel';
 import { stocksProps } from './InputItem';
 import { Session } from 'next-auth';
 import { UUID } from 'crypto';
+import { useTranslations } from 'next-intl';
 
 export default function RecentSearch({
   recentDatas,
@@ -17,11 +18,11 @@ export default function RecentSearch({
   setRecentDatas: (data: stocksProps[] | null) => void;
 }) {
   const { user } = session || { user: null };
-
+  const t = useTranslations('Search');
   return (
     <div className="w-[590px]">
       <div className="flex items-center justify-between">
-        <SearchHeading> 최근 검색어</SearchHeading>
+        <SearchHeading> {t('recent_search')}</SearchHeading>
         <DeleteSearch
           type="all"
           userId={user?.id as UUID}

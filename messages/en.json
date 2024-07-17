@@ -95,7 +95,8 @@
     "stock_news_for_user": "Stock news for {nickname}",
     "news_about_interest_stocks": "News About Interest Stock",
     "featured_news": "Featured News",
-    "latest_news": "Latest News"
+    "latest_news": "Latest News",
+    "recent_not_search": "There is no recently viewed list."
   },
   "Search": {
     "placeholder_search": "Please search for a stock",
@@ -105,7 +106,9 @@
     "standard": "at",
     "stock": "Stock",
     "news": "News",
-    "view_more": "view more"
+    "view_more": "view more",
+    "not_found_stock": "The stock in question does not exist",
+    "not_found_news": "No news information is available for this stock."
   },
   "News": {
     "popular_news_today": "Popular news Today",
@@ -225,6 +228,7 @@
     "trending_stocks": "Trending stocks",
     "pluging_stocks": "Plunging stocks"
   },
+
   "Date": {
     "year": "{period}years ago",
     "month": "{period}months ago",
@@ -232,5 +236,9 @@
     "hour": "{period}hours ago",
     "minute": "{period}minutes ago",
     "second": "{period}seconds ago"
+  },
+  "Chatbot": {
+    "comment": "Hello, this is the Aightnow chatbot. If you have any questions about foreign stocks, feel free to ask me!",
+    "send": "Send"
   }
 }

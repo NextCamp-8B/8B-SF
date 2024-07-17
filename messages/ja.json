@@ -95,7 +95,8 @@
     "stock_news_for_user": "{nickname}のための株式ニュース",
     "news_about_interest_stocks": "インタレスト・ストックに関するニュース",
     "featured_news": "注目ニュース",
-    "latest_news": "最新ニュース"
+    "latest_news": "最新ニュース",
+    "recent_not_search": "最近表示したリストがありません。"
   },
   "Search": {
     "placeholder_search": "在庫検索",
@@ -105,7 +106,9 @@
     "standard": "で",
     "stock": "Stock",
     "news": "株式",
-    "view_more": "もっと見る"
+    "view_more": "もっと見る",
+    "not_found_stock": "該当する株式銘柄がありません。",
+    "not_found_news": "該当銘柄のニュース情報がありません。"
   },
   "News": {
     "popular_news_today": "今日の人気ニュース",
@@ -225,6 +228,7 @@
     "trending_stocks": "急上昇銘柄",
     "pluging_stocks": "急落銘柄"
   },
+
   "Date": {
     "year": "{period}年前",
     "month": "{period}ヶ月前",
@@ -232,5 +236,9 @@
     "hour": "{period}時間前",
     "minute": "{period}分前",
     "second": "{period}秒前"
+  },
+  "Chatbot": {
+    "comment": "こんにちは、アイトナウチャットボットです。海外株に関してご質問があれば、私に聞いてください！",
+    "send": "送信"
   }
 }

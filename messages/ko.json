@@ -95,7 +95,8 @@
     "stock_news_for_user": "{nickname}님을 위한 주식뉴스",
     "news_about_interest_stocks": "관심 종목",
     "featured_news": "주요 뉴스",
-    "latest_news": "최신 뉴스"
+    "latest_news": "최신 뉴스",
+    "recent_not_search": "최근 조회한 목록이 없습니다."
   },
   "Search": {
     "placeholder_search": "종목을 검색해주세요",
@@ -105,7 +106,9 @@
     "standard": "기준",
     "stock": "주식",
     "news": "뉴스",
-    "view_more": "더보기"
+    "view_more": "더보기",
+    "not_found_stock": "해당하는 주식 종목이 없습니다",
+    "not_found_news": "해당 종목의 뉴스 정보가 없습니다."
   },
   "News": {
     "popular_news_today": "오늘 인기있는 뉴스",
@@ -225,6 +228,7 @@
     "trending_stocks": "급상승 종목",
     "pluging_stocks": "급하락 종목"
   },
+
   "Date": {
     "year": "{period}년 전",
     "month": "{period}개월 전",
@@ -232,5 +236,9 @@
     "hour": "{period}시간 전",
     "minute": "{period}분 전",
     "second": "{period}초 전"
+  },
+  "Chatbot": {
+    "comment": "안녕하세요 아잇나우 챗봇입니다. 해외주식 관련해서 궁금하신 점이 있으면 저에게 물어보세요!",
+    "send": "전송"
   }
 }

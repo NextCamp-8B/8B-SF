@@ -1,7 +1,12 @@
 import Link from 'next/link';
 import Logo from '@/assets/logos/logo_dark.svg';
 import TextButton from '../shared/buttons/TextButton';
-export default function HeadersNav() {
+import { getLocale, getTranslations } from 'next-intl/server';
+
+export default async function HeadersNav() {
+  const t = await getTranslations('Header');
+  const locale = getLocale();
+
   return (
     <>
       <div className="w-full h-[80px] flex justify-center bg-[#FFFFFF] fixed top-0 left-0 z-50">
@@ -16,7 +21,7 @@ export default function HeadersNav() {
                 href="/search"
                 className="hover:underline hover:scale-110"
               >
-                발견
+                {t('search')}
               </Link>
             </div>
             <div className="w-[160px] justify-center flex b3 font-medium text-grayscale-900">
@@ -24,7 +29,7 @@ export default function HeadersNav() {
                 href="/news"
                 className="hover:underline hover:scale-110"
               >
-                뉴스
+                {t('news')}
               </Link>
             </div>
             <div className="w-[160px] justify-center flex b3 font-medium text-grayscale-900">
@@ -32,7 +37,7 @@ export default function HeadersNav() {
                 href="/stock"
                 className="hover:underline hover:scale-110"
               >
-                종목
+                {t('stock')}
               </Link>
             </div>
             <div className="w-[160px] justify-center flex b3 font-medium text-grayscale-900">
@@ -40,7 +45,7 @@ export default function HeadersNav() {
                 href="/stock/interest"
                 className="hover:underline hover:scale-110"
               >
-                관심종목
+                {t('interest')}
               </Link>
             </div>
             <div className="w-[160px] justify-center flex b3 font-medium text-grayscale-900">
@@ -48,13 +53,15 @@ export default function HeadersNav() {
                 href="/user"
                 className="hover:underline hover:scale-110"
               >
-                마이페이지
+                {t('my')}
               </Link>
             </div>
           </div>
           <div className="w-[160px] flex ml-auto ">
             <Link href="/">
-              <TextButton.Light size="hf"> 로그아웃</TextButton.Light>
+              <TextButton.Light size="hf">
+                {t('logout')}
+              </TextButton.Light>
             </Link>
           </div>
         </div>

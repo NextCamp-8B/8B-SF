@@ -1,6 +1,8 @@
 'use client';
 
 import SMALLLOGO from '@/assets/logos/small_logo_light.svg';
+import { useSession } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 
 export default function ChatbotContent({
@@ -9,8 +11,10 @@ export default function ChatbotContent({
   chatting: string[] | null;
 }) {
   const [chatLog, setChatLog] = useState<string[] | null>(chatting);
+  const { data: session, status } = useSession();
+  const t = useTranslations('Chatbot');
   useEffect(() => {
-    const user_id = 1;
+    const user_id = session?.user.id;
 
     const fetchChatbot = async () => {
       const response = await fetch(`/api/chatbot?user_id=${user_id}`);
@@ -21,7 +25,7 @@ export default function ChatbotContent({
       }
     };
     fetchChatbot();
-  }, []);
+  }, [session?.user.id]);
   return (
     <>
       <div className="flex flex-col w-[448px] h-[396px] overflow-x-auto px-4 no-scrollbar">
@@ -30,8 +34,7 @@ export default function ChatbotContent({
             <SMALLLOGO width={28} height={24} />
           </div>
           <div className="max-w-full b5 bg-primary-50 rounded-lg p-2">
-            안녕하세요 아잇나우 챗봇입니다. 해외주식 관련해서 궁금하신
-            점이 있으면 저에게 물어보세요!
+            {t('comment')}
           </div>
         </div>
         {chatLog &&

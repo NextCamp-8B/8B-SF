@@ -6,10 +6,9 @@ import NewsItem from './NewsItem';
 import MoreData from './MoreData';
 import NotFind from './NotFind';
 import { useEffect, useState } from 'react';
-import Loading from '@/app/loading';
-import { Stock } from '@/types/stock';
 import { News } from '@/types/news';
 import SkeletonNewsListItem from '../skeleton/news/SkeletonNewsListItem';
+import { useTranslations } from 'next-intl';
 
 export default function FindNews({
   newsList,
@@ -22,7 +21,7 @@ export default function FindNews({
   // 현재 표시되는 뉴스 항목 슬라이싱
   const [visibleCount, setVisibleCount] = useState(6);
   const visibleNews = newsList?.slice(0, visibleCount);
-
+  const t = useTranslations('Search');
   const loadMoreHandler = () => {
     setIsLoading(true);
     setTimeout(() => {
@@ -46,7 +45,7 @@ export default function FindNews({
   return (
     <>
       <div className="flex items-center">
-        <SearchHeading> 뉴스 </SearchHeading>
+        <SearchHeading> {t('news')} </SearchHeading>
         <span className="text-sm font-medium text-grayscale-600 underline">
           {newsList && `(${newsList.length})`}
         </span>

@@ -1,3 +1,5 @@
+import { useTranslations } from 'next-intl';
+
 type MoreDataProps = {
   onClick: () => void;
   isVisible: boolean;
@@ -7,6 +9,7 @@ export default function MoreData({
   onClick,
   isVisible,
 }: MoreDataProps) {
+  const t = useTranslations('Search');
   return (
     <>
       {isVisible && (
@@ -15,7 +18,7 @@ export default function MoreData({
           onClick={onClick}
         >
           <p className="b4 font-medium text-grayscale-400 pt-4">
-            더보기
+            {t('view_more')}
           </p>
         </div>
       )}

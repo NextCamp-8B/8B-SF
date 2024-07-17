@@ -1,24 +1,14 @@
 import InputItem from '@/components/search/InputItem';
-// import NoSearchData from '@/components/search/NoSearchData';
-// import PopularSearch from '@/components/search/PopularSearch';
-// import RecentSearch from '@/components/search/RecentSearch';
+import IntlClientProvider from '@/components/shared/IntlClientProvider';
 
 export default function Search() {
   return (
     <div className="flex flex-col">
       <div className="py-4">
-        <InputItem />
+        <IntlClientProvider>
+          <InputItem />
+        </IntlClientProvider>
       </div>
-      {/* <div className="py-4">
-        {searchDatas.length > 0 ? (
-          <RecentSearch searchDatas={searchDatas} />
-        ) : (
-          <NoSearchData />
-        )}
-      </div>
-      <div className="py-4">
-        <PopularSearch popularDatas={popularDatas} />
-      </div> */}
     </div>
   );
 }

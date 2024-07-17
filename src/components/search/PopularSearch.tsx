@@ -5,10 +5,12 @@ import PopularItem from './PopularItem';
 import SearchHeading from './SearchHeading';
 import SkeletonPopularStock from '../skeleton/search/SkeletonPopularStock';
 import { stocksProps } from './InputItem';
+import { useTranslations } from 'next-intl';
 
 export default function PopularSearch({ session }: { session: any }) {
   const [popularList, setPopularList] = useState<stocksProps[]>([]);
   const [showSkeleton, setShowSkeleton] = useState(true);
+  const t = useTranslations('Search');
   useEffect(() => {
     const fetchPopular = async () => {
       const response = await fetch('/api/search/popular');
@@ -50,9 +52,9 @@ export default function PopularSearch({ session }: { session: any }) {
     <>
       <div className="w-[590px]">
         <div className="flex items-center">
-          <SearchHeading> 인기 검색어</SearchHeading>
+          <SearchHeading> {t('popular_search')}</SearchHeading>
           <span className="text-sm px-4 underline text-grayscale-600 font-medium">
-            00:00 기준
+            00:00 {t('standard')}
           </span>
         </div>
         <Wrapper width="590px" padding="p-6">

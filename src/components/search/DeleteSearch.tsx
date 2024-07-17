@@ -2,6 +2,7 @@ import Close from '@/assets/icons/close.svg';
 import { stocksProps } from './InputItem';
 import { UUID } from 'crypto';
 import { businessAPI } from '@/service/apiInstance';
+import { useTranslations } from 'next-intl';
 
 export default function DeleteSearch({
   type = 'all',
@@ -14,6 +15,7 @@ export default function DeleteSearch({
   userId: UUID;
   setRecentDatas: (data: stocksProps[] | null) => void;
 }) {
+  const t = useTranslations('Search');
   const { deleteRecentSearch, getRecentSearch } = businessAPI;
   const deleteSerachStock = async ({
     type = 'all',
@@ -44,7 +46,7 @@ export default function DeleteSearch({
           className="text-grayscale-600 font-medium text-md underline"
           onClick={() => deleteSerachStock({ userId })}
         >
-          전체삭제
+          {t('delete_all')}
         </button>
       )}
       {type === 'select' && (

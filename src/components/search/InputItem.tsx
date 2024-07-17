@@ -6,6 +6,7 @@ import RecentSearch from './RecentSearch';
 import PopularSearch from './PopularSearch';
 import NoSearchData from './NoSearchData';
 import { useSession } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 
 export type stocksProps = {
   stock_id?: string;
@@ -21,6 +22,7 @@ export default function InputItem() {
   >([]);
   const { data: session, status } = useSession();
   const isAuthenticated = status === 'authenticated';
+  const t = useTranslations('Search');
 
   const fetchRecentSearch = useCallback(async () => {
     if (isAuthenticated) {
@@ -32,17 +34,17 @@ export default function InputItem() {
         setRecentDatas(data.stocks);
       }
     }
-  }, [session]);
+  }, [session, isAuthenticated]);
 
   useEffect(() => {
     fetchRecentSearch();
   }, [fetchRecentSearch]);
 
   return (
-    <div className="">
+    <div>
       <input
         type="text"
-        placeholder="종목을 검색해주세요"
+        placeholder={t('placeholder_search')}
         className="w-[590px] h-14 rounded-lg py-4 px-11 border-2 border-grayscale-300 bg-grayscale-0 focus:scale-105"
         onChange={(e) => {
           setText(e.target.value);

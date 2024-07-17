@@ -1,16 +1,19 @@
 import Exclamation from '@/assets/icons/exclamation.svg';
+import { useTranslations } from 'next-intl';
 
 export default function NotFind({
   type,
 }: {
   type: 'stock' | 'news';
 }) {
+  const t = useTranslations('Search');
+
   const comment = () => {
     if (type === 'stock') {
-      return '해당하는 종목이 없습니다';
+      return t('not_found_stock');
     }
     if (type === 'news') {
-      return '해당 종목의 뉴스 정보가 없습니다.';
+      return t('not_found_news');
     }
   };
 

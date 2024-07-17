@@ -72,12 +72,7 @@ export default function FindStock({
         )}
       </div>
       <div className="py-4">
-        <FindNews
-          newsList={newsList}
-          // tmpNews={TMP_NEWS_LIST}
-
-          searchText={searchText}
-        />
+        <FindNews newsList={newsList} searchText={searchText} />
       </div>
     </div>
   );
