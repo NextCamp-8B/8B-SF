@@ -3,6 +3,7 @@ import NewsSection from '@/components/news/NewsSection';
 import RecentNews from '@/components/news/RecentNews';
 import RelatedNewsToStock from '@/components/news/RelatedNewsToStock';
 import TodayPopularNews from '@/components/news/TodayPopularNews';
+import IntlClientProvider from '@/components/shared/IntlClientProvider';
 import SkeletonRelatedNewsToStock from '@/components/skeleton/news/SkeletonRelatedNewsToStock';
 import SkeletonTodayPopularNews from '@/components/skeleton/news/SkeletonTodayPopularNews';
 import { getTranslations } from 'next-intl/server';
@@ -29,7 +30,9 @@ export default async function News() {
       {/* 최신 뉴스 */}
       <NewsSection>
         <NewsHeading>{t('latest_news')}</NewsHeading>
-        <RecentNews />
+        <IntlClientProvider>
+          <RecentNews />
+        </IntlClientProvider>
       </NewsSection>
     </main>
   );

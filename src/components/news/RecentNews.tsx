@@ -8,6 +8,8 @@ import SkeletonNewsListItem from '../skeleton/news/SkeletonNewsListItem';
 import { useParams } from 'next/navigation';
 import { Locale } from '@/types/next-auth';
 import { businessAPI } from '@/service/apiInstance';
+import { useTranslations } from 'next-intl';
+import { diffCreatedTime } from '@/utils/date';
 
 const NewsListItem = dynamic(
   () => import('@/components/shared/NewsListItem'),
@@ -22,6 +24,7 @@ function RecentNews() {
   const [newsList, setNewsList] = useState<News[]>([]);
   const [page, setPage] = useState(0);
   const [loading, setLoadging] = useState(false);
+  const t = useTranslations('Date');
   const getNewsList = async () => {
     if (inView && !loading) {
       setLoadging(true);
@@ -50,7 +53,13 @@ function RecentNews() {
       {newsList.map((news) => (
         <NewsListItem
           type="large"
-          news={news}
+          news={{
+            ...news,
+            published_at: t(
+              diffCreatedTime(news.published_at).periodType,
+              { period: diffCreatedTime(news.published_at).period },
+            ),
+          }}
           key={news.news_id}
           locale={locale}
         />

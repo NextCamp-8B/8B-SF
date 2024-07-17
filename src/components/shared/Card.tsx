@@ -25,8 +25,8 @@ export default async function Card(props: CardProps) {
   const t = await getTranslations('Date');
   const diffTime = news ? diffCreatedTime(news.published_at) : null;
   const diff = diffTime
-    ? t((await diffTime).periodType, {
-        period: (await diffTime).period,
+    ? t(diffTime.periodType, {
+        period: diffTime.period,
       })
     : null;
 
@@ -74,10 +74,10 @@ export default async function Card(props: CardProps) {
                 {getTranslatedNews(news, locale, 'title')}
               </p>
               <div className="flex justify-between w-[340px] mt-2">
-                <div className="b5 font-medium text-grayscale-600 ">
+                <div className="b5 font-medium text-grayscale-600 text-overflow-1">
                   {diff} · {news.publisher}
                 </div>
-                <div className="b5 cursor-pointer">더보기 →</div>
+                <div className="b5 cursor-pointer w-14">더보기 →</div>
               </div>
             </div>
           </div>

@@ -15,6 +15,7 @@ export default async function HomeRelatedNews() {
       userId: user.id as UUID,
     });
   const t = await getTranslations('News');
+
   return (
     <div className="flex gap-5">
       {newsList.length > 0 ? (

@@ -34,7 +34,6 @@ export async function PATCH(
   const now = dayjs().utc();
   // console.log(ipLog, id);
   const dayDiff = now.diff(ipLog?.viewed_at, 'day');
-  console.log(dayDiff);
   const { data: news, error } = await supabase
     .from('news')
     .select('view')
@@ -63,7 +62,6 @@ export async function PATCH(
         })
         .eq('news_id', id)
         .eq('ip', ip);
-      console.log(error);
       const update_view = await supabase
         .from('news')
         .update({ view: news?.view + 1 })

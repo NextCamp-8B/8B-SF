@@ -52,6 +52,7 @@ export default function NewsDetail({ id }: NewsDetailProps) {
   };
 
   const t = useTranslations('NewsDetail');
+  const tDate = useTranslations('Date');
   return (
     <>
       {loading ? (
@@ -68,9 +69,21 @@ export default function NewsDetail({ id }: NewsDetailProps) {
                   <div className="b5 font-medium text-grayscale-600 flex gap-[6px]">
                     <span>{news.publisher}</span>
                     <span>∙</span>
-                    <span>{diffCreatedTime(news.published_at)}</span>
+                    <span>
+                      {tDate(
+                        diffCreatedTime(news.published_at).periodType,
+                        {
+                          period: diffCreatedTime(news.published_at)
+                            .period,
+                        },
+                      )}
+                    </span>
                     <span>∙</span>
-                    <span>{t('views', { view: news.view })}</span>
+                    <span>
+                      {t('views', {
+                        view: news.view.toLocaleString(),
+                      })}
+                    </span>
                   </div>
                   {locale !== 'en' && (
                     <ButtonBase

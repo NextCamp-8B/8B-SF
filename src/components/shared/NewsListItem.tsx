@@ -44,7 +44,7 @@ function NewsListItem({
                 {getTranslatedNews(news, locale, 'title')}
               </h2>
               <div className="flex b5 font-medium text-grayscale-600 gap-2">
-                <span>{diffCreatedTime(published_at)}</span>
+                <span>{published_at}</span>
                 <span>∙</span>
                 <span>{publisher}</span>
               </div>
@@ -80,7 +80,7 @@ function NewsListItem({
                   {getTranslatedNews(news, locale, 'title')}
                 </h2>
                 <div className="flex b5 font-medium text-grayscale-600 gap-2 hover:no-underline">
-                  <span>{diffCreatedTime(published_at)}</span>
+                  <span>{published_at}</span>
                   <span>∙</span>
                   <span>{publisher}</span>
                 </div>
@@ -120,7 +120,7 @@ function NewsListItem({
                   {getTranslatedNews(news, locale, 'title')}
                 </h2>
                 <div className="flex b5 font-medium text-grayscale-600 gap-2 no-underline">
-                  <span>{diffCreatedTime(published_at)}</span>
+                  <span>{published_at}</span>
                   <span>∙</span>
                   <span>{publisher}</span>
                 </div>
@@ -167,9 +167,7 @@ function NewsListItem({
               {getTranslatedNews(news, locale, 'title')}
             </div>
             <div className="flex b5 font-medium text-grayscale-600 gap-2 pt-[8px]">
-              <span className="text-nowrap">
-                {diffCreatedTime(published_at)}
-              </span>
+              <span className="text-nowrap">{published_at}</span>
               <span>∙</span>
               <span className="flex-1 text-overflow-1">
                 {publisher}

@@ -116,8 +116,8 @@ export default class AightnowClient {
     return this.httpClient.get({ url: nextURL, isServer: true });
   }
   // 관심종목과 관련된 뉴스
-  async getRelatedNewsToStock() {
-    const nextURL = `/api/news/related/stock`;
+  async getRelatedNewsToStock({ userId }: { userId: UUID }) {
+    const nextURL = `/api/news/related/stock?user=${userId}`;
 
     return this.httpClient.get({ url: nextURL, isServer: true });
   }
@@ -158,7 +158,7 @@ export default class AightnowClient {
   async updateNewsView({ newsId }: { newsId: string }) {
     const nextURL = `/api/news/${newsId}`;
 
-    return this.httpClient.patch({ url: nextURL, isServer: true });
+    return this.httpClient.patch({ url: nextURL });
   }
 
   // 관심종목과 관련된 뉴스 불러오기
