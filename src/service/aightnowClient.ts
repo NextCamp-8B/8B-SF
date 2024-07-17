@@ -12,6 +12,8 @@ export default class AightnowClient {
     this.getRecentHome = this.getRecentHome.bind(this);
     this.addInterestStock = this.addInterestStock.bind(this);
     this.getInterestStock = this.getInterestStock.bind(this);
+    this.getPopularStock = this.getPopularStock.bind(this);
+    this.searchStock = this.searchStock.bind(this);
   }
 
   async loginLLM({ isServer = false }: { isServer?: boolean } = {}) {
@@ -195,6 +197,18 @@ export default class AightnowClient {
 
   async getInterestStock({ userId }: { userId: UUID }) {
     const nextURL = `/api/stock/interest?userId=${userId}`;
+
+    return this.httpClient.get({ url: nextURL });
+  }
+
+  async getPopularStock() {
+    const nextURL = `/api/search/popular`;
+
+    return this.httpClient.get({ url: nextURL });
+  }
+
+  async searchStock({ searchText = '' }: { searchText?: string }) {
+    const nextURL = `/api/search/stock?searchText=${searchText}`;
 
     return this.httpClient.get({ url: nextURL });
   }
