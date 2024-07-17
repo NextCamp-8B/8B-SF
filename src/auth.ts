@@ -21,9 +21,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        const { email, password } = credentials as {
+        const { email, password, autoLogin } = credentials as {
           email: string;
           password: string;
+          autoLogin: boolean;
         };
 
         if (!email || !password) {
@@ -68,6 +69,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           language: loginData.user.user_metadata.language,
           accessToken: loginData.session.access_token,
           refreshToken: loginData.session.refresh_token,
+          autoLogin: autoLogin,
         };
       },
     }),
@@ -88,6 +90,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
     signIn: '/login',
     error: '/ko/login/error', // 커스텀 에러 페이지 설정
+  },
+  session: {
+    strategy: 'jwt',
+    maxAge: 24 * 60 * 60, // 기본 세션 유지 시간 (1일)
+    updateAge: 24 * 60 * 60, // 세션 갱신 주기 (1일)
   },
   callbacks: {
     async signIn({ user, account }: any): Promise<any> {
@@ -209,6 +216,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.language = user.language;
         token.accessToken = user.accessToken;
         token.refreshToken = user.refreshToken;
+        token.autoLogin = user?.autoLogin;
       }
 
       if (trigger === 'update' && session !== null) {
@@ -239,7 +247,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async session({ session, token }: any) {
       // 세션에 사용자 정보를 추가
       // console.log('--------------session-------------');
-      // console.log('token :', token);
+      // console.log('token :', token.autoLogin);
+      if (token.autoLogin) {
+        // 자동 로그인 시 세션 만료 시간 연장
+        session.maxAge = 30 * 24 * 60 * 60; // 30일
+      } else {
+        session.maxAge = 24 * 60 * 60; // 1일
+      }
       if (token) {
         session.user.id = token.id;
         session.user.userId = token.userId;
@@ -256,7 +270,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.accessToken = token.accessToken;
         session.user.refreshToken = token.refreshToken;
       }
-      // console.log('session:', session);
+
+      // console.log('-----result session0---------:', session);
       return session;
     },
     redirect: async ({ url, baseUrl }) => {

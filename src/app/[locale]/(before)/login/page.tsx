@@ -40,6 +40,7 @@ export default function Login() {
         email: value.loginId, // 여기서 loginId는 userId를 의미
         password: value.password,
         redirect: false,
+        autoLogin: isAutoLogin, //자동 로그인 여부
       });
 
       if (result?.error) {
