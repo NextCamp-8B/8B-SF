@@ -10,7 +10,7 @@ export async function GET(request: Request) {
     .from('stock')
     .select('*')
     .or(
-      `stock_name.ilike.%${searchText}%,stock_code.ilike.%${searchText}%`,
+      `stock_name.ilike.%${searchText}%,stock_code.ilike.%${searchText}%, description_ko.ilike.%${searchText}%`,
     );
 
   return new Response(JSON.stringify({ stocks: stocks }), {
