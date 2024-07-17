@@ -240,5 +240,14 @@
   "Chatbot": {
     "comment": "Hello, this is the Aightnow chatbot. If you have any questions about foreign stocks, feel free to ask me!",
     "send": "Send"
+  },
+  "Metadata": {
+    "app_name": "Aightnow",
+    "search": "Search",
+    "news": "News",
+    "interest": "Interest",
+    "my": "My",
+    "logout": "Sign-out",
+    "stock": "Stock"
   }
 }

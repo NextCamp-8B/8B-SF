@@ -242,5 +242,14 @@
   "Chatbot": {
     "comment": "您好，我是Aightnow聊天机器人。如果您对外国股票有任何疑问，请随时问我！",
     "send": "发送"
+  },
+  "Metadata": {
+    "app_name": "Aightnow",
+    "search": "搜索",
+    "news": "新闻",
+    "interest": "关注",
+    "my": "我的",
+    "logout": "登出",
+    "stock": "股票"
   }
 }

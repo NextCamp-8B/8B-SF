@@ -240,5 +240,14 @@
   "Chatbot": {
     "comment": "こんにちは、アイトナウチャットボットです。海外株に関してご質問があれば、私に聞いてください！",
     "send": "送信"
+  },
+  "Metadata": {
+    "app_name": "Aightnow",
+    "search": "検索",
+    "news": "ニュース",
+    "interest": "興味",
+    "my": "私の",
+    "logout": "サインアウト",
+    "stock": "株"
   }
 }
