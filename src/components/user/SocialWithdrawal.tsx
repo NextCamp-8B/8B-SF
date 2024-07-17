@@ -1,37 +1,29 @@
 import ModalWrapper from './ModalWrapper';
-import React, {
-  FormEvent,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import React, { FormEvent, useState } from 'react';
 import Wrapper from '@/components/shared/Wrapper';
 import TextButton from '@/components/shared/buttons/TextButton';
 import InputSet from '@/components/shared/input';
-import useInputChange from '@/hooks/input/useInputChange';
 import myPageStore from '@/store/myPageStore';
 import { SelectedOption } from '../shared/dropdown/types';
 import { Dropdown } from '../shared/dropdown';
 import usePopupStore from '@/store/userPopup';
 import AuthPopup from '../signup/Popup';
 import LoadingSpinnerWrapper from '../shared/LoadingSpinnerWrapper';
-import { conceptMap } from '../shared/input/inputConfig';
 import ConfirmCancelPopup from './ConfirmCanclePopup';
 import CompositeInput from '../shared/input/CompositeInput';
 import { withdrawalOptions } from '@/constants';
-import { useCheckPassword } from '@/hooks/user/useCheckPw';
 import { signOut } from 'next-auth/react';
+import { User } from 'next-auth';
 
-// 회원탈퇴
-export default function Withdrawal() {
-  const { value, onChangeInputValue } = useInputChange();
+type SocialWithdrawal = {
+  user: User;
+};
+
+// 소셜 회원탈퇴
+export default function SocialWithdrawal({ user }: SocialWithdrawal) {
   const [isLoading, setIsLoading] = useState(false); //api 로딩 체크
-  const [isSubmit, setIsSubmit] = useState(false); // 폼 submit
-  const [isFormValid, setIsFormValid] = useState(false); //폼 유효성 체크
   const [etc, setEtc] = useState(''); //회원탈퇴 사유 기타
   const [reason, setReason] = useState(''); //선택한 회원탈퇴 사유
-
-  const { checkPassword } = useCheckPassword();
 
   const {
     isShowPopup,
@@ -59,35 +51,15 @@ export default function Withdrawal() {
   const handleCloseWidthdrawl = () => {
     if (isLoading) return;
     closeModal('isWithdrawal');
-    value.password = '';
   };
-
-  const validateForm = useCallback(() => {
-    const isPasswordValid = conceptMap.password.doValidation(
-      value.password,
-    );
-    setIsFormValid(isPasswordValid);
-  }, [value.password]);
-
-  useEffect(() => {
-    validateForm();
-  }, [validateForm]);
 
   // 회월탈퇴 경고 팝업
   const chekckWithdrawal = async (e: FormEvent) => {
     e.preventDefault();
-    setIsSubmit(true);
-    if (!isFormValid) return;
-    setIsLoading(true);
-    const isValid = await checkPassword(value.password);
-    if (isValid) {
-      // 유저가 확인 누를시 handleConfirmWithdrawal 회원탈퇴 api 요청
-      showConfirmPopup(
-        '회원탈퇴 경고',
-        '탈퇴 후 7일간 가입하신 이메일로\n재가입이 불가합니다. 정말 탈퇴하시겠습니까?',
-      );
-    }
-    setIsLoading(false);
+    showConfirmPopup(
+      '회원탈퇴 경고',
+      '탈퇴 후 7일간 가입하신 이메일로\n재가입이 불가합니다. 정말 탈퇴하시겠습니까?',
+    );
   };
 
   const handleConfirmWithdrawal = async () => {
@@ -95,8 +67,8 @@ export default function Withdrawal() {
     setIsLoading(true);
     const formData = new FormData();
     const withdrawalReason = reason === '기타' ? etc : reason;
-    formData.append('password', value.password.trim());
     formData.append('reason', withdrawalReason);
+    formData.append('password', user.userId);
 
     const response = await fetch('/api/withdrawal', {
       method: 'POST',
@@ -106,7 +78,6 @@ export default function Withdrawal() {
     if (response.ok) {
       const data = await response.json();
       handleSetWithdrawal();
-      value.password = '';
       // session제거 후 withdrawal 리다이렉팅
       await signOut({ callbackUrl: data?.redirectTo });
     } else {
@@ -170,13 +141,6 @@ export default function Withdrawal() {
                   placeholder="#회원 탈퇴 사유를 입력해주세요"
                 />
               )}
-              <InputSet.Validated
-                onChange={onChangeInputValue}
-                value={value.password}
-                type="password"
-                concept="password"
-                isSubmit={isSubmit}
-              />
             </InputSet>
             <TextButton className="w-full mt-8">회원탈퇴</TextButton>
           </form>

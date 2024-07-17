@@ -1,4 +1,3 @@
-'use client';
 import React, { useCallback, useEffect, useState } from 'react';
 import ModalWrapper from './ModalWrapper';
 import Wrapper from '@/components/shared/Wrapper';
@@ -8,18 +7,28 @@ import { conceptMap } from '../shared/input/inputConfig';
 import useDuplicateCheck from '@/hooks/user/useDuplicateCheck';
 import { useAccountUpdated } from '@/hooks/user/useAccountUpdated';
 import AuthPopup from '../signup/Popup';
-import useSessionData from '@/hooks/user/useSessionData';
 import LoadingSpinnerWrapper from '../shared/LoadingSpinnerWrapper';
 import myPageStore from '@/store/myPageStore';
 import { usePasswordUpdate } from '@/hooks/user/useUpdatePw';
 import UserAccountForm from './UserAccountForm';
 import usePopupStore from '@/store/userPopup';
+import { User } from 'next-auth';
+import SocialWithdrawal from './SocialWithdrawal';
 
 // 정보수정 모달에서 회원탈퇴 모달을 관리
 // isWithdrawal 값에 따라 회원탈퇴모달이 발생
 // handleSetWithdrawal 로 회원탈퇴 처리 되었다면
 // WithdrawalComplete 페이지 렌더링
-export default function UserAccountEdit() {
+
+type UserAccountEdit = {
+  user: User;
+  isSocial: boolean;
+};
+
+export default function UserAccountEdit({
+  user,
+  isSocial,
+}: UserAccountEdit) {
   const { openModal, closeModal, closeAllModals, isUserAccountdit } =
     myPageStore();
 
@@ -31,8 +40,6 @@ export default function UserAccountEdit() {
 
   const { isLoading: updateLoading, handleAccountUpdate } =
     useAccountUpdated(); //개인정보 수정 api
-
-  const { user, isSocial } = useSessionData();
 
   const { isShowPopup, popupMsg, hidePopup } = usePopupStore();
 
@@ -115,7 +122,8 @@ export default function UserAccountEdit() {
   return (
     <>
       {/* 회원 탈퇴 */}
-      <Withdrawal />
+      {isSocial ? <SocialWithdrawal user={user} /> : <Withdrawal />}
+
       <ModalWrapper
         onClose={handleCloseAccountModal}
         isOpen={isUserAccountdit}

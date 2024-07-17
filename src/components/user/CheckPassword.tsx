@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useCallback, useEffect, useState } from 'react';
 import ModalWrapper from './ModalWrapper';
 import Wrapper from '@/components/shared/Wrapper';
@@ -61,7 +59,7 @@ export default function CheckPassword() {
         <h3 className="h3 font-bold text-center text-primary-900 mb-8">
           비밀번호 인증
         </h3>
-        {/* 수정 성공/에러 메시지 팝업 */}
+        {/*성공/에러 메시지 팝업 */}
         {isShowPopup && (
           <AuthPopup
             onClose={hidePopup}

@@ -5,8 +5,10 @@ import jwt from 'jsonwebtoken';
 import supabase from '@/lib/supabaseClient';
 import NextAuth, { CredentialsSignin } from 'next-auth';
 import credentials from 'next-auth/providers/credentials';
+
 import {
   checkEmailExists,
+  checkEmailInDeletedUsers,
   checkSocialUser,
 } from './utils/supabase/supabaseHelper';
 
@@ -85,7 +87,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: process.env.NEXTAUTH_SECRET!,
   pages: {
     signIn: '/login',
-    error: '/login/error', // 커스텀 에러 페이지 설정
+    error: '/ko/login/error', // 커스텀 에러 페이지 설정
   },
   callbacks: {
     async signIn({ user, account }: any): Promise<any> {
@@ -106,6 +108,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // user 값 undefinded 일시 처리
         const emailAddress = email || '';
 
+        //  회원탈퇴한 유저 체크
+        const deletedUser = await checkEmailInDeletedUsers(
+          emailAddress,
+        );
+
+        if (deletedUser) {
+          throw new Error(
+            '해당 이메일은 탈퇴한 유저의 이메일입니다.',
+          );
+        }
         // 이메일 중복 체크
         const existingUser = await checkEmailExists(emailAddress);
 

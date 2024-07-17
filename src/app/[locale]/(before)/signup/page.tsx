@@ -65,7 +65,6 @@ export default function Signup() {
         }
         setPageStep('signupForm');
       } catch (e) {
-        console.error('Invalid token:', e);
         router.push('/signup'); // 유효하지 않은 경우 리디렉션
         clearUser();
       }

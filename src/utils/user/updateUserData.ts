@@ -4,7 +4,7 @@ export async function updateUserData(
   endpoint: string,
   formData: FormData,
   update: UpdateSession,
-  showPopup: (title: string, msg: string) => void, // 여기서 시그니처를 변경합니다.
+  showPopup: (title: string, msg: string) => void,
 ) {
   try {
     const response = await fetch(endpoint, {

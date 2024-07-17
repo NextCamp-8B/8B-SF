@@ -38,7 +38,6 @@ export default function Auth() {
     setIsSubmit(true);
     setIsLoading(true);
     if (!isFormValid) {
-      console.log('fomrvalid unset');
       setIsLoading(false);
       return;
     }

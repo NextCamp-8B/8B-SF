@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import supabase from '@/lib/supabaseClient'; 
+import supabase from '@/lib/supabaseClient';
 
 export async function POST(request: NextRequest) {
   try {
@@ -35,7 +35,6 @@ export async function POST(request: NextRequest) {
     }
     return NextResponse.json({ data }, { status: 200 });
   } catch (error) {
-    console.error('언어 설정 중 오류 발생:', error);
     return NextResponse.json(
       { error: '언어 설정 중 오류 발생했습니다.' },
       { status: 500 },

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import Wrapper from '@/components/shared/Wrapper';
 import ButtonBase from '@/components/shared/buttons/ButtonBase';
 import Link from 'next/link';
@@ -13,7 +13,7 @@ export default function AuthEror() {
   const getErrorMessage = (error: string | null) => {
     switch (error) {
       case 'AccessDenied':
-        return '이미 해당 이메일은 사용 중입니다.';
+        return '해당 이메일은 사용 중이거나 탈퇴한 유저의 이메일 입니다.';
       default:
         return '다시 시도하시거나, 고객센터에 문의해주세요.';
     }
@@ -31,8 +31,8 @@ export default function AuthEror() {
             로그인 오류가 발생했습니다.
           </h1>
           <span className="b3 font-medium">
-           {getErrorMessage(error)}
-           </span>
+            {getErrorMessage(error)}
+          </span>
         </div>
         <Link href="/login">
           <ButtonBase className="w-[386px] h-16 bg-primary-900 text-grayscale-0 rounded-lg">

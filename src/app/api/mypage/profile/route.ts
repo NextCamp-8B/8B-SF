@@ -38,7 +38,6 @@ export async function POST(request: NextRequest) {
     // 프로필 이미지 supabase 스토리지에 저장
     if (profileImg && profileImg.name) {
       const fileName = generateFileName(profileImg?.name);
-      console.log('----파일 이름 변환---', fileName);
 
       const publicUrl = await uploadProfileImage(
         fileName,
@@ -57,14 +56,13 @@ export async function POST(request: NextRequest) {
     const { data, error: authError } = await supabase.auth.updateUser(
       updateData,
     );
-    console.log('---------수정 업데이트---------', data);
+    // console.log('---------수정 업데이트---------', data);
     if (authError) {
       console.log('authError', authError);
       throw authError;
     }
     return NextResponse.json({ data }, { status: 200 });
   } catch (error) {
-    console.error('유저 프로필 수정 중 오류 발생:', error);
     return NextResponse.json(
       { error: '유저 프로필 수정 중 오류 발생했습니다.' },
       { status: 500 },

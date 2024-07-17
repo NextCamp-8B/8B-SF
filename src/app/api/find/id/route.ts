@@ -15,7 +15,6 @@ export async function POST(req: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Supabase 쿼리 오류:', error.message);
       return NextResponse.json(
         { error: error.message },
         { status: 500 },

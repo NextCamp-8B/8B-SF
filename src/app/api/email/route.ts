@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
-import { checkEmailExists } from '@/utils/supabase/supabaseHelper';
+import {
+  checkEmailExists,
+  checkEmailInDeletedUsers,
+} from '@/utils/supabase/supabaseHelper';
 
 const secret = process.env.JWT_SECRET as string;
 
@@ -41,6 +44,18 @@ export async function POST(request: NextRequest) {
         {
           message:
             '해당 이메일은 이미 사용 중입니다. 다른 이메일을 사용하시거나, 비밀번호 찾기를 이용해 주세요.',
+        },
+        { status: 409 },
+      );
+    }
+
+    const isDeletedUser = await checkEmailInDeletedUsers(email);
+
+    if (isDeletedUser) {
+      return NextResponse.json(
+        {
+          message:
+            '해당 이메일은 회원탈퇴한 이메일입니다.\n다른 이메일을 사용하시거나,\n고객센터에 문의해주세요.',
         },
         { status: 409 },
       );
@@ -93,7 +108,6 @@ export async function POST(request: NextRequest) {
 
     return response;
   } catch (error: any) {
-    console.error('이메일 전송 실패:', error);
     return NextResponse.json(
       {
         message:

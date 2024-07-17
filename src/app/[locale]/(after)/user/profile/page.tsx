@@ -1,5 +1,5 @@
-import ProfileSection from '@/components/user/ProfileSection';
+import Mypage from '@/components/user/Mypage';
 
-export default function Mypage() {
-  return <ProfileSection />;
+export default function Profile() {
+  return <Mypage />;
 }

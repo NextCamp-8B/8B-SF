@@ -30,7 +30,6 @@ export async function POST(req: NextRequest) {
     }
 
     if (sessionError) {
-      console.error('세션 설정 오류:', sessionError.message);
       return NextResponse.json(
         {
           error:
@@ -65,7 +64,6 @@ export async function POST(req: NextRequest) {
       message: '비밀번호가 변경되었습니다.',
     });
   } catch (error: any) {
-    console.error('서버 오류:', error);
     return NextResponse.json(
       {
         error:

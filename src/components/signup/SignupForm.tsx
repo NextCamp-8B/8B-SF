@@ -60,7 +60,7 @@ export default function SignupForm() {
     e.preventDefault();
     setIsSubmit(true);
 
-    if (!isFormValid) return console.log('isFormValid unset');
+    if (!isFormValid) return;
     setIsFormValid(false);
     // profile에서 데이터를 한번에 보내기 위해 저장
     if (user.providerAccountId) {

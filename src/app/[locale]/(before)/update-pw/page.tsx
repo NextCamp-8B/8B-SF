@@ -44,7 +44,7 @@ export default function UpdatedPw() {
   const onHandleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmit(true);
-    if (!isFormValid) return console.log('isFormValid unset');
+    if (!isFormValid) return;
     setIsLoading(true);
     const response = await fetch('/api/reset/pw', {
       method: 'POST',
@@ -64,7 +64,6 @@ export default function UpdatedPw() {
       setIsSuccessReset(true);
     } else {
       // 에러 팝업 발생
-      console.log(result, '에러 내용');
       setRefreshToken(result?.refreshToken);
       setIsShowPopup(true);
       setErrorMsg(result.error || '입력한 내용을 다시 확인해주세요.');

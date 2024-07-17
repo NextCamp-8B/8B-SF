@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import supabase from '@/lib/supabaseClient'; 
+import supabase from '@/lib/supabaseClient';
 
 export async function POST(request: NextRequest) {
   try {
@@ -11,12 +11,6 @@ export async function POST(request: NextRequest) {
     const accessToken = formData.get('accessToken') as string; // access_token 가져오기
     const refreshToken = formData.get('refreshToken') as string; // access_token 가져오기
 
-    console.log(
-        userId,
-        name,
-        birth,
-      '-----수정 정보-----',
-    );
     // Supabase 클라이언트를 인증된 사용자로 설정
     const { data: sessionData, error: sessionError } =
       await supabase.auth.setSession({
@@ -42,14 +36,11 @@ export async function POST(request: NextRequest) {
     const { data, error: authError } = await supabase.auth.updateUser(
       updateData,
     );
-    console.log('---------개인정보 수정 업데이트---------', data);
     if (authError) {
-      console.log('authError', authError);
       throw authError;
     }
     return NextResponse.json({ data }, { status: 200 });
   } catch (error) {
-    console.error('유저 개인정보 수정 중 오류 발생:', error);
     return NextResponse.json(
       { error: '유저 개인정보 수정 중 오류 발생했습니다.' },
       { status: 500 },

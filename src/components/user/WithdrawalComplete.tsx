@@ -1,3 +1,4 @@
+import React from 'react';
 import Link from 'next/link';
 import Wrapper from '../shared/Wrapper';
 import TextButton from '../shared/buttons/TextButton';

@@ -1,4 +1,5 @@
 import supabase from '@/lib/supabaseClient';
+// import { createClient } from '@/utils/supabase/server';
 
 // 사용자 존재 여부 확인 함수
 export async function getUserByEmail(email: string) {
@@ -8,7 +9,6 @@ export async function getUserByEmail(email: string) {
     .eq('email', email)
     .single();
   if (error) {
-    console.error('Error fetching user by email:', error);
     throw error;
   }
   return existingUser;
@@ -16,13 +16,12 @@ export async function getUserByEmail(email: string) {
 
 // userId로 이메일 조회 함수
 export async function getEmailByUserId(userId: string) {
-  const { data: userData, error: userError } : any = await supabase
+  const { data: userData, error: userError }: any = await supabase
     .from('user')
     .select('email')
     .eq('user_id', userId)
     .single();
   if (userError) {
-    console.error('Error fetching email by user ID:', userError);
     throw userError;
   }
   return userData?.email || null;
@@ -40,7 +39,6 @@ export async function checkSocialUser(
     .eq('provider_account_id', provider)
     .single();
   if (error) {
-    console.error('Error checking social user:', error);
     throw error;
   }
   return socialUser;
@@ -55,8 +53,20 @@ export async function checkEmailExists(
     .select('email')
     .eq('email', email);
   if (error) {
-    console.error('Error checking email:', error);
     throw error;
+  }
+  return data.length > 0;
+}
+
+// 회원탈퇴한 유저 이메일 체크 함수
+export async function checkEmailInDeletedUsers(email: string) {
+  const { data, error } = await supabase
+    .from('deleted_users')
+    .select('id')
+    .eq('email', email);
+
+  if (error) {
+    return error;
   }
   return data.length > 0;
 }
@@ -69,7 +79,6 @@ export async function checkUserIdExists(userId: string) {
     .eq('user_id', userId);
 
   if (error) {
-    console.error('Error checking user ID:', error);
     throw error;
   }
 
@@ -107,7 +116,6 @@ export async function uploadProfileImage(
     .upload(`profile_img/${fileName}`, file);
 
   if (error) {
-    console.error(error, '프로필이미지 설정 오류');
     throw new Error('프로필이미지 설정 오류');
   }
 
