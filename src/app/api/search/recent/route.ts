@@ -13,7 +13,6 @@ export async function GET(request: Request) {
     .order('created_at', { ascending: false });
 
   if (stocksError) {
-    console.log('최근 조회 fetch 실패:', stocksError);
     return new Response(
       JSON.stringify({ error: '최근 조회 fetch 실패' }),
       {
@@ -25,7 +24,9 @@ export async function GET(request: Request) {
   const stockDetailsPromises = stocks.map(async (stock) => {
     const { data, error } = await supabase
       .from('stock')
-      .select('stock_id, stock_name, stock_code')
+      .select(
+        'stock_id, stock_name, stock_code, fluctuations_ratio, compare_to_previous_close_price, price, logo_path',
+      )
       .eq('stock_id', stock.stock_id)
       .single();
 
