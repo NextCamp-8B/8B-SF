@@ -28,7 +28,10 @@ export default async function LocaleLayout({
   const locale = await getLocale();
   return (
     <html lang={locale} className={`${pretendard.variable}`}>
-      <body className={`${pretendard.className}`}>{children}</body>
+      <body className={`${pretendard.className}`}>
+        {children}
+        <div id="root-modal"></div>
+      </body>
     </html>
   );
 }
