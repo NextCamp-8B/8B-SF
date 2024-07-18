@@ -6,7 +6,6 @@ import Popular from '@/components/stock/interest/Popular';
 import { useCallback, useEffect, useState } from 'react';
 import { businessAPI } from '@/service/apiInstance';
 import useDebounce from '@/hooks/useDebounce';
-import { Stock } from '@/types/stock';
 import { useSession } from 'next-auth/react';
 import { UUID } from 'crypto';
 import { useGetPopular } from '@/hooks/useGetPopular';
@@ -21,7 +20,7 @@ export default function ModalAddInterest({
 }) {
   const [searched, setSearched] = useState([]);
   const [searchText, setSearchText] = useState('');
-  const { searchStock, getRecentSearch } = businessAPI;
+  const { searchStock } = businessAPI;
   const { data } = useSession();
   const userId = data?.user.id as UUID;
   const { popularStocks } = useGetPopular();
@@ -29,9 +28,9 @@ export default function ModalAddInterest({
   const debouncedSearchText = useDebounce(searchText, 1000);
   const fetchSearchResults = useCallback(
     (text: string) => {
-      if (text) {
-        searchStock({ searchText: text }).then((res) => {
-          setSearched(res.stocks);
+      if (text && userId) {
+        searchStock({ searchText: text, userId }).then((res) => {
+          setSearched(res);
         });
 
         return;
@@ -39,7 +38,7 @@ export default function ModalAddInterest({
 
       setSearched([]);
     },
-    [searchStock],
+    [searchStock, userId],
   );
 
   useEffect(() => {
@@ -60,7 +59,7 @@ export default function ModalAddInterest({
       />
 
       {searched.length > 0 ? (
-        <Searched />
+        <Searched searched={searched} userId={userId} />
       ) : (
         <>
           <Recent recentStocks={recentStocks} />

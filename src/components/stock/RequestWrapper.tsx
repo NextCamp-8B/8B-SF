@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import ThatGoAddInterest from './ThatGoAddInterest';
 import ShowingInterest from './ShowingInterest';
-import { InView, useInView } from 'react-intersection-observer';
+import { useInView } from 'react-intersection-observer';
 import { useSession } from 'next-auth/react';
 import { businessAPI } from '@/service/apiInstance';
 import { UUID } from 'crypto';
@@ -13,7 +13,7 @@ export default function RequestWrapper({
   handleIsOpen: () => void;
 }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [stocks, setStocks] = useState<Array<Stock>>([]);
+  const [stocks, setStocks] = useState<Array<{ stock: Stock }>>([]);
   const [stockQuantity, setStockQuantity] = useState({
     page: 1,
     size: 17,
@@ -22,12 +22,8 @@ export default function RequestWrapper({
   const { getInterestStock } = businessAPI;
   const { data } = useSession();
   const userId = data?.user.id as UUID;
+  const { deleteInterestStock } = businessAPI;
 
-  /**
-   * @description
-   *  - 임시 API 요청
-   *  - 소통 후 HTTP Client 적용 예정
-   */
   function getInterest() {
     if (!isLoading) {
       setIsLoading(true);
@@ -37,9 +33,18 @@ export default function RequestWrapper({
           if (stocksRes.length !== 0) {
             setStockQuantity((prev) => ({
               ...prev,
-              page: page + 1,
+              page: prev.page + 1,
             }));
-            setStocks((prev) => [...prev, ...stocksRes]);
+            setStocks((prev) => {
+              const stockIds = new Set(
+                prev.map(({ stock }) => stock.stock_id),
+              );
+              const newStocks = stocksRes.filter(
+                ({ stock }: { stock: Stock }) =>
+                  !stockIds.has(stock.stock_id),
+              );
+              return [...prev, ...newStocks];
+            });
           }
           setIsLoading(false);
         })
@@ -49,6 +54,7 @@ export default function RequestWrapper({
         });
     }
   }
+
   /**
    * - initialInView: inView 초기값
    * - onChange: inView 상태가 변화할때 마다 실행되는 콜백함수
@@ -66,10 +72,39 @@ export default function RequestWrapper({
     }
   }, [userId, inView]);
 
+  useEffect(() => {
+    /**
+     * 임시 기획
+     *  - 페이지를 이동할 때 상태를 기억해두지 않고 초기화
+     *  - 그로 인해 페이지에 돌아왔을 때 데이터 호출을 처음부터 시도
+     */
+    return () => {
+      setStocks([]);
+      setStockQuantity({ page: 1, size: 17 });
+    };
+  }, []);
+
+  const handleDeleteInterest = async (stockId: UUID) => {
+    const status = await deleteInterestStock({
+      userId,
+      stockId: stockId as UUID,
+    });
+
+    if (status === 204) {
+      setStocks((prevStocks) =>
+        prevStocks.filter(({ stock }) => stock.stock_id !== stockId),
+      );
+    }
+  };
+
   return (
     <>
       <ThatGoAddInterest handleIsOpen={handleIsOpen} />
-      <ShowingInterest stocks={stocks} isLoading={isLoading} />
+      <ShowingInterest
+        stocks={stocks}
+        isLoading={isLoading}
+        handleDeleteInterest={handleDeleteInterest}
+      />
       <span ref={ref} />
     </>
   );

@@ -36,7 +36,7 @@ export async function GET(req: NextRequest) {
   const page = parseInt(url.searchParams.get('page') || '1', 10);
   const size = parseInt(url.searchParams.get('size') || '10', 10);
   const offset = (page - 1) * size;
-  console.log(userId, page, size, offset);
+
   const { data, statusText, error } = await supabase
     .from('interest_stock')
     .select('stock (*)')
@@ -47,4 +47,19 @@ export async function GET(req: NextRequest) {
   const response = statusText === 'OK' ? data : error;
 
   return NextResponse.json(response);
+}
+
+export async function DELETE(req: NextRequest) {
+  const supabase = createClient();
+  const url = new URL(req.url);
+  const userId = url.searchParams.get('userId');
+  const stockId = url.searchParams.get('stockId');
+
+  const { status } = await supabase
+    .from('interest_stock')
+    .delete()
+    .eq('user_id', userId)
+    .eq('stock_id', stockId);
+
+  return NextResponse.json(status);
 }

@@ -14,6 +14,7 @@ export default class AightnowClient {
     this.getInterestStock = this.getInterestStock.bind(this);
     this.getPopularStock = this.getPopularStock.bind(this);
     this.searchStock = this.searchStock.bind(this);
+    this.deleteInterestStock = this.deleteInterestStock.bind(this);
   }
 
   async loginLLM({ isServer = false }: { isServer?: boolean } = {}) {
@@ -195,6 +196,20 @@ export default class AightnowClient {
     });
   }
 
+  async deleteInterestStock({
+    userId,
+    stockId,
+  }: {
+    userId: UUID;
+    stockId: UUID;
+  }) {
+    const nextURL = `/api/stock/interest?userId=${userId}&stockId=${stockId}`;
+
+    return this.httpClient.delete({
+      url: nextURL,
+    });
+  }
+
   async getInterestStock({
     userId,
     page,
@@ -215,8 +230,16 @@ export default class AightnowClient {
     return this.httpClient.get({ url: nextURL });
   }
 
-  async searchStock({ searchText = '' }: { searchText?: string }) {
-    const nextURL = `/api/search/stock?searchText=${searchText}`;
+  async searchStock({
+    searchText = '',
+    userId,
+  }: {
+    searchText?: string;
+    userId?: UUID;
+  }) {
+    const nextURL = `/api/search/stock?searchText=${searchText}&userId=${
+      userId || ''
+    }`;
 
     return this.httpClient.get({ url: nextURL });
   }
