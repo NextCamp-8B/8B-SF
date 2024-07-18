@@ -25,7 +25,7 @@ export default function FindStock({
 
       if (response.ok) {
         const data = await response.json();
-        setStocksList(data.stocks);
+        setStocksList(data);
       }
     };
     const debounceTimeout: number = window.setTimeout(() => {
