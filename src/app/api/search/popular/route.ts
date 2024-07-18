@@ -5,7 +5,9 @@ export async function GET(request: Request) {
   const supabase = createClient();
   const { data: stocks, error } = await supabase
     .from('stock')
-    .select('stock_id, stock_name, stock_code')
+    .select(
+      'stock_id, stock_name, stock_code, fluctuations_ratio, compare_to_previous_close_price, price, logo_path',
+    )
     .order('view', { ascending: false });
 
   return new Response(JSON.stringify({ stocks: stocks }), {
