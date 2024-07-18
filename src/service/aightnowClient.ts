@@ -10,6 +10,7 @@ export default class AightnowClient {
     this.deleteRecentSearch = this.deleteRecentSearch.bind(this);
     this.getRecentSearch = this.getRecentSearch.bind(this);
     this.getRecentHome = this.getRecentHome.bind(this);
+    this.addInterestStock = this.addInterestStock.bind(this);
   }
 
   async loginLLM({ isServer = false }: { isServer?: boolean } = {}) {
@@ -171,5 +172,23 @@ export default class AightnowClient {
   async getImportantNews() {
     const nextURL = `/api/news/important`;
     return this.httpClient.get({ url: nextURL, isServer: true });
+  }
+
+  async addInterestStock({
+    userId,
+    stockId,
+  }: {
+    userId: UUID;
+    stockId: UUID;
+  }) {
+    const nextURL = `/api/stock/interest`;
+
+    return this.httpClient.post({
+      url: nextURL,
+      body: {
+        userId,
+        stockId,
+      },
+    });
   }
 }

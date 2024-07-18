@@ -4,6 +4,9 @@ import { useState } from 'react';
 import ThatGoAddInterest from './ThatGoAddInterest';
 import ShowingInterest from './ShowingInterest';
 import { useInView } from 'react-intersection-observer';
+import { useSession } from 'next-auth/react';
+import { businessAPI } from '@/service/apiInstance';
+import { UUID } from 'crypto';
 
 export default function RequestWrapper() {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,6 +16,10 @@ export default function RequestWrapper() {
     size: 17,
   });
   const { page, size } = stockQuantity;
+  const { addInterestStock } = businessAPI;
+  const { data } = useSession();
+  const userId = data?.user.id as UUID;
+  const stockId = '3fdeeebc-0ac4-47de-9468-77f44102932b';
 
   /**
    * @description
@@ -62,6 +69,9 @@ export default function RequestWrapper() {
 
   return (
     <>
+      <button onClick={() => addInterestStock({ userId, stockId })}>
+        테스트버튼
+      </button>
       <ThatGoAddInterest />
       <ShowingInterest stocks={stocks} isLoading={isLoading} />
       <span ref={ref} />
