@@ -1,6 +1,10 @@
 import ButtonBase from '../shared/buttons/ButtonBase';
 
-export default function ThatGoAddInterest() {
+export default function ThatGoAddInterest({
+  handleIsOpen,
+}: {
+  handleIsOpen: () => void;
+}) {
   const name = '최석호';
 
   return (
@@ -13,6 +17,7 @@ export default function ThatGoAddInterest() {
         py-2 rounded-lg min-w-[189px] hover:bg-opacity-90 
         active:bg-opacity-95 text-grayscale-0 bg-primary-900 
         hover:opacity-90 active:opacity-95`}
+        onClick={handleIsOpen}
       >
         관심종목 추가
       </ButtonBase>

@@ -1,5 +1,3 @@
-'use client';
-
 import { useState } from 'react';
 import ThatGoAddInterest from './ThatGoAddInterest';
 import ShowingInterest from './ShowingInterest';
@@ -8,7 +6,11 @@ import { useSession } from 'next-auth/react';
 import { businessAPI } from '@/service/apiInstance';
 import { UUID } from 'crypto';
 
-export default function RequestWrapper() {
+export default function RequestWrapper({
+  handleIsOpen,
+}: {
+  handleIsOpen: () => void;
+}) {
   const [isLoading, setIsLoading] = useState(false);
   const [stocks, setStocks] = useState<Array<any>>([]);
   const [stockQuantity, setStockQuantity] = useState({
@@ -16,7 +18,7 @@ export default function RequestWrapper() {
     size: 17,
   });
   const { page, size } = stockQuantity;
-  const { addInterestStock } = businessAPI;
+  const { getInterestStock } = businessAPI;
   const { data } = useSession();
   const userId = data?.user.id as UUID;
   const stockId = '3fdeeebc-0ac4-47de-9468-77f44102932b';
@@ -69,10 +71,15 @@ export default function RequestWrapper() {
 
   return (
     <>
-      <button onClick={() => addInterestStock({ userId, stockId })}>
+      <button
+        onClick={async () => {
+          const data = await getInterestStock({ userId });
+          console.log(data);
+        }}
+      >
         테스트버튼
       </button>
-      <ThatGoAddInterest />
+      <ThatGoAddInterest handleIsOpen={handleIsOpen} />
       <ShowingInterest stocks={stocks} isLoading={isLoading} />
       <span ref={ref} />
     </>
