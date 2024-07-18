@@ -9,5 +9,5 @@ export const compareToZero = (number: number) => {
 };
 
 export const formattingPrice = (number: number) => {
-  return Number(number.toFixed(2)).toLocaleString();
+  return number.toFixed(2).toLocaleString();
 };
