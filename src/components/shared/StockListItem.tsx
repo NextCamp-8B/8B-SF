@@ -9,8 +9,30 @@ import { UUID } from 'crypto';
 
 export type StockListItemProps = {
   stock: Stock;
-  type?: 'related' | 'find' | 'default' | 'report' | 'description';
+  type?:
+    | 'related'
+    | 'find'
+    | 'default'
+    | 'report'
+    | 'description'
+    | 'popular'
+    | 'interest';
 };
+
+const nameToKO = {
+  Unity: '유니티',
+  Tesla: '테슬라',
+  Amazon: '아마존',
+  Google: '구글',
+  MS: '마이크로소프트',
+  Apple: '애플',
+} as const;
+
+type StockNames = keyof typeof nameToKO;
+
+function getKoreanName(stockName: StockNames): string {
+  return nameToKO[stockName];
+}
 
 export default function StockListItem({
   stock,
@@ -221,6 +243,82 @@ export default function StockListItem({
               compare === 'up' ? '▲' : compare === 'equal' ? '' : '▼'
             }${Math.abs(cp).toFixed(2)}`}</span>
             <span>
+              {compare === 'up' && '+'}
+              {(fluctuations_ratio * 100).toFixed(2)}%
+            </span>
+          </div>
+        </div>
+      )}
+      {type === 'popular' && (
+        <Link
+          href={`/stock/${stock_id}`}
+          className="cursor-pointer group w-[302px]"
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <StockIcon size="small" path={logo_path} />
+              <span
+                className={`b4 font-medium text-grayscale-600 group-hover:underline`}
+              >
+                {getKoreanName(stock_name as StockNames)}
+              </span>
+            </div>
+
+            <div
+              className={`flex gap-2 b5 font-normal
+              ${
+                compare === 'up'
+                  ? 'text-warning-100'
+                  : compare === 'equal'
+                  ? ''
+                  : 'text-secondary-600'
+              }
+              `}
+            >
+              <span>{`${
+                compare === 'up'
+                  ? '▲'
+                  : compare === 'equal'
+                  ? ''
+                  : '▼'
+              }${Math.abs(cp).toFixed(2)}`}</span>
+              <span>
+                {compare === 'up' && '+'}
+                {(fluctuations_ratio * 100).toFixed(2)}%
+              </span>
+            </div>
+          </div>
+        </Link>
+      )}
+      {type === 'interest' && (
+        <div className="w-full">
+          <div className="flex items-center gap-2">
+            <StockIcon path={logo_path} size="small" />
+            <div className="flex gap-2 items-center">
+              <span className="b1 font-bold">
+                {getKoreanName(stock_name as StockNames)}
+              </span>
+              <span className="b3 font-normal">{stock_code}</span>
+            </div>
+          </div>
+          <div
+            className={`flex gap-2 
+              ${
+                compare === 'up'
+                  ? 'text-warning-100'
+                  : compare === 'equal'
+                  ? ''
+                  : 'text-secondary-600'
+              }
+              caption`}
+          >
+            <span className={`b4 font-medium text-grayscale-900`}>
+              ${formattingPrice(price)}
+            </span>
+            <span className={`b4 font-normal`}>{`${
+              compare === 'up' ? '▲' : compare === 'equal' ? '' : '▼'
+            }${Math.abs(cp).toFixed(2)}`}</span>
+            <span className={`b4 font-normal`}>
               {compare === 'up' && '+'}
               {(fluctuations_ratio * 100).toFixed(2)}%
             </span>

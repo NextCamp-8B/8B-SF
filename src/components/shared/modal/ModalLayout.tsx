@@ -8,11 +8,13 @@ export default function ModalLayout({
   isOpen,
   handleIsOpen,
   children,
+  width,
 }: {
   title: string;
   isOpen: boolean;
   handleIsOpen: () => void;
   children: React.ReactNode;
+  width?: string;
 }) {
   const { focusRef } = useFocusTrap(isOpen);
 
@@ -26,7 +28,7 @@ export default function ModalLayout({
         ref={focusRef}
         className={`p-10 fixed top-2/4 left-2/4 z-50 
         bg-grayscale-0 translate-center 
-        border-none rounded-[32px] shadow-md max-w-[714px]`}
+        border-none rounded-[32px] shadow-md ${width}`}
       >
         <div className="flex justify-between items-center mb-6">
           <div className="flex-1 flex justify-center">

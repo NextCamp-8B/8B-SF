@@ -195,8 +195,16 @@ export default class AightnowClient {
     });
   }
 
-  async getInterestStock({ userId }: { userId: UUID }) {
-    const nextURL = `/api/stock/interest?userId=${userId}`;
+  async getInterestStock({
+    userId,
+    page,
+    size,
+  }: {
+    userId: UUID;
+    page: string | number;
+    size: string | number;
+  }) {
+    const nextURL = `/api/stock/interest?userId=${userId}&page=${page}&size=${size}`;
 
     return this.httpClient.get({ url: nextURL });
   }

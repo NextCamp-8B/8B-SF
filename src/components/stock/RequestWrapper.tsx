@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ThatGoAddInterest from './ThatGoAddInterest';
 import ShowingInterest from './ShowingInterest';
-import { useInView } from 'react-intersection-observer';
+import { InView, useInView } from 'react-intersection-observer';
 import { useSession } from 'next-auth/react';
 import { businessAPI } from '@/service/apiInstance';
 import { UUID } from 'crypto';
+import { Stock } from '@/types/stock';
 
 export default function RequestWrapper({
   handleIsOpen,
@@ -12,7 +13,7 @@ export default function RequestWrapper({
   handleIsOpen: () => void;
 }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [stocks, setStocks] = useState<Array<any>>([]);
+  const [stocks, setStocks] = useState<Array<Stock>>([]);
   const [stockQuantity, setStockQuantity] = useState({
     page: 1,
     size: 17,
@@ -21,7 +22,6 @@ export default function RequestWrapper({
   const { getInterestStock } = businessAPI;
   const { data } = useSession();
   const userId = data?.user.id as UUID;
-  const stockId = '3fdeeebc-0ac4-47de-9468-77f44102932b';
 
   /**
    * @description
@@ -32,25 +32,21 @@ export default function RequestWrapper({
     if (!isLoading) {
       setIsLoading(true);
 
-      try {
-        fetch(
-          `https://jsonplaceholder.typicode.com/posts?_page=${page}&_limit=${size}`,
-        )
-          .then((res) => res.json())
-          .then((stocksRes) => {
-            if (stocksRes.length !== 0) {
-              setStockQuantity((prev) => ({
-                ...prev,
-                page: page + 1,
-              }));
-              setStocks((prev) => [...prev, ...stocksRes]);
-            }
-            setIsLoading(false);
-          });
-      } catch (e) {
-        console.error(`Request: ${e}`);
-        setIsLoading(false);
-      }
+      getInterestStock({ userId, page, size })
+        .then((stocksRes) => {
+          if (stocksRes.length !== 0) {
+            setStockQuantity((prev) => ({
+              ...prev,
+              page: page + 1,
+            }));
+            setStocks((prev) => [...prev, ...stocksRes]);
+          }
+          setIsLoading(false);
+        })
+        .catch((e) => {
+          setIsLoading(false);
+          console.error(e);
+        });
     }
   }
   /**
@@ -59,26 +55,19 @@ export default function RequestWrapper({
    * - threshold: Target Element가 얼마나 보였을때 노출됐다 판단 비율
    * - triggerOnce: Observer가 딱 한 번만 실행
    */
-  const { ref } = useInView({
+  const { ref, inView } = useInView({
     initialInView: true,
     threshold: 0.1,
-    onChange(inView) {
-      if (inView) {
-        getInterest();
-      }
-    },
   });
+
+  useEffect(() => {
+    if (userId && inView) {
+      getInterest();
+    }
+  }, [userId, inView]);
 
   return (
     <>
-      <button
-        onClick={async () => {
-          const data = await getInterestStock({ userId });
-          console.log(data);
-        }}
-      >
-        테스트버튼
-      </button>
       <ThatGoAddInterest handleIsOpen={handleIsOpen} />
       <ShowingInterest stocks={stocks} isLoading={isLoading} />
       <span ref={ref} />

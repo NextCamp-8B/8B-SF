@@ -49,22 +49,15 @@ const radarData = [
 const btnCommonClass =
   'b4 font-normal px-[43px] py-4 rounded-lg min-w-[160px] hover:bg-opacity-90 active:bg-opacity-95';
 
-export default function SpecificStockAIReport() {
-  const stockTmp: Stock = {
-    stock_id: 'tmp',
-    stock_name: '애플',
-    stock_code: 'AAPL',
-    logo_path:
-      'https://zlxqxgiycccjxcwzonsx.supabase.co/storage/v1/object/public/8b-sf/stock_logo/apple_logo.svg',
-    fluctuations_ratio: 0.6,
-    price: 15,
-    compare_to_previous_close_price: -20,
-  };
-
+export default function SpecificStockAIReport({
+  stock,
+}: {
+  stock: Stock;
+}) {
   return (
     <Rechart className={'w-[328px] pb-4'}>
       <div className="flex flex-col gap-4">
-        <StockListItem stock={stockTmp} type="related" />
+        <StockListItem stock={stock} type="interest" />
         <StockAIReportChart
           radarData={radarData}
           radarStatus={radarStatus}

@@ -6,6 +6,11 @@ import Popular from '@/components/stock/interest/Popular';
 import { useCallback, useEffect, useState } from 'react';
 import { businessAPI } from '@/service/apiInstance';
 import useDebounce from '@/hooks/useDebounce';
+import { Stock } from '@/types/stock';
+import { useSession } from 'next-auth/react';
+import { UUID } from 'crypto';
+import { useGetPopular } from '@/hooks/useGetPopular';
+import { useGetRecent } from '@/hooks/useGetRecent';
 
 export default function ModalAddInterest({
   isOpen,
@@ -16,9 +21,12 @@ export default function ModalAddInterest({
 }) {
   const [searched, setSearched] = useState([]);
   const [searchText, setSearchText] = useState('');
+  const { searchStock, getRecentSearch } = businessAPI;
+  const { data } = useSession();
+  const userId = data?.user.id as UUID;
+  const { popularStocks } = useGetPopular();
+  const { recentStocks } = useGetRecent({ userId });
   const debouncedSearchText = useDebounce(searchText, 1000);
-  const { searchStock } = businessAPI;
-
   const fetchSearchResults = useCallback(
     (text: string) => {
       if (text) {
@@ -43,6 +51,7 @@ export default function ModalAddInterest({
       title="관심 종목 추가"
       isOpen={isOpen}
       handleIsOpen={handleIsOpen}
+      width="w-[794px]"
     >
       <InputSet.Search
         onSubmit={fetchSearchResults}
@@ -54,8 +63,8 @@ export default function ModalAddInterest({
         <Searched />
       ) : (
         <>
-          <Recent />
-          <Popular />
+          <Recent recentStocks={recentStocks} />
+          <Popular popularStocks={popularStocks} />
         </>
       )}
     </ModalLayout>

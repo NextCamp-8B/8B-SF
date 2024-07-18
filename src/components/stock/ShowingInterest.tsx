@@ -14,9 +14,9 @@ export default function ShowingInterest({
 }) {
   return (
     <section className="flex flex-wrap gap-[19px]">
-      {stocks.map((stock, i) => (
+      {stocks.map(({ stock }, i) => (
         <Chart key={i}>
-          <Chart.SpecificStockAIReport />
+          <Chart.SpecificStockAIReport stock={stock} />
         </Chart>
       ))}
       {isLoading && (

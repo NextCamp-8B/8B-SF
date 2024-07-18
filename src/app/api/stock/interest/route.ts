@@ -31,12 +31,19 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   const supabase = createClient();
-  const userId = new URL(req.url).searchParams.get('userId');
+  const url = new URL(req.url);
+  const userId = url.searchParams.get('userId');
+  const page = parseInt(url.searchParams.get('page') || '1', 10);
+  const size = parseInt(url.searchParams.get('size') || '10', 10);
+  const offset = (page - 1) * size;
+  console.log(userId, page, size, offset);
   const { data, statusText, error } = await supabase
-    .from(`interest_stock`)
-    .select(`stock (*)`)
-    .eq(`user_id`, userId)
-    .order(`created_at`, { ascending: false });
+    .from('interest_stock')
+    .select('stock (*)')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false })
+    .range(offset, offset + size - 1);
+
   const response = statusText === 'OK' ? data : error;
 
   return NextResponse.json(response);
