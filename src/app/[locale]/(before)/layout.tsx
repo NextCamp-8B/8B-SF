@@ -1,11 +1,18 @@
 import Logo from '@/assets/logos/logo_dark.svg';
+import { auth as getSession } from '@/auth';
 import Link from 'next/link';
-export default function BeforeLayout({
+import { redirect } from 'next/navigation';
+export default async function BeforeLayout({
   children,
 }: // modal,
 Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getSession();
+
+  if (session && new Date(session.expires) > new Date()) {
+    redirect('/home');
+  }
   return (
     <div
       className={`w-full min-h-dvh bg-background-100 pt-32 pb-20 px-14 text-grayscale-900 flex justify-center`}

@@ -91,11 +91,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signIn: '/login',
     error: '/ko/login/error', // 커스텀 에러 페이지 설정
   },
-  session: {
-    strategy: 'jwt',
-    maxAge: 24 * 60 * 60, // 기본 세션 유지 시간 (1일)
-    updateAge: 24 * 60 * 60, // 세션 갱신 주기 (1일)
-  },
   callbacks: {
     async signIn({ user, account }: any): Promise<any> {
       // console.log(
@@ -217,6 +212,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.accessToken = user.accessToken;
         token.refreshToken = user.refreshToken;
         token.autoLogin = user?.autoLogin;
+        // // JWT 만료 시간 설정
+        const expiresIn =
+          user.autoLogin === 'true' ? 30 * 24 * 60 * 60 : 1; // 30일 또는 1초
+        token.exp = Math.floor(Date.now() / 1000) + expiresIn;
       }
 
       if (trigger === 'update' && session !== null) {
@@ -248,12 +247,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // 세션에 사용자 정보를 추가
       // console.log('--------------session-------------');
       // console.log('token :', token.autoLogin);
-      if (token.autoLogin) {
-        // 자동 로그인 시 세션 만료 시간 연장
-        session.maxAge = 30 * 24 * 60 * 60; // 30일
-      } else {
-        session.maxAge = 24 * 60 * 60; // 1일
-      }
       if (token) {
         session.user.id = token.id;
         session.user.userId = token.userId;
@@ -270,8 +263,34 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.accessToken = token.accessToken;
         session.user.refreshToken = token.refreshToken;
       }
+      // 자동회원 30일, 기본 1일
+      const oneDayInMilliseconds = 24 * 60 * 60 * 1000; // 1일 86,400,000 밀리초
+      const thirtyDaysInMilliseconds = 30 * oneDayInMilliseconds; // 30일
+      const oneDayInSeconds = 24 * 60 * 60; // 1일 = 86,400 초
+      const thirtyDaysInSeconds = 30 * 24 * 60 * 60; // 30일
 
-      // console.log('-----result session0---------:', session);
+      const expiresIn =
+        token.autoLogin === 'true'
+          ? thirtyDaysInMilliseconds
+          : oneDayInMilliseconds;
+      const maxAge =
+        token.autoLogin === 'true'
+          ? thirtyDaysInSeconds
+          : oneDayInSeconds;
+
+      session.expires = new Date(
+        Date.now() + expiresIn,
+      ).toISOString();
+
+      session.maxAge = maxAge;
+
+      // console.log(
+      //   '-----result session0---------:',
+      //   token.autoLogin,
+      //   token.autoLogin === 'true',
+      //   session.expires,
+      //   session.maxAge,
+      // );
       return session;
     },
     redirect: async ({ url, baseUrl }) => {
