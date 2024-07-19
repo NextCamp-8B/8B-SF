@@ -9,7 +9,7 @@ export default function ReportWrapper({
   stocks: Array<Stock>;
 }) {
   return (
-    <ul className="flex justify-between w-full">
+    <ul className="flex w-full gap-5">
       {stocks.map(
         (stock, i) =>
           i < 3 && (
