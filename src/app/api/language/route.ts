@@ -33,7 +33,10 @@ export async function POST(request: NextRequest) {
     if (authError) {
       throw authError;
     }
-    return NextResponse.json({ data }, { status: 200 });
+    const response = NextResponse.json({ data }, { status: 200 });
+    // NEXT_LOCALE 쿠키 설정
+    response.cookies.set('NEXT_LOCALE', language, { path: '/' });
+    return response;
   } catch (error) {
     return NextResponse.json(
       { error: '언어 설정 중 오류 발생했습니다.' },

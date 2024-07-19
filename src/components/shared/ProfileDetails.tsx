@@ -72,7 +72,7 @@ export default function ProfileDetails({
             className="border border-grayscale-400 b4 font-normal placeholder-grayscale-400 p-4 rounded-lg"
             placeholder={t('MyPage.placeholder_stock')}
           />
-          {options.length > 0 && stock.length > 0 && (
+          {options?.length > 0 && stock.length > 0 && (
             <CompositeDropdown.Panel
               onClick={handleSelected}
               handleOptionsKey={handleOptionsKey}

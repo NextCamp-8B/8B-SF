@@ -125,7 +125,6 @@ export default function UserAccountEdit({
     <>
       {/* 회원 탈퇴 */}
       {isSocial ? <SocialWithdrawal user={user} /> : <Withdrawal />}
-
       <ModalWrapper
         onClose={handleCloseAccountModal}
         isOpen={isUserAccountdit}

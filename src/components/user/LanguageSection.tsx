@@ -8,15 +8,18 @@ import { useRouter } from 'next/navigation';
 import AuthPopup from '../signup/Popup';
 import usePopupStore from '@/store/userPopup';
 import { useTranslations } from 'next-intl';
+import LoadingSpinnerWrapper from '../shared/LoadingSpinnerWrapper';
+import SkeletonLanguageSection from '../skeleton/mypage/SkeletonLanguage';
 
 export default function LanguageSection() {
   const t = useTranslations('MyPage');
   const router = useRouter();
   const [selectedLanguage, setSelectedLanguage] =
     useState<Locale>('ko');
-  const { user, update } = useSessionData();
+  const { user, update, loading } = useSessionData();
   const { isShowPopup, popupMsg, hidePopup, showPopup } =
     usePopupStore();
+  const [isLoading, setIsLoading] = useState(false);
 
   // 초기 언어 값 설정
   useEffect(() => {
@@ -26,6 +29,7 @@ export default function LanguageSection() {
   }, [user]);
 
   const handleLanguageChange = async (language: Locale) => {
+    setIsLoading(true);
     setSelectedLanguage(language);
 
     // 서버에 요청 보내기
@@ -38,21 +42,24 @@ export default function LanguageSection() {
       method: 'POST',
       body: formData,
     });
-    try {
-      if (response.ok) {
-        const { data } = await response.json();
-        await update({ ...data.user.user_metadata });
-        router.replace(`/${language}/user/language`);
-      } else {
-        showPopup(
-          t('languageSettingError.error'),
-          t('languageSettingError.message'),
-        );
-      }
-    } catch (error: any) {
-      showPopup(t('languageSettingError.error'), error);
+    if (response.ok) {
+      const { data } = await response.json();
+      await update({ ...data.user.user_metadata });
+      setSelectedLanguage(language);
+      router.replace(`/${language}/user/language`);
+      router.refresh();
+    } else {
+      showPopup(
+        t('languageSettingError.error'),
+        t('languageSettingError.message'),
+      );
     }
+    setIsLoading(false);
   };
+
+  if (loading) {
+    return <SkeletonLanguageSection />;
+  }
   return (
     <>
       {isShowPopup && (
@@ -63,33 +70,35 @@ export default function LanguageSection() {
           errorMessage={popupMsg.msg}
         />
       )}
-      <SectionBox
-        title={t('languages')}
-        description={t('languages_content')}
-      />
-      <div className="flex gap-4 flex-wrap">
-        {/* language 버튼 */}
-        <LanguageButton.Kr
-          checked={selectedLanguage === 'ko'}
-          onClick={() => handleLanguageChange('ko')}
+      <LoadingSpinnerWrapper isLoading={isLoading}>
+        <SectionBox
+          title={t('languages')}
+          description={t('languages_content')}
         />
-        <LanguageButton.Us
-          checked={selectedLanguage === 'en'}
-          onClick={() => handleLanguageChange('en')}
-        />
-        <LanguageButton.Cn
-          checked={selectedLanguage === 'zh'}
-          onClick={() => handleLanguageChange('zh')}
-        />
-        <LanguageButton.Jp
-          checked={selectedLanguage === 'ja'}
-          onClick={() => handleLanguageChange('ja')}
-        />
-        <LanguageButton.Fr
-          checked={selectedLanguage === 'fr'}
-          onClick={() => handleLanguageChange('fr')}
-        />
-      </div>
+        <div className="flex gap-4 flex-wrap">
+          {/* language 버튼 */}
+          <LanguageButton.Kr
+            checked={selectedLanguage === 'ko'}
+            onClick={() => handleLanguageChange('ko')}
+          />
+          <LanguageButton.Us
+            checked={selectedLanguage === 'en'}
+            onClick={() => handleLanguageChange('en')}
+          />
+          <LanguageButton.Cn
+            checked={selectedLanguage === 'zh'}
+            onClick={() => handleLanguageChange('zh')}
+          />
+          <LanguageButton.Jp
+            checked={selectedLanguage === 'ja'}
+            onClick={() => handleLanguageChange('ja')}
+          />
+          <LanguageButton.Fr
+            checked={selectedLanguage === 'fr'}
+            onClick={() => handleLanguageChange('fr')}
+          />
+        </div>
+      </LoadingSpinnerWrapper>
     </>
   );
 }

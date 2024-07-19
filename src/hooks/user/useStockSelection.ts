@@ -1,5 +1,20 @@
 import { useEffect, useState } from 'react';
 import { SelectedOption } from '@/components/shared/dropdown/types';
+type Stock = {
+  compare_to_previous_close_price: number;
+  description_en: string;
+  description_fr: string;
+  description_ja: string;
+  description_ko: string;
+  description_zh: string;
+  fluctuations_ratio: number;
+  logo_path: string;
+  price: number;
+  stock_code: string;
+  stock_id: string;
+  stock_name: string;
+  view: number;
+};
 
 export const useStockSelection = (initialStock = '') => {
   const [stock, setStock] = useState(initialStock);
@@ -15,10 +30,11 @@ export const useStockSelection = (initialStock = '') => {
 
       if (response.ok) {
         const data = await response.json();
-        const newStockOptions = data.stocks.map((stock: any) => ({
+        const newStockOptions = data?.map((stock: Stock) => ({
           value: stock.stock_code,
           text: stock.stock_name,
         }));
+
         setOptions(newStockOptions);
       }
     };

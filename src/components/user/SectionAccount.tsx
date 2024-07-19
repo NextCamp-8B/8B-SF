@@ -17,7 +17,8 @@ export default function SectionAccount({
   isSocial,
 }: SectionAccount) {
   const t = useTranslations();
-  const { openModal } = myPageStore();
+  const { openModal, isPasswordCheck, isUserAccountdit } =
+    myPageStore();
 
   const handlePwCheckModal = () => {
     if (isSocial) {
@@ -42,9 +43,11 @@ export default function SectionAccount({
 
   return (
     <>
-      {!isSocial && <CheckPassword />}
-      <UserAccountEdit user={user} isSocial={isSocial} />
+      {isUserAccountdit && (
+        <UserAccountEdit user={user} isSocial={isSocial} />
+      )}
       <MyPageSection className="mt-14">
+        {!isSocial && isPasswordCheck && <CheckPassword />}
         <CommonSection
           title={t('MyPage.edit_account_title')}
           description={t('MyPage.edit_account_content')}

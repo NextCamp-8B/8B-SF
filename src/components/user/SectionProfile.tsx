@@ -12,13 +12,13 @@ type SectionProfile = {
 
 export default function SectionProfile({ user }: SectionProfile) {
   const t = useTranslations();
-  const { openModal } = myPageStore();
+  const { openModal, isProfileSetup } = myPageStore();
 
   const handleProfileEdit = () => openModal('isProfileSetup');
 
   return (
     <>
-      <ProfileUpdate user={user} />
+      {isProfileSetup && <ProfileUpdate user={user} />}
       <MyPageSection>
         <CommonSection
           title={t('MyPage.edit_profile_title')}

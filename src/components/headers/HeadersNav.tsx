@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Logo from '@/assets/logos/logo_dark.svg';
-import TextButton from '../shared/buttons/TextButton';
 import { getLocale, getTranslations } from 'next-intl/server';
+import SignOutButton from '../user/SignoutButton';
 
 export default async function HeadersNav() {
   const t = await getTranslations('Header');
@@ -58,11 +58,7 @@ export default async function HeadersNav() {
             </div>
           </div>
           <div className="w-[160px] flex ml-auto ">
-            <Link href="/">
-              <TextButton.Light size="hf">
-                {t('logout')}
-              </TextButton.Light>
-            </Link>
+            <SignOutButton> {t('logout')}</SignOutButton>
           </div>
         </div>
       </div>
