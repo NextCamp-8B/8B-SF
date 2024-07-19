@@ -1,5 +1,7 @@
 import { createClient } from '@/utils/supabase/server';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 
 export async function GET(
   req: Request,
@@ -24,7 +26,6 @@ export async function PATCH(
   const ip = req.headers.get('X-Forwarded-For');
   const id = params.id;
   const supabase = createClient();
-
   const { data: ipLog } = await supabase
     .from('news_iplog')
     .select('viewed_at')
