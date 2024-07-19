@@ -18,11 +18,13 @@ import { useImageUpload } from '@/hooks/user/useImageUpload';
 import { useStockSelection } from '@/hooks/user/useStockSelection';
 import { User } from 'next-auth';
 import { stockList } from '@/constants';
+import { useTranslations } from 'next-intl';
 
 type ProfileUpdate = {
   user: User;
 };
 export default function ProfileUpdate({ user }: ProfileUpdate) {
+  const t = useTranslations();
   const { closeAllModals, isProfileSetup } = myPageStore();
 
   const {
@@ -117,7 +119,7 @@ export default function ProfileUpdate({ user }: ProfileUpdate) {
       <Wrapper padding="px-24 py-20" width="w-[590px]">
         <div className="flex flex-col justify-start w-[386px] h-full">
           <h3 className="h3 font-bold text-center mb-8 text-primary-900">
-            프로필 수정
+            {t('MyPage.edit_profile')}
           </h3>
           {/* 수정 성공/에러 메시지 팝업 */}
           {isShowPopup && (
@@ -143,7 +145,7 @@ export default function ProfileUpdate({ user }: ProfileUpdate) {
               selectedDataset={selectedDataset}
               handleSelected={handleSelected}
               handleOptionsKey={handleOptionsKey}
-              buttonText="수정하기"
+              buttonText={t('MyPage.edit')}
             />
           </LoadingSpinnerWrapper>
         </div>

@@ -11,9 +11,11 @@ import usePopupStore from '@/store/userPopup';
 import { useImageUpload } from '@/hooks/user/useImageUpload';
 import { useStockSelection } from '@/hooks/user/useStockSelection';
 import { stockList } from '@/constants';
+import { useTranslations } from 'next-intl';
 
 // 마이페이지 설정에서 모달 과 회원가입 페이지에서 사용
 export default function ProfileSetup() {
+  const t = useTranslations();
   const { clearUser } = useUserStore();
   const [isLoading, setIsLoading] = useState(false); //api 로딩 체크
   const { value, onChangeInputValue } = useInputChange(); //Input 관리
@@ -91,8 +93,8 @@ export default function ProfileSetup() {
       setPageStep('welcome');
     } else {
       showPopup(
-        '회원가입 오류',
-        '죄송합니다. 오류가 발생했습니다. 회원가입을 처음부터 다시 시도하시거나, 고객센터에 문의해주세요.',
+        t('SignUp.sign_up_failed_title'),
+        t('SignUp.sign_up_failed_content'),
       );
     }
     setIsLoading(false);
@@ -112,7 +114,7 @@ export default function ProfileSetup() {
       <Wrapper padding="px-24 py-20" width="w-[590px]">
         <div className="flex flex-col justify-start w-[386px] h-full">
           <h3 className="h3 font-bold text-center mb-8 text-primary-900">
-            프로필 설정
+            {t('SignUp.setting_profile')}
           </h3>
           <LoadingSpinnerWrapper isLoading={isLoading}>
             <ProfileDetails
@@ -129,7 +131,7 @@ export default function ProfileSetup() {
               handleSelected={handleSelected}
               handleOptionsKey={handleOptionsKey}
               onHandleSubmit={onHandleSubmit}
-              buttonText="가입하기"
+              buttonText={t('SignUp.sign_up_btn')}
             />
           </LoadingSpinnerWrapper>
         </div>

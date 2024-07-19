@@ -9,8 +9,10 @@ import { useCheckPassword } from '@/hooks/user/useCheckPw';
 import AuthPopup from '../signup/Popup';
 import usePopupStore from '@/store/userPopup';
 import myPageStore from '@/store/myPageStore';
+import { useTranslations } from 'next-intl';
 
 export default function CheckPassword() {
+  const t = useTranslations();
   const { value, onChangeInputValue } = useInputChange();
   const [isSubmit, setIsSubmit] = useState(false); // 폼 submit
   const [isFormValid, setIsFormValid] = useState(false); //폼 유효성 체크
@@ -57,7 +59,7 @@ export default function CheckPassword() {
     >
       <Wrapper padding="px-24 py-20" width="w-[590px]">
         <h3 className="h3 font-bold text-center text-primary-900 mb-8">
-          비밀번호 인증
+          {t('MyPage.password_authentication')}
         </h3>
         {/*성공/에러 메시지 팝업 */}
         {isShowPopup && (
@@ -81,7 +83,7 @@ export default function CheckPassword() {
               onClick={onHandleSubmit}
               className="w-full mt-8"
             >
-              확인
+              {t('MyPage.confirm')}
             </TextButton>
           </InputSet>
         </form>

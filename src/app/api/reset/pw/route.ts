@@ -52,8 +52,9 @@ export async function POST(req: NextRequest) {
         {
           error:
             error.code === 'same_password'
-              ? '이전 비밀번호와 동일합니다.\n다른 비밀번호를 입력해주세요.'
-              : '비밀번호 변경에 실패했습니다.\n 입력한 내용을 다시 확인해주세요.',
+              ? 'same_password'
+              : 'update_failed',
+
           refreshToken: sessionData?.session?.refresh_token,
         },
         { status: 500 },
@@ -68,8 +69,8 @@ export async function POST(req: NextRequest) {
       {
         error:
           error.status === 400 || error.status === 422
-            ? '인증 시간이 만료되었습니다. \n 비밀번호 변경을 처음부터 시도해주세요.'
-            : '비밀번호 변경에 실패했습니다.\n 입력한 내용을 다시 확인해주세요.',
+            ? 'expired'
+            : 'update_failed',
       },
       { status: 500 },
     );

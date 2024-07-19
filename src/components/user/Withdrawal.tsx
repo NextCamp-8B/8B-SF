@@ -18,12 +18,13 @@ import LoadingSpinnerWrapper from '../shared/LoadingSpinnerWrapper';
 import { conceptMap } from '../shared/input/inputConfig';
 import ConfirmCancelPopup from './ConfirmCanclePopup';
 import CompositeInput from '../shared/input/CompositeInput';
-import { withdrawalOptions } from '@/constants';
 import { useCheckPassword } from '@/hooks/user/useCheckPw';
 import { signOut } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 
 // 회원탈퇴
 export default function Withdrawal() {
+  const t = useTranslations('MyPage');
   const { value, onChangeInputValue } = useInputChange();
   const [isLoading, setIsLoading] = useState(false); //api 로딩 체크
   const [isSubmit, setIsSubmit] = useState(false); // 폼 submit
@@ -83,8 +84,8 @@ export default function Withdrawal() {
     if (isValid) {
       // 유저가 확인 누를시 handleConfirmWithdrawal 회원탈퇴 api 요청
       showConfirmPopup(
-        '회원탈퇴 경고',
-        '탈퇴 후 7일간 가입하신 이메일로\n재가입이 불가합니다. 정말 탈퇴하시겠습니까?',
+        t('accountDeletionMessages.warningTitle'),
+        t('accountDeletionMessages.warningMessage'),
       );
     }
     setIsLoading(false);
@@ -111,8 +112,8 @@ export default function Withdrawal() {
       await signOut({ callbackUrl: data?.redirectTo });
     } else {
       showPopup(
-        '회원탈퇴 오류',
-        '오류가 발생했습니다. 다시 시도하시거나, 고객센터에 문의해주세요.',
+        t('accountDeletionMessages.errorTitle'),
+        t('accountDeletionMessages.errorMessage'),
       );
     }
     setIsLoading(false);
@@ -121,6 +122,34 @@ export default function Withdrawal() {
   const handleSelected = (value: SelectedOption) => {
     setReason(value.text);
   };
+
+  const withdrawalOptions: SelectedOption[] = [
+    {
+      value: 'reason1',
+      text: t('reason_1'),
+      selected: false,
+    },
+    {
+      value: 'reason2',
+      text: t('reason_2'),
+      selected: false,
+    },
+    {
+      value: 'reason3',
+      text: t('reason_3'),
+      selected: false,
+    },
+    {
+      value: 'reason4',
+      text: t('reason_4'),
+      selected: false,
+    },
+    {
+      value: 'reason5',
+      text: t('reason_5'),
+      selected: false,
+    },
+  ];
 
   return (
     <ModalWrapper
@@ -148,7 +177,7 @@ export default function Withdrawal() {
       <LoadingSpinnerWrapper isLoading={isLoading}>
         <Wrapper padding="px-24 py-20" width="w-[590px]">
           <h3 className="h3 font-bold text-center text-primary-900 mb-8">
-            회원 탈퇴
+            {t('delete_account')}
           </h3>
           <form
             className="flex flex-col justify-start w-[386px] h-full"
@@ -156,18 +185,18 @@ export default function Withdrawal() {
           >
             <InputSet className="flex flex-col gap-2">
               <Dropdown.Default
-                label="탈퇴 사유"
+                label={t('delete_account_reason')}
                 initialOptions={withdrawalOptions}
                 selectOption={handleSelected}
               />
-              {reason === '기타' && (
+              {reason === t('reason_5') && (
                 <CompositeInput.Input
                   id="stock"
                   type="text"
                   value={etc}
                   onChange={(e) => setEtc(e.target.value)}
                   className="border border-grayscale-400 b4 font-normal placeholder-grayscale-400 p-4 rounded-lg"
-                  placeholder="#회원 탈퇴 사유를 입력해주세요"
+                  placeholder={t('placeholder_deleted_reason')}
                 />
               )}
               <InputSet.Validated
@@ -178,7 +207,9 @@ export default function Withdrawal() {
                 isSubmit={isSubmit}
               />
             </InputSet>
-            <TextButton className="w-full mt-8">회원탈퇴</TextButton>
+            <TextButton className="w-full mt-8">
+              {t('delete_account')}
+            </TextButton>
           </form>
         </Wrapper>
       </LoadingSpinnerWrapper>

@@ -16,6 +16,13 @@
     "signup": "Inscrivez-vous à Aightnow",
     "or": "ou"
   },
+  "LoginError": {
+    "error_occurred": "Une erreur de connexion est survenue.",
+    "access_denied": "Cet email est déjà utilisé ou appartient à un utilisateur désinscrit.",
+    "session_expired": "La session a expiré. Veuillez vous reconnecter.",
+    "try_again": "Veuillez réessayer ou contacter le service client.",
+    "login_page": "Aller à la page de connexion"
+  },
   "FindId": {
     "find_id": "Trouvez votre identifiant",
     "name": "Nom",
@@ -25,22 +32,60 @@
     "go_to_login": "Aller à la connexion",
     "match_id": "L'identifiant correspondant à votre numéro de téléphone.",
     "id": "Identifiant",
-    "signup_date": "Date d'inscription"
+    "signup_date": "Date d'inscription",
+    "fetch_error_title": "Échec de la recherche d'ID",
+    "fetch_error_message": "Veuillez vérifier les informations saisies.",
+    "id_label": "ID",
+    "signup_date_label": "Date d'inscription",
+    "login": "Se connecter",
+    "find_password": "Trouver mot de passe",
+    "social_messages": {
+      "kakao": "Inscrit avec Kakao.",
+      "naver": "Inscrit avec Naver.",
+      "google": "Inscrit avec Google."
+    }
   },
   "FindPw": {
     "find_pw": "Trouvez votre mot de passe",
     "name": "Nom",
     "id": "Identifiant",
     "email": "Email",
+    "confirm": "Confirmer",
     "placeholder_name": "Veuillez entrer votre nom.",
     "placeholder_id": "Veuillez entrer votre identifiant.",
     "placeholder_email": "Veuillez entrer l'adresse email que vous avez utilisée lors de votre inscription.",
+    "reset_link_sent_title": "Lien de réinitialisation du mot de passe envoyé",
+    "reset_link_sent_content": "Veuillez vérifier votre e-mail et changer votre mot de passe",
+    "find_pw_error_title": "Erreur de recherche de mot de passe",
+    "find_pw_error_content": "Veuillez vérifier les informations que vous avez saisies.",
     "temporary_password_btn": "Émettre des mots de passe temporaires",
     "temporary_password_title": "Un mot de passe temporaire a été émis.",
     "temporary_password_content": "Veuillez vérifier votre email pour vous reconnecter avec votre mot de passe temporaire et changer votre mot de passe.",
     "go_to_login": "Aller à la connexion"
   },
+  "UpdatedPw": {
+    "reset_password_title": "Changer le mot de passe",
+    "reset_password_confirm": "Confirmer",
+    "reset_password_success_title": "Succès du changement de mot de passe",
+    "reset_password_success_content": "Votre mot de passe a été modifié.\nVeuillez vous connecter pour vérifier !",
+    "reset_password_success": "Réinitialisation du mot de passe réussie.",
+    "reset_password_error_title": "Erreur de réinitialisation du mot de passe",
+    "reset_password_error_content": "Veuillez vérifier les informations que vous avez saisies.",
+    "same_password": "Le mot de passe est identique à l'ancien.\nVeuillez entrer un autre mot de passe.",
+    "expired": "Le délai d'authentification a expiré.\nVeuillez essayer de changer le mot de passe depuis le début.",
+    "update_failed": "Échec du changement de mot de passe.\nVeuillez vérifier les informations que vous avez saisies.",
+    "login_button": "Se connecter"
+  },
+  "WithdrawalComplete": {
+    "title": "Désinscription terminée.",
+    "message": "Merci d'avoir utilisé AightNow. \nNous nous efforcerons de continuer à nous améliorer et à progresser.",
+    "login_button": "Se connecter"
+  },
   "SignUp": {
+    "Agreement": {
+      "serviceTerms": "Conditions d'utilisation du service AightNow Ce contrat stipule les conditions d'utilisation du service entre Spacspace Co., Ltd. (ci-après dénommée 'la société') et l'utilisateur. En utilisant le service, vous êtes réputé avoir accepté ces conditions. Ce contrat stipule les droits, obligations et responsabilités entre la société et l'utilisateur en ce qui concerne la prestation du service par la société. Article 1 : Objet Ce contrat vise à stipuler les droits, obligations et responsabilités entre la société et l'utilisateur concernant l'utilisation du service SpacAnalyst, une plate-forme d'analyste IA fournie par Spacspace Co., Ltd. (ci-après dénommée 'le service'). Article 2 : Définition des termes 'Service' désigne le service SpacAnalyst, une plate-forme d'analyste IA fournie par Spacspace Co., Ltd. 'Utilisateur' désigne toute personne acceptant ce contrat et utilisant le service fourni par la société. 'Membre' désigne toute personne inscrite au service et utilisant le service fourni par la société. 'Site' désigne le site Web exploité par Spacspace Co., Ltd. pour fournir le service. Article 3 : Validité et révision du contrat Ce contrat stipule les relations de droits et d'obligations entre l'utilisateur et la société lors de l'utilisation du service. Ce contrat prend effet lorsqu'il est publié sur le site Web exploité par la société. La société peut réviser ce contrat si nécessaire, et les modifications prendront effet dès leur publication sur le site. Article 4 : Fourniture et utilisation du service La société fournit à l'utilisateur le service SpacAI Analyst en combinant des informations d'annonces d'entreprises en temps réel et l'analyse de 40 000 données d'actualités quotidiennes. Une inscription est requise pour utiliser le service. Lors de l'inscription, les informations demandées par la société doivent être fournies et celles-ci doivent toujours être exactes et à jour. La société s'efforce de protéger les informations personnelles de l'utilisateur, et les détails à ce sujet sont énoncés dans la politique de confidentialité. Lors de l'utilisation du service, l'utilisateur doit respecter les points suivants : Ne pas utiliser illégalement les informations et les données personnelles d'autrui. Ne pas violer les lois, réglementations et termes d'utilisation en utilisant le service. Ne pas compromettre la sécurité, la fiabilité et l'efficacité du service. Ne pas diffamer ou nuire à autrui. La société peut restreindre l'utilisation du service pour les utilisateurs qui enfreignent ce contrat. Article 5 : Modification et interruption du service La société peut modifier, changer ou interrompre une partie ou la totalité du service pour améliorer la qualité du service et pour des besoins opérationnels. Les modifications et interruptions du service seront préalablement notifiées, et la société n'est pas responsable des dommages résultant de ces modifications. Article 6 : Droits d'auteur et propriété intellectuelle Tous les droits d'auteur et de propriété intellectuelle relatifs aux services rédigés par la société sont détenus par la société. Sans l'accord préalable de la société, l'utilisateur ne peut traiter, vendre, reproduire ou distribuer les informations publiées sur le service. Article 7 : Clause de non-responsabilité La société n'est pas responsable de tout dommage survenant lors de l'utilisation du service. La société est exonérée de responsabilité pour la fourniture du service en cas de force majeure, telle qu'une catastrophe naturelle, une guerre, une interruption du service par les fournisseurs de services de télécommunications, etc. Article 8 : Résolution des litiges Pour les points non stipulés dans ce contrat, ceux-ci seront résolus conformément aux lois pertinentes et aux règlements internes de la société. Annexe Ce contrat prend effet à partir du 8 juillet 2024. Les utilisateurs doivent lire attentivement ce contrat et utiliser le service. En utilisant le service, vous êtes réputé avoir accepté ce contrat. Nous nous efforcerons de fournir un meilleur service à l'avenir.",
+      "privacyPolicy": "Politique de confidentialité Politique de confidentialité SpacAI Analyst Spacspace Co., Ltd. (ci-après dénommée 'la société') considère comme important les informations personnelles de l'utilisateur et se conforme à la loi sur la promotion de l'utilisation des réseaux de communication et la protection des informations. Cette politique de confidentialité explique comment la société collecte, utilise et protège les informations personnelles de l'utilisateur. Articles de collecte d'informations personnelles et méthodes de collecte Articles de collecte d'informations personnelles Informations d'identification de l'utilisateur (nom, adresse e-mail, etc.) Informations générées lors de l'utilisation du service (données de journal, cookies, informations de session, etc.) Méthodes de collecte d'informations personnelles Lorsque l'utilisateur fournit volontairement ces informations lors de l'inscription et de l'utilisation du service Collecte automatique lors de l'utilisation du service (par exemple, les cookies) Objectifs de la collecte et de l'utilisation des informations personnelles La société utilise les informations personnelles collectées aux fins suivantes : Fourniture et exploitation du service Gestion des membres et identification de l'utilisateur lors de la fourniture du service, authentification, vérification de l'âge Amélioration du service et développement de nouveaux services Fourniture de services personnalisés adaptés à l'utilisateur Durée de conservation et d'utilisation des informations personnelles La société détruit sans délai les informations personnelles collectées et utilisées après avoir atteint l'objectif de cette collecte et utilisation. Cependant, les informations peuvent être conservées conformément aux lois pertinentes. Fourniture et délégation des informations personnelles La société ne fournit ni ne délègue les informations personnelles de l'utilisateur à des tiers. Cependant, les informations peuvent être fournies exceptionnellement si l'utilisateur y consent ou si la loi l'exige. Destruction des informations personnelles Les informations personnelles collectées et utilisées sont détruites sans délai après avoir atteint leur objectif. Les méthodes et délais de destruction sont en conformité avec les lois pertinentes. Mesures de sécurité pour les informations personnelles La société prend les mesures suivantes pour protéger en toute sécurité les informations personnelles de l'utilisateur : Chiffrement des systèmes de traitement des informations personnelles Installation et exploitation de divers systèmes de sécurité pour se prémunir contre les piratages Formation et surveillance du personnel traitant les informations personnelles Droits et obligations de l'utilisateur L'utilisateur a le droit d'accéder, de rectifier, de supprimer et de suspendre le traitement de ses informations personnelles. Les demandes liées peuvent être soumises via le service client de la société. Responsable de la protection des informations personnelles La société a désigné un responsable de la protection des informations personnelles pour superviser le traitement des informations personnelles et traiter les plaintes et les recours en cas de préjudice. Nom : Yeo Min-ho Département : PDG E-mail : admin@ymsco.site Annexe Cette politique de confidentialité prend effet à partir du 8 juillet 2024. La société notifiera aux utilisateurs toute modification de cette politique de confidentialité via une annonce."
+    },
     "terms": "Accepter les termes",
     "agree_all": "J'accepte les Conditions d'utilisation et la Politique de confidentialité.",
     "terms_of_use": "Conditions d'utilisation (obligatoire)",
@@ -53,8 +98,10 @@
     "placeholder_name": "Veuillez entrer votre nom.",
     "placeholder_email": "Veuillez entrer l'adresse email que vous avez utilisée lors de votre inscription.",
     "send_link": "Envoyer un lien d'authentification",
+    "send_link_failed": "Échec de l'envoi du lien de vérification",
     "authenticate_title": "Vous avez envoyé le lien d'authentification.",
-    "authenticate_content": "Nous avons envoyé un email de vérification à l'adresse email que vous avez fournie. Veuillez vérifier l'email et procéder à l'inscription.",
+    "authenticate_content": "Nous avons envoyé un e-mail de vérification à l'adresse que vous avez fournie.\nVeuillez vérifier votre e-mail pour continuer l'inscription.",
+    "authenticate_content_failed": "Échec de l'envoi du lien de vérification.\nVeuillez réessayer ou contacter le service client.",
     "confirm": "Confirmer",
     "sign_up": "S'inscrire",
     "id": "Identifiant",
@@ -77,7 +124,9 @@
     "placeholder_stock": "#Ajoutez une action d'intérêt.",
     "sign_up_btn": "S'inscrire",
     "sign_up_title": "Inscription terminée.",
-    "sign_up_content": "Votre inscription est terminée. Veuillez vous connecter et profiter !",
+    "sign_up_content": "Votre inscription est terminée.\nVeuillez vous connecter et profiter !",
+    "sign_up_failed_title": "Erreur d'inscription",
+    "sign_up_failed_content": "Nous sommes désolés, une erreur s'est produite.\nVeuillez réessayer de vous inscrire depuis le début ou contacter le service client.",
     "go_to_login": "Aller à la connexion"
   },
   "Header": {
@@ -164,12 +213,38 @@
     "popular_news_today": "Nouvelles populaires aujourd'hui"
   },
   "MyPage": {
+    "passwordAuthError": {
+      "error": "Erreur",
+      "fetch_user_info_error": "Impossible de récupérer les informations utilisateur. Veuillez vous reconnecter.",
+      "password_check_error": "Veuillez vérifier votre mot de passe."
+    },
+    "languageSettingError": {
+      "error": "Échec de la configuration de la langue",
+      "message": "Veuillez réessayer ou contacter le service client."
+    },
+    "profileUpdate": {
+      "success_title": "Modification réussie",
+      "success_message": "Les informations ont été modifiées.",
+      "error_title": "Erreur de modification",
+      "error_message": "Une erreur est survenue. Veuillez réessayer ou contacter le service client."
+    },
+    "passwordChangeLinkSent": {
+      "error": "Une erreur est survenue",
+      "title": "Lien de changement de mot de passe envoyé",
+      "message": "Le lien de changement de mot de passe a été envoyé. Veuillez vérifier votre email."
+    },
+    "accountDeletionMessages": {
+      "warningTitle": "Avertissement de désinscription",
+      "warningMessage": "Après la désinscription, vous ne pourrez pas\nvous réinscrire avec l'email enregistré pendant 7 jours. Êtes-vous sûr de vouloir vous désinscrire ?",
+      "errorTitle": "Erreur de désinscription",
+      "errorMessage": "Une erreur est survenue. Veuillez réessayer ou contacter le service client."
+    },
     "my_page": "Mon",
     "personal_information": "Informations personnelles",
     "languages": "Langues",
     "terms": "Conditions",
     "edit_profile_title": "Modifier le profil",
-    "edit_profile_content": "Créez et modifiez le profil que vous voyez lorsque vous utilisez le service. Configurez votre profil.",
+    "edit_profile_content": "Créez et modifiez le profil affiché lors de l'utilisation du service. Configurez votre profil.",
     "profile": "Profil",
     "edit_profile": "Modifier le profil",
     "edit_account_title": "Paramètres du compte",
@@ -185,6 +260,7 @@
     "placeholder_stock": "#Ajoutez une action d'intérêt.",
     "edit": "Modifier",
     "password_authentication": "Vérification du mot de passe",
+    "change_password": "Changer le mot de passe",
     "current_pw": "Mot de passe actuel",
     "placeholder_pw": "Veuillez entrer votre mot de passe.",
     "new_pw": "Nouveau mot de passe",
@@ -198,6 +274,7 @@
     "delete_account_reason": "Raisons du départ",
     "pw": "Mot de passe",
     "placeholder_account": "Veuillez sélectionner une raison pour partir.",
+    "placeholder_deleted_reason": "Veuillez entrer la raison de votre désinscription",
     "reason_1": "C'est difficile à utiliser et il y a de nombreux obstacles.",
     "reason_2": "Je préfère un autre service",
     "reason_3": "En raison de son faible taux d'utilisation",
@@ -206,6 +283,7 @@
     "delete_acoount_title": "La suppression du compte est terminée.",
     "delete_account_content": "Merci d'avoir utilisé Aightnow. Nous continuerons à travailler dur pour rendre Aightnow encore meilleur.",
     "confirm": "Confirmer",
+    "cancle": "Annuler",
     "languages_content": "Dans ce paramètre, vous pouvez sélectionner la langue vers laquelle vous souhaitez traduire, et vous verrez les informations traduites dans votre langue préférée dans Nouvelles et Rapports.",
     "korean": "Coréen",
     "english": "Anglais",
@@ -215,8 +293,9 @@
     "terms_of_use": "Conditions d'utilisation",
     "privacy_policy": "Politique de confidentialité",
     "expand": "développer",
-    "ters_of_use_content": "Conditions d'utilisation\nConditions d'utilisation de SpackAI Analyst\nCes conditions établissent les règles et réglementations régissant l'utilisation du service entre Spacespace (ci-après dénommée la \"Société\") et l'Utilisateur. En utilisant le Service, vous êtes réputé avoir accepté ces conditions. Ces conditions stipulent les droits, obligations et responsabilités entre l'Utilisateur et la Société en relation avec la fourniture du Service par la Société.\nArticle 1 Objet\nL'objet de ces conditions est de stipuler les droits, obligations et responsabilités entre l'Utilisateur et la Société lors de l'utilisation du service AI Analyst Platform Spatial Analyst (ci-après dénommé le \"Service\").\nArticle 2 Définition des termes\nLe terme \"Service\" désigne le service AI Analyst Platform Spatial Analyst fourni par la Société. Le terme \"Utilisateur\" désigne une personne qui accepte ces conditions et utilise le Service fourni par la Société. \"Membre\" désigne une personne qui s'abonne au Service et utilise le Service fourni par la Société. Le terme \"Site\" désigne le site web exploité par Spacespace Co., Ltd. pour fournir le Service.\nArticle 3 Effet et modification des conditions\nCes conditions stipulent les droits et obligations entre l'Utilisateur et la Société lors de l'utilisation du Service.\nCes conditions entreront en vigueur dès leur publication sur le site exploité par la Société.\nLa Société peut modifier ces conditions si nécessaire, et si les conditions sont modifiées, la date d'entrée en vigueur et les modifications seront publiées sur le site. Les conditions révisées entreront en vigueur immédiatement après leur publication.\nArticle 4 Fourniture et utilisation des services\nLa Société fournit le service Spec AI Analyst, qui combine des informations de divulgation d'entreprise en temps réel avec des données analysées à partir de 40 000 rapports d'actualités quotidiens, aux utilisateurs.\nL'inscription est requise pour utiliser le Service. Lors de l'inscription, vous devez fournir les informations demandées par la Société, et les informations que vous fournissez doivent toujours être exactes et à jour.\nLa Société s'efforce de protéger vos informations personnelles, qui sont régies par la politique de confidentialité.\nVous devez respecter les éléments suivants lors de l'utilisation du Service. Vous ne devez pas :\nUtiliser frauduleusement les informations et les informations personnelles d'autres personnes ;\nVioler des lois, des règlements, des conditions d'utilisation, etc. en utilisant le Service ;\nNuire à la sécurité, à la fiabilité et à l'efficacité du Service ;\nAdopter un comportement qui diffame ou désavantage autrui ;\nLa Société peut restreindre l'utilisation du Service à tout utilisateur qui viole ces conditions.\nArticle 5 Modification et interruption du service\nLa Société peut modifier, changer ou interrompre une partie ou la totalité du Service en fonction des besoins d'amélioration de la qualité et d'exploitation du Service.\nLa Société vous informera à l'avance de toute modification ou interruption du Service, et la Société ne sera pas responsable des dommages en résultant.\nArticle 6 Droits d'auteur et droits de propriété intellectuelle\nTous les droits d'auteur et droits de propriété intellectuelle relatifs au Service créés par la Société appartiennent à la Société.\nVous ne pouvez pas traiter, vendre, reproduire ou distribuer les informations publiées sur le Service sans le consentement préalable de la Société.\nArticle 7 Déni de responsabilité\nLa Société ne sera pas responsable des dommages subis par l'Utilisateur lors de l'utilisation du Service.\nLa Société ne sera pas responsable de la fourniture du Service si elle est incapable de fournir le Service pour des raisons de force majeure telles que des catastrophes naturelles, une guerre ou une suspension du service par un opérateur de télécommunications.\nArticle 8 Règlement des différends\nSi une question non spécifiée dans ces conditions survient, elle sera résolue conformément aux lois pertinentes et aux règlements internes de la Société.\nAddendum\nCes conditions entreront en vigueur à partir du 8 juillet 2024.\nVeuillez lire attentivement ces conditions avant d'utiliser le Service. En utilisant le Service, vous acceptez ces conditions. Nous ferons de notre mieux pour vous fournir de meilleurs services à l'avenir.",
-    "privacy_policy_content": "Politique de confidentialité\nPolitique de confidentialité de SpackAI Analyst\nSpace (ci-après dénommée la \"Société\") attache de l'importance à la confidentialité de ses utilisateurs et se conforme à la Loi sur la promotion de l'utilisation des réseaux de communication et la protection des informations. Cette politique de confidentialité décrit comment la Société collecte, utilise et protège vos informations personnelles :\nÉléments d'informations personnelles collectées et comment elles sont collectées\nÉléments d'informations personnelles collectées\nInformations d'identification de l'utilisateur (nom, adresse e-mail, etc.)\nInformations générées dans le processus d'utilisation du service (données de journal, cookies, informations de session, etc.)\nComment les informations personnelles sont collectées\nFournies volontairement par l'utilisateur lors de l'inscription à l'adhésion et de l'utilisation du service\nCollectées automatiquement dans le processus d'utilisation du service (cookies, etc.)\nBut de la collecte et de l'utilisation des informations personnelles\nLa Société utilise les informations personnelles collectées à des fins suivantes :\nFourniture et exploitation des services\nIdentification, authentification et vérification de l'âge pour la gestion des membres et la fourniture de services\nAmélioration des services et développement de nouveaux services\nFourniture de services personnalisés adaptés aux utilisateurs\nPériode de conservation et d'utilisation des informations personnelles\nLa Société détruira les informations sans délai après que l'objectif de collecte et d'utilisation des informations personnelles de l'utilisateur soit atteint. Cependant, si la conservation est requise par des lois et règlements pertinents, elle peut être effectuée conformément à ces lois et règlements.\nFourniture et sous-traitance des informations personnelles\nLa Société ne fournit ni ne sous-traite vos informations personnelles à des tiers. Cependant, des exceptions peuvent être faites uniquement avec votre consentement ou tel que requis par la loi.\nDestruction des informations personnelles\nLa Société détruira les informations sans délai après que l'objectif de collecte et d'utilisation des informations personnelles ait été atteint. La méthode et le délai de destruction seront conformes aux lois et règlements pertinents.\nMesures pour assurer la sécurité des informations personnelles\nLa Société prend les mesures suivantes pour assurer la sécurité de vos informations personnelles :\nChiffrement des systèmes de traitement des informations personnelles\nInstallation et fonctionnement de divers systèmes de sécurité contre le piratage\nFormation et surveillance des employés du traitement des informations personnelles\nVos droits et obligations\nVous avez le droit d'accéder, de corriger, de supprimer ou de suspendre le traitement de vos informations personnelles. Les demandes à cet égard peuvent être soumises par le centre de service à la clientèle de la Société.\nResponsable de la protection de la vie privée\nLa Société a désigné un responsable de la protection de la vie privée comme suit pour être responsable de la gestion globale des informations personnelles et pour traiter les plaintes des utilisateurs et les demandes de réparation liées au traitement des informations personnelles :\nNom : Minho Yeom\nDépartement : PDG\nEmail : admin@ymsco.site\nAddendum\nCette politique de confidentialité est effective à partir du 8 juillet 2024.\nLorsque la Société révise la politique de confidentialité, elle notifiera aux utilisateurs les révisions par un avis."
+    "close": "Fermer",
+    "terms_of_use_content": "Conditions d'utilisation du service\n\nConditions d'utilisation du service SpacAI Analyst\n\nCes conditions précisent les règles d'utilisation du service entre SpaceSpace Co., Ltd. (ci-après dénommée \"la société\") et l'utilisateur.\nEn utilisant le service, l'utilisateur est réputé accepter ces conditions.\nCes conditions stipulent les droits, obligations et responsabilités entre la société et l'utilisateur en relation avec la fourniture de services par la société.\n\nArticle 1 - Objectif\n\nCes conditions visent à préciser les droits, obligations et responsabilités entre la société et l'utilisateur concernant l'utilisation de la plateforme AI Analyst SpacAI Analyst (ci-après dénommée \"le service\") fournie par SpaceSpace Co., Ltd.\n\nArticle 2 - Définition des termes\n\n\"Service\" désigne la plateforme AI Analyst SpacAI Analyst fournie par SpaceSpace Co., Ltd.\n\"Utilisateur\" désigne toute personne qui accepte ces conditions et utilise les services fournis par la société.\n\"Membre\" désigne toute personne inscrite au service et utilisant les services fournis par la société.\n\"Site\" désigne le site web exploité par SpaceSpace Co., Ltd. pour fournir le service.\n\nArticle 3 - Effet et révision des conditions\n\nCes conditions régissent les droits et obligations entre l'utilisateur et la société lors de l'utilisation du service.\nCes conditions prennent effet en étant publiées sur le site exploité par la société.\nLa société peut réviser ces conditions si nécessaire, et publiera les conditions révisées sur le site avec la date d'application et les modifications.\nLes conditions révisées prennent effet dès leur publication.\n\nArticle 4 - Fourniture et utilisation du service\n\nLa société fournit aux utilisateurs le service SpacAI Analyst, combinant des informations d'annonce d'entreprise en temps réel et des analyses de données de nouvelles quotidiennes (40 000 articles).\nPour utiliser le service, une inscription en tant que membre est requise. Lors de l'inscription, l'utilisateur doit fournir les informations demandées par la société, qui doivent être exactes et à jour.\nLa société s'efforce de protéger les informations personnelles des utilisateurs, conformément à la politique de confidentialité.\nLors de l'utilisation du service, l'utilisateur doit respecter les règles suivantes :\n\nNe pas utiliser illégalement les informations et les informations personnelles d'autrui.\nNe pas violer les lois, règlements et conditions d'utilisation en utilisant le service.\nNe pas compromettre la sécurité, la fiabilité et l'efficacité du service.\nNe pas porter atteinte à la réputation d'autrui ou causer des préjudices.\nLa société peut restreindre l'utilisation du service par l'utilisateur en cas de violation de ces conditions.\n\nArticle 5 - Modification et interruption du service\n\nLa société peut modifier, changer ou interrompre tout ou partie du service pour améliorer la qualité du service et pour des besoins opérationnels.\nLa société notifiera à l'avance toute modification ou interruption du service, et n'assume aucune responsabilité pour les dommages résultant de ces modifications ou interruptions.\n\nArticle 6 - Droits d'auteur et propriété intellectuelle\nTous les droits d'auteur et droits de propriété intellectuelle sur les services créés par la société appartiennent à la société.\nL'utilisateur ne peut pas traiter, vendre, reproduire ou distribuer les informations publiées dans le service sans l'accord préalable de la société.\n\nArticle 7 - Clause de non-responsabilité\nLa société n'assume aucune responsabilité pour tout dommage résultant de l'utilisation du service par l'utilisateur.\nLa société est dégagée de toute responsabilité en cas d'impossibilité de fournir le service en raison de forces majeures telles que des catastrophes naturelles, des guerres, ou des interruptions de service des opérateurs de télécommunications.\n\nArticle 8 - Résolution des conflits\nEn cas de problèmes non spécifiés dans ces conditions, ils seront résolus conformément aux lois et règlements pertinents et aux règlements internes de la société.\n\nAnnexe\n\nCes conditions prennent effet à partir du 8 juillet 2024.\nLes utilisateurs doivent lire attentivement ces conditions et utiliser le service.\nL'utilisation du service est réputée comme une acceptation de ces conditions.",
+    "privacy_policy_content": "Politique de confidentialité\n\nPolitique de confidentialité de SpacAI Analyst\nSpaceSpace Co., Ltd. (ci-après dénommée \"la société\") accorde une grande importance aux informations personnelles des utilisateurs et se conforme à la Loi sur la promotion de l'utilisation des réseaux d'information et la protection des informations.\n\nCette politique de confidentialité explique comment la société collecte, utilise et protège les informations personnelles des utilisateurs.\nCatégories d'informations personnelles collectées et méthodes de collecte\nCatégories d'informations personnelles collectées\nInformations d'identification des utilisateurs (nom, adresse e-mail, etc.)\nInformations générées lors de l'utilisation du service (données de journal, cookies, informations de session, etc.)\nMéthodes de collecte des informations personnelles\nLes informations fournies volontairement par les utilisateurs lors de l'inscription et de l'utilisation du service\nLes informations collectées automatiquement lors de l'utilisation du service (cookies, etc.)\nObjectifs de la collecte et de l'utilisation des informations personnelles\nLa société utilise les informations personnelles collectées aux fins suivantes :\n\nFourniture et exploitation du service\nGestion des membres et identification, authentification et vérification de l'âge des utilisateurs lors de la fourniture du service\nAmélioration des services et développement de nouveaux services\nFourniture de services personnalisés adaptés aux utilisateurs\nDurée de conservation et d'utilisation des informations personnelles\nLa société détruit immédiatement les informations personnelles après avoir atteint l'objectif de la collecte et de l'utilisation. Cependant, si la conservation est requise par les lois pertinentes, les informations seront conservées conformément à ces lois.\n\nFourniture et délégation des informations personnelles\nLa société ne fournit ni ne délègue les informations personnelles des utilisateurs à des tiers. Toutefois, les informations peuvent être exceptionnellement fournies en cas de consentement des utilisateurs ou d'exigence légale.\nDestruction des informations personnelles\nLes informations personnelles sont immédiatement détruites après avoir atteint l'objectif de la collecte et de l'utilisation. Les méthodes et les délais de destruction sont conformes aux lois pertinentes.\nMesures de sécurité pour la protection des informations personnelles\nLa société prend les mesures suivantes pour protéger en toute sécurité les informations personnelles des utilisateurs :\n\nChiffrement des systèmes de traitement des informations personnelles\nInstallation et exploitation de divers systèmes de sécurité pour prévenir les piratages\nFormation et surveillance des employés responsables du traitement des informations personnelles\nDroits et obligations des utilisateurs\nLes utilisateurs ont le droit d'accéder, de corriger, de supprimer et de suspendre le traitement de leurs informations personnelles. Les demandes connexes peuvent être soumises via le centre de service client de la société.\nResponsable de la protection des informations personnelles\nLa société est globalement responsable de la gestion des informations personnelles et désigne le responsable suivant pour traiter les plaintes des utilisateurs et fournir des recours.\n\nNom: 염민호\nDépartement: Directeur Général\nE-mail: admin@ymsco.site\n\nAnnexe\n\nCette politique de confidentialité prend effet à partir du 8 juillet 2024. La société informera les utilisateurs de toute modification de la politique de confidentialité par le biais d'annonces."
   },
   "NotFound": {
     "not_found_title": "La page que vous avez demandée est introuvable.",

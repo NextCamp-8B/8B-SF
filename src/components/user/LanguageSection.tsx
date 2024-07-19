@@ -7,8 +7,10 @@ import useSessionData from '@/hooks/user/useSessionData';
 import { useRouter } from 'next/navigation';
 import AuthPopup from '../signup/Popup';
 import usePopupStore from '@/store/userPopup';
+import { useTranslations } from 'next-intl';
 
 export default function LanguageSection() {
+  const t = useTranslations('MyPage');
   const router = useRouter();
   const [selectedLanguage, setSelectedLanguage] =
     useState<Locale>('ko');
@@ -43,12 +45,12 @@ export default function LanguageSection() {
         router.replace(`/${language}/user/language`);
       } else {
         showPopup(
-          '언어 설정 실패',
-          '다시 시도하시거나, 고객센터에 문의해주세요.',
+          t('languageSettingError.error'),
+          t('languageSettingError.message'),
         );
       }
     } catch (error: any) {
-      showPopup('언어 설정 실패', error);
+      showPopup(t('languageSettingError.error'), error);
     }
   };
   return (
@@ -62,14 +64,12 @@ export default function LanguageSection() {
         />
       )}
       <SectionBox
-        title=" 언어설정"
-        description="  이 설정에서 번역할 언어를 선택하시면 뉴스 및
-                      리포트에서 설정하신 언어로 번역정보를 확인할
-                      수 있습니다."
+        title={t('languages')}
+        description={t('languages_content')}
       />
       <div className="flex gap-4 flex-wrap">
         {/* language 버튼 */}
-        <LanguageButton
+        <LanguageButton.Kr
           checked={selectedLanguage === 'ko'}
           onClick={() => handleLanguageChange('ko')}
         />

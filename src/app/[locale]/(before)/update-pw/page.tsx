@@ -10,8 +10,10 @@ import AuthPopup from '@/components/signup/Popup';
 import LoadingSpinner from '@/components/shared/LoadingSpinner';
 import { useSearchParams } from 'next/navigation';
 import FindPwResult from '@/components/findPw/FindPwResult';
+import { useTranslations } from 'next-intl';
 
 export default function UpdatedPw() {
+  const t = useTranslations();
   const searchParams = useSearchParams();
   const code = searchParams.get('code'); //supabase에서 비밀번호리셋 jwt제공
 
@@ -66,7 +68,10 @@ export default function UpdatedPw() {
       // 에러 팝업 발생
       setRefreshToken(result?.refreshToken);
       setIsShowPopup(true);
-      setErrorMsg(result.error || '입력한 내용을 다시 확인해주세요.');
+      setErrorMsg(
+        t(`UpdatedPw.${result.error}`) ||
+          t('UpdatedPw.reset_password_error_content'),
+      );
     }
     setIsLoading(false);
   };
@@ -82,7 +87,7 @@ export default function UpdatedPw() {
         <AuthPopup
           onClose={handleClosePopuup}
           error={true}
-          title="비밀번호 재설정 오류"
+          title={t('UpdatedPw.reset_password_error_title')}
           errorMessage={errorMsg}
         />
       )}
@@ -93,7 +98,7 @@ export default function UpdatedPw() {
           <Wrapper padding="px-24 py-20" width="w-[590px]">
             <div className="flex flex-col justify-start w-[386px] m-auto">
               <h3 className="h3 font-bold text-center mb-10 text-primary-900">
-                비밀번호 변경
+                {t('UpdatedPw.reset_password_title')}
               </h3>
               {isLoading ? (
                 <div className="w-full h-full flex items-center justify-center">
@@ -118,7 +123,7 @@ export default function UpdatedPw() {
                       isSubmit={isSubmit}
                     />
                     <TextButton className="w-full mx-auto mt-8">
-                      확인
+                      {t('UpdatedPw.reset_password_confirm')}
                     </TextButton>
                   </InputSet>
                 </form>

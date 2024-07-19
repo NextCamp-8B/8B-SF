@@ -1,6 +1,7 @@
 import InputSet from '../shared/input';
 import TextButton from '../shared/buttons/TextButton';
 import { ChangeEvent, FormEvent } from 'react';
+import { useTranslations } from 'next-intl';
 
 type UserAccountForm = {
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;
@@ -30,6 +31,7 @@ export default function UserAccountForm({
   handleUpdatePw,
   handleShowWidthdrawl,
 }: UserAccountForm) {
+  const t = useTranslations();
   return (
     <form
       onSubmit={onSubmit}
@@ -69,7 +71,7 @@ export default function UserAccountForm({
           isSubmit={isSubmit}
         />
         <TextButton type="submit" className="w-full mt-8">
-          수정하기
+          {t('MyPage.edit')}
         </TextButton>
       </InputSet>
       {!isSocial && (
@@ -78,7 +80,7 @@ export default function UserAccountForm({
           type="button"
           className="border-none bg-grayscale-0 text-center mt-4"
         >
-          비밀번호 변경
+          {t('MyPage.change_password')}
         </button>
       )}
       <button
@@ -86,7 +88,7 @@ export default function UserAccountForm({
         className="border-none bg-grayscale-0 text-center underline mt-4 text-warning-100"
         onClick={handleShowWidthdrawl}
       >
-        회원 탈퇴
+        {t('MyPage.delete_account')}
       </button>
     </form>
   );

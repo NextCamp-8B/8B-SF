@@ -402,19 +402,3 @@ export const stockList = [
   '#Amazon',
   '#MS',
 ];
-
-export const withdrawalOptions: SelectedOption[] = [
-  {
-    value: 'reason1',
-    text: '이용이 불편하고 장애가 많아서',
-    selected: false,
-  },
-  {
-    value: 'reason2',
-    text: '다른 서비스가 더 좋아서',
-    selected: false,
-  },
-  { value: 'reason3', text: '사용 빈도가 낮아서', selected: false },
-  { value: 'reason4', text: '콘텐츠 불만', selected: false },
-  { value: 'reason5', text: '기타', selected: false },
-];

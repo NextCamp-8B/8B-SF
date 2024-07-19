@@ -7,8 +7,10 @@ import { conceptMap } from '@/components/shared/input/inputConfig';
 import useUserStore from '@/store/userStore';
 import usePageStore from '@/store/signupStepStore';
 import useDuplicateCheck from '@/hooks/user/useDuplicateCheck';
+import { useTranslations } from 'next-intl';
 
 export default function SignupForm() {
+  const t = useTranslations();
   const { user, setUser } = useUserStore(); // 유저 store
   const { value, onChangeInputValue } = useInputChange(); //Input 관리
   const [isSubmit, setIsSubmit] = useState(false); // 폼 submit
@@ -87,7 +89,7 @@ export default function SignupForm() {
     <Wrapper padding="px-24 py-20" width="w-[590px]">
       <div className="flex flex-col justify-start w-[386px] h-full">
         <h3 className="h3 font-bold text-center mb-10 text-primary-900">
-          회원가입
+          {t('SignUp.sign_up')}
         </h3>
         <form onSubmit={onHandleSubmit}>
           <InputSet className="flex flex-col gap-4">
@@ -135,7 +137,7 @@ export default function SignupForm() {
             />
 
             <TextButton className="w-full mx-auto mt-8">
-              다음
+              {t('SignUp.next')}
             </TextButton>
           </InputSet>
         </form>

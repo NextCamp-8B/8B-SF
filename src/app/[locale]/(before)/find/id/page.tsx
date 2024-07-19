@@ -9,12 +9,14 @@ import FindIdResult from '@/components/findId/FindIdResult';
 import AuthPopup from '@/components/signup/Popup';
 import LoadingSpinnerWrapper from '@/components/shared/LoadingSpinnerWrapper';
 import usePopupStore from '@/store/userPopup';
+import { useTranslations } from 'next-intl';
 
 // 사용자 경험을 위해 비밀번호 찾기 추가
 // 소셜로그인 id를 찾았다면 찾은 유저id에 해당 소셜로그인 로고 추가
 // 현재 ui부분에서 이름과 비밀번호 입력시 버튼 활성화
 
 export default function FindId() {
+  const t = useTranslations();
   const { value, onChangeInputValue } = useInputChange();
   const [isSubmit, setIsSubmit] = useState(false);
   const [isSuccessFindId, setISuccessFindId] = useState(false); //아이디 찾기 성공 여부
@@ -65,8 +67,8 @@ export default function FindId() {
     } else {
       setISuccessFindId(false);
       showPopup(
-        '아이디 찾기 실패',
-        '입력한 내용을 다시 확인해주세요.',
+        t('FindId.fetch_error_title'),
+        t('FindId.fetch_error_message'),
       );
     }
     setIsLoading(false);
@@ -91,14 +93,14 @@ export default function FindId() {
         <Wrapper padding="px-24 py-20" width="w-[590px]">
           <div className="flex flex-col items-center w-96 h-full ">
             <h3
-              className={`h3 font-bold text-center ${titleMarginBottom} text-primary-900`}
+              className={`h3 font-bold text-center ${titleMarginBottom} text-primary-900 whitespace-nowrap`}
             >
-              아이디 찾기
+              {t('FindId.find_id')}
             </h3>
             {isSuccessFindId && findUserId ? (
               <>
-                <h5 className="b5 mb-4 font-medium text-center">
-                  휴대폰 번호와 일치하는 아이디 입니다.
+                <h5 className="b5 mb-4 font-medium text-center whitespace-nowrap">
+                  {t('FindId.match_id')}
                 </h5>
                 <FindIdResult
                   userId={findUserId.user_id}
@@ -130,7 +132,7 @@ export default function FindId() {
                     disabled={!isFormValid}
                     onClick={fetchData}
                   >
-                    아이디 찾기
+                    {t('FindId.find_id')}
                   </TextButton>
                 </InputSet>
               </LoadingSpinnerWrapper>

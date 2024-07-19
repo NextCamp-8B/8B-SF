@@ -1,4 +1,5 @@
 'use client';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 type TermsBox = {
@@ -7,6 +8,7 @@ type TermsBox = {
 };
 
 export default function TermsBox({ title, content }: TermsBox) {
+  const t = useTranslations('MyPage');
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
@@ -20,7 +22,7 @@ export default function TermsBox({ title, content }: TermsBox) {
             onClick={() => setIsExpanded(!isExpanded)}
             className="cursor-pointer text-secondary-600 underline"
           >
-            {isExpanded ? '닫기' : '펼쳐서 보기'}
+            {isExpanded ? t('close') : t('expand')}
           </span>
         </div>
         <div

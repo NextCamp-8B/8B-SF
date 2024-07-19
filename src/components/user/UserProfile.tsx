@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import ProfileSvg from '@/assets/icons/profile.svg';
+import { useTranslations } from 'next-intl';
 
 type UserProfile = {
   profileImg?: string;
@@ -11,9 +12,11 @@ export default function UserProfile({
   profileImg,
   nickname,
 }: UserProfile) {
+  const t = useTranslations();
+
   return (
     <div className="flex gap-x-32">
-      <h3 className="b3 font-semibold">프로필 선택</h3>
+      <h3 className="b3 font-semibold">{t('MyPage.profile')}</h3>
       <div className="flex items-center justify-between gap-x-4">
         {profileImg ? (
           <div className="relative w-14 h-14 ">

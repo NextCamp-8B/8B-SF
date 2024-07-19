@@ -6,8 +6,10 @@ import React, { useEffect, useState } from 'react';
 import Exclamation from '@/assets/icons/exclamation.svg';
 import { useSearchParams } from 'next/navigation';
 import { signOut } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 
 export default function AuthEror() {
+  const t = useTranslations();
   const [isClient, setIsClient] = useState(false); //hydration error 해결방법
 
   const searchParams = useSearchParams();
@@ -20,11 +22,11 @@ export default function AuthEror() {
   const getErrorMessage = async (error: string | null) => {
     switch (error) {
       case 'AccessDenied':
-        return '해당 이메일은 사용 중이거나 탈퇴한 유저의 이메일 입니다.';
+        return t('LoginError.access_denied');
       case 'SessionExpired':
-        return '세션이 만료되었습니다. 다시 로그인 해주세요.';
+        return t('LoginError.session_expired');
       default:
-        return '다시 시도하시거나, 고객센터에 문의해주세요.';
+        return t('LoginError.try_again');
     }
   };
 
@@ -47,7 +49,7 @@ export default function AuthEror() {
         <Exclamation className="w-16 h-16" />
         <div className="text-center text-primary-900 pb-9 pt-6">
           <h1 className="h4 font-bold pb-4">
-            로그인 오류가 발생했습니다.
+            {t('LoginError.error_occurred')}
           </h1>
           <span className="b3 font-medium">
             {getErrorMessage(error)}
@@ -58,7 +60,7 @@ export default function AuthEror() {
             onClick={handleSignOut}
             className="w-[386px] h-16 bg-primary-900 text-grayscale-0 rounded-lg"
           >
-            로그인 페이지로
+            {t('LoginError.login_page')}
           </ButtonBase>
         </Link>
       </Wrapper>

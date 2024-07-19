@@ -5,6 +5,12 @@ export async function updateUserData(
   formData: FormData,
   update: UpdateSession,
   showPopup: (title: string, msg: string) => void,
+  translations: {
+    successTitle: string;
+    successMessage: string;
+    errorTitle: string;
+    errorMessage: string;
+  },
 ) {
   try {
     const response = await fetch(endpoint, {
@@ -15,18 +21,16 @@ export async function updateUserData(
     if (response.ok) {
       const { data } = await response.json();
       await update({ ...data.user.user_metadata });
-      showPopup('수정 성공', '정보가 수정되었습니다.');
-    } else {
       showPopup(
-        '수정 오류',
-        '오류가 발생했습니다. 다시 시도하시거나, 고객센터에 문의해주세요.',
+        translations.successTitle,
+        translations.successMessage,
       );
+    } else {
+      showPopup(translations.errorTitle, translations.errorMessage);
+
       throw new Error('수정 실패');
     }
   } catch (error) {
-    showPopup(
-      '수정 오류',
-      '오류가 발생했습니다. 다시 시도하시거나, 고객센터에 문의해주세요.',
-    );
+    showPopup(translations.errorTitle, translations.errorMessage);
   }
 }

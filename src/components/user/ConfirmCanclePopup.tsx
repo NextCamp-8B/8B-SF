@@ -1,5 +1,6 @@
 import Wrapper from '@/components/shared/Wrapper';
 import TextButton from '@/components/shared/buttons/TextButton';
+import { useTranslations } from 'next-intl';
 
 type ConfirmCancelPopupProps = {
   onClose: () => void;
@@ -14,6 +15,8 @@ export default function ConfirmCancelPopup({
   title,
   msg,
 }: ConfirmCancelPopupProps) {
+  const t = useTranslations('MyPage');
+
   const handleModalClick = (event: React.MouseEvent) => {
     event.stopPropagation();
   };
@@ -34,10 +37,10 @@ export default function ConfirmCancelPopup({
           </p>
           <div className="flex justify-between w-full mt-4">
             <TextButton className="w-[150px]" onClick={onConfirm}>
-              확인
+              {t('confirm')}
             </TextButton>
             <TextButton.Gray className="w-[150px]" onClick={onClose}>
-              취소
+              {t('cancle')}
             </TextButton.Gray>
           </div>
         </div>

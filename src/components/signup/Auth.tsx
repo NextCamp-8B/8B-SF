@@ -6,6 +6,7 @@ import Wrapper from '@/components/shared/Wrapper';
 import { conceptMap } from '@/components/shared/input/inputConfig';
 import AuthPopup from './Popup';
 import LoadingSpinner from '../shared/LoadingSpinner';
+import { useTranslations } from 'next-intl';
 
 export default function Auth() {
   const [isShowPopup, setIsShowPopup] = useState(false); // 팝업 조건부 렌더링
@@ -18,6 +19,7 @@ export default function Auth() {
     message: null,
   });
   const [isFormValid, setIsFormValid] = useState(false); // 폼 유효성 체크
+  const t = useTranslations();
 
   const validateForm = useCallback(() => {
     const isNameValid = conceptMap.name.doValidation(value.name);
@@ -87,7 +89,7 @@ export default function Auth() {
       <Wrapper padding="px-24 py-20" width="w-[590px]">
         <div className="flex flex-col justify-start w-[386px] h-full">
           <h3 className="h3 font-bold text-center mb-10 text-primary-900">
-            본인인증
+            {t('SignUp.authenticate')}
           </h3>
           {isLoading ? (
             <div className="w-full h-full flex items-center justify-center">
@@ -113,7 +115,7 @@ export default function Auth() {
                 onClick={onHandleSubmit}
                 className="w-full mx-auto mt-8"
               >
-                인증링크 전송
+                {t('SignUp.send_link')}
               </TextButton>
             </InputSet>
           )}

@@ -14,6 +14,7 @@ import UserAccountForm from './UserAccountForm';
 import usePopupStore from '@/store/userPopup';
 import { User } from 'next-auth';
 import SocialWithdrawal from './SocialWithdrawal';
+import { useTranslations } from 'next-intl';
 
 // 정보수정 모달에서 회원탈퇴 모달을 관리
 // isWithdrawal 값에 따라 회원탈퇴모달이 발생
@@ -29,6 +30,7 @@ export default function UserAccountEdit({
   user,
   isSocial,
 }: UserAccountEdit) {
+  const t = useTranslations();
   const { openModal, closeModal, closeAllModals, isUserAccountdit } =
     myPageStore();
 
@@ -130,7 +132,7 @@ export default function UserAccountEdit({
       >
         <Wrapper padding="px-24 py-20" width="w-[590px]">
           <h3 className="h3 font-bold text-center text-primary-900 mb-8">
-            정보 수정
+            {t('MyPage.edit_account')}
           </h3>
           <LoadingSpinnerWrapper
             isLoading={updateLoading || isUpdatePwLoading}

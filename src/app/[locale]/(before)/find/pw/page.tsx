@@ -8,8 +8,10 @@ import { conceptMap } from '@/components/shared/input/inputConfig';
 import AuthPopup from '@/components/signup/Popup';
 import LoadingSpinnerWrapper from '@/components/shared/LoadingSpinnerWrapper';
 import usePopupStore from '@/store/userPopup';
+import { useTranslations } from 'next-intl';
 
 export default function FindPw() {
+  const t = useTranslations();
   const [isLoading, setIsLoading] = useState(false); // api 로딩 스피너
   const { value, onChangeInputValue } = useInputChange();
   const [isSubmit, setIsSubmit] = useState(false);
@@ -50,8 +52,8 @@ export default function FindPw() {
     if (response.ok) {
       // 에러 메시지 설정
       showPopup(
-        '비밀번호 재설정 링크 전송',
-        '이메일 확인 후 비밀번호를 변경해주세요',
+        t('FindPw.reset_link_sent_title'),
+        t('FindPw.reset_link_sent_content'),
       );
       // 입력값비우기
       value.name = '';
@@ -59,8 +61,8 @@ export default function FindPw() {
       value.email = '';
     } else {
       showPopup(
-        '비밀번호 찾기 오류',
-        '입력한 내용을 다시 확인해주세요.',
+        t('FindPw.find_pw_error_title'),
+        t('FindPw.find_pw_error_content'),
       );
     }
     setIsLoading(false);
@@ -79,8 +81,8 @@ export default function FindPw() {
       <main className="flex justify-center items-center h-screen">
         <Wrapper padding="px-24 py-20" width="w-[590px]">
           <div className="flex flex-col items-center w-96 h-full ">
-            <h3 className="h3 font-bold text-center mb-10 text-primary-900">
-              비밀번호 찾기
+            <h3 className="h3 font-bold text-center mb-10 text-primary-900 whitespace-nowrap">
+              {t('FindPw.find_pw')}
             </h3>
             <LoadingSpinnerWrapper isLoading={isLoading}>
               <InputSet className="flex flex-col gap-4">
@@ -108,7 +110,7 @@ export default function FindPw() {
                 />
                 {/* submit 비밀번호 찾기 버튼 */}
                 <TextButton className="mt-8" onClick={fetchData}>
-                  확인
+                  {t('FindPw.confirm')}
                 </TextButton>
               </InputSet>
             </LoadingSpinnerWrapper>

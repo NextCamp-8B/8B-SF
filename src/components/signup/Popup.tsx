@@ -1,5 +1,6 @@
 import Wrapper from '@/components/shared/Wrapper';
 import TextButton from '@/components/shared/buttons/TextButton';
+import { useTranslations } from 'next-intl';
 
 type AuthPopupProps = {
   onClose: () => void;
@@ -14,13 +15,13 @@ export default function AuthPopup({
   title,
   errorMessage,
 }: AuthPopupProps) {
+  const t = useTranslations();
+
   const handleModalClick = (event: React.MouseEvent) => {
     event.stopPropagation();
   };
-  const successMessage =
-    '작성하신 이메일 주소로 인증메일을 전송했습니다.\n메일 확인 후 회원가입을 계속 진행해주세요.';
-  const defaultErrorMessage =
-    '인증 링크 전송에 실패했습니다.\n다시 시도하시거나 고객센터에 문의해주세요.';
+  const successMessage = t('SignUp.authenticate_content');
+  const defaultErrorMessage = t('SignUp.authenticate_content_failed');
   return (
     <div
       className="fixed inset-0 z-50 bg-grayscale-900 bg-opacity-65 flex justify-center items-center h-[100%] w-[100%]"
@@ -35,8 +36,8 @@ export default function AuthPopup({
             {title
               ? title
               : error
-              ? '인증 링크 전송 실패'
-              : '인증 링크를 전송했습니다.'}
+              ? t('SignUp.send_link_failed')
+              : t('SignUp.send_link')}
           </h3>
           <p className="text-center font-medium b4 whitespace-pre-line">
             {error
@@ -44,7 +45,7 @@ export default function AuthPopup({
               : successMessage}
           </p>
           <TextButton className="mt-4 w-[332px]" onClick={onClose}>
-            확인
+            {t('SignUp.confirm')}
           </TextButton>
         </div>
       </Wrapper>

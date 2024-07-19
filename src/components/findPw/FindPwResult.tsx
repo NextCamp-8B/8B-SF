@@ -4,8 +4,10 @@ import React from 'react';
 import Wrapper from '@/components/shared/Wrapper';
 import TextButton from '@/components/shared/buttons/TextButton';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 export default function FindPwResult() {
+  const t = useTranslations();
   const router = useRouter();
 
   const handleLoginClick = () => {
@@ -15,16 +17,15 @@ export default function FindPwResult() {
   return (
     <Wrapper padding="px-24 py-20" width="w-[590px] h-min">
       <div className="flex flex-col justify-start w-[386px] h-full">
-        <h3 className="h3 font-bold text-center mb-10 text-primary-900">
-          비밀번호 변경 성공
+        <h3 className="h3 font-bold text-center mb-10 text-primary-900 whitespace-nowrap">
+          {t('UpdatedPw.reset_password_success_title')}
         </h3>
-        <p className="text-center font-normal b2 gap-y-2">
-          비밀번호가 변경되었습니다. <br />
-          로그인 하여 확인해주세요!
+        <p className="text-center font-normal b2 gap-y-2 whitespace-pre-line">
+          {t('UpdatedPw.reset_password_success_content')}
         </p>
       </div>
       <TextButton className="mt-12" onClick={handleLoginClick}>
-        로그인하기
+        {t('UpdatedPw.login_button')}
       </TextButton>
     </Wrapper>
   );

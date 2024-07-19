@@ -5,6 +5,7 @@ import CheckPassword from './CheckPassword';
 import UserAccountEdit from './UserAccountEdit';
 import CommonSection from './CommonSection';
 import UserInfoList from './UserInfoList';
+import { useTranslations } from 'next-intl';
 
 type SectionAccount = {
   user: User;
@@ -15,6 +16,7 @@ export default function SectionAccount({
   user,
   isSocial,
 }: SectionAccount) {
+  const t = useTranslations();
   const { openModal } = myPageStore();
 
   const handlePwCheckModal = () => {
@@ -27,10 +29,15 @@ export default function SectionAccount({
 
   const userInfo = [
     // isSocal값이 true라면 id값 보이게
-    ...(!isSocial ? [{ label: '아이디', value: user?.userId! }] : []),
-    { label: '이름', value: user?.name! },
-    { label: '생년월일', value: user?.birth! },
-    { label: '핸드폰번호', value: user?.phoneNumber! },
+    ...(!isSocial
+      ? [{ label: `${t('MyPage.id')}`, value: user?.userId! }]
+      : []),
+    { label: `${t('MyPage.name')}`, value: user?.name! },
+    { label: `${t('MyPage.birth')}`, value: user?.birth! },
+    {
+      label: `${t('MyPage.phone_number')}`,
+      value: user?.phoneNumber!,
+    },
   ];
 
   return (
@@ -39,9 +46,9 @@ export default function SectionAccount({
       <UserAccountEdit user={user} isSocial={isSocial} />
       <MyPageSection className="mt-14">
         <CommonSection
-          title="계정 설정"
-          description="서비스 이용시 사용하는 계정을 생성 및 변경합니다. 계정을 인증하여 다양한 서비스를 이용해보세요."
-          buttonText="개인정보 수정"
+          title={t('MyPage.edit_account_title')}
+          description={t('MyPage.edit_account_content')}
+          buttonText={t('MyPage.edit_account')}
           onButtonClick={handlePwCheckModal}
         />
         <UserInfoList userInfo={userInfo} />

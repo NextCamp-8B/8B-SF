@@ -1,5 +1,6 @@
 import Logo from '@/assets/logos/logo_dark.svg';
 import { auth as getSession } from '@/auth';
+import IntlClientProvider from '@/components/shared/IntlClientProvider';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 export default async function BeforeLayout({
@@ -24,7 +25,7 @@ Readonly<{
           </Link>
         </div>
       </div>
-      {children}
+      <IntlClientProvider>{children}</IntlClientProvider>
     </div>
   );
 }

@@ -6,6 +6,7 @@ import ProfileImageEditor from '../signup/ProfileImageEditor';
 import CompositeDropdown from './dropdown/compositeDropdown';
 import { SelectedOption } from './dropdown/types';
 import { renderDropdownOptions } from './dropdown/renderDropdownDoptions';
+import { useTranslations } from 'next-intl';
 
 type ProfileDetails = {
   profileImage: string;
@@ -40,6 +41,8 @@ export default function ProfileDetails({
   handleSelected,
   handleOptionsKey,
 }: ProfileDetails) {
+  const t = useTranslations();
+
   return (
     <form onSubmit={onHandleSubmit}>
       <ProfileImageEditor
@@ -59,7 +62,7 @@ export default function ProfileDetails({
             htmlFor="stock"
             className="b4 font-medium"
           >
-            관심종목
+            {t('MyPage.interest_stock')}
           </CompositeInput.Label>
           <CompositeInput.Input
             id="stock"
@@ -67,7 +70,7 @@ export default function ProfileDetails({
             value={stock}
             onChange={(e) => setStock(e.target.value)}
             className="border border-grayscale-400 b4 font-normal placeholder-grayscale-400 p-4 rounded-lg"
-            placeholder="#관심 종목을 추가해주세요"
+            placeholder={t('MyPage.placeholder_stock')}
           />
           {options.length > 0 && stock.length > 0 && (
             <CompositeDropdown.Panel

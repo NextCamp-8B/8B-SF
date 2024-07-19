@@ -5,10 +5,8 @@ import France from '@/assets/icons/fr.svg';
 import Japan from '@/assets/icons/jp.svg';
 import Korea from '@/assets/icons/kr.svg';
 import United from '@/assets/icons/us.svg';
-import {
-  ButtonStyleTypes,
-  ButtonSizeTypes,
-} from '@/components/shared/buttons/types';
+import { useTranslations } from 'next-intl';
+
 // How to use 사용방법
 // 전달할 props는
 // checked? = boolean (선택사항, 기본값 = false 현재 언어로 선택되었는지 확인)
@@ -21,6 +19,10 @@ import {
 //  <LanguageButton.Fr />
 //  <LanguageButton.Jp />
 //  <LanguageButton.Us checked={true} />
+type LanguageButtonWithTranslationProps = Omit<
+  LanguageButtonProps,
+  'children'
+>;
 
 type LanguageButtonProps = {
   children?: React.ReactNode;
@@ -35,7 +37,7 @@ const LanguageButton: React.FC<LanguageButtonProps> & {
   Fr: React.FC<LanguageButtonProps>;
   Us: React.FC<LanguageButtonProps>;
 } = ({
-  children = '한국어',
+  children,
   checked = false,
   iconSvg: IconSvg = Korea,
   ...props
@@ -63,30 +65,43 @@ const LanguageButton: React.FC<LanguageButtonProps> & {
   );
 };
 
-LanguageButton.Kr = (props: LanguageButtonProps) => (
-  <LanguageButton {...props} iconSvg={Korea}>
-    한국어
-  </LanguageButton>
+const withTranslation = (
+  Component: React.FC<LanguageButtonWithTranslationProps>,
+  translationKey: string,
+): React.FC<LanguageButtonWithTranslationProps> => {
+  const TranslatedComponent = (
+    props: LanguageButtonWithTranslationProps,
+  ) => {
+    const t = useTranslations('MyPage');
+    return <Component {...props}>{t(translationKey)}</Component>;
+  };
+
+  TranslatedComponent.displayName = `LanguageButton.${
+    translationKey.charAt(0).toUpperCase() + translationKey.slice(1)
+  }`;
+
+  return TranslatedComponent;
+};
+
+LanguageButton.Kr = withTranslation(
+  (props) => <LanguageButton {...props} iconSvg={Korea} />,
+  'korean',
 );
-LanguageButton.Cn = (props: LanguageButtonProps) => (
-  <LanguageButton {...props} iconSvg={China}>
-    중국어
-  </LanguageButton>
+LanguageButton.Cn = withTranslation(
+  (props) => <LanguageButton {...props} iconSvg={China} />,
+  'chinese',
 );
-LanguageButton.Jp = (props: LanguageButtonProps) => (
-  <LanguageButton {...props} iconSvg={Japan}>
-    일본어
-  </LanguageButton>
+LanguageButton.Jp = withTranslation(
+  (props) => <LanguageButton {...props} iconSvg={Japan} />,
+  'japanese',
 );
-LanguageButton.Fr = (props: LanguageButtonProps) => (
-  <LanguageButton {...props} iconSvg={France}>
-    프랑스어
-  </LanguageButton>
+LanguageButton.Fr = withTranslation(
+  (props) => <LanguageButton {...props} iconSvg={France} />,
+  'french',
 );
-LanguageButton.Us = (props: LanguageButtonProps) => (
-  <LanguageButton {...props} iconSvg={United}>
-    영어
-  </LanguageButton>
+LanguageButton.Us = withTranslation(
+  (props) => <LanguageButton {...props} iconSvg={United} />,
+  'english',
 );
 
 LanguageButton.Kr.displayName = 'LanguageButton.Kr';

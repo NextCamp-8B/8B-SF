@@ -3,8 +3,10 @@ import Wrapper from '@/components/shared/Wrapper';
 import SidebarItem from '@/components/user/SidebarItem';
 import { usePathname } from 'next/navigation';
 import { SectionType } from '@/types/mypage';
+import { useTranslations } from 'next-intl';
 
 export default function Sidebar() {
+  const t = useTranslations();
   const pathname = usePathname();
   const pathSegments = pathname.split('/');
   const selectedSection = pathSegments[
@@ -19,17 +21,17 @@ export default function Sidebar() {
             <SidebarItem
               section="profile"
               selectedSection={selectedSection}
-              label="개인정보 수정"
+              label={t('MyPage.personal_information')}
             />
             <SidebarItem
               section="language"
               selectedSection={selectedSection}
-              label="언어 설정"
+              label={t('MyPage.languages')}
             />
             <SidebarItem
               section="terms"
               selectedSection={selectedSection}
-              label="서비스 이용약관"
+              label={t('MyPage.terms_of_use')}
             />
           </ul>
         </div>
