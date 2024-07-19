@@ -7,7 +7,7 @@ import { UUID } from 'crypto';
 import Link from 'next/link';
 
 const radarStatus = {
-  width: 162.57,
+  width: 180,
   height: 176,
   cx: 78.4,
   cy: 96,
@@ -53,10 +53,12 @@ const btnCommonClass =
 
 export default function SpecificStockAIReport({
   stock,
-  handleDeleteInterest,
+  handleDeleteInterest = () => {},
+  type = 'interest',
 }: {
   stock: Stock;
-  handleDeleteInterest: (stockId: UUID) => void;
+  handleDeleteInterest?: (stockId: UUID) => void;
+  type?: 'home' | 'interest';
 }) {
   return (
     <Rechart className={'w-[328px] pb-4'}>
@@ -68,21 +70,25 @@ export default function SpecificStockAIReport({
           specific
         />
       </div>
-      <Rechart.RadarBtnWrapper className="w-[328px] flex gap-2 justify-center pt-4">
-        <ButtonBase
-          onClick={() => handleDeleteInterest(stock.stock_id as UUID)}
-          className={`${btnCommonClass} text-grayscale-600 bg-grayscale-200 hover:opacity-70 active:opacity-90`}
-        >
-          삭제하기
-        </ButtonBase>
-        <Link href={`/stock/${stock.stock_id}`}>
+      {type === 'interest' && (
+        <Rechart.RadarBtnWrapper className="w-[328px] flex gap-2 justify-center pt-4">
           <ButtonBase
-            className={`${btnCommonClass} text-grayscale-0 bg-primary-900 hover:opacity-90 active:opacity-95`}
+            onClick={() =>
+              handleDeleteInterest(stock.stock_id as UUID)
+            }
+            className={`${btnCommonClass} text-grayscale-600 bg-grayscale-200 hover:opacity-70 active:opacity-90`}
           >
-            자세히 보기
+            삭제하기
           </ButtonBase>
-        </Link>
-      </Rechart.RadarBtnWrapper>
+          <Link href={`/stock/${stock.stock_id}`}>
+            <ButtonBase
+              className={`${btnCommonClass} text-grayscale-0 bg-primary-900 hover:opacity-90 active:opacity-95`}
+            >
+              자세히 보기
+            </ButtonBase>
+          </Link>
+        </Rechart.RadarBtnWrapper>
+      )}
     </Rechart>
   );
 }
