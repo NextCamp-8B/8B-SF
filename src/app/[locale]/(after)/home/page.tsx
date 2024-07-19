@@ -24,7 +24,6 @@ export default async function Home() {
       isServer: true,
     }))
   ).map(({ stock }: { stock: Stock }) => stock);
-  console.log('test', nickname);
 
   return (
     <>
