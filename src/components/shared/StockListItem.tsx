@@ -3,9 +3,8 @@ import React from 'react';
 import StockIcon from './StockIcon';
 import { Stock } from '@/types/stock';
 import Link from 'next/link';
-import { compareToZero, formattingPrice } from '@/utils/stock';
+import { formattingPrice, getStockStyle } from '@/utils/stock';
 import { useRouter } from 'next/navigation';
-import { UUID } from 'crypto';
 
 export type StockListItemProps = {
   stock: Stock;
@@ -48,7 +47,7 @@ export default function StockListItem({
     compare_to_previous_close_price: cp,
   } = stock;
 
-  const compare = compareToZero(cp);
+  const style = getStockStyle(cp, fluctuations_ratio);
 
   const updateRecentHome = async (stock_id: string) => {
     const response = await fetch('/api/home/recent', {
@@ -89,26 +88,11 @@ export default function StockListItem({
               </span>
               <div
                 className={`flex gap-2 b4 font-normal
-              ${
-                compare === 'up'
-                  ? 'text-warning-100'
-                  : compare === 'equal'
-                  ? ''
-                  : 'text-secondary-600'
-              }
+              ${style.color}
               `}
               >
-                <span>{`${
-                  compare === 'up'
-                    ? '▲'
-                    : compare === 'equal'
-                    ? ''
-                    : '▼'
-                }${Math.abs(cp).toFixed(2)}`}</span>
-                <span>
-                  {compare === 'up' && '+'}
-                  {(fluctuations_ratio * 100).toFixed(2)}%
-                </span>
+                <span>{style.comparePrice}</span>
+                <span>{style.ratio}</span>
               </div>
             </div>
           </div>
@@ -133,26 +117,11 @@ export default function StockListItem({
               </span>
               <div
                 className={`flex gap-2 
-              ${
-                compare === 'up'
-                  ? 'text-warning-100'
-                  : compare === 'equal'
-                  ? ''
-                  : 'text-secondary-600'
-              }
+              ${style.color}
               caption`}
               >
-                <span>{`${
-                  compare === 'up'
-                    ? '▲'
-                    : compare === 'equal'
-                    ? ''
-                    : '▼'
-                }${Math.abs(cp).toFixed(2)}`}</span>
-                <span>
-                  {compare === 'up' && '+'}
-                  {(fluctuations_ratio * 100).toFixed(2)}%
-                </span>
+                <span>{style.comparePrice}</span>
+                <span>{style.ratio}</span>
               </div>
             </div>
           </div>
@@ -169,25 +138,16 @@ export default function StockListItem({
           </div>
           <div
             className={`flex gap-2 
-              ${
-                compare === 'up'
-                  ? 'text-warning-100'
-                  : compare === 'equal'
-                  ? ''
-                  : 'text-secondary-600'
-              }
+              ${style.color}
               caption`}
           >
             <span className={`b4 font-medium text-grayscale-900`}>
               ${formattingPrice(price)}
             </span>
-            <span className={`b4 font-normal`}>{`${
-              compare === 'up' ? '▲' : compare === 'equal' ? '' : '▼'
-            }${Math.abs(cp).toFixed(2)}`}</span>
             <span className={`b4 font-normal`}>
-              {compare === 'up' && '+'}
-              {(fluctuations_ratio * 100).toFixed(2)}%
+              {style.comparePrice}
             </span>
+            <span className={`b4 font-normal`}>{style.ratio}</span>
           </div>
         </div>
       )}
@@ -203,21 +163,10 @@ export default function StockListItem({
             ${formattingPrice(price)}
           </span>
           <div
-            className={`flex h-full items-center gap-2 ${
-              compare === 'up'
-                ? 'text-warning-100'
-                : compare === 'equal'
-                ? ''
-                : 'text-secondary-600'
-            }`}
+            className={`flex h-full items-center gap-2 ${style.color}`}
           >
-            <span className="b4">{`${
-              compare === 'up' ? '▲' : compare === 'equal' ? '' : '▼'
-            }${Math.abs(cp).toFixed(2)}`}</span>
-            <span className={`b4 `}>
-              {compare === 'up' && '+'}
-              {(fluctuations_ratio * 100).toFixed(2)}%
-            </span>
+            <span className="b4">{style.comparePrice}</span>
+            <span className={`b4 `}>{style.ratio}</span>
           </div>
         </div>
       )}
@@ -231,21 +180,10 @@ export default function StockListItem({
             <span className="b2">{stock_code}</span>
           </div>
           <div
-            className={`b2 font-medium flex items-center gap-2 ${
-              compare === 'up'
-                ? 'text-warning-100'
-                : compare === 'equal'
-                ? ''
-                : 'text-secondary-600'
-            }`}
+            className={`b2 font-medium flex items-center gap-2 ${style.color}`}
           >
-            <span>{`${
-              compare === 'up' ? '▲' : compare === 'equal' ? '' : '▼'
-            }${Math.abs(cp).toFixed(2)}`}</span>
-            <span>
-              {compare === 'up' && '+'}
-              {(fluctuations_ratio * 100).toFixed(2)}%
-            </span>
+            <span>{style.comparePrice}</span>
+            <span>{style.ratio}</span>
           </div>
         </div>
       )}
@@ -266,26 +204,11 @@ export default function StockListItem({
 
             <div
               className={`flex gap-2 b5 font-normal
-              ${
-                compare === 'up'
-                  ? 'text-warning-100'
-                  : compare === 'equal'
-                  ? ''
-                  : 'text-secondary-600'
-              }
+              ${style.color}
               `}
             >
-              <span>{`${
-                compare === 'up'
-                  ? '▲'
-                  : compare === 'equal'
-                  ? ''
-                  : '▼'
-              }${Math.abs(cp).toFixed(2)}`}</span>
-              <span>
-                {compare === 'up' && '+'}
-                {(fluctuations_ratio * 100).toFixed(2)}%
-              </span>
+              <span>{style.comparePrice}</span>
+              <span>{style.ratio}</span>
             </div>
           </div>
         </Link>
@@ -303,25 +226,16 @@ export default function StockListItem({
           </div>
           <div
             className={`flex gap-2 
-              ${
-                compare === 'up'
-                  ? 'text-warning-100'
-                  : compare === 'equal'
-                  ? ''
-                  : 'text-secondary-600'
-              }
+              ${style.color}
               caption`}
           >
             <span className={`b4 font-medium text-grayscale-900`}>
               ${formattingPrice(price)}
             </span>
-            <span className={`b4 font-normal`}>{`${
-              compare === 'up' ? '▲' : compare === 'equal' ? '' : '▼'
-            }${Math.abs(cp).toFixed(2)}`}</span>
             <span className={`b4 font-normal`}>
-              {compare === 'up' && '+'}
-              {(fluctuations_ratio * 100).toFixed(2)}%
+              {style.comparePrice}
             </span>
+            <span className={`b4 font-normal`}>{style.ratio}</span>
           </div>
         </div>
       )}
