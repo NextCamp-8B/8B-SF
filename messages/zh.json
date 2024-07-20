@@ -307,7 +307,20 @@
   "Stock": {
     "all": "全部股票",
     "trending_stocks": "热门股票",
-    "pluging_stocks": "暴跌股票"
+    "pluging_stocks": "暴跌股票",
+    "add_stock": "添加到关注列表",
+    "area_chart": "股票图表",
+    "radar_chart": "股票AI报告",
+    "ai_analyst_report": "Aightnow AI分析师报告",
+    "stock_report": "尽管加息迅猛，但汽车需求依然强劲，我们将特斯拉的目标价上调26%至340美元，并保持其为顶级选择。预计短期内会有暂停，但中期内公司的竞争优势正在增强。随着传统OEM转向电动车的速度较慢，中国初创企业的现金流减弱，一旦特斯拉的墨西哥工厂投产，其制造竞争力差距预计将进一步扩大。",
+    "stock_desc": "苹果设计、制造和销售智能手机、个人电脑、平板电脑、可穿戴设备和配件，并销售各种相关服务。产品类别包括iPhone、Mac、iPad、Wearables、Home和Accessories。",
+    "popular_news_today": "今日热门新闻",
+    "one_day": "1天",
+    "three_months": "3个月",
+    "one_year": "1年",
+    "three_years": "3年",
+    "ten_years": "10年",
+    "points": "{score}分"
   },
 
   "Date": {
@@ -330,5 +343,14 @@
     "my": "我的",
     "logout": "登出",
     "stock": "股票"
+  },
+  "RadarChart": {
+    "stock_price": "股票价格",
+    "investment_index": "投资指数",
+    "profitability": "盈利能力",
+    "growth": "增长性",
+    "interest_level": "兴趣程度",
+    "delete": "删除",
+    "view_details": "查看详情"
   }
 }

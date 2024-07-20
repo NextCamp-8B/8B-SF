@@ -5,6 +5,7 @@ import StockAIReportChart from './StockAIReportChart';
 import Rechart from './rechart';
 import { UUID } from 'crypto';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 const radarStatus = {
   width: 180,
@@ -55,13 +56,18 @@ export default function SpecificStockAIReport({
   stock,
   handleDeleteInterest = () => {},
   type = 'interest',
+  isEn = false,
 }: {
   stock: Stock;
   handleDeleteInterest?: (stockId: UUID) => void;
   type?: 'home' | 'interest';
+  isEn?: boolean;
 }) {
+  const width = isEn ? 'min-w-[328px]' : 'w-[328px]';
+  const t = useTranslations();
+
   return (
-    <Rechart className={'w-[328px] pb-4'}>
+    <Rechart className={`${width} pb-4`}>
       <div className="flex flex-col gap-4">
         <StockListItem stock={stock} type="interest" />
         <StockAIReportChart
@@ -71,20 +77,20 @@ export default function SpecificStockAIReport({
         />
       </div>
       {type === 'interest' && (
-        <Rechart.RadarBtnWrapper className="w-[328px] flex gap-2 justify-center pt-4">
+        <Rechart.RadarBtnWrapper className="min-w-[328px] flex gap-2 justify-center pt-4">
           <ButtonBase
             onClick={() =>
               handleDeleteInterest(stock.stock_id as UUID)
             }
             className={`${btnCommonClass} text-grayscale-600 bg-grayscale-200 hover:opacity-70 active:opacity-90`}
           >
-            삭제하기
+            {t('RadarChart.delete')}
           </ButtonBase>
           <Link href={`/stock/${stock.stock_id}`}>
             <ButtonBase
               className={`${btnCommonClass} text-grayscale-0 bg-primary-900 hover:opacity-90 active:opacity-95`}
             >
-              자세히 보기
+              {t('RadarChart.view_details')}
             </ButtonBase>
           </Link>
         </Rechart.RadarBtnWrapper>

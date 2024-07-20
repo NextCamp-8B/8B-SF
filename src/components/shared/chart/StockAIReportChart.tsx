@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import Rechart from './rechart';
 import { RadarData, RadarStatus } from './types';
 
@@ -23,11 +24,27 @@ export default function StockAIReportChart({
         } pt-4 pb-6 
         bg-grayscale-100 border border-grayscale-0 rounded-3xl`}
       >
-        <MetricsBar label={'주가'} percent={55.2} rate={true} />
-        <MetricsBar label={'투자지수'} percent={0.0} rate={true} />
-        <MetricsBar label={'수익성'} percent={'55.2'} rate={false} />
-        <MetricsBar label={'성장성'} percent={55.2} rate={false} />
-        <MetricsBar label={'관심도'} percent={55.2} rate={true} />
+        <MetricsBar
+          label={'stock_price'}
+          percent={55.2}
+          rate={true}
+        />
+        <MetricsBar
+          label={'investment_index'}
+          percent={0.0}
+          rate={true}
+        />
+        <MetricsBar
+          label={'profitability'}
+          percent={'55.2'}
+          rate={false}
+        />
+        <MetricsBar label={'growth'} percent={55.2} rate={false} />
+        <MetricsBar
+          label={'interest_level'}
+          percent={55.2}
+          rate={true}
+        />
       </Rechart.RadarMetricsBox>
     </div>
   );
@@ -43,10 +60,12 @@ function MetricsBar({
   // 임시
   rate: boolean;
 }) {
+  const t = useTranslations();
+
   return (
     <Rechart.RadarMetrics className="flex justify-between min-w-[120px]">
       <Rechart.MetricsLabel className="b4 font-medium text-grayscale-600">
-        {label}
+        {t(`RadarChart.${label}`)}
       </Rechart.MetricsLabel>
       <Rechart.MetricsPercent rate={rate}>
         {percent}

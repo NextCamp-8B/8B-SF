@@ -6,26 +6,29 @@ import Popular from '@/components/stock/interest/Popular';
 import { useCallback, useEffect, useState } from 'react';
 import { businessAPI } from '@/service/apiInstance';
 import useDebounce from '@/hooks/useDebounce';
-import { useSession } from 'next-auth/react';
 import { UUID } from 'crypto';
 import { useGetPopular } from '@/hooks/useGetPopular';
 import { useGetRecent } from '@/hooks/useGetRecent';
+import { UserData } from '@/service/serviceType';
+import { useTranslations } from 'next-intl';
 
 export default function ModalAddInterest({
   isOpen,
   handleIsOpen,
+  user,
 }: {
   isOpen: boolean;
   handleIsOpen: () => void;
+  user: UserData;
 }) {
   const [searched, setSearched] = useState([]);
   const [searchText, setSearchText] = useState('');
   const { searchStock } = businessAPI;
-  const { data } = useSession();
-  const userId = data?.user.id as UUID;
+  const userId = user && (user.id as UUID);
   const { popularStocks } = useGetPopular();
   const { recentStocks } = useGetRecent({ userId });
   const debouncedSearchText = useDebounce(searchText, 1000);
+  const t = useTranslations();
   const fetchSearchResults = useCallback(
     (text: string) => {
       if (text && userId) {
@@ -47,7 +50,7 @@ export default function ModalAddInterest({
 
   return (
     <ModalLayout
-      title="관심 종목 추가"
+      title={t('InterestStock.add_stock_title')}
       isOpen={isOpen}
       handleIsOpen={handleIsOpen}
       width="w-[794px]"

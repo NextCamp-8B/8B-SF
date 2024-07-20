@@ -10,10 +10,16 @@ import { Stock } from '@/types/stock';
 export default async function Home() {
   const authData = await getSession();
   const user = authData?.user;
-  const { id: userId, nickname } = user || {
+  const {
+    id: userId,
+    nickname,
+    language,
+  } = user || {
     id: null,
     nickname: null,
+    language: null,
   };
+  const isEn = language === 'en';
   const { getInterestStock } = businessAPI;
   const interestStocks = (
     userId &&
@@ -23,12 +29,16 @@ export default async function Home() {
       size: 4,
       isServer: true,
     }))
-  ).map(({ stock }: { stock: Stock }) => stock);
+  )?.map(({ stock }: { stock: Stock }) => stock);
 
   return (
     <>
       <main className="flex items-center justify-center w-full flex-col gap-12">
-        <AIReport nickname={nickname} stocks={interestStocks} />
+        <AIReport
+          nickname={nickname}
+          stocks={interestStocks}
+          isEn={isEn}
+        />
         <div className="w-[1200px] flex gap-5">
           <Recent />
           <FavoriteMain data={interestStocks} />

@@ -184,7 +184,7 @@
     "profitability": "수익성",
     "growability": "성장성",
     "interest": "관심도",
-    "add_stock_title": "관심종목 추가",
+    "add_stock_title": "관심 종목 추가",
     "placeholder_search": "검색어를 입력해주세요.",
     "popular_search": "인기 검색어",
     "recent_search": "최근 검색한 종목",
@@ -305,7 +305,20 @@
   "Stock": {
     "all": "전체 종목",
     "trending_stocks": "급상승 종목",
-    "pluging_stocks": "급하락 종목"
+    "pluging_stocks": "급하락 종목",
+    "add_stock": "관심종목 추가",
+    "area_chart": "주가 차트",
+    "radar_chart": "종목 AI 리포트",
+    "ai_analyst_report": "아잇나우 AI 애널리스트 리포트",
+    "stock_report": "급격한 금리 인상에도 견조한 자동차 수요를 반영하여 테슬라의 목표주가를 340달러로 26% 상향 조정하고 Top Pick으로 유지한다. 단기 상승에 따른 숨 고르기가 예상되지만, 중기적으로 동사의 경쟁우위는 더 강해지고 있다. 기존 OEM의 전기차 전환이 더디고 중국 신생 업체들의 현금 흐름이 약화되고있는 가운데, 테슬라의 멕시코 공장이 가동되면 전기차 제조 경쟁력 격차는 더 벌어질 것으로 예상된다.",
+    "stock_desc": "애플은 스마트폰, 개인용 컴퓨터, 태블릿, 웨어러블 및 액세서리를 설계, 제조 및 판매하고 다양한 관련 서비스를 판매한다. 제품 카테고리는 iPhone, Mac, iPad, Wearables, Home 및 Accessories로 나뉜다.",
+    "popular_news_today": "오늘 인기있는 뉴스",
+    "one_day": "1일",
+    "three_months": "3개월",
+    "one_year": "1년",
+    "three_years": "3년",
+    "ten_years": "10년",
+    "points": "{score}점"
   },
 
   "Date": {
@@ -328,5 +341,14 @@
     "my": "마이 페이지",
     "logout": "로그아웃",
     "stock": "주식"
+  },
+  "RadarChart": {
+    "stock_price": "주가",
+    "investment_index": "투자지수",
+    "profitability": "수익성",
+    "growth": "성장성",
+    "interest_level": "관심도",
+    "delete": "삭제하기",
+    "view_details": "자세히 보기"
   }
 }

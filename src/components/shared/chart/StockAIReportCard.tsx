@@ -2,6 +2,7 @@ import { PolarAngleAxis } from 'recharts';
 import StockAIReportChart from './StockAIReportChart';
 import CustomTick from './rechart/CustomTick';
 import Rechart from './rechart';
+import { useTranslations } from 'next-intl';
 
 const radarStatus = {
   width: 189.43,
@@ -13,39 +14,6 @@ const radarStatus = {
   numberOfSides: 5,
 };
 
-const radarData = [
-  {
-    subject: '주가',
-    A: 120,
-    B: 110,
-    fullMark: 150,
-  },
-  {
-    subject: '투자지수',
-    A: 98,
-    B: 130,
-    fullMark: 150,
-  },
-  {
-    subject: '관심도',
-    A: 86,
-    B: 130,
-    fullMark: 150,
-  },
-  {
-    subject: '성장성',
-    A: 99,
-    B: 100,
-    fullMark: 150,
-  },
-  {
-    subject: '수익성',
-    A: 85,
-    B: 90,
-    fullMark: 150,
-  },
-];
-
 /**
  * 프롬프트 작업 대기, 임시 완성
  */
@@ -55,6 +23,39 @@ export default function StockAIReportCard({
   as?: React.ElementType;
 }) {
   const score = 70;
+  const t = useTranslations();
+  const radarData = [
+    {
+      subject: t('RadarChart.stock_price'),
+      A: 120,
+      B: 110,
+      fullMark: 150,
+    },
+    {
+      subject: t('RadarChart.investment_index'),
+      A: 98,
+      B: 130,
+      fullMark: 150,
+    },
+    {
+      subject: t('RadarChart.interest_level'),
+      A: 86,
+      B: 130,
+      fullMark: 150,
+    },
+    {
+      subject: t('RadarChart.growth'),
+      A: 99,
+      B: 100,
+      fullMark: 150,
+    },
+    {
+      subject: t('RadarChart.profitability'),
+      A: 85,
+      B: 90,
+      fullMark: 150,
+    },
+  ];
 
   return (
     <Rechart className={'min-w-[365.44px] pb-8'}>
@@ -63,10 +64,10 @@ export default function StockAIReportCard({
           as={as}
           className="b1 font-semibold text-primary-900"
         >
-          종목 AI 리포트
+          {t('Stock.radar_chart')}
         </Rechart.Label>
         <Rechart.RadarScore className="h3 font-medium text-grayscale-700">
-          {score}점
+          {t('Stock.points', { score })}
         </Rechart.RadarScore>
       </div>
       <StockAIReportChart

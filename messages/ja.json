@@ -305,7 +305,20 @@
   "Stock": {
     "all": "全銘柄",
     "trending_stocks": "急上昇銘柄",
-    "pluging_stocks": "急落銘柄"
+    "pluging_stocks": "急落銘柄",
+    "add_stock": "ウォッチリストに追加",
+    "area_chart": "株価チャート",
+    "radar_chart": "銘柄AIレポート",
+    "ai_analyst_report": "Aightnow AIアナリストレポート",
+    "stock_report": "急激な金利上昇にもかかわらず、自動車需要の堅調さを反映し、テスラの目標株価を26%引き上げて340ドルとし、トップピックとして維持します。短期的な一服が予想されますが、中期的には同社の競争優位性がさらに強化されています。既存OEMのEV移行が遅れ、中国の新興企業のキャッシュフローが弱まる中、テスラのメキシコ工場が稼働すれば、EV製造競争力の差がさらに広がると予想されます。",
+    "stock_desc": "アップルはスマートフォン、パーソナルコンピュータ、タブレット、ウェアラブルおよびアクセサリの設計、製造、販売を行い、さまざまな関連サービスを販売しています。製品カテゴリには、iPhone、Mac、iPad、ウェアラブル、ホーム、アクセサリが含まれます。",
+    "popular_news_today": "今日の人気ニュース",
+    "one_day": "1日",
+    "three_months": "3ヶ月",
+    "one_year": "1年",
+    "three_years": "3年",
+    "ten_years": "10年",
+    "points": "{score}点"
   },
 
   "Date": {
@@ -328,5 +341,14 @@
     "my": "私の",
     "logout": "サインアウト",
     "stock": "株"
+  },
+  "RadarChart": {
+    "stock_price": "株価",
+    "investment_index": "投資指数",
+    "profitability": "収益性",
+    "growth": "成長性",
+    "interest_level": "関心度",
+    "delete": "削除する",
+    "view_details": "詳細を見る"
   }
 }

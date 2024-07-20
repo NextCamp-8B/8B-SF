@@ -2,15 +2,17 @@ import { useEffect, useState } from 'react';
 import ThatGoAddInterest from './ThatGoAddInterest';
 import ShowingInterest from './ShowingInterest';
 import { useInView } from 'react-intersection-observer';
-import { useSession } from 'next-auth/react';
 import { businessAPI } from '@/service/apiInstance';
 import { UUID } from 'crypto';
 import { Stock } from '@/types/stock';
+import { UserData } from '@/service/serviceType';
 
 export default function RequestWrapper({
   handleIsOpen,
+  user,
 }: {
   handleIsOpen: () => void;
+  user: UserData;
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [stocks, setStocks] = useState<Array<{ stock: Stock }>>([]);
@@ -20,8 +22,7 @@ export default function RequestWrapper({
   });
   const { page, size } = stockQuantity;
   const { getInterestStock } = businessAPI;
-  const { data } = useSession();
-  const userId = data?.user.id as UUID;
+  const userId = user && (user.id as UUID);
   const { deleteInterestStock } = businessAPI;
 
   function getInterest() {
@@ -99,7 +100,7 @@ export default function RequestWrapper({
 
   return (
     <>
-      <ThatGoAddInterest handleIsOpen={handleIsOpen} />
+      <ThatGoAddInterest handleIsOpen={handleIsOpen} user={user} />
       <ShowingInterest
         stocks={stocks}
         isLoading={isLoading}

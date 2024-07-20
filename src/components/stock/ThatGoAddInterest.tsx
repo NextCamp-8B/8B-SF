@@ -1,16 +1,21 @@
+import { useTranslations } from 'next-intl';
 import ButtonBase from '../shared/buttons/ButtonBase';
+import { UserData } from '@/service/serviceType';
 
 export default function ThatGoAddInterest({
   handleIsOpen,
+  user,
 }: {
   handleIsOpen: () => void;
+  user: UserData;
 }) {
-  const name = '최석호';
+  const t = useTranslations();
+  const nickname = user && user.nickname;
 
   return (
     <div className="flex justify-between">
       <h2 className="h4 font-semibold text-primary-900">
-        <span>{name}</span>님의 관심종목
+        {t('InterestStock.interest_stock', { nickname })}
       </h2>
       <ButtonBase
         className={`b5 font-normal px-14 
@@ -19,7 +24,7 @@ export default function ThatGoAddInterest({
         hover:opacity-90 active:opacity-95`}
         onClick={handleIsOpen}
       >
-        관심종목 추가
+        {t('InterestStock.add_stock')}
       </ButtonBase>
     </div>
   );

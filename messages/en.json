@@ -188,7 +188,7 @@
     "placeholder_search": "Please enter a stock.",
     "popular_search": "Popular Search",
     "recent_search": "Recent Search",
-    "delete_all": "delete all",
+    "delete_all": "Delete All",
     "result": "Result",
     "add": "Add",
     "delete_title": "Are you sure you want to delete your favorites?",
@@ -305,7 +305,20 @@
   "Stock": {
     "all": "All stocks",
     "trending_stocks": "Trending stocks",
-    "pluging_stocks": "Plunging stocks"
+    "pluging_stocks": "Plunging stocks",
+    "add_stock": "Add to Watchlist",
+    "area_chart": "Stock Chart",
+    "radar_chart": "AI Stock Report",
+    "ai_analyst_report": "Aightnow AI Analyst Report",
+    "stock_report": "Reflecting robust automobile demand despite sharp interest rate hikes, we raise Tesla's target price by 26% to $340 and maintain it as a Top Pick. Although a short-term pause is expected, the company's competitive edge is strengthening in the medium term. As traditional OEMs transition to electric vehicles more slowly and Chinese startups' cash flow weakens, Tesla's manufacturing competitiveness gap is expected to widen further once its Mexico plant becomes operational.",
+    "stock_desc": "Apple designs, manufactures, and sells smartphones, personal computers, tablets, wearables, and accessories, and sells a variety of related services. Product categories include iPhone, Mac, iPad, Wearables, Home, and Accessories.",
+    "popular_news_today": "Popular News Today",
+    "one_day": "1 day",
+    "three_months": "3 months",
+    "one_year": "1 year",
+    "three_years": "3 years",
+    "ten_years": "10 years",
+    "points": "{score} points"
   },
 
   "Date": {
@@ -328,5 +341,14 @@
     "my": "My",
     "logout": "Sign-out",
     "stock": "Stock"
+  },
+  "RadarChart": {
+    "stock_price": "Stock Price",
+    "investment_index": "Investment Index",
+    "profitability": "Profitability",
+    "growth": "Growth",
+    "interest_level": "Interest Level",
+    "delete": "Delete",
+    "view_details": "View Details"
   }
 }

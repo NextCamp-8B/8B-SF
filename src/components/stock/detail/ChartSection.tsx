@@ -5,8 +5,11 @@ import AddInterest from './AddInterest';
 import Wrapper from '@/components/shared/Wrapper';
 import StockIcon from '@/components/shared/StockIcon';
 import StockDescription from '../StockDescription';
+import { useTranslations } from 'next-intl';
 
 export default function ChartSection() {
+  const t = useTranslations();
+
   return (
     <>
       <AddInterest />
@@ -14,6 +17,28 @@ export default function ChartSection() {
         <Wrapper width="w-[488px]" padding="p-8">
           {/* 임시 구현 - Icon 컴포넌트 담당 한승재 (stat1202) */}
           <StockDescription />
+          <div className="flex justify-between mb-8">
+            <div>
+              <div className="flex items-center gap-[2px]">
+                <span className="b1 font-bold text-primary-900">
+                  $00.00
+                </span>
+                <span className="b2 font-normal text-primary-900">
+                  ∙
+                </span>
+                <span className="b2 font-normal text-primary-900">
+                  AAPL
+                </span>
+              </div>
+              <span className="b2 font-medium text-warning-100">
+                ▲1.75 +0.82%
+              </span>
+            </div>
+            <ToggleButton />
+          </div>
+          <p className="b4 font-normal text-grayscale-900">
+            {t('Stock.stock_desc')}
+          </p>
         </Wrapper>
         <Chart width="min-w-[692px]">
           <Chart.StockChartCard as="h3" />
@@ -25,7 +50,7 @@ export default function ChartSection() {
         </Chart>
         <Wrapper width="w-[750px]" padding="p-8">
           <h3 className="b1 font-bold text-primary-900 mb-[55px]">
-            아잇나우 AI 애널리스트 리포트
+            {t('ai_analyst_report')}
           </h3>
 
           {/* 임시 구현 - Icon 컴포넌트 담당 한승재 (stat1202) */}
@@ -53,10 +78,7 @@ export default function ChartSection() {
             </div>
           </div>
           <p className="b4 font-medium text-[#000000]">
-            급격한 금리 인상에도 견조한 자동차 수요를 반영하여
-            테슬라의 목표주가를 340달러로 26% 상향 조정하고 Top
-            Pick으로 유지한다. 단기 상승에 따른 숨 고르기가
-            예상되지만, 중기적으로 동사의 경쟁우위는 더 강해지고 있다.
+            {t('Stock.stock_report')}
           </p>
         </Wrapper>
       </div>

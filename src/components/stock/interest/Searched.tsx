@@ -3,6 +3,7 @@ import ButtonBase from '@/components/shared/buttons/ButtonBase';
 import { businessAPI } from '@/service/apiInstance';
 import { Stock } from '@/types/stock';
 import { UUID } from 'crypto';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 type StockWithInterest = Stock & {
@@ -18,6 +19,7 @@ export default function Searched({
 }) {
   const [stocks, setStocks] =
     useState<Array<StockWithInterest>>(searched);
+  const t = useTranslations();
   const { addInterestStock, deleteInterestStock } = businessAPI;
   const btnCommonClass =
     'b5 font-medium rounded-lg min-w-[122px] h-9 hover:bg-opacity-90 active:bg-opacity-95';
@@ -51,7 +53,7 @@ export default function Searched({
   };
   return (
     <>
-      <h3>검색 결과</h3>
+      <h3>{t('InterestStock.result')}</h3>
       <ul>
         {stocks.map((stock: StockWithInterest) => (
           <li key={stock.stock_id} className="flex justify-between">
@@ -61,14 +63,14 @@ export default function Searched({
                 onClick={() => handleDeleteInterest(stock.stock_id)}
                 className={`${btnCommonClass} text-grayscale-600 bg-grayscale-200 hover:opacity-70 active:opacity-90`}
               >
-                삭제하기
+                {t('InterestStock.delete')}
               </ButtonBase>
             ) : (
               <ButtonBase
                 onClick={() => handleAddInterest(stock.stock_id)}
                 className={`${btnCommonClass} text-grayscale-0 bg-primary-900 hover:opacity-90 active:opacity-95`}
               >
-                추가
+                {t('InterestStock.add')}
               </ButtonBase>
             )}
           </li>
@@ -77,4 +79,3 @@ export default function Searched({
     </>
   );
 }
-// "related" | "find" | "default" | "report" | "description" | "popular" | "interest" |
