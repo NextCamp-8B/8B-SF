@@ -245,4 +245,9 @@ export default class AightnowClient {
 
     return this.httpClient.get({ url: nextURL });
   }
+
+  async getExchangeRate() {
+    const nextURL = `/api/stock/exchange`;
+    return this.httpClient.get({ url: nextURL });
+  }
 }

@@ -3,8 +3,8 @@
 import Chart from '@/components/shared/chart';
 import AddInterest from './AddInterest';
 import Wrapper from '@/components/shared/Wrapper';
-import ToggleButton from '@/components/shared/ToggleButton';
 import StockIcon from '@/components/shared/StockIcon';
+import StockDescription from '../StockDescription';
 
 export default function ChartSection() {
   return (
@@ -13,31 +13,7 @@ export default function ChartSection() {
       <div className="flex justify-between">
         <Wrapper width="w-[488px]" padding="p-8">
           {/* 임시 구현 - Icon 컴포넌트 담당 한승재 (stat1202) */}
-          <div className="flex justify-between mb-8">
-            <div>
-              <div className="flex items-center gap-[2px]">
-                <span className="b1 font-bold text-primary-900">
-                  $00.00
-                </span>
-                <span className="b2 font-normal text-primary-900">
-                  ∙
-                </span>
-                <span className="b2 font-normal text-primary-900">
-                  AAPL
-                </span>
-              </div>
-              <span className="b2 font-medium text-warning-100">
-                ▲1.75 +0.82%
-              </span>
-            </div>
-            <ToggleButton />
-          </div>
-          <p className="b4 font-normal text-grayscale-900">
-            애플은 스마트폰, 개인용 컴퓨터, 태블릿, 웨어러블 및
-            액세서리를 설계, 제조 및 판매하고 다양한 관련 서비스를
-            판매한다. 제품 카테고리는 iPhone, MAc, iPad, Wearables,
-            Home 및 Accessories로 나뉜다.
-          </p>
+          <StockDescription />
         </Wrapper>
         <Chart width="min-w-[692px]">
           <Chart.StockChartCard as="h3" />

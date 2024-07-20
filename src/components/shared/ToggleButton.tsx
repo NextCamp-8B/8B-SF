@@ -1,10 +1,17 @@
-'use client';
+import { Locale } from '@/types/next-auth';
+import { getFormat } from '@/utils/stock';
 
-import { useState } from 'react';
+type ToggleButtonProps = {
+  isDollar: boolean;
+  setIsDollar: React.Dispatch<React.SetStateAction<boolean>>;
+  locale: Locale;
+};
 
-export default function ToggleButton() {
-  const [isDollar, setIsDollar] = useState(true);
-
+export default function ToggleButton({
+  isDollar,
+  setIsDollar,
+  locale,
+}: ToggleButtonProps) {
   return (
     <>
       <div className="w-[76px] h-[40px] bg-grayscale-200 rounded flex gap-1 justify-center items-center">
@@ -20,7 +27,7 @@ export default function ToggleButton() {
                 : 'text-grayscale-4 00'
             }`}
           >
-            $
+            {getFormat('en')}
           </span>
         </div>
         <div
@@ -35,7 +42,7 @@ export default function ToggleButton() {
                 : 'text-grayscale-400'
             }`}
           >
-            원
+            {getFormat(locale)}
           </span>
         </div>
       </div>
