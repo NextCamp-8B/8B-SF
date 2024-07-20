@@ -1,4 +1,4 @@
-import { type NextRequest } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
 import { auth as getSession } from '@/auth';
 import createMiddleware from 'next-intl/middleware';
 import { Session } from 'next-auth';
@@ -23,6 +23,10 @@ export default async function middleware(request: NextRequest) {
     const userLanguage = session.user.language || 'ko';
     // 유저 세션이 있다면 NEXT_LOCALE 쿠키 설정
     i18nResponse.cookies.set('NEXT_LOCALE', userLanguage);
+  }
+  
+  if (request.nextUrl.pathname === '/user') {
+    return NextResponse.redirect(new URL('/user/profile', request.url));
   }
 
   return i18nResponse;

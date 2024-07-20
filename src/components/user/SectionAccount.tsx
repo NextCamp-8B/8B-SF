@@ -6,6 +6,8 @@ import UserAccountEdit from './UserAccountEdit';
 import CommonSection from './CommonSection';
 import UserInfoList from './UserInfoList';
 import { useTranslations } from 'next-intl';
+import SocialWithdrawal from './SocialWithdrawal';
+import Withdrawal from './Withdrawal';
 
 type SectionAccount = {
   user: User;
@@ -43,6 +45,8 @@ export default function SectionAccount({
 
   return (
     <>
+      {/* 회원 탈퇴 */}
+      {isSocial ? <SocialWithdrawal user={user} /> : <Withdrawal />}
       {isUserAccountdit && (
         <UserAccountEdit user={user} isSocial={isSocial} />
       )}

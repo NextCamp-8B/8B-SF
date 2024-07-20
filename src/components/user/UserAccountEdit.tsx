@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import ModalWrapper from './ModalWrapper';
 import Wrapper from '@/components/shared/Wrapper';
 import useInputChange from '@/hooks/input/useInputChange';
-import Withdrawal from '@/components/user/Withdrawal';
 import { conceptMap } from '../shared/input/inputConfig';
 import useDuplicateCheck from '@/hooks/user/useDuplicateCheck';
 import { useAccountUpdated } from '@/hooks/user/useAccountUpdated';
@@ -13,7 +12,6 @@ import { usePasswordUpdate } from '@/hooks/user/useUpdatePw';
 import UserAccountForm from './UserAccountForm';
 import usePopupStore from '@/store/userPopup';
 import { User } from 'next-auth';
-import SocialWithdrawal from './SocialWithdrawal';
 import { useTranslations } from 'next-intl';
 
 // 정보수정 모달에서 회원탈퇴 모달을 관리
@@ -123,8 +121,6 @@ export default function UserAccountEdit({
 
   return (
     <>
-      {/* 회원 탈퇴 */}
-      {isSocial ? <SocialWithdrawal user={user} /> : <Withdrawal />}
       <ModalWrapper
         onClose={handleCloseAccountModal}
         isOpen={isUserAccountdit}
