@@ -15,30 +15,7 @@ export default function ChartSection() {
       <AddInterest />
       <div className="flex justify-between">
         <Wrapper width="w-[488px]" padding="p-8">
-          {/* 임시 구현 - Icon 컴포넌트 담당 한승재 (stat1202) */}
           <StockDescription />
-          <div className="flex justify-between mb-8">
-            <div>
-              <div className="flex items-center gap-[2px]">
-                <span className="b1 font-bold text-primary-900">
-                  $00.00
-                </span>
-                <span className="b2 font-normal text-primary-900">
-                  ∙
-                </span>
-                <span className="b2 font-normal text-primary-900">
-                  AAPL
-                </span>
-              </div>
-              <span className="b2 font-medium text-warning-100">
-                ▲1.75 +0.82%
-              </span>
-            </div>
-            <ToggleButton />
-          </div>
-          <p className="b4 font-normal text-grayscale-900">
-            {t('Stock.stock_desc')}
-          </p>
         </Wrapper>
         <Chart width="min-w-[692px]">
           <Chart.StockChartCard as="h3" />

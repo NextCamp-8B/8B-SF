@@ -1,8 +1,11 @@
 import StockIcon from '@/components/shared/StockIcon';
 import ButtonBase from '@/components/shared/buttons/ButtonBase';
+import { useTranslations } from 'next-intl';
 
 export default function AddInterest() {
   const isInterest = false;
+  const t = useTranslations();
+
   return (
     <div className="flex justify-between mb-[27px]">
       {/* 임시 구현 - Icon 컴포넌트 담당 한승재 (stat1202) */}
@@ -28,7 +31,7 @@ export default function AddInterest() {
         } 
 hover:opacity-90 active:opacity-95`}
       >
-        관심종목 {isInterest ? '해제' : '추가'}
+        {isInterest ? t('Stock.unsubscribe') : t('Stock.add_stock')}
       </ButtonBase>
     </div>
   );

@@ -7,7 +7,7 @@ import {
 } from '@/utils/stock';
 import React, { useEffect, useState } from 'react';
 import ToggleButton from '../shared/ToggleButton';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { businessAPI } from '@/service/apiInstance';
 import { Locale } from '@/types/next-auth';
 import { Stock } from '@/types/stock';
@@ -21,7 +21,7 @@ export default function StockDescription() {
   const locale = useLocale() as Locale;
   const [isDollar, setIsDollar] = useState(true);
   const [exchangeRate, setExchangeRate] = useState<ExchangeRate[]>();
-
+  const t = useTranslations();
   const [stock, setStock] = useState<Stock>();
 
   const getExchangeRate = async () => {
@@ -111,10 +111,7 @@ export default function StockDescription() {
         />
       </div>
       <p className="b4 font-normal text-grayscale-900">
-        애플은 스마트폰, 개인용 컴퓨터, 태블릿, 웨어러블 및 액세서리를
-        설계, 제조 및 판매하고 다양한 관련 서비스를 판매한다. 제품
-        카테고리는 iPhone, MAc, iPad, Wearables, Home 및 Accessories로
-        나뉜다.
+        {t('Stock.stock_desc')}
       </p>
     </>
   );
