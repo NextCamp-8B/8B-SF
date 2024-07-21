@@ -13,8 +13,8 @@ export default function Welcome() {
   const router = useRouter();
 
   const handleLoginClick = () => {
-    setPageStep('agreement'); // 페이지 스텝 초기화
     router.push('/login'); // 로그인 페이지로 이동
+    setPageStep('agreement'); // 페이지 스텝 초기화
   };
 
   return (

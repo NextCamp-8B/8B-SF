@@ -22,10 +22,19 @@ export const useStockSelection = (initialStock = '') => {
   const [focusedIndex, setFocusedIndex] = useState(0);
   const [options, setOptions] = useState<SelectedOption[]>([]);
 
+//#으로 시작하는 문자열 제외 함수
+const extractSearchText = (stock: string): string => {
+  return stock
+    .split(' ')
+    .filter((part) => !part.startsWith('#'))
+    .join(' ');
+};
+
   useEffect(() => {
     const fetchStocks = async () => {
+      const searchText = extractSearchText(stock);
       const response = await fetch(
-        `/api/search/stock?searchText=${stock}`,
+        `/api/search/stock?searchText=${searchText}`,
       );
 
       if (response.ok) {
@@ -69,11 +78,36 @@ export const useStockSelection = (initialStock = '') => {
     }
   };
 
-  const handleOptionsKey = (e: React.KeyboardEvent) => {
-    // 키보드 네비게이션 핸들링
-    // 예: 위/아래 키로 focusedIndex 변경 등
-  };
+  function handleOptionsKey(
+    e: React.KeyboardEvent<HTMLUListElement>,
+    datasetValue: string,
+  ) {
+    const isMessage = options[0]?.value === '';
+    const startIndex = isMessage ? 1 : 0;
+    const len = options.length;
 
+    switch (e.key) {
+      case 'ArrowUp':
+        setFocusedIndex((prevIndex) =>
+          Math.max(prevIndex - 1, startIndex),
+        );
+        break;
+      case 'ArrowDown':
+        setFocusedIndex((prevIndex) =>
+          Math.min(prevIndex + 1, len - 1),
+        );
+        break;
+      case 'Enter':
+      case 'Tab':
+        handleSelected(datasetValue);
+        break;
+      case 'Escape':
+        break;
+      default:
+        break;
+    }
+  }
+  
   return {
     stock,
     setStock,

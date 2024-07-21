@@ -36,7 +36,6 @@ export default function ProfileSetup() {
     options,
     selectedDataset,
     focusedIndex,
-    setFocusedIndex,
     handleSelected,
     handleOptionsKey,
   } = useStockSelection(''); // 관심종목 설정 훅

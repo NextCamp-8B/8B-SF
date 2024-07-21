@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { KeyboardEvent } from 'react';
 import InputSet from '@/components/shared/input/index';
 import CompositeInput from '@/components/shared/input/CompositeInput/index';
 import TextButton from '@/components/shared/buttons/TextButton';
@@ -22,7 +22,10 @@ type ProfileDetails = {
   stock: string;
   setStock: (stock: string) => void;
   handleSelected: (value: string) => void;
-  handleOptionsKey: (e: React.KeyboardEvent) => void;
+  handleOptionsKey: (
+    e: KeyboardEvent<HTMLUListElement>,
+    datasetValue: string,
+  ) => void;
 };
 
 export default function ProfileDetails({

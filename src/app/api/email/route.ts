@@ -34,17 +34,14 @@ const transporter = nodemailer.createTransport({
 // POST 요청 처리 - 이메일 인증 링크 전송
 export async function POST(request: NextRequest) {
   try {
-    const { name, email } = await request.json();
+    const { name, email, greeting, subject, success, failed } = await request.json();
 
     // 이메일 중복 체크
     const data = await checkEmailExists(email);
 
     if (data) {
       return NextResponse.json(
-        {
-          message:
-            '해당 이메일은 이미 사용 중입니다. 다른 이메일을 사용하시거나, 비밀번호 찾기를 이용해 주세요.',
-        },
+        { message: 'email_in_use',},
         { status: 409 },
       );
     }
@@ -53,10 +50,7 @@ export async function POST(request: NextRequest) {
 
     if (isDeletedUser) {
       return NextResponse.json(
-        {
-          message:
-            '해당 이메일은 회원탈퇴한 이메일입니다.\n다른 이메일을 사용하시거나,\n고객센터에 문의해주세요.',
-        },
+        { message: 'deleted_email',},
         { status: 409 },
       );
     }
@@ -77,10 +71,9 @@ export async function POST(request: NextRequest) {
     const currentUrl = new URL(request.url);
     const signupLink = `${currentUrl.origin}/signup?token=${token}`;
     // <img src="${logoDataUri}" alt="Logo" style="width: 200px; height: auto;"/>
-
     const htmlContent = `
          <div style="text-align: center;">
-           <h1>안녕하세요 아잇나우 입니다. </br>  이메일 인증을 위해 아래 링크를 클릭해주세요:</h1>
+          <h2>${greeting}</h2>
            <a href="${signupLink}" style="display: inline-block; padding: 10px 20px; margin-top: 20px; color: white; background-color: #007BFF; text-decoration: none; border-radius: 5px;">이메일 인증하기</a>
          </div>
        `;
@@ -88,22 +81,20 @@ export async function POST(request: NextRequest) {
     await transporter.sendMail({
       from: process.env.NAVAER_EMAIL, // 보내는 이메일
       to: email, // 받는 이메일 주소
-      subject: `이메일 인증: ${name}님`,
+      subject: `${subject}`,
       html: htmlContent,
     });
 
     const response = NextResponse.json(
-      { message: '이메일 전송 성공', token },
+      { message: success, token },
       { status: 200 },
     );
 
     // 쿠키 설정
-    // Todo:
-    // 현재 언어설정으로 인해 동적으로 url 이 변경됨 /fr/signup /us/signup 등
-    // 이에 대한 auth-token 에 대한 path 처리 필요!
+    const locale = request.cookies.get('NEXT_LOCALE')?.value || 'ko';
     response.cookies.set('auth-token', token, {
       maxAge: 60 * 30, // 30분
-      path: '/',
+      path:`/${locale}/signup`,
     });
 
     return response;
@@ -112,7 +103,7 @@ export async function POST(request: NextRequest) {
       {
         message:
           '인증 링크 전송에 실패했습니다. 다시 시도하시거나 고객센터에 문의해주세요.',
-        error: error.message, // 에러 메시지 포함
+        error: error.message,
       },
 
       { status: 500 },

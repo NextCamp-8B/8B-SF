@@ -9,6 +9,7 @@ import LoadingSpinner from '../shared/LoadingSpinner';
 import { useTranslations } from 'next-intl';
 
 export default function Auth() {
+  const t = useTranslations('SignUp');
   const [isShowPopup, setIsShowPopup] = useState(false); // 팝업 조건부 렌더링
   const [isLoading, setIsLoading] = useState(false); //api 로딩 체크
   const { value, onChangeInputValue } = useInputChange(); // Input 관리
@@ -16,10 +17,9 @@ export default function Auth() {
   const [authError, setAuthError] = useState({
     // 인증링크 전송 중 에러
     isError: false,
-    message: null,
+    message: '',
   });
   const [isFormValid, setIsFormValid] = useState(false); // 폼 유효성 체크
-  const t = useTranslations();
 
   const validateForm = useCallback(() => {
     const isNameValid = conceptMap.name.doValidation(value.name);
@@ -36,7 +36,7 @@ export default function Auth() {
   };
 
   const onHandleSubmit = async () => {
-    setAuthError({ isError: false, message: null });
+    setAuthError({ isError: false, message: '' });
     setIsSubmit(true);
     setIsLoading(true);
     if (!isFormValid) {
@@ -45,37 +45,37 @@ export default function Auth() {
     }
     // 유효성 검사가 성공했다면
     // 인증번호 링크 보내기
-    try {
-      const response = await fetch('/api/email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: value.name.trim(),
-          email: value.email.trim(),
-        }),
-      });
+    const response = await fetch('/api/email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: value.name.trim(),
+        email: value.email.trim(),
+        subject: t('email_subject', { name: `${value.name}` }),
+        greeting: t('email_greeting'),
+        success: t('send_link'),
+      }),
+    });
 
-      if (response.ok) {
-        const data = await response.json();
-        // console.log('data', data);
-        setIsLoading(false);
-        // 입력 필드 초기화
-        value.name = '';
-        value.email = '';
-      } else {
-        const errorData = await response.json();
-        setAuthError({ isError: true, message: errorData.message }); // 서버로부터 받은 에러 메시지를 상태에 저장
-      }
-    } catch (error) {
-      console.error('이메일 전송 중 오류 발생:', error);
-      setAuthError({ isError: true, message: null });
-    } finally {
-      // 이메일 전송 성공/실패 팝업 발생
-      setIsShowPopup(true);
+    if (response.ok) {
+      const data = await response.json();
+      // console.log('data', data);
       setIsLoading(false);
+      // 입력 필드 초기화
+      value.name = '';
+      value.email = '';
+    } else {
+      const { message } = await response.json();
+      setAuthError({
+        isError: true,
+        message: t(`${message}`) || t('send_link_failed'),
+      }); // 서버로부터 받은 에러 메시지를 상태에 저장
     }
+    // 이메일 전송 성공/실패 팝업 발생
+    setIsShowPopup(true);
+    setIsLoading(false);
   };
   return (
     <>
@@ -89,14 +89,14 @@ export default function Auth() {
       <Wrapper padding="px-24 py-20" width="w-[590px]">
         <div className="flex flex-col justify-start w-[386px] h-full">
           <h3 className="h3 font-bold text-center mb-10 text-primary-900">
-            {t('SignUp.authenticate')}
+            {t('authenticate')}
           </h3>
           {isLoading ? (
             <div className="w-full h-full flex items-center justify-center">
               <LoadingSpinner />
             </div>
           ) : (
-            <InputSet className="flex flex-col gap-4">
+            <InputSet className="flex flex-col gap-4 ">
               <InputSet.Validated
                 onChange={onChangeInputValue}
                 value={value.name}
@@ -115,7 +115,7 @@ export default function Auth() {
                 onClick={onHandleSubmit}
                 className="w-full mx-auto mt-8"
               >
-                {t('SignUp.send_link')}
+                {t('send_link')}
               </TextButton>
             </InputSet>
           )}
