@@ -56,7 +56,7 @@ export default function StockDescription({
                       .exchange_rate,
                     exchangeRate.find((e) => e.locale === 'en')!
                       .exchange_rate,
-                    300, //stcok_price
+                    stock.price,
                     'en',
                   )
                 : exchangeRate &&
@@ -65,13 +65,13 @@ export default function StockDescription({
                       .exchange_rate,
                     exchangeRate.find((e) => e.locale === locale)!
                       .exchange_rate,
-                    300, //stcok_price
+                    stock.price,
                     locale,
                   )}
             </span>
             <span className="b2 font-normal text-primary-900">∙</span>
             <span className="b2 font-normal text-primary-900">
-              AAPL
+              {stock.stock_code}
             </span>
           </div>
           <span
