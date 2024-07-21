@@ -127,3 +127,192 @@ export async function POST(req: NextRequest) {
     updatedReport: data,
   });
 }
+
+/**
+ * 리포트에서 퍼센트를 계산하는 API 핸들러
+ * @returns 계산된 퍼센트 응답
+ */
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const stockId = searchParams.get('stockId');
+
+  if (!stockId) {
+    return NextResponse.json(
+      { error: 'Report ID is required' },
+      { status: 400 },
+    );
+  }
+
+  // Supabase 클라이언트 생성
+  const supabase = createClient();
+
+  // 특정 report_id에 대한 리포트를 조회
+  const { data: reportData, error } = await supabase
+    .from('stock')
+    .select('detailed_data')
+    .eq('stock_id', stockId)
+    .single();
+
+  if (error || !reportData) {
+    return NextResponse.json(
+      { error: 'Report not found' },
+      { status: 404 },
+    );
+  }
+
+  const report = reportData.detailed_data;
+
+  /** 리포트에서 주가, 투자지수, 관심도, 성장성, 수익성 퍼센트를 계산 */
+  const percentages = calculatePercentages(report);
+
+  return NextResponse.json({ percentages });
+}
+
+/**
+ * 리포트를 분석하여 주가, 투자지수, 관심도, 성장성, 수익성의 퍼센트를 계산하는 함수
+ * @description
+ * - 특정 키워드의 출현 빈도를 기반으로 점수를 계산
+ * - 리포트 내용 분석
+ *   - 주가 (Stock Price): 주가에 대한 긍정적, 부정적, 중립적 정보
+ *   - 투자지수 (Investment Index): 투자지수에 대한 긍정적, 부정적, 중립적 정보
+ *   - 관심도 (Interest Level): 관심도에 대한 긍정적, 부정적, 중립적 정보
+ *   - 성장성 (Growth): 성장성에 대한 긍정적, 부정적, 중립적 정보
+ *   - 수익성 (Profitability): 수익성에 대한 긍정적, 부정적, 중립적 정보
+ * @returns 각 항목에 대한 퍼센트
+ */
+function calculatePercentages(report: string): {
+  [key: string]: number;
+} {
+  /** 긍정적, 부정적 키워드 */
+  const keywords = {
+    stockPrice: {
+      positive: ['upward', 'increased', 'strong', 'high', 'robust'],
+      negative: ['downward', 'declined', 'weak', 'low', 'poor'],
+    },
+    investmentIndex: {
+      positive: [
+        'attractive',
+        'high',
+        'positive',
+        'high-value',
+        'strong',
+      ],
+      negative: ['poor', 'low', 'negative', 'unattractive', 'weak'],
+    },
+    interestLevel: {
+      positive: [
+        'high demand',
+        'popular',
+        'increasing',
+        'high interest',
+        'strong interest',
+      ],
+      negative: [
+        'low demand',
+        'unpopular',
+        'declining',
+        'low interest',
+        'weak interest',
+      ],
+    },
+    growth: {
+      positive: [
+        'growth',
+        'expanding',
+        'high growth',
+        'strong performance',
+        'increasing',
+      ],
+      negative: [
+        'stagnant',
+        'decline',
+        'slow growth',
+        'poor performance',
+        'reducing',
+      ],
+    },
+    profitability: {
+      positive: [
+        'high profit',
+        'strong margin',
+        'high return',
+        'excellent profitability',
+        'robust',
+      ],
+      negative: [
+        'low profit',
+        'weak margin',
+        'poor return',
+        'low profitability',
+        'difficult',
+      ],
+    },
+  };
+
+  /**
+   * 긍정적인 정보가 많으면 높은 점수를 부여하고, 부정적인 정보가 많으면 낮은 점수를 부여
+   */
+  function calculateScore(
+    text: string,
+    positiveKeywords: string[],
+    negativeKeywords: string[],
+  ): number {
+    let score = 0;
+    positiveKeywords.forEach((keyword) => {
+      const regex = new RegExp(keyword, 'gi');
+      const matches = text.match(regex);
+      if (matches) {
+        score += matches.length;
+      }
+    });
+    negativeKeywords.forEach((keyword) => {
+      const regex = new RegExp(keyword, 'gi');
+      const matches = text.match(regex);
+      if (matches) {
+        score -= matches.length;
+      }
+    });
+    return score;
+  }
+
+  // 리포트에서 각 항목의 정보를 추출하고 점수를 계산합니다.
+  const stockPriceScore = calculateScore(
+    report,
+    keywords.stockPrice.positive,
+    keywords.stockPrice.negative,
+  );
+  const investmentIndexScore = calculateScore(
+    report,
+    keywords.investmentIndex.positive,
+    keywords.investmentIndex.negative,
+  );
+  const interestLevelScore = calculateScore(
+    report,
+    keywords.interestLevel.positive,
+    keywords.interestLevel.negative,
+  );
+  const growthScore = calculateScore(
+    report,
+    keywords.growth.positive,
+    keywords.growth.negative,
+  );
+  const profitabilityScore = calculateScore(
+    report,
+    keywords.profitability.positive,
+    keywords.profitability.negative,
+  );
+
+  /** 각 항목의 최대 점수 */
+  const maxScore = 10;
+  /** 각 항목의 퍼센트를 계산 (점수를 100으로 정규화) */
+  const normalize = (score: number) =>
+    Math.min(Math.max((score / maxScore) * 100, 0), 100);
+
+  return {
+    stockPrice: normalize(stockPriceScore),
+    investmentIndex: normalize(investmentIndexScore),
+    interestLevel: normalize(interestLevelScore),
+    growth: normalize(growthScore),
+    profitability: normalize(profitabilityScore),
+  };
+}
