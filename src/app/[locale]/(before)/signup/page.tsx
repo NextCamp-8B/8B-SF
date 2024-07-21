@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Agreement from '@/components/signup/Agreement';
 import Auth from '@/components/signup/Auth';
 import SignupForm from '@/components/signup/SignupForm';
@@ -68,6 +68,8 @@ export default function Signup() {
         router.push('/signup'); // 유효하지 않은 경우 리디렉션
         clearUser();
       }
+    } else {
+      setPageStep('agreement');
     }
   }, [searchParams, clearUser, setUser, router, setPageStep]);
 

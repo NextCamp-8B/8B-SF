@@ -1,21 +1,11 @@
-'use client';
-
 import React from 'react';
 import Wrapper from '@/components/shared/Wrapper';
 import TextButton from '@/components/shared/buttons/TextButton';
-import { useRouter } from 'next/navigation';
-import usePageStore from '@/store/signupStepStore';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 
 export default function Welcome() {
   const t = useTranslations();
-  const { setPageStep } = usePageStore();
-  const router = useRouter();
-
-  const handleLoginClick = () => {
-    router.push('/login'); // 로그인 페이지로 이동
-    setPageStep('agreement'); // 페이지 스텝 초기화
-  };
 
   return (
     <Wrapper padding="px-24 py-20" width="w-[590px]">
@@ -27,9 +17,11 @@ export default function Welcome() {
           {t('SignUp.sign_up_content')}
         </p>
       </div>
-      <TextButton className="mt-12" onClick={handleLoginClick}>
-        {t('SignUp.go_to_login')}
-      </TextButton>
+      <Link href="/login">
+        <TextButton className="mt-12">
+          {t('SignUp.go_to_login')}
+        </TextButton>
+      </Link>
     </Wrapper>
   );
 }
