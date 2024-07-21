@@ -29,8 +29,8 @@ export default function StockDescription({
   const [exchangeRate, setExchangeRate] = useState<ExchangeRate[]>();
 
   const getExchangeRate = async () => {
-    // const data = await businessAPI.getExchangeRate();
-    // setExchangeRate(data);
+    const data = await businessAPI.getExchangeRate();
+    setExchangeRate(data);
   };
 
   useEffect(() => {
