@@ -1,37 +1,38 @@
-'use client';
-
+import { useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
 import { FormEvent, useState } from 'react';
 
-export default function ChatbotInput() {
+export default function ChatbotInput({
+  onNewMessage,
+}: {
+  onNewMessage: () => void;
+}) {
+  const { data: session, status } = useSession();
   const [message, setMessage] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [latestInfo, setLatestInfo] = useState<object[]>([]);
   const t = useTranslations('Chatbot');
+
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
-    //
-    const target = e.target as typeof e.target & {
-      message: { value: string };
-    };
-
-    const message = target.message.value;
-
-    const userId = 1;
-
-    const response = await fetch(`/api/chatbot?user_id=${userId}`, {
+    if (!message.trim()) {
+      return;
+    }
+    const userId = session?.user.id;
+    setIsLoading(true);
+    const response = await fetch('/api/chatbot', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        question: message,
-        temperature: 0.1,
-        top_p: 0.1,
-      }),
+      body: JSON.stringify({ userId, message }),
     });
+
     if (response.ok) {
-      const data = await response.json();
-      console.log(data);
       setMessage('');
+      setLatestInfo([{ '2024-06-01': 10000 }]);
+      onNewMessage();
+      setIsLoading(false);
     }
   };
 
@@ -45,14 +46,15 @@ export default function ChatbotInput() {
               id="message"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
+              disabled={isLoading}
               className="w-[377px] h-14 border-grayscale-100 border-2 rounded-lg pl-4"
             />
-
             <button
               type="submit"
-              className="w-16 h-14 rounded-lg bg-primary-900 "
+              className="w-16 h-14 rounded-lg bg-primary-900"
+              disabled={isLoading}
             >
-              <span className="text-[#FFFFFF]"> {t('send')} </span>
+              <span className="text-[#FFFFFF]">{t('send')}</span>
             </button>
           </div>
         </form>

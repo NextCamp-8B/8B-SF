@@ -1,9 +1,15 @@
-import { generateAnswer } from '@/utils/llama';
 import { createClient } from '@/utils/supabase/server';
+import { generateResponse } from '@/utils/openai';
+import OpenAI from 'openai';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(request: Request) {
-  const url = new URL(request.url);
-  const userId = url.searchParams.get('user_id');
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+export async function GET(req: Request, res: Response) {
+  const { searchParams } = new URL(req.url);
+  const userId = searchParams.get('user_id');
 
   // Supabase 클라이언트 생성
   const supabase = createClient();
@@ -12,16 +18,8 @@ export async function GET(request: Request) {
   const { data: chatbotData, error } = await supabase
     .from('chatbot')
     .select('answer, question')
-    .eq('user_id', 1)
+    .eq('user_id', userId)
     .order('created_at', { ascending: true });
-
-  if (error) {
-    // 오류가 발생한 경우 오류 메시지 반환
-    console.error(error);
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 500,
-    });
-  }
 
   let answers: string[] = [];
   let questions: string[] = [];
@@ -41,41 +39,32 @@ export async function GET(request: Request) {
     });
   }
 
-  return new Response(JSON.stringify({ questions, answers, chat }), {
-    status: 200,
-  });
+  return NextResponse.json({ questions, answers, chat });
 }
 
-export async function POST(request: Request) {
-  const url = new URL(request.url);
-  const userId = parseInt(url.searchParams.get('user_id') || '0');
-  console.log(typeof userId, userId);
-  // 요청의 본문에서 데이터를 읽어옴
-  const { question, temperature, top_p, repetition_penalty } =
-    await request.json();
+export async function POST(req: NextRequest) {
+  const { userId, message, latestInfo } = await req.json();
 
-  // Llama API를 사용하여 질문에 대한 답변 생성
-  const answer = await generateAnswer(question, temperature, top_p);
+  if (!userId || !message) {
+    return NextResponse.json(
+      { error: 'User ID and message are required' },
+      { status: 400 },
+    );
+  }
+
+  // OpenAI API를 사용하여 질문에 대한 답변 생성
+  const aiResponse = await generateResponse(message, latestInfo);
+
+  const answer = aiResponse;
+  if (!answer) {
+    throw new Error('No response from AI');
+  }
 
   // 생성된 답변을 Supabase의 chatbot 테이블에 저장
   const supabase = createClient();
   const { data, error } = await supabase
     .from('chatbot')
-    .insert({ question, answer, user_id: userId })
-    .eq('user_id', userId);
+    .insert({ question: message, answer, user_id: userId });
 
-  if (error) {
-    console.error('챗봇 에러:', error.message);
-    return new Response(
-      JSON.stringify({ error: 'Failed to insert data' }),
-      {
-        status: 500,
-      },
-    );
-  }
-
-  // 성공적으로 데이터를 저장한 경우
-  return new Response(JSON.stringify({ data }), {
-    status: 200,
-  });
+  return NextResponse.json({ data });
 }

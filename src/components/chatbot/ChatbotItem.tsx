@@ -1,8 +1,9 @@
 'use client';
 
 import FAB from '@/assets/icons/fab.svg';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ChatbotChat from './ChatbotChat';
+import { useSession } from 'next-auth/react';
 
 export default function ChatbotItem({}: {}) {
   const [openActive, setOpenActive] = useState<Boolean>(false);
@@ -16,23 +17,23 @@ export default function ChatbotItem({}: {}) {
     setOpenActive(false);
   };
 
-  useEffect(() => {
-    const user_id = 1;
-    if (openActive) {
-      const fetchChatbot = async () => {
-        const response = await fetch(
-          `/api/chatbot?user_id=${user_id}`,
-        );
+  const { data: session, status } = useSession();
+  // useEffect(() => {
+  //   const userId = session?.user.id;
+  //   if (openActive) {
+  //     const fetchChatbot = async () => {
+  //       const response = await fetch(
+  //         `/api/chatbot?user_id=${userId}`,
+  //       );
 
-        if (response.ok) {
-          const data = await response.json();
-          // console.log(data.chat);
-          setChatting(data.chat);
-        }
-      };
-      fetchChatbot();
-    }
-  }, [openActive]);
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         setChatting(data.chat);
+  //       }
+  //     };
+  //     fetchChatbot();
+  //   }
+  // }, [openActive, session]);
 
   return (
     <>
