@@ -33,7 +33,11 @@ export interface UserData {
   phoneNumber: string;
   interestStock: string;
   provider: string;
-  language: Locale;
+  language: string;
   accessToken: string;
   refreshToken: string;
 }
+
+export type StockWithInterest = Stock & {
+  isInterest: boolean;
+};

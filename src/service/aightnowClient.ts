@@ -15,6 +15,10 @@ export default class AightnowClient {
     this.getPopularStock = this.getPopularStock.bind(this);
     this.searchStock = this.searchStock.bind(this);
     this.deleteInterestStock = this.deleteInterestStock.bind(this);
+    this.getStockDetail = this.getStockDetail.bind(this);
+    this.getNaverpay = this.getNaverpay.bind(this);
+    this.updateStock = this.updateStock.bind(this);
+    this.getPayDuration = this.getPayDuration.bind(this);
   }
 
   async loginLLM({ isServer = false }: { isServer?: boolean } = {}) {
@@ -248,6 +252,60 @@ export default class AightnowClient {
 
   async getExchangeRate() {
     const nextURL = `/api/stock/exchange`;
+    return this.httpClient.get({ url: nextURL });
+  }
+
+  async getStockDetail({
+    stockId,
+    userId,
+  }: {
+    stockId: UUID;
+    userId: UUID;
+  }) {
+    const nextURL = `/api/stock/detail?userId=${userId}&stockId=${stockId}`;
+
+    return this.httpClient.get({ url: nextURL });
+  }
+
+  async getNaverpay({ companies }: { companies: string }) {
+    const nextURL = `/api/stock/naverpay?companies=${companies}`;
+
+    return this.httpClient.get({ url: nextURL });
+  }
+
+  async updateStock({
+    stockId,
+    fluctuationsRatio,
+    compareToPreviousClosePrice,
+    closePrice,
+  }: {
+    stockId: UUID;
+    fluctuationsRatio: string;
+    compareToPreviousClosePrice: string;
+    closePrice: string;
+  }) {
+    const nextURL = '/api/stock';
+    const body = {
+      stockId,
+      fluctuationsRatio,
+      compareToPreviousClosePrice,
+      closePrice,
+    };
+
+    return this.httpClient.put({ url: nextURL, body });
+  }
+
+  async getPayDuration({
+    companies,
+    amount,
+    unit,
+  }: {
+    companies: string;
+    amount: string | number;
+    unit: string;
+  }) {
+    const nextURL = `/api/stock/naverpay/duration?companies=${companies}&amount=${amount}&unit=${unit}`;
+
     return this.httpClient.get({ url: nextURL });
   }
 }
