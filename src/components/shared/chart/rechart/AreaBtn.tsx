@@ -12,7 +12,6 @@ export default function AreaBtn({
   className?: string;
   duration: Duration;
 }) {
-  const { handleRoute } = useRouteAreaChart();
   const searchParams = useSearchParams();
   const amount = Number(searchParams.get('amount'));
   const unit = searchParams.get('unit');
@@ -22,12 +21,13 @@ export default function AreaBtn({
   return (
     <li className={className}>
       <ButtonBase
+        data-amount={duration.amount}
+        data-unit={duration.unit}
         className={`b5 font-medium ${
           selected
             ? 'bg-primary-50 text-primary-900'
             : 'bg-grayscale-0 text-grayscale-400'
         } rounded-lg py-[6px] px-[22.5px]`}
-        onClick={() => handleRoute(duration)}
       >
         {children}
       </ButtonBase>

@@ -4,16 +4,23 @@ import TodayPopularNews from '@/components/news/TodayPopularNews';
 import IntlClientProvider from '@/components/shared/IntlClientProvider';
 import SkeletonTodayPopularNews from '@/components/skeleton/news/SkeletonTodayPopularNews';
 import ChartSection from '@/components/stock/detail/ChartSection';
+import { UUID } from 'crypto';
 import { getTranslations } from 'next-intl/server';
 import { Suspense } from 'react';
 
-export default async function StockDetail() {
+type DetailProps = {
+  params: {
+    stockId: UUID;
+  };
+};
+
+export default async function StockDetail({ params }: DetailProps) {
   const t = await getTranslations('Stock');
 
   return (
     <div className="flex flex-col gap-5">
       <IntlClientProvider>
-        <ChartSection />
+        <ChartSection stockId={params.stockId as UUID} />
       </IntlClientProvider>
       <NewsSection>
         <NewsHeading>{t('popular_news_today')}</NewsHeading>

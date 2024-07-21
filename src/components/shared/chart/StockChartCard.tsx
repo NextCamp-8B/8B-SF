@@ -1,13 +1,68 @@
 import { useTranslations } from 'next-intl';
 import Rechart from './rechart';
 import AreaBtn from './rechart/AreaBtn';
+import { businessAPI } from '@/service/apiInstance';
+import { useRouteAreaChart } from '@/hooks/useRouteAreaChart';
+import { AreaChartData, Duration } from './types';
+import { useEffect, useState } from 'react';
 
 export default function StockChartCard({
   as,
+  stockCode,
 }: {
   as?: React.ElementType;
+  stockCode: string;
 }) {
+  const [chartData, setChartData] = useState<AreaChartData>({
+    amount: '',
+    periodType: '',
+    processed: [{ avgPrice: '', localDate: '' }],
+  });
+  const { getPayDuration } = businessAPI;
+  const { handleRoute } = useRouteAreaChart();
   const t = useTranslations();
+
+  useEffect(() => {
+    handleRoute({ amount: 1, unit: 'day' });
+    if (stockCode) {
+      getPayDuration({
+        amount: 1,
+        unit: 'day',
+        companies: stockCode,
+      }).then((res) => setChartData(res));
+    }
+  }, [stockCode]);
+
+  const handleDuration = (
+    e:
+      | React.MouseEvent<HTMLUListElement>
+      | React.KeyboardEvent<HTMLUListElement>,
+  ) => {
+    const target = e.target as HTMLLIElement;
+    if (!target.dataset || !stockCode) return;
+    if (
+      e.type === 'click' ||
+      (e.type === 'keydown' &&
+        (e as React.KeyboardEvent).key === 'Enter')
+    ) {
+      const amount = Number(target.dataset.amount);
+      const unit = target.dataset.unit as 'day' | 'month' | 'year';
+      if (isNaN(amount) || !unit) {
+        console.error(
+          `Invalid dataset values: ${amount} ${typeof amount}, ${unit} ${typeof unit}`,
+        );
+        return;
+      }
+      const duration: Duration = {
+        amount,
+        unit,
+      };
+      handleRoute(duration);
+      getPayDuration({ ...duration, companies: stockCode }).then(
+        (res) => setChartData(res),
+      );
+    }
+  };
 
   return (
     <Rechart>
@@ -18,14 +73,17 @@ export default function StockChartCard({
         >
           {t('Stock.area_chart')}
         </Rechart.Label>
-        <Rechart.AreaBtnWrapper className="flex items-center">
+        <Rechart.AreaBtnWrapper
+          className="flex items-center"
+          onClick={handleDuration}
+        >
           <AreaBtn duration={{ amount: 1, unit: 'day' }}>
             {t('Stock.one_day')}
           </AreaBtn>
           <AreaBtn duration={{ amount: 3, unit: 'month' }}>
             {t('Stock.three_months')}
           </AreaBtn>
-          <AreaBtn duration={{ amount: 1, unit: 'year' }}>
+          <AreaBtn duration={{ amount: 1, unit: 'month' }}>
             {t('Stock.one_year')}
           </AreaBtn>
           <AreaBtn duration={{ amount: 3, unit: 'year' }}>
@@ -36,7 +94,7 @@ export default function StockChartCard({
           </AreaBtn>
         </Rechart.AreaBtnWrapper>
       </div>
-      <Rechart.Area />
+      <Rechart.Area data={chartData} />
     </Rechart>
   );
 }

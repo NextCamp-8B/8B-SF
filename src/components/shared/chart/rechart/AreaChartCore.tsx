@@ -1,55 +1,40 @@
 import { dynamicImport } from '@/utils/rechart/dynamicRecharts';
 import { Area, XAxis, YAxis, Tooltip } from 'recharts';
-import { CustomizedXAxisTickProps } from '../types';
+import { AreaChartData, CustomizedXAxisTickProps } from '../types';
 
 const DynamicAreaChart = dynamicImport('AreaChart');
+function formatDateTime(
+  dateTimeStr: string,
+  periodType: 'day' | 'month' | 'year',
+): string {
+  const year = dateTimeStr.substring(0, 4);
+  const month = dateTimeStr.substring(4, 6);
+  const day = dateTimeStr.substring(6, 8);
+  const hour = dateTimeStr.substring(8, 10);
+  const minute = dateTimeStr.substring(10, 12);
 
-const data = [
-  {
-    name: '2024/04',
-    uv: 1000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: '2024/05',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: '2024/06',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: '2024/07',
-    uv: 9000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: '2024/08',
-    uv: 4000,
-    pv: 9800,
-    amt: 2290,
-  },
-];
-const lastDataName = data[data.length - 1].name;
+  const formatMapping: { [key: string]: string } = {
+    day: `${hour}:${minute}`,
+    month: `${month}/${day}`,
+    year: `${year}/${month}`,
+  };
+
+  const formattedDateTime = formatMapping[periodType];
+
+  if (!formattedDateTime) {
+    throw new Error(`Unknown period type: ${periodType}`);
+  }
+
+  return formattedDateTime;
+}
+
 const renderCustomizedXAxisTick = (
   props: CustomizedXAxisTickProps,
-  lastDataName: string | number,
 ) => {
   const { x, y, payload } = props;
-  const isSpecificLabel = payload.value === lastDataName;
 
   return (
-    <g
-      transform={`translate(${
-        x + (isSpecificLabel ? 150 : 0)
-      }, ${y})`}
-    >
+    <g transform={`translate(${x}, ${y})`}>
       <text
         x={0}
         y={0}
@@ -64,21 +49,61 @@ const renderCustomizedXAxisTick = (
   );
 };
 
+const CustomTooltip = ({
+  active,
+  payload,
+}: {
+  active?: boolean;
+  payload?: any[];
+}) => {
+  console.log(active, payload);
+  if (active && payload && payload.length) {
+    const { localDate } = payload[0].payload;
+
+    return (
+      <div className="custom-tooltip">
+        <p className="label">{localDate}</p>
+      </div>
+    );
+  }
+
+  return null;
+};
+
 /**
  *
  * @description
  *  - 성장도, 영향도: AI 개발팀으로 개발 담당 변경 (2024/06/19 - 테디)
  */
-export default function AreaChartCore() {
+export default function AreaChartCore({
+  data,
+}: {
+  data: AreaChartData;
+}) {
+  const stockData = data?.processed;
+  const periodType = data?.periodType as 'day' | 'month' | 'year';
+  const lastDataName = stockData[stockData.length - 1]?.localDate;
+  const xAxisDataPoints = 4;
+  const xAxisInterval = Math.round(
+    stockData.length / xAxisDataPoints,
+  );
+  const formatted =
+    periodType &&
+    stockData &&
+    stockData.map((item) => ({
+      ...item,
+      localDate: formatDateTime(item.localDate, periodType),
+    }));
+
   return (
     <DynamicAreaChart
       width={617}
       height={152}
-      data={data}
+      data={formatted}
       margin={{
         top: 5,
         right: 11,
-        left: 0,
+        left: -25,
         bottom: 0,
       }}
     >
@@ -93,14 +118,14 @@ export default function AreaChartCore() {
         </linearGradient>
       </defs>
       <XAxis
-        dataKey="name"
+        interval={xAxisInterval}
+        dataKey="localDate"
         axisLine={false}
         tickLine={false}
-        tick={(props) =>
-          renderCustomizedXAxisTick(props, lastDataName)
-        }
+        tick={renderCustomizedXAxisTick}
       />
       <YAxis
+        domain={['dataMin', 'dataMax']}
         orientation="right"
         axisLine={false}
         tickLine={false}
@@ -111,10 +136,12 @@ export default function AreaChartCore() {
           dx: 30,
         }}
       />
-      <Tooltip />
+      <Tooltip
+      // content={<CusomTooltip />}
+      />
       <Area
         type="monotone"
-        dataKey="uv"
+        dataKey="avgPrice"
         stroke="#00ACF2"
         fill="url(#colorUv)"
       />

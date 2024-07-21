@@ -1,14 +1,10 @@
 import StockListItem from '@/components/shared/StockListItem';
 import ButtonBase from '@/components/shared/buttons/ButtonBase';
 import { businessAPI } from '@/service/apiInstance';
-import { Stock } from '@/types/stock';
+import { StockWithInterest } from '@/service/serviceType';
 import { UUID } from 'crypto';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
-
-type StockWithInterest = Stock & {
-  isInterest: boolean;
-};
 
 export default function Searched({
   searched,

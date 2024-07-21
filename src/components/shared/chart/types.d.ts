@@ -40,7 +40,7 @@ export type RadarData = Array<{
 }>;
 
 export type Duration = {
-  amount: number;
+  amount: number | string;
   unit: 'day' | 'month' | 'year';
 };
 
@@ -53,4 +53,10 @@ export type CustomizedXAxisTickProps = {
     index: number;
   };
   index: number;
+};
+
+export type AreaChartData = {
+  amount: string;
+  periodType: string;
+  processed: { avgPrice: number | string; localDate: string }[];
 };
