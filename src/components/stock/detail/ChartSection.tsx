@@ -88,8 +88,7 @@ export default function ChartSection({ stockId }: { stockId: UUID }) {
         if (stock.stock_code) {
           fetchNaverpay(stock.stock_code);
         }
-      }, 3000);
-      // }, pollingInterval || 70000);
+      }, pollingInterval || 70000);
 
       return () => {
         if (intervalRef.current) {
