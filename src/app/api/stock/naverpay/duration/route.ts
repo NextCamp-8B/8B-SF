@@ -7,7 +7,8 @@ export async function GET(req: NextRequest) {
   const amount = url.searchParams.get('amount');
   const range = amount ? `&range=${amount}` : '';
   const periodType = url.searchParams.get('unit');
-  const naverpayURL = `https://api.stock.naver.com/chart/foreign/item/${companies}?periodType=${periodType}${range}&stockExchangeType=NASDAQ`;
+  const stockExchangeType = url.searchParams.get('name');
+  const naverpayURL = `https://api.stock.naver.com/chart/foreign/item/${companies}?periodType=${periodType}${range}&stockExchangeType=${stockExchangeType}`;
   const payResponse = await fetch(naverpayURL);
   const payBody = await payResponse.json();
 

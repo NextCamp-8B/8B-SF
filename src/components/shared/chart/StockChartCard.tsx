@@ -9,9 +9,11 @@ import { useEffect, useState } from 'react';
 export default function StockChartCard({
   as,
   stockCode,
+  name,
 }: {
   as?: React.ElementType;
   stockCode: string;
+  name: string;
 }) {
   const [chartData, setChartData] = useState<AreaChartData>({
     amount: '',
@@ -24,14 +26,15 @@ export default function StockChartCard({
 
   useEffect(() => {
     handleRoute({ amount: 1, unit: 'day' });
-    if (stockCode) {
+    if (stockCode && name) {
       getPayDuration({
         amount: 1,
         unit: 'day',
         companies: stockCode,
+        name,
       }).then((res) => setChartData(res));
     }
-  }, [stockCode]);
+  }, [stockCode, name]);
 
   const handleDuration = (
     e:
@@ -58,9 +61,11 @@ export default function StockChartCard({
         unit,
       };
       handleRoute(duration);
-      getPayDuration({ ...duration, companies: stockCode }).then(
-        (res) => setChartData(res),
-      );
+      getPayDuration({
+        ...duration,
+        companies: stockCode,
+        name,
+      }).then((res) => setChartData(res));
     }
   };
 

@@ -104,6 +104,9 @@ export default function ChartSection({ stockId }: { stockId: UUID }) {
       isInterest: isInterest,
     }));
   };
+  const stockExchangeName = (pay as StockResponse).datas?.[0]
+    ?.stockExchangeType?.name;
+
   return (
     <>
       <AddInterest
@@ -116,7 +119,11 @@ export default function ChartSection({ stockId }: { stockId: UUID }) {
           <StockDescription stock={stock} language={language} />
         </Wrapper>
         <Chart width="min-w-[692px]">
-          <Chart.StockChartCard as="h3" stockCode={stockCode} />
+          <Chart.StockChartCard
+            as="h3"
+            stockCode={stockCode}
+            name={stockExchangeName}
+          />
         </Chart>
       </div>
       <div className="flex justify-between box-border">

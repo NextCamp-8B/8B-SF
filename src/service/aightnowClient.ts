@@ -299,12 +299,14 @@ export default class AightnowClient {
     companies,
     amount,
     unit,
+    name,
   }: {
     companies: string;
     amount: string | number;
     unit: string;
+    name: string;
   }) {
-    const nextURL = `/api/stock/naverpay/duration?companies=${companies}&amount=${amount}&unit=${unit}`;
+    const nextURL = `/api/stock/naverpay/duration?companies=${companies}&amount=${amount}&unit=${unit}&name=${name}`;
 
     return this.httpClient.get({ url: nextURL });
   }
