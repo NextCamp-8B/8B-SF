@@ -7,12 +7,34 @@ export default function StockAIReportChart({
   radarData,
   radarStatus,
   specific,
+  chartData = {
+    growth: { percentage: 0, trend: false },
+    interestLevel: { percentage: 0, trend: false },
+    investmentIndex: { percentage: 0, trend: false },
+    profitability: { percentage: 0, trend: false },
+    stockPrice: { percentage: 0, trend: false },
+  },
 }: {
   children?: React.ReactElement;
   radarData: RadarData;
   radarStatus: RadarStatus;
   specific?: boolean;
+  chartData: {
+    growth: { percentage: number; trend: boolean };
+    interestLevel: { percentage: number; trend: boolean };
+    investmentIndex: { percentage: number; trend: boolean };
+    profitability: { percentage: number; trend: boolean };
+    stockPrice: { percentage: number; trend: boolean };
+  };
 }) {
+  const {
+    stockPrice,
+    investmentIndex,
+    profitability,
+    growth,
+    interestLevel,
+  } = chartData;
+
   return (
     <div className={`flex justify-between w-full`}>
       <Rechart.Radar radarStatus={radarStatus} data={radarData}>
@@ -26,24 +48,28 @@ export default function StockAIReportChart({
       >
         <MetricsBar
           label={'stock_price'}
-          percent={55.2}
-          rate={true}
+          percent={stockPrice.percentage}
+          rate={stockPrice.trend}
         />
         <MetricsBar
           label={'investment_index'}
-          percent={0.0}
-          rate={true}
+          percent={investmentIndex.percentage}
+          rate={investmentIndex.trend}
         />
         <MetricsBar
           label={'profitability'}
-          percent={'55.2'}
-          rate={false}
+          percent={profitability.percentage}
+          rate={profitability.trend}
         />
-        <MetricsBar label={'growth'} percent={55.2} rate={false} />
+        <MetricsBar
+          label={'growth'}
+          percent={growth.percentage}
+          rate={growth.trend}
+        />
         <MetricsBar
           label={'interest_level'}
-          percent={55.2}
-          rate={true}
+          percent={interestLevel.percentage}
+          rate={interestLevel.trend}
         />
       </Rechart.RadarMetricsBox>
     </div>
@@ -57,7 +83,6 @@ function MetricsBar({
 }: {
   label: string;
   percent: string | number;
-  // 임시
   rate: boolean;
 }) {
   const t = useTranslations();

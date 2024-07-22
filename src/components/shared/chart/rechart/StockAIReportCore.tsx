@@ -92,7 +92,7 @@ export default function StockAIReportCore({
       <Radar
         name="StockAIReport"
         isAnimationActive={false}
-        dataKey="A"
+        dataKey="percentage"
         stroke="#00ACF2"
         fill="#B2E6FA"
         fillOpacity={0.3}

@@ -3,7 +3,6 @@
 import Chart from '@/components/shared/chart';
 import AddInterest from './AddInterest';
 import Wrapper from '@/components/shared/Wrapper';
-import StockIcon from '@/components/shared/StockIcon';
 import StockDescription from '../StockDescription';
 import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
@@ -12,15 +11,35 @@ import { useSession } from 'next-auth/react';
 import { UUID } from 'crypto';
 import { StockWithInterest, UserData } from '@/service/serviceType';
 import { StockResponse } from './type';
+import StockListItem from '@/components/shared/StockListItem';
 
 export default function ChartSection({ stockId }: { stockId: UUID }) {
-  const [stock, setStock] = useState<StockWithInterest>({});
+  const [stock, setStock] = useState<StockWithInterest>({
+    stock_id: '',
+    stock_name: '',
+    stock_code: '',
+    compare_to_previous_close_price: 0,
+    fluctuations_ratio: 0,
+    logo_path: '',
+    price: 0,
+    isInterest: false,
+    report: '',
+  });
+  const [aIReport, setAIReport] = useState({
+    report: '',
+    detailedData: '',
+  });
   const [pay, setPay] = useState<StockResponse | []>([]);
   const intervalRef = useRef<number | NodeJS.Timeout | null>(null);
   const t = useTranslations();
   const user = useSession()?.data?.user as UserData;
   const { language, id: userId } = user || { language: '', id: '' };
-  const { getStockDetail, getNaverpay, updateStock } = businessAPI;
+  const {
+    getStockDetail,
+    getNaverpay,
+    updateStock,
+    generateAIReport,
+  } = businessAPI;
 
   const fetchNaverpay = async (stockCode: string) => {
     const response = await getNaverpay({ companies: stockCode });
@@ -107,6 +126,22 @@ export default function ChartSection({ stockId }: { stockId: UUID }) {
   const stockExchangeName = (pay as StockResponse).datas?.[0]
     ?.stockExchangeType?.name;
 
+  useEffect(() => {
+    if (userId && stockCode) {
+      generateAIReport({
+        userId: userId as UUID,
+        stockSymbol: stockCode,
+      }).then((res) =>
+        setAIReport({
+          report: res?.updatedReport[0]?.report,
+          detailedData: res?.updatedReport[0]?.detailedData,
+        }),
+      );
+    }
+  }, [userId, stockCode]);
+
+  const report = aIReport?.report ? aIReport?.report : stock?.report;
+
   return (
     <>
       <AddInterest
@@ -128,40 +163,17 @@ export default function ChartSection({ stockId }: { stockId: UUID }) {
       </div>
       <div className="flex justify-between box-border">
         <Chart>
-          <Chart.StockAIReportCard as="h3" />
+          <Chart.StockAIReportCard as="h3" stockId={stockId} />
         </Chart>
         <Wrapper width="w-[750px]" padding="p-8">
           <h3 className="b1 font-bold text-primary-900 mb-[55px]">
             {t('Stock.ai_analyst_report')}
           </h3>
 
-          {/* 임시 구현 - Icon 컴포넌트 담당 한승재 (stat1202) */}
-          <div className="flex items-center gap-2 mb-4">
-            <StockIcon
-              path={
-                'https://zlxqxgiycccjxcwzonsx.supabase.co/storage/v1/object/public/8b-sf/stock_logo/apple_logo.svg'
-              }
-              size="small"
-            />
-            <div className="flex gap-2 items-center b2 font-medium">
-              <h2 className="b3 font-medium text-grayscale-900">
-                애플
-              </h2>
-              <span>∙</span>
-              <span className="b3 font-normal text-grayscale-900">
-                AAPL
-              </span>
-              <span className="b4 font-medium text-grayscale-900">
-                $00.00
-              </span>
-              <span className="b4 font-normal text-warning-100">
-                ▲1.75 +0.82%
-              </span>
-            </div>
+          <StockListItem stock={stock} type="report" />
+          <div className="overflow-y-scroll h-[96px] pt-4">
+            <p className="b4 font-medium text-[#000000]">{report}</p>
           </div>
-          <p className="b4 font-medium text-[#000000]">
-            {t('Stock.stock_report')}
-          </p>
         </Wrapper>
       </div>
     </>

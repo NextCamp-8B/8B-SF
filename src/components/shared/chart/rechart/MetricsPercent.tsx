@@ -20,15 +20,17 @@ export default function MetricsPercent({
     formattedChildren = children.toFixed(1); // 소수점 이하 한 자리까지 표시
   }
 
+  const isRemain = !rate && children === 0;
+  const colorAccChange = rate
+    ? 'text-warning-100'
+    : 'text-secondary-500';
+  const color = isRemain ? 'text-grayscale-600' : colorAccChange;
+
   return (
     <div className={`${className}`}>
       <div className="flex items-center gap-[1px]">
-        <Triangle rate={rate} />
-        <span
-          className={`b5 font-medium ${
-            rate ? 'text-warning-100' : 'text-secondary-500'
-          }`}
-        >
+        {!isRemain && <Triangle rate={rate} />}
+        <span className={`b5 font-medium ${color}`}>
           {formattedChildren}%
         </span>
       </div>

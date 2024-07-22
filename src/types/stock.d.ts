@@ -6,6 +6,7 @@ export type Stock = {
   fluctuations_ratio: number;
   logo_path: string;
   price: number;
+  report: string;
 };
 
 export type RegularPayData = {

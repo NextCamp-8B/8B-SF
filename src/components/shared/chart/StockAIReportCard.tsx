@@ -3,6 +3,8 @@ import StockAIReportChart from './StockAIReportChart';
 import CustomTick from './rechart/CustomTick';
 import Rechart from './rechart';
 import { useTranslations } from 'next-intl';
+import { UUID } from 'crypto';
+import { useGetChartData } from '@/hooks/useGetChartData';
 
 const radarStatus = {
   width: 189.43,
@@ -19,44 +21,80 @@ const radarStatus = {
  */
 export default function StockAIReportCard({
   as,
+  stockId,
 }: {
   as?: React.ElementType;
+  stockId: UUID;
 }) {
   const score = 70;
   const t = useTranslations();
+  const chartData = useGetChartData(stockId);
+
+  if (!chartData || Object.keys(chartData).length === 0) {
+    console.error('Chart data is not available or empty.');
+    return null;
+  }
+
+  const {
+    growth,
+    interestLevel,
+    investmentIndex,
+    profitability,
+    stockPrice,
+  } = chartData;
+
+  const percentages = [
+    stockPrice.percentage,
+    investmentIndex.percentage,
+    interestLevel.percentage,
+    growth.percentage,
+    profitability.percentage,
+  ];
+
+  const maxPercentage = Math.max(...percentages);
+
   const radarData = [
     {
       subject: t('RadarChart.stock_price'),
-      A: 120,
-      B: 110,
-      fullMark: 150,
+      percentage: Math.round(
+        (stockPrice.percentage / maxPercentage) * 100,
+      ),
+      B: 100,
+      fullMark: 100,
     },
     {
       subject: t('RadarChart.investment_index'),
-      A: 98,
-      B: 130,
-      fullMark: 150,
+      percentage: Math.round(
+        (investmentIndex.percentage / maxPercentage) * 100,
+      ),
+      B: 100,
+      fullMark: 100,
     },
     {
       subject: t('RadarChart.interest_level'),
-      A: 86,
-      B: 130,
-      fullMark: 150,
+      percentage: Math.round(
+        (interestLevel.percentage / maxPercentage) * 100,
+      ),
+      B: 100,
+      fullMark: 100,
     },
     {
       subject: t('RadarChart.growth'),
-      A: 99,
+      percentage: Math.round(
+        (growth.percentage / maxPercentage) * 100,
+      ),
       B: 100,
-      fullMark: 150,
+      fullMark: 100,
     },
     {
       subject: t('RadarChart.profitability'),
-      A: 85,
-      B: 90,
-      fullMark: 150,
+      percentage: Math.round(
+        (profitability.percentage / maxPercentage) * 100,
+      ),
+      B: 100,
+      fullMark: 100,
     },
   ];
-
   return (
     <Rechart className={'min-w-[365.44px] pb-8'}>
       <div className="flex justify-between pr-[8.439px] mb-[17px]">
@@ -71,6 +109,7 @@ export default function StockAIReportCard({
         </Rechart.RadarScore>
       </div>
       <StockAIReportChart
+        chartData={chartData}
         radarData={radarData}
         radarStatus={radarStatus}
       >
