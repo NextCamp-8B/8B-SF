@@ -1,6 +1,7 @@
 import { GenerationRequest } from './serviceType';
 import HttpClient from './httpClient';
 import { UUID } from 'crypto';
+import { isMarketOpen } from '@/utils/isMarketOpen';
 
 export default class AightnowClient {
   constructor(private httpClient: HttpClient) {
@@ -19,6 +20,8 @@ export default class AightnowClient {
     this.getNaverpay = this.getNaverpay.bind(this);
     this.updateStock = this.updateStock.bind(this);
     this.getPayDuration = this.getPayDuration.bind(this);
+    this.generateAIReport = this.generateAIReport.bind(this);
+    this.getChartData = this.getChartData.bind(this);
   }
 
   async loginLLM({ isServer = false }: { isServer?: boolean } = {}) {
@@ -309,5 +312,34 @@ export default class AightnowClient {
     const nextURL = `/api/stock/naverpay/duration?companies=${companies}&amount=${amount}&unit=${unit}&name=${name}`;
 
     return this.httpClient.get({ url: nextURL });
+  }
+
+  async generateAIReport({
+    userId,
+    stockSymbol,
+  }: {
+    userId: UUID;
+    stockSymbol: string;
+  }) {
+    if (!isMarketOpen()) {
+      throw new Error(
+        'Market is closed. Requests can only be made during market hours (20:30 - 04:00 UTC).',
+      );
+    }
+
+    const nextURL = `/api/stock/ai-report`;
+
+    return this.httpClient.post({
+      url: nextURL,
+      body: { userId, stockSymbol },
+    });
+  }
+
+  async getChartData({ stockId }: { stockId: UUID }) {
+    const nextURL = `/api/stock/ai-report?stockId=${stockId}`;
+
+    return this.httpClient.get({
+      url: nextURL,
+    });
   }
 }
