@@ -15,7 +15,7 @@ const openai = new OpenAI({
  * @param stockSymbol - 보고서를 생성할 주식 Symbol
  * @returns - AI가 생성한 요약본과 상세 데이터를 포함한 리포트
  */
-export const generateStockReport = async (stockSymbol: string) => {
+const generateStockReport = async (stockSymbol: string) => {
   try {
     const response = await openai.chat.completions.create({
       model: 'gpt-4',

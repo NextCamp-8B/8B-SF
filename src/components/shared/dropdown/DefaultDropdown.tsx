@@ -54,7 +54,7 @@ export default function DefaultDropdown({
     if (selectedOption.value !== '') {
       selectOption(selectedOption);
     }
-  }, [selectedOption]);
+  }, [selectedOption, selectOption]);
 
   const selectedValue = selectedOption?.value !== '';
   return (

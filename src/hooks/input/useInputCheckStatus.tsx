@@ -44,7 +44,7 @@ export default function useInputCheckStatus({
     if (newStatus !== status) {
       setStatus(newStatus);
     }
-  }, [isSubmit, isValidated, isDuplicate]);
+  }, [isSubmit, isValidated, isDuplicate, status]);
 
   return { status };
 }

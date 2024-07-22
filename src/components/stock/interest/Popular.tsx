@@ -7,8 +7,8 @@ export default function Popular({
 }: {
   popularStocks: Array<Stock>;
 }) {
-  if (popularStocks.length === 0) return null;
   const t = useTranslations();
+  if (popularStocks.length === 0) return null;
 
   return (
     <div>

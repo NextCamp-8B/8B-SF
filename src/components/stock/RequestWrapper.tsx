@@ -71,7 +71,7 @@ export default function RequestWrapper({
     if (userId && inView) {
       getInterest();
     }
-  }, [userId, inView]);
+  }, [userId, inView, getInterest]);
 
   useEffect(() => {
     /**

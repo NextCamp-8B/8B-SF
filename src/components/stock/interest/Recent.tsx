@@ -7,8 +7,8 @@ export default function Recent({
 }: {
   recentStocks: Array<Stock>;
 }) {
-  if (recentStocks.length === 0) return null;
   const t = useTranslations();
+  if (recentStocks.length === 0) return null;
 
   return (
     <div className="max-w-[714px] min-w-[714px] flex flex-col gap-4 mb-6">

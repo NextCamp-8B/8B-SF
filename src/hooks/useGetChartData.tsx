@@ -60,7 +60,7 @@ export function useGetChartData(stockId: UUID) {
         }
       });
     }
-  }, [stockId]);
+  }, [stockId, getChartData]);
 
   return chartData;
 }
