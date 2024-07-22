@@ -1,6 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import ModalWrapper from './ModalWrapper';
-import Wrapper from '@/components/shared/Wrapper';
 import TextButton from '@/components/shared/buttons/TextButton';
 import InputSet from '@/components/shared/input';
 import useInputChange from '@/hooks/input/useInputChange';
@@ -10,6 +8,7 @@ import AuthPopup from '../signup/Popup';
 import usePopupStore from '@/store/userPopup';
 import myPageStore from '@/store/myPageStore';
 import { useTranslations } from 'next-intl';
+import ModalLayout from '../shared/modal/ModalLayout';
 
 export default function CheckPassword() {
   const t = useTranslations();
@@ -53,41 +52,41 @@ export default function CheckPassword() {
   }, [validateForm]);
 
   return (
-    <ModalWrapper
-      onClose={handleClosePwCheckModal}
-      isOpen={isPasswordCheck}
-    >
-      <Wrapper padding="px-24 py-20" width="w-[590px]">
-        <h3 className="h3 font-bold text-center text-primary-900 mb-8">
-          {t('MyPage.password_authentication')}
-        </h3>
-        {/*성공/에러 메시지 팝업 */}
-        {isShowPopup && (
-          <AuthPopup
-            onClose={hidePopup}
-            error={true}
-            title={popupMsg.title}
-            errorMessage={popupMsg.msg}
-          />
-        )}
-        <form className="flex flex-col justify-start w-[386px] h-full">
-          <InputSet className="flex flex-col gap-4">
-            <InputSet.Validated
-              onChange={onChangeInputValue}
-              value={value.password}
-              type="password"
-              concept="password"
-              isSubmit={isSubmit}
-            />
-            <TextButton
-              onClick={onHandleSubmit}
-              className="w-full mt-8"
-            >
-              {t('MyPage.confirm')}
-            </TextButton>
-          </InputSet>
-        </form>
-      </Wrapper>
-    </ModalWrapper>
+    <>
+      {/*성공/에러 메시지 팝업 */}
+      {isShowPopup ? (
+        <AuthPopup
+          onClose={hidePopup}
+          error={true}
+          title={popupMsg.title}
+          errorMessage={popupMsg.msg}
+        />
+      ) : (
+        <ModalLayout
+          isOpen={isPasswordCheck}
+          handleIsOpen={handleClosePwCheckModal}
+          title={t('MyPage.password_authentication')}
+          width="w-[590px]"
+        >
+          <form className="flex flex-col items-center justify-start h-full mt-10">
+            <InputSet className="flex flex-col gap-4 w-[386px]">
+              <InputSet.Validated
+                onChange={onChangeInputValue}
+                value={value.password}
+                type="password"
+                concept="password"
+                isSubmit={isSubmit}
+              />
+              <TextButton
+                onClick={onHandleSubmit}
+                className="w-full mt-8"
+              >
+                {t('MyPage.confirm')}
+              </TextButton>
+            </InputSet>
+          </form>
+        </ModalLayout>
+      )}
+    </>
   );
 }

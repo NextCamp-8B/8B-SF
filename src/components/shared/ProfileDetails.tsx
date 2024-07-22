@@ -44,15 +44,18 @@ export default function ProfileDetails({
   handleSelected,
   handleOptionsKey,
 }: ProfileDetails) {
-  const t = useTranslations();
+  const t = useTranslations('MyPage');
 
   return (
-    <form onSubmit={onHandleSubmit}>
+    <form
+      onSubmit={onHandleSubmit}
+      className="flex flex-col justify-center items-center w-full pr-4"
+    >
       <ProfileImageEditor
         profileImage={profileImage}
         handleImageUpload={handleImageUpload}
       />
-      <InputSet className="flex flex-col gap-4">
+      <InputSet className="flex flex-col gap-4 w-[386px]">
         <InputSet.Validated
           onChange={onChangeNickname}
           value={nickname}
@@ -65,7 +68,7 @@ export default function ProfileDetails({
             htmlFor="stock"
             className="b4 font-medium"
           >
-            {t('MyPage.interest_stock')}
+            {t('interest_stock')}
           </CompositeInput.Label>
           <CompositeInput.Input
             id="stock"
@@ -73,7 +76,7 @@ export default function ProfileDetails({
             value={stock}
             onChange={(e) => setStock(e.target.value)}
             className="border border-grayscale-400 b4 font-normal placeholder-grayscale-400 p-4 rounded-lg"
-            placeholder={t('MyPage.placeholder_stock')}
+            placeholder={t('placeholder_stock')}
           />
           {options?.length > 0 && stock.length > 0 && (
             <CompositeDropdown.Panel
@@ -90,10 +93,10 @@ export default function ProfileDetails({
               }
             </CompositeDropdown.Panel>
           )}
+          <TextButton type="submit" className="w-full mt-8">
+            {buttonText}
+          </TextButton>
         </CompositeInput>
-        <TextButton type="submit" className="w-full mt-8">
-          {buttonText}
-        </TextButton>
       </InputSet>
     </form>
   );

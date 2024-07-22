@@ -1,6 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import ModalWrapper from './ModalWrapper';
-import Wrapper from '@/components/shared/Wrapper';
 import useInputChange from '@/hooks/input/useInputChange';
 import { conceptMap } from '../shared/input/inputConfig';
 import useDuplicateCheck from '@/hooks/user/useDuplicateCheck';
@@ -13,6 +11,8 @@ import UserAccountForm from './UserAccountForm';
 import usePopupStore from '@/store/userPopup';
 import { User } from 'next-auth';
 import { useTranslations } from 'next-intl';
+import ModalLayout from '../shared/modal/ModalLayout';
+import ConfirmCancelPopup from './ConfirmCanclePopup';
 
 // 정보수정 모달에서 회원탈퇴 모달을 관리
 // isWithdrawal 값에 따라 회원탈퇴모달이 발생
@@ -41,7 +41,15 @@ export default function UserAccountEdit({
   const { isLoading: updateLoading, handleAccountUpdate } =
     useAccountUpdated(); //개인정보 수정 api
 
-  const { isShowPopup, popupMsg, hidePopup } = usePopupStore();
+  const { isShowPopup, popupMsg, hidePopup, isConfirmPopup } =
+    usePopupStore();
+
+  const {
+    isUpdatePwLoading,
+    handleUpdatePw,
+    handleConfirmUpdatePw,
+    handleClosePwPopup,
+  } = usePasswordUpdate(); // 비밀번호 변경 훅
 
   useEffect(() => {
     if (user) {
@@ -62,13 +70,11 @@ export default function UserAccountEdit({
     closeModal('isUserAccountdit');
   };
 
-  // session값 loadindg이면 팝업창 닫기 불가
+  //loadindg이면 팝업창 닫기 불가
   const handleCloseAccountModal = () => {
-    if (updateLoading) return;
+    if (updateLoading || isUpdatePwLoading) return;
     closeAllModals();
   };
-
-  const { isUpdatePwLoading, handleUpdatePw } = usePasswordUpdate(); // 비밀번호 변경 훅
 
   const onHandleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -121,26 +127,34 @@ export default function UserAccountEdit({
 
   return (
     <>
-      <ModalWrapper
-        onClose={handleCloseAccountModal}
-        isOpen={isUserAccountdit}
-      >
-        <Wrapper padding="px-24 py-20" width="w-[590px]">
-          <h3 className="h3 font-bold text-center text-primary-900 mb-8">
-            {t('MyPage.edit_account')}
-          </h3>
+      {/* 수정 성공/에러 메시지 팝업 */}
+      {isShowPopup && (
+        <AuthPopup
+          error={true}
+          title={popupMsg.title}
+          errorMessage={popupMsg.msg}
+          onClose={hidePopup}
+        />
+      )}
+      {/* 비밀번호 변경 경고창 */}
+      {isConfirmPopup && (
+        <ConfirmCancelPopup
+          onConfirm={handleUpdatePw}
+          onClose={handleClosePwPopup}
+          title={popupMsg.title}
+          msg={popupMsg.msg}
+        />
+      )}
+      {!isShowPopup && !isConfirmPopup && (
+        <ModalLayout
+          isOpen={isUserAccountdit}
+          handleIsOpen={handleCloseAccountModal}
+          title={t('MyPage.edit_account')}
+          width="w-[590px]"
+        >
           <LoadingSpinnerWrapper
             isLoading={updateLoading || isUpdatePwLoading}
           >
-            {/* 수정 성공/에러 메시지 팝업 */}
-            {isShowPopup && (
-              <AuthPopup
-                error={true}
-                title={popupMsg.title}
-                errorMessage={popupMsg.msg}
-                onClose={hidePopup}
-              />
-            )}
             <UserAccountForm
               onSubmit={onHandleSubmit}
               isSubmit={isSubmit}
@@ -149,12 +163,12 @@ export default function UserAccountEdit({
               handleDuplicate={handleDuplicate}
               isLoading={isLoading}
               isSocial={isSocial}
-              handleUpdatePw={handleUpdatePw}
+              handleUpdatePw={handleConfirmUpdatePw}
               handleShowWidthdrawl={handleShowWidthdrawl}
             />
           </LoadingSpinnerWrapper>
-        </Wrapper>
-      </ModalWrapper>
+        </ModalLayout>
+      )}
     </>
   );
 }

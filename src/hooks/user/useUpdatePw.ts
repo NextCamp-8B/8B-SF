@@ -2,20 +2,34 @@ import { useState } from 'react';
 import useSessionData from './useSessionData';
 import usePopupStore from '@/store/userPopup';
 import { useTranslations } from 'next-intl';
+import { signOut } from 'next-auth/react';
 
 export function usePasswordUpdate() {
-  const t = useTranslations();
+  const t = useTranslations('MyPage');
   const { user } = useSessionData();
   const [isUpdatePwLoading, setIsUpdatePwLoading] = useState(false);
-  const { showPopup } = usePopupStore();
+  const { showPopup, showConfirmPopup, hidePopup } = usePopupStore();
+
+  const handleConfirmUpdatePw = async () => {
+    showConfirmPopup(
+      t('passwordChangeLinkSent.confirmTitle'),
+      t('passwordChangeLinkSent.confirmMsg'),
+    );
+  };
+
+  const handleClosePwPopup = () => {
+    if (isUpdatePwLoading) return;
+    hidePopup();
+  };
 
   const handleUpdatePw = async () => {
+    hidePopup();
     setIsUpdatePwLoading(true);
 
     if (!user) {
       showPopup(
-        t('MyPage.profileUpdate.error'),
-        t('MyPage.passwordAuthError.password_check_error'),
+        t('profileUpdate.error'),
+        t('passwordAuthError.password_check_error'),
       );
       setIsUpdatePwLoading(false);
       return;
@@ -34,14 +48,11 @@ export function usePasswordUpdate() {
     });
 
     if (response.ok) {
-      showPopup(
-        t('MyPage.passwordChangeLinkSent.title'),
-        t('MyPage.passwordChangeLinkSent.message'),
-      );
+      await signOut({ callbackUrl: '/login' });
     } else {
       showPopup(
-        t('MyPage.passwordChangeLinkSent.error'),
-        t('MyPage.profileUpdate.error_message'),
+        t('passwordChangeLinkSent.error'),
+        t('profileUpdate.error_message'),
       );
     }
 
@@ -51,5 +62,7 @@ export function usePasswordUpdate() {
   return {
     isUpdatePwLoading,
     handleUpdatePw,
+    handleConfirmUpdatePw,
+    handleClosePwPopup,
   };
 }

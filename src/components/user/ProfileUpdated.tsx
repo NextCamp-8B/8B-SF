@@ -5,13 +5,11 @@ import React, {
   useState,
 } from 'react';
 import useInputChange from '@/hooks/input/useInputChange';
-import Wrapper from '@/components/shared/Wrapper';
 import { conceptMap } from '@/components/shared/input/inputConfig';
 import AuthPopup from '../signup/Popup';
 import ProfileDetails from '../shared/ProfileDetails';
 import { useProfileUpdate } from '@/hooks/user/useProfileUpdated';
 import LoadingSpinnerWrapper from '../shared/LoadingSpinnerWrapper';
-import ModalWrapper from './ModalWrapper';
 import usePopupStore from '@/store/userPopup';
 import myPageStore from '@/store/myPageStore';
 import { useImageUpload } from '@/hooks/user/useImageUpload';
@@ -19,12 +17,13 @@ import { useStockSelection } from '@/hooks/user/useStockSelection';
 import { User } from 'next-auth';
 import { stockList } from '@/constants';
 import { useTranslations } from 'next-intl';
+import ModalLayout from '../shared/modal/ModalLayout';
 
 type ProfileUpdate = {
   user: User;
 };
 export default function ProfileUpdate({ user }: ProfileUpdate) {
-  const t = useTranslations();
+  const t = useTranslations('MyPage');
   const { closeAllModals, isProfileSetup } = myPageStore();
 
   const {
@@ -51,7 +50,6 @@ export default function ProfileUpdate({ user }: ProfileUpdate) {
     options,
     selectedDataset,
     focusedIndex,
-    setFocusedIndex,
     handleSelected,
     handleOptionsKey,
   } = useStockSelection(interestStock); // 관심종목 설정 훅
@@ -112,24 +110,22 @@ export default function ProfileUpdate({ user }: ProfileUpdate) {
   };
 
   return (
-    <ModalWrapper
-      onClose={handleCloseProfileModal}
-      isOpen={isProfileSetup}
-    >
-      <Wrapper padding="px-24 py-20" width="w-[590px]">
-        <div className="flex flex-col justify-start w-[386px] h-full">
-          <h3 className="h3 font-bold text-center mb-8 text-primary-900">
-            {t('MyPage.edit_profile')}
-          </h3>
-          {/* 수정 성공/에러 메시지 팝업 */}
-          {isShowPopup && (
-            <AuthPopup
-              onClose={hidePopup}
-              error={true}
-              title={popupMsg.title}
-              errorMessage={popupMsg.msg}
-            />
-          )}
+    <>
+      {/* 수정 성공/에러 메시지 팝업 */}
+      {isShowPopup ? (
+        <AuthPopup
+          onClose={hidePopup}
+          error={true}
+          title={popupMsg.title}
+          errorMessage={popupMsg.msg}
+        />
+      ) : (
+        <ModalLayout
+          isOpen={isProfileSetup}
+          handleIsOpen={handleCloseProfileModal}
+          title={t('edit_profile')}
+          width="w-[590px]"
+        >
           <LoadingSpinnerWrapper isLoading={isLoading}>
             <ProfileDetails
               profileImage={profileImage}
@@ -145,11 +141,11 @@ export default function ProfileUpdate({ user }: ProfileUpdate) {
               selectedDataset={selectedDataset}
               handleSelected={handleSelected}
               handleOptionsKey={handleOptionsKey}
-              buttonText={t('MyPage.edit')}
+              buttonText={t('edit')}
             />
           </LoadingSpinnerWrapper>
-        </div>
-      </Wrapper>
-    </ModalWrapper>
+        </ModalLayout>
+      )}
+    </>
   );
 }

@@ -1,19 +1,15 @@
-import ModalWrapper from './ModalWrapper';
 import React, { FormEvent, useState } from 'react';
-import Wrapper from '@/components/shared/Wrapper';
-import TextButton from '@/components/shared/buttons/TextButton';
-import InputSet from '@/components/shared/input';
 import myPageStore from '@/store/myPageStore';
 import { SelectedOption } from '../shared/dropdown/types';
-import { Dropdown } from '../shared/dropdown';
 import usePopupStore from '@/store/userPopup';
 import AuthPopup from '../signup/Popup';
 import LoadingSpinnerWrapper from '../shared/LoadingSpinnerWrapper';
 import ConfirmCancelPopup from './ConfirmCanclePopup';
-import CompositeInput from '../shared/input/CompositeInput';
 import { signOut } from 'next-auth/react';
 import { User } from 'next-auth';
 import { useTranslations } from 'next-intl';
+import ModalLayout from '../shared/modal/ModalLayout';
+import WithdrawalForm from './WithdrawalForm';
 
 type SocialWithdrawal = {
   user: User;
@@ -94,39 +90,8 @@ export default function SocialWithdrawal({ user }: SocialWithdrawal) {
     setReason(value.text);
   };
 
-  const withdrawalOptions: SelectedOption[] = [
-    {
-      value: 'reason1',
-      text: t('reason_1'),
-      selected: false,
-    },
-    {
-      value: 'reason2',
-      text: t('reason_2'),
-      selected: false,
-    },
-    {
-      value: 'reason3',
-      text: t('reason_3'),
-      selected: false,
-    },
-    {
-      value: 'reason4',
-      text: t('reason_4'),
-      selected: false,
-    },
-    {
-      value: 'reason5',
-      text: t('reason_5'),
-      selected: false,
-    },
-  ];
-
   return (
-    <ModalWrapper
-      onClose={handleCloseWidthdrawl}
-      isOpen={isWithdrawal}
-    >
+    <>
       {/* api성공/에러 팝업 */}
       {isShowPopup && (
         <AuthPopup
@@ -145,38 +110,29 @@ export default function SocialWithdrawal({ user }: SocialWithdrawal) {
           msg={popupMsg.msg}
         />
       )}
-      <LoadingSpinnerWrapper isLoading={isLoading}>
-        <Wrapper padding="px-24 py-20" width="w-[590px]">
-          <h3 className="h3 font-bold text-center text-primary-900 mb-8">
-            {t('delete_account')}
-          </h3>
-          <form
-            className="flex flex-col justify-start w-[386px] h-full"
-            onSubmit={chekckWithdrawal}
-          >
-            <InputSet className="flex flex-col gap-2">
-              <Dropdown.Default
-                label={t('delete_account_reason')}
-                initialOptions={withdrawalOptions}
-                selectOption={handleSelected}
+
+      {!isShowPopup && !isConfirmPopup && (
+        <ModalLayout
+          handleIsOpen={handleCloseWidthdrawl}
+          isOpen={isWithdrawal}
+          title={t('delete_account')}
+          width="w-[590px]"
+        >
+          <LoadingSpinnerWrapper isLoading={isLoading}>
+            <form
+              className="flex flex-col items-center justify-start h-full"
+              onSubmit={chekckWithdrawal}
+            >
+              <WithdrawalForm
+                etc={etc}
+                handleSelected={handleSelected}
+                reason={reason}
+                setEtc={setEtc}
               />
-              {reason === t('reason_5') && (
-                <CompositeInput.Input
-                  id="stock"
-                  type="text"
-                  value={etc}
-                  onChange={(e) => setEtc(e.target.value)}
-                  className="border border-grayscale-400 b4 font-normal placeholder-grayscale-400 p-4 rounded-lg"
-                  placeholder={t('placeholder_account')}
-                />
-              )}
-            </InputSet>
-            <TextButton className="w-full mt-8">
-              {t('delete_account')}
-            </TextButton>
-          </form>
-        </Wrapper>
-      </LoadingSpinnerWrapper>
-    </ModalWrapper>
+            </form>
+          </LoadingSpinnerWrapper>
+        </ModalLayout>
+      )}
+    </>
   );
 }

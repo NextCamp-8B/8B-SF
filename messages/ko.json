@@ -243,9 +243,11 @@
       "error_message": "오류가 발생했습니다. 다시 시도하시거나, 고객센터에 문의해주세요."
     },
     "passwordChangeLinkSent": {
+      "confirmTitle": "비밀번호 변경",
+      "confirmMsg": "확인 시 비밀번호 변경 링크 전송 후\n자동으로 로그아웃 됩니다.",
       "error": "오류 발생",
       "title": "비밀번호 변경 링크 전송",
-      "message": "비밀번호 변경 링크가 전송되었습니다. 이메일을 확인해주세요."
+      "message": "비밀번호 변경 링크가 전송되었습니다.\n이메일을 확인해주세요."
     },
     "accountDeletionMessages": {
       "warningTitle": "회원탈퇴 경고",

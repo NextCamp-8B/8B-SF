@@ -31,13 +31,13 @@ export default function UserAccountForm({
   handleUpdatePw,
   handleShowWidthdrawl,
 }: UserAccountForm) {
-  const t = useTranslations();
+  const t = useTranslations('MyPage');
   return (
     <form
       onSubmit={onSubmit}
-      className="flex flex-col justify-start w-[386px] h-full"
+      className="flex flex-col justify-center items-center h-full pr-4 mt-10"
     >
-      <InputSet className="flex flex-col gap-4">
+      <InputSet className="flex flex-col gap-4 w-[386px]">
         {!isSocial && (
           <InputSet.DuplicateCheck
             onChange={onChangeInputValue}
@@ -71,7 +71,7 @@ export default function UserAccountForm({
           isSubmit={isSubmit}
         />
         <TextButton type="submit" className="w-full mt-8">
-          {t('MyPage.edit')}
+          {t('edit')}
         </TextButton>
       </InputSet>
       {!isSocial && (
@@ -80,7 +80,7 @@ export default function UserAccountForm({
           type="button"
           className="border-none bg-grayscale-0 text-center mt-4"
         >
-          {t('MyPage.change_password')}
+          {t('change_password')}
         </button>
       )}
       <button
@@ -88,7 +88,7 @@ export default function UserAccountForm({
         className="border-none bg-grayscale-0 text-center underline mt-4 text-warning-100"
         onClick={handleShowWidthdrawl}
       >
-        {t('MyPage.delete_account')}
+        {t('delete_account')}
       </button>
     </form>
   );

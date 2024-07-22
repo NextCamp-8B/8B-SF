@@ -243,9 +243,11 @@
       "error_message": "Une erreur est survenue. Veuillez réessayer ou contacter le service client."
     },
     "passwordChangeLinkSent": {
+      "confirmTitle": "Changer le mot de passe",
+      "confirmMsg": "En confirmant, un lien de changement de mot de passe sera envoyé et\nvous serez automatiquement déconnecté.",
       "error": "Une erreur est survenue",
       "title": "Lien de changement de mot de passe envoyé",
-      "message": "Le lien de changement de mot de passe a été envoyé. Veuillez vérifier votre email."
+      "message": "Le lien de changement de mot de passe a été envoyé.\nVeuillez vérifier votre email."
     },
     "accountDeletionMessages": {
       "warningTitle": "Avertissement de désinscription",

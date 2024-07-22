@@ -1,12 +1,13 @@
 import Logo from '@/assets/logos/logo_dark.svg';
 import { auth as getSession } from '@/auth';
 import IntlClientProvider from '@/components/shared/IntlClientProvider';
+import { headers } from 'next/headers';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
+
 export default async function BeforeLayout({
   children,
-}: // modal,
-Readonly<{
+}: Readonly<{
   children: React.ReactNode;
 }>) {
   const session = await getSession();

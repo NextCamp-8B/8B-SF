@@ -244,6 +244,8 @@
       "error_message": "发生错误。请重试或联系客服。"
     },
     "passwordChangeLinkSent": {
+      "confirmTitle": "更改密码",
+      "confirmMsg": "确认后，密码更改链接将被发送，\n您将自动注销。",
       "error": "发生错误",
       "title": "发送密码更改链接",
       "message": "密码更改链接已发送。请检查您的电子邮件。"

@@ -243,9 +243,11 @@
       "error_message": "An error occurred. Please try again or contact customer support."
     },
     "passwordChangeLinkSent": {
+      "confirmTitle": "Change Password",
+      "confirmMsg": "Upon confirmation, a password change link will be sent and\nyou will be automatically logged out.",
       "error": "Error Occurred",
       "title": "Password Change Link Sent",
-      "message": "Password change link has been sent. Please check your email."
+      "message": "Password change link has been sent.\nPlease check your email."
     },
     "accountDeletionMessages": {
       "warningTitle": "Account Deletion Warning",
