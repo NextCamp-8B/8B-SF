@@ -1,37 +1,38 @@
 import supabase from '@/lib/supabaseClient';
+import dayjs from 'dayjs';
 
 export async function GET() {
   try {
+    const today = dayjs().format('YYYYMMDD');
     const response = await fetch(
-      `https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=${process.env.NEXT_PUBLIC_KOREA_EXIM_API_KEY}&data=AP01`,
+      `https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=${process.env.NEXT_PUBLIC_KOREA_EXIM_API_KEY}&searchdate=${today}&data=AP01`,
     );
 
     const data: ExchangeData[] = await response.json();
-
-    data.forEach((d) => {
+    data.forEach(async (d) => {
       const rate = Number(d.deal_bas_r.replaceAll(',', ''));
       if (d.cur_unit === 'USD') {
-        supabase
+        await supabase
           .from('exchange-rate')
           .update({ exchange_rate: rate })
           .eq('locale', 'en');
       } else if (d.cur_unit === 'KRW') {
-        supabase
+        await supabase
           .from('exchange-rate')
           .update({ exchange_rate: rate })
           .eq('locale', 'ko');
       } else if (d.cur_unit === 'JPY(100)') {
-        supabase
+        await supabase
           .from('exchange-rate')
           .update({ exchange_rate: rate })
           .eq('locale', 'ja');
       } else if (d.cur_unit === 'EUR') {
-        supabase
+        await supabase
           .from('exchange-rate')
           .update({ exchange_rate: rate })
           .eq('locale', 'fr');
       } else if (d.cur_unit === 'CNH') {
-        supabase
+        await supabase
           .from('exchange-rate')
           .update({ exchange_rate: rate })
           .eq('locale', 'zh');
