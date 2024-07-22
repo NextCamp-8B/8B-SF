@@ -1,10 +1,7 @@
 import { createClient } from '@/utils/supabase/server';
 import OpenAI from 'openai';
 import { NextRequest, NextResponse } from 'next/server';
-
-interface DetailedData {
-  [key: string]: string; // 미리 정의되지 않은 추가 키 허용
-}
+import { isMarketOpen } from '@/utils/isMarketOpen';
 
 /**
  * GPT-4 API 키를 사용하여 OpenAI 클라이언트를 초기화합니다.
@@ -29,7 +26,22 @@ export const generateStockReport = async (stockSymbol: string) => {
         },
         {
           role: 'user',
-          content: `Generate a detailed report for the stock symbol: ${stockSymbol}. The report should include a concise summary and detailed data suitable for a radar chart. The summary should be about a paragraph long, and the detailed data should be comprehensive.`,
+          content: `Generate a detailed report for the stock symbol: ${stockSymbol}.`,
+        },
+        {
+          role: 'assistant',
+          content: `The report should include a concise summary and detailed data suitable for a radar chart. The summary should be about a paragraph long. The detailed data should be comprehensive and must include detailed explanations for the following fields: stockPrice, investmentIndex, interestLevel, growth, and profitability. Each section should provide an in-depth analysis. Ensure the response includes these sections clearly labeled in strict JSON format. The format should be:
+
+          {
+            "summary": "Your concise summary here.",
+            "detailedData": {
+              "stockPrice": { "currentPrice": "value", "52WeekHigh": "value", "52WeekLow": "value", "analysis": "detailed analysis" },
+              "investmentIndex": { "rating": "value", "analysis": "detailed analysis" },
+              "interestLevel": { "institutionalOwnership": "value", "retailOwnership": "value", "analysis": "detailed analysis" },
+              "growth": { "revenueGrowth": "value", "earningsGrowth": "value", "analysis": "detailed analysis" },
+              "profitability": { "profitMargin": "value", "returnOnEquity": "value", "analysis": "detailed analysis" }
+            }
+          }`,
         },
       ],
       max_tokens: 1500,
@@ -37,40 +49,47 @@ export const generateStockReport = async (stockSymbol: string) => {
       top_p: 0.9,
     });
 
-    const fullResponse = response.choices[0]?.message
-      .content as string;
+    const fullResponse = response.choices[0]?.message.content;
 
-    const summaryMatch = fullResponse.match(
-      /Summary:\s*([\s\S]*?)(?=\n\nDetailed Data|$)/,
-    );
-    const detailedDataMatch = fullResponse.match(
-      /Detailed Data:\s*([\s\S]*)/,
-    );
-
-    if (!summaryMatch || !detailedDataMatch) {
-      throw new Error(
-        'Failed to extract summary or detailed data from the response',
-      );
+    if (!fullResponse) {
+      throw new Error('No response content');
     }
 
-    /** summaryMatch에서 추출한 첫 번째 그룹을 가져와 공백을 제거한 후 'summary' 변수에 저장 */
-    const summary = summaryMatch[1].trim();
-    /** detailedDataMatch에서 추출한 첫 번째 그룹을 가져와 공백을 제거한 후 'detailedDataText' 변수에 저장 */
-    const detailedDataText = detailedDataMatch[1].trim();
-    /** detailedDataText를 줄 단위로 분할(split)하고 각 줄의 공백을 제거(map)하여 'detailedDataLines' 배열에 저장 */
-    const detailedDataLines = detailedDataText
-      .split('\n')
-      .map((line) => line.trim());
-    const detailedData: DetailedData = {};
+    const jsonResponseMatch = fullResponse.match(/\{[\s\S]*\}/);
+    if (!jsonResponseMatch) {
+      throw new Error('Failed to extract JSON from the response');
+    }
 
-    detailedDataLines.forEach((line) => {
-      /** detailedDataLines 배열의 각 줄에 대해 ':'를 기준으로 분할(split)하고 각 부분의 공백을 제거하여(key, value) 배열에 저장 */
-      const [key, value] = line.split(':').map((part) => part.trim());
-      /** detailedData 객체에 키-값 쌍을 추가합니다. 키는 분할된 줄의 첫 번째 부분, 값은 두 번째 부분 */
-      if (key && value) {
-        detailedData[key] = value;
-      }
-    });
+    const jsonResponse = jsonResponseMatch[0];
+
+    let parsedResponse;
+    try {
+      parsedResponse = JSON.parse(jsonResponse);
+    } catch (error) {
+      throw new Error('Failed to parse JSON from the response');
+    }
+
+    const { summary, detailedData } = parsedResponse;
+
+    const requiredFields = [
+      'stockPrice',
+      'investmentIndex',
+      'interestLevel',
+      'growth',
+      'profitability',
+    ];
+
+    const missingFields = requiredFields.filter(
+      (field) => !detailedData[field],
+    );
+
+    if (!summary || !detailedData || missingFields.length > 0) {
+      throw new Error(
+        `Incomplete response data. Missing fields: ${missingFields.join(
+          ', ',
+        )}`,
+      );
+    }
 
     return { summary, detailedData };
   } catch (error) {
@@ -82,6 +101,7 @@ export const generateStockReport = async (stockSymbol: string) => {
     };
   }
 };
+
 /**
  * 리포트를 생성하는 API 핸들러
  * @returns AI가 생성한 리포트 응답
@@ -129,8 +149,104 @@ export async function POST(req: NextRequest) {
 }
 
 /**
- * 리포트에서 퍼센트를 계산하는 API 핸들러
- * @returns 계산된 퍼센트 응답
+ * AI를 사용하여 리포트에서 주가, 투자지수, 관심도, 성장성, 수익성의 퍼센트와 증가 여부를 분석
+ * @description
+ * - system: 모델의 행동을 설정하고 맥락을 제공
+ * - assistant: 시스템의 지침에 따라 분석을 수행, 시스템이 설정한 맥락 내에서 사용자 요청을 처리
+ *   - 그렇기에  "Analyze the following stock report..." 내용이 포함
+ * - user: 실제 사용자의 입력을 제공 및 분석할 리포트를 전달
+ * - N/A: Not Available or Not Applicable 의 약자 (해당 데이터가 제공되지 않거나 의미가 없음)
+ * @param report - 분석할 주식 리포트
+ * @returns - 각 항목의 퍼센트와 증가 여부를 포함한 JSON
+ */
+const analyzeReportWithAI = async (report: string) => {
+  try {
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4o',
+      messages: [
+        {
+          role: 'system',
+          content: 'You are an expert financial analyst.',
+        },
+        {
+          role: 'assistant',
+          content: `Analyze the following stock report and provide the percentage and trend (true/false for increase/decrease) for the following categories: stockPrice, investmentIndex, interestLevel, growth, and profitability. 
+                    Ensure that each category has a percentage and trend. If data for a category is missing or unavailable, provide your best estimate. Format the response as a JSON object. Never include miscellaneous information such as comments in the JSON data format!`,
+        },
+        {
+          role: 'user',
+          content: `Report: ${report}`,
+        },
+      ],
+      max_tokens: 1500,
+      temperature: 0.7,
+      top_p: 0.9,
+    });
+
+    const aiResponse =
+      response.choices[0]?.message?.content?.trim() as string;
+
+    const jsonStartIndex = aiResponse.indexOf('{');
+    const jsonEndIndex = aiResponse.lastIndexOf('}') + 1;
+    const jsonResponse = aiResponse.substring(
+      jsonStartIndex,
+      jsonEndIndex,
+    );
+
+    let result;
+    try {
+      result = JSON.parse(jsonResponse);
+    } catch (error) {
+      console.error('Failed to parse AI response as JSON:', error);
+      return null;
+    }
+    const categories = [
+      'stockPrice',
+      'investmentIndex',
+      'interestLevel',
+      'growth',
+      'profitability',
+    ];
+    const validatedResult: any = {};
+
+    categories.forEach((category) => {
+      const { percentage, trend } = result[category];
+      const percentageType = typeof percentage;
+      const isStr = percentageType === 'string';
+      const isNum = percentageType === 'number';
+
+      if (
+        result[category] &&
+        (isNum || (isStr && percentage.substr(-1) === '%')) &&
+        typeof trend === 'boolean'
+      ) {
+        if (isStr && percentage.substr(-1) === '%') {
+          const regex = /[^0-9]/g;
+          const number = percentage.replace(regex, '');
+          validatedResult[category] = {
+            ...result[category],
+            percentage: number,
+          };
+        } else {
+          validatedResult[category] = result[category];
+        }
+      } else {
+        validatedResult[category] = {
+          percentage: 0,
+          trend: false,
+        };
+      }
+    });
+    return validatedResult;
+  } catch (error) {
+    console.error('Error analyzing report with AI:', error);
+    return null;
+  }
+};
+
+/**
+ * 리포트에서 퍼센트와 증가 여부를 계산하는 API 핸들러
+ * @returns 분석된 퍼센트와 증가 여부를 포함한 JSON 응답
  */
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -138,181 +254,68 @@ export async function GET(req: NextRequest) {
 
   if (!stockId) {
     return NextResponse.json(
-      { error: 'Report ID is required' },
+      { error: 'Stock ID is required' },
       { status: 400 },
     );
   }
 
-  // Supabase 클라이언트 생성
   const supabase = createClient();
 
-  // 특정 report_id에 대한 리포트를 조회
-  const { data: reportData, error } = await supabase
-    .from('stock')
-    .select('detailed_data')
-    .eq('stock_id', stockId)
-    .single();
+  if (isMarketOpen()) {
+    const { data: reportData, error } = await supabase
+      .from('stock')
+      .select('detailed_data')
+      .eq('stock_id', stockId)
+      .single();
 
-  if (error || !reportData) {
-    return NextResponse.json(
-      { error: 'Report not found' },
-      { status: 404 },
-    );
-  }
+    if (error || !reportData) {
+      return NextResponse.json(
+        { error: 'Report not found' },
+        { status: 404 },
+      );
+    }
 
-  const report = reportData.detailed_data;
+    const report = reportData.detailed_data;
 
-  /** 리포트에서 주가, 투자지수, 관심도, 성장성, 수익성 퍼센트를 계산 */
-  const percentages = calculatePercentages(report);
+    /** AI를 사용하여 퍼센트와 증가 여부를 분석 */
+    const analysisResult = await analyzeReportWithAI(report);
 
-  return NextResponse.json({ percentages });
-}
+    if (!analysisResult) {
+      return NextResponse.json(
+        { error: 'Failed to analyze the report' },
+        { status: 500 },
+      );
+    }
 
-/**
- * 리포트를 분석하여 주가, 투자지수, 관심도, 성장성, 수익성의 퍼센트를 계산하는 함수
- * @description
- * - 특정 키워드의 출현 빈도를 기반으로 점수를 계산
- * - 리포트 내용 분석
- *   - 주가 (Stock Price): 주가에 대한 긍정적, 부정적, 중립적 정보
- *   - 투자지수 (Investment Index): 투자지수에 대한 긍정적, 부정적, 중립적 정보
- *   - 관심도 (Interest Level): 관심도에 대한 긍정적, 부정적, 중립적 정보
- *   - 성장성 (Growth): 성장성에 대한 긍정적, 부정적, 중립적 정보
- *   - 수익성 (Profitability): 수익성에 대한 긍정적, 부정적, 중립적 정보
- * @returns 각 항목에 대한 퍼센트
- */
-function calculatePercentages(report: string): {
-  [key: string]: number;
-} {
-  /** 긍정적, 부정적 키워드 */
-  const keywords = {
-    stockPrice: {
-      positive: ['upward', 'increased', 'strong', 'high', 'robust'],
-      negative: ['downward', 'declined', 'weak', 'low', 'poor'],
-    },
-    investmentIndex: {
-      positive: [
-        'attractive',
-        'high',
-        'positive',
-        'high-value',
-        'strong',
-      ],
-      negative: ['poor', 'low', 'negative', 'unattractive', 'weak'],
-    },
-    interestLevel: {
-      positive: [
-        'high demand',
-        'popular',
-        'increasing',
-        'high interest',
-        'strong interest',
-      ],
-      negative: [
-        'low demand',
-        'unpopular',
-        'declining',
-        'low interest',
-        'weak interest',
-      ],
-    },
-    growth: {
-      positive: [
-        'growth',
-        'expanding',
-        'high growth',
-        'strong performance',
-        'increasing',
-      ],
-      negative: [
-        'stagnant',
-        'decline',
-        'slow growth',
-        'poor performance',
-        'reducing',
-      ],
-    },
-    profitability: {
-      positive: [
-        'high profit',
-        'strong margin',
-        'high return',
-        'excellent profitability',
-        'robust',
-      ],
-      negative: [
-        'low profit',
-        'weak margin',
-        'poor return',
-        'low profitability',
-        'difficult',
-      ],
-    },
-  };
+    const { error: updateError } = await supabase
+      .from('stock')
+      .update({ analysis_result: analysisResult })
+      .eq('stock_id', stockId);
 
-  /**
-   * 긍정적인 정보가 많으면 높은 점수를 부여하고, 부정적인 정보가 많으면 낮은 점수를 부여
-   */
-  function calculateScore(
-    text: string,
-    positiveKeywords: string[],
-    negativeKeywords: string[],
-  ): number {
-    let score = 0;
-    positiveKeywords.forEach((keyword) => {
-      const regex = new RegExp(keyword, 'gi');
-      const matches = text.match(regex);
-      if (matches) {
-        score += matches.length;
-      }
+    if (updateError) {
+      return NextResponse.json(
+        { error: 'Failed to save analysis result' },
+        { status: 500 },
+      );
+    }
+
+    return NextResponse.json({ analysisResult });
+  } else {
+    const { data: storedData, error: storedError } = await supabase
+      .from('stock')
+      .select('analysis_result')
+      .eq('stock_id', stockId)
+      .single();
+
+    if (storedError || !storedData) {
+      return NextResponse.json(
+        { error: 'Analysis result not found' },
+        { status: 404 },
+      );
+    }
+
+    return NextResponse.json({
+      analysisResult: storedData.analysis_result,
     });
-    negativeKeywords.forEach((keyword) => {
-      const regex = new RegExp(keyword, 'gi');
-      const matches = text.match(regex);
-      if (matches) {
-        score -= matches.length;
-      }
-    });
-    return score;
   }
-
-  // 리포트에서 각 항목의 정보를 추출하고 점수를 계산합니다.
-  const stockPriceScore = calculateScore(
-    report,
-    keywords.stockPrice.positive,
-    keywords.stockPrice.negative,
-  );
-  const investmentIndexScore = calculateScore(
-    report,
-    keywords.investmentIndex.positive,
-    keywords.investmentIndex.negative,
-  );
-  const interestLevelScore = calculateScore(
-    report,
-    keywords.interestLevel.positive,
-    keywords.interestLevel.negative,
-  );
-  const growthScore = calculateScore(
-    report,
-    keywords.growth.positive,
-    keywords.growth.negative,
-  );
-  const profitabilityScore = calculateScore(
-    report,
-    keywords.profitability.positive,
-    keywords.profitability.negative,
-  );
-
-  /** 각 항목의 최대 점수 */
-  const maxScore = 10;
-  /** 각 항목의 퍼센트를 계산 (점수를 100으로 정규화) */
-  const normalize = (score: number) =>
-    Math.min(Math.max((score / maxScore) * 100, 0), 100);
-
-  return {
-    stockPrice: normalize(stockPriceScore),
-    investmentIndex: normalize(investmentIndexScore),
-    interestLevel: normalize(interestLevelScore),
-    growth: normalize(growthScore),
-    profitability: normalize(profitabilityScore),
-  };
 }
