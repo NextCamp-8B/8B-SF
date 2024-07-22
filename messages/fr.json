@@ -14,7 +14,17 @@
     "find_pw": "Trouvez votre mot de passe",
     "not_a_member_yet": "Pas encore membre ?",
     "signup": "Inscrivez-vous à Aightnow",
-    "or": "ou"
+    "or": "ou",
+    "PopupMessages": {
+      "login_fail": "Échec de la connexion",
+      "login_fail_msg": "Veuillez vérifier votre identifiant ou mot de passe.",
+      "kakao_login_fail": "Échec de la connexion Kakao",
+      "kakao_login_fail_msg": "Erreur de connexion Kakao, veuillez vérifier à nouveau votre compte Kakao ou contacter le service client.",
+      "google_login_fail": "Échec de la connexion Google",
+      "google_login_fail_msg": "Erreur de connexion Google, veuillez vérifier à nouveau votre compte Google ou contacter le service client.",
+      "naver_login_fail": "Échec de la connexion Naver",
+      "naver_login_fail_msg": "Erreur Naver, veuillez vérifier à nouveau votre compte Naver ou contacter le service client."
+    }
   },
   "LoginError": {
     "error_occurred": "Une erreur de connexion est survenue.",

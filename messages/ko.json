@@ -14,7 +14,17 @@
     "find_pw": "비밀번호 찾기",
     "not_a_member_yet": "아직 회원이 아니신가요?",
     "signup": "아잇나우 회원가입",
-    "or": "또는"
+    "or": "또는",
+    "PopupMessages": {
+      "login_fail": "로그인 실패",
+      "login_fail_msg": "아이디 또는 비밀번호를 다시 확인해주세요.",
+      "kakao_login_fail": "카카오 로그인 실패",
+      "kakao_login_fail_msg": "카카오 로그인 오류, 카카오 계정을 다시 확인하거나, 고객센터에 문의해주세요.",
+      "google_login_fail": "구글 로그인 실패",
+      "google_login_fail_msg": "구글 로그인 오류, 구글 계정을 다시 확인하거나, 고객센터에 문의해주세요.",
+      "naver_login_fail": "네이버 로그인 실패",
+      "naver_login_fail_msg": "네이버 오류, 네이버 계정을 다시 확인하거나, 고객센터에 문의해주세요."
+    }
   },
   "LoginError": {
     "error_occurred": "로그인 오류가 발생했습니다.",

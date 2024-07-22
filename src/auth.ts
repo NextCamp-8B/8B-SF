@@ -48,7 +48,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             email: userData?.email,
             password,
           });
-        // // console.log(loginData, '-----login 로그인-------');
+        // console.log(
+        //   loginData,
+        //   '-----login 로그인-------',
+        //   loginError,
+        // );
         if (loginError || !loginData) {
           throw new CredentialsSignin('로그인에 실패했습니다.');
         }

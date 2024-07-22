@@ -14,7 +14,17 @@
     "find_pw": "找回您的密码",
     "not_a_member_yet": "还不是会员？",
     "signup": "注册Aightnow",
-    "or": "或者"
+    "or": "或者",
+    "PopupMessages": {
+      "login_fail": "登录失败",
+      "login_fail_msg": "请再次检查您的ID或密码。",
+      "kakao_login_fail": "Kakao登录失败",
+      "kakao_login_fail_msg": "Kakao登录错误，请重新检查您的Kakao账户或联系客户服务。",
+      "google_login_fail": "Google登录失败",
+      "google_login_fail_msg": "Google登录错误，请重新检查您的Google账户或联系客户服务。",
+      "naver_login_fail": "Naver登录失败",
+      "naver_login_fail_msg": "Naver错误，请重新检查您的Naver账户或联系客户服务。"
+    }
   },
   "LoginError": {
     "error_occurred": "登录错误发生。",

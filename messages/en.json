@@ -14,7 +14,17 @@
     "find_pw": "Find your password",
     "not_a_member_yet": "Not a member yet?",
     "signup": "Sign up for Aightnow",
-    "or": "or"
+    "or": "or",
+    "PopupMessages": {
+      "login_fail": "Login Failed",
+      "login_fail_msg": "Please check your ID or password again.",
+      "kakao_login_fail": "Kakao Login Failed",
+      "kakao_login_fail_msg": "Kakao login error, please check your Kakao account again or contact customer service.",
+      "google_login_fail": "Google Login Failed",
+      "google_login_fail_msg": "Google login error, please check your Google account again or contact customer service.",
+      "naver_login_fail": "Naver Login Failed",
+      "naver_login_fail_msg": "Naver error, please check your Naver account again or contact customer service."
+    }
   },
   "LoginError": {
     "error_occurred": "A login error has occurred.",

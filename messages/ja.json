@@ -14,7 +14,17 @@
     "find_pw": "パスワードを探す",
     "not_a_member_yet": "まだ会員ではありませんか？",
     "signup": "Aightnowに登録する",
-    "or": "または"
+    "or": "または",
+    "PopupMessages": {
+      "login_fail": "ログイン失敗",
+      "login_fail_msg": "IDまたはパスワードを再確認してください。",
+      "kakao_login_fail": "カカオログイン失敗",
+      "kakao_login_fail_msg": "カカオログインエラー、カカオアカウントを再確認するか、カスタマーサービスに連絡してください。",
+      "google_login_fail": "グーグルログイン失敗",
+      "google_login_fail_msg": "グーグルログインエラー、グーグルアカウントを再確認するか、カスタマーサービスに連絡してください。",
+      "naver_login_fail": "ネイバーログイン失敗",
+      "naver_login_fail_msg": "ネイバーエラー、ネイバーアカウントを再確認するか、カスタマーサービスに連絡してください。"
+    }
   },
   "LoginError": {
     "error_occurred": "ログインエラーが発生しました。",
