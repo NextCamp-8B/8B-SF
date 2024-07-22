@@ -92,7 +92,7 @@ export default function ChartSection({ stockId }: { stockId: UUID }) {
     if (userId && stockId) {
       handleGetStock();
     }
-  }, [userId, stockId, handleGetStock]);
+  }, [userId, stockId]);
 
   const { stock_code: stockCode } = stock && stock;
   useEffect(() => {
@@ -115,7 +115,7 @@ export default function ChartSection({ stockId }: { stockId: UUID }) {
         }
       };
     }
-  }, [pay, stockCode, fetchNaverpay]);
+  }, [pay, stockCode]);
 
   const handleIsInterest = (isInterest: boolean) => {
     setStock((prev: StockWithInterest) => ({
@@ -138,7 +138,7 @@ export default function ChartSection({ stockId }: { stockId: UUID }) {
         }),
       );
     }
-  }, [userId, stockCode, generateAIReport]);
+  }, [userId, stockCode]);
 
   const report = aIReport?.report ? aIReport?.report : stock?.report;
 

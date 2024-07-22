@@ -13,7 +13,7 @@ export function useGetRecent({ userId }: { userId: UUID }) {
         setRecentStocks(res.stocks);
       });
     }
-  }, [userId, getRecentSearch]);
+  }, [userId]);
 
   return { recentStocks };
 }

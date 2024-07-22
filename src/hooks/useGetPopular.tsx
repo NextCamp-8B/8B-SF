@@ -9,7 +9,7 @@ export function useGetPopular() {
   const { getPopularStock } = businessAPI;
   useEffect(() => {
     getPopularStock().then((res) => setPopularStocks(res.stocks));
-  }, [getPopularStock]);
+  }, []);
 
   return { popularStocks };
 }

@@ -34,7 +34,7 @@ export default function StockChartCard({
         name,
       }).then((res) => setChartData(res));
     }
-  }, [stockCode, name, getPayDuration, handleRoute]);
+  }, [stockCode, name]);
 
   const handleDuration = (
     e:
