@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import supabase from '@/lib/supabaseClient';
 
+type UpdateData = {
+  data: {
+    language: string;
+  };
+};
+
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
@@ -16,11 +22,21 @@ export async function POST(request: NextRequest) {
       });
 
     if (sessionError) {
+      if (
+        sessionError.message.includes(
+          'Invalid Refresh Token: Already Used',
+        )
+      ) {
+        return NextResponse.json(
+          { error: 'SessionExpired' },
+          { status: 401 },
+        );
+      }
       throw sessionError;
     }
 
     // 유저 정보 업데이트를 위한 데이터 객체
-    const updateData: any = {
+    const updateData: UpdateData = {
       data: {
         language,
       },
@@ -38,6 +54,7 @@ export async function POST(request: NextRequest) {
     response.cookies.set('NEXT_LOCALE', language, { path: '/' });
     return response;
   } catch (error) {
+    console.log('--------error---', error);
     return NextResponse.json(
       { error: '언어 설정 중 오류 발생했습니다.' },
       { status: 500 },

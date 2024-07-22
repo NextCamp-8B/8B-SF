@@ -1,16 +1,20 @@
-'use client';
-import useSessionData from '@/hooks/user/useSessionData';
-import SkeletonProfileSection from '../skeleton/mypage/SkeletonProfile';
 import SectionProfile from './SectionProfile';
 import SectionAccount from './SectionAccount';
+import { auth as getSession } from '@/auth';
+import { Session } from 'next-auth';
+import { redirect } from 'next/navigation';
 
-export default function MyPage() {
-  const { user, isSocial, loading } = useSessionData();
+export default async function MyPage() {
+  const { user } = (await getSession()) as Session;
 
-  // useSession loading이라면 skeleton ui
-  if (loading) {
-    return <SkeletonProfileSection />;
+  if (!user) {
+    return redirect('/login/error?error=SessionExpired');
   }
+  const isSocial =
+    user?.provider &&
+    ['kakao', 'google', 'naver'].includes(user.provider)
+      ? true
+      : false;
 
   return (
     <>

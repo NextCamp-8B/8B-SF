@@ -6,6 +6,15 @@ import {
 } from '@/utils/supabase/supabaseHelper';
 import generateFileName from '@/utils/generateFileName';
 
+type UpdateData = {
+  data: {
+    nickname?: string;
+    interestStock?: string;
+    profileImg?: string;
+    profileImgName?: string;
+  };
+};
+
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
@@ -24,11 +33,21 @@ export async function POST(request: NextRequest) {
       });
 
     if (sessionError) {
+      if (
+        sessionError.message.includes(
+          'Invalid Refresh Token: Already Used',
+        )
+      ) {
+        return NextResponse.json(
+          { error: 'SessionExpired' },
+          { status: 401 },
+        );
+      }
       throw sessionError;
     }
 
     // 유저 정보 업데이트를 위한 데이터 객체
-    const updateData: any = {
+    const updateData: UpdateData = {
       data: {
         nickname,
         interestStock,
@@ -58,7 +77,6 @@ export async function POST(request: NextRequest) {
     );
     // console.log('---------수정 업데이트---------', data);
     if (authError) {
-      console.log('authError', authError);
       throw authError;
     }
     return NextResponse.json({ data }, { status: 200 });

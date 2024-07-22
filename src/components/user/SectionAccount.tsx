@@ -1,3 +1,4 @@
+'use client';
 import myPageStore from '@/store/myPageStore';
 import MyPageSection from './MyPageSection';
 import { User } from 'next-auth';

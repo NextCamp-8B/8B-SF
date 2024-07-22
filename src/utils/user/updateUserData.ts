@@ -1,3 +1,4 @@
+import { UpdateResponse } from '@/types/mypage';
 import { UpdateSession } from 'next-auth/react';
 
 export async function updateUserData(
@@ -26,8 +27,12 @@ export async function updateUserData(
         translations.successMessage,
       );
     } else {
+      const data: UpdateResponse = await response.json();
+      if (data.error === 'SessionExpired') {
+        // 세션 만료 처리
+        return data;
+      }
       showPopup(translations.errorTitle, translations.errorMessage);
-
       throw new Error('수정 실패');
     }
   } catch (error) {

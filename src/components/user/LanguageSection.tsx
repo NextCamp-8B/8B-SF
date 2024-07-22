@@ -10,6 +10,7 @@ import usePopupStore from '@/store/userPopup';
 import { useTranslations } from 'next-intl';
 import LoadingSpinnerWrapper from '../shared/LoadingSpinnerWrapper';
 import SkeletonLanguageSection from '../skeleton/mypage/SkeletonLanguage';
+import { signOut } from 'next-auth/react';
 
 export default function LanguageSection() {
   const t = useTranslations('MyPage');
@@ -43,12 +44,17 @@ export default function LanguageSection() {
       body: formData,
     });
     if (response.ok) {
-      const { data } = await response.json();
+      const { data, error } = await response.json();
       await update({ ...data.user.user_metadata });
       setSelectedLanguage(language);
       router.replace(`/${language}/user/language`);
       router.refresh();
     } else {
+      const error = await response.json();
+      if (error && error === 'SessionExpired') {
+        await signOut();
+        router.replace('/login/error?error=SessionExpired');
+      }
       showPopup(
         t('languageSettingError.error'),
         t('languageSettingError.message'),
