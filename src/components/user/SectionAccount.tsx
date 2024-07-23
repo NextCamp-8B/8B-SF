@@ -47,7 +47,11 @@ export default function SectionAccount({
   return (
     <>
       {/* 회원 탈퇴 */}
-      {isSocial ? <SocialWithdrawal user={user} /> : <Withdrawal />}
+      {isSocial ? (
+        <SocialWithdrawal user={user} isSocial={isSocial} />
+      ) : (
+        <Withdrawal isSocial={isSocial} />
+      )}
       {isUserAccountdit && (
         <UserAccountEdit user={user} isSocial={isSocial} />
       )}

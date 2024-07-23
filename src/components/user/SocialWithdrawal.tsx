@@ -13,10 +13,14 @@ import WithdrawalForm from './WithdrawalForm';
 
 type SocialWithdrawal = {
   user: User;
+  isSocial: boolean;
 };
 
 // 소셜 회원탈퇴
-export default function SocialWithdrawal({ user }: SocialWithdrawal) {
+export default function SocialWithdrawal({
+  user,
+  isSocial,
+}: SocialWithdrawal) {
   const [isLoading, setIsLoading] = useState(false); //api 로딩 체크
   const [etc, setEtc] = useState(''); //회원탈퇴 사유 기타
   const [reason, setReason] = useState(''); //선택한 회원탈퇴 사유
@@ -119,17 +123,14 @@ export default function SocialWithdrawal({ user }: SocialWithdrawal) {
           width="w-[590px]"
         >
           <LoadingSpinnerWrapper isLoading={isLoading}>
-            <form
-              className="flex flex-col items-center justify-start h-full"
-              onSubmit={chekckWithdrawal}
-            >
-              <WithdrawalForm
-                etc={etc}
-                handleSelected={handleSelected}
-                reason={reason}
-                setEtc={setEtc}
-              />
-            </form>
+            <WithdrawalForm
+              etc={etc}
+              handleSelected={handleSelected}
+              reason={reason}
+              setEtc={setEtc}
+              handleWithdrawal={chekckWithdrawal}
+              isSocial={isSocial}
+            />
           </LoadingSpinnerWrapper>
         </ModalLayout>
       )}

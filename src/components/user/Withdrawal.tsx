@@ -18,8 +18,12 @@ import { useTranslations } from 'next-intl';
 import ModalLayout from '../shared/modal/ModalLayout';
 import WithdrawalForm from './WithdrawalForm';
 
+type Withdrawal = {
+  isSocial: boolean;
+};
+
 // 회원탈퇴
-export default function Withdrawal() {
+export default function Withdrawal({ isSocial }: Withdrawal) {
   const t = useTranslations('MyPage');
   const { value, onChangeInputValue } = useInputChange();
   const [isLoading, setIsLoading] = useState(false); //api 로딩 체크
@@ -74,6 +78,7 @@ export default function Withdrawal() {
   const chekckWithdrawal = async (e: FormEvent) => {
     e.preventDefault();
     setIsSubmit(true);
+
     if (!isFormValid) return;
     setIsLoading(true);
     const isValid = await checkPassword(value.password);
@@ -146,17 +151,17 @@ export default function Withdrawal() {
           width="w-[590px]"
         >
           <LoadingSpinnerWrapper isLoading={isLoading}>
-            <form
-              className="flex flex-col items-center justify-start h-full mt-10"
-              onSubmit={chekckWithdrawal}
-            >
-              <WithdrawalForm
-                etc={etc}
-                handleSelected={handleSelected}
-                reason={reason}
-                setEtc={setEtc}
-              />
-            </form>
+            <WithdrawalForm
+              etc={etc}
+              handleSelected={handleSelected}
+              reason={reason}
+              setEtc={setEtc}
+              handleWithdrawal={chekckWithdrawal}
+              isSocial={isSocial}
+              password={value.password}
+              isSubmit={isSubmit}
+              onChangeInputValue={onChangeInputValue}
+            />
           </LoadingSpinnerWrapper>
         </ModalLayout>
       )}

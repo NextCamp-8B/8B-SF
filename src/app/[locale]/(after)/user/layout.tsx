@@ -5,6 +5,15 @@ import { getTranslations } from 'next-intl/server';
 import { Suspense } from 'react';
 import SkeletonProfileSection from '@/components/skeleton/mypage/SkeletonProfile';
 
+export async function generateMetadata() {
+  const t = await getTranslations('Metadata');
+
+  return {
+    title: t('my'),
+    description: 'Manage your profile and settings.',
+  };
+}
+
 export default async function UserLayout({
   children,
 }: Readonly<{

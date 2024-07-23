@@ -54,9 +54,8 @@ export function usePasswordUpdate() {
         t('passwordChangeLinkSent.error'),
         t('profileUpdate.error_message'),
       );
+      setIsUpdatePwLoading(false);
     }
-
-    setIsUpdatePwLoading(false);
   };
 
   return {
