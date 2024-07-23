@@ -9,7 +9,10 @@ export async function generateMetadata() {
   const t = await getTranslations('Metadata');
 
   return {
-    title: t('stock'),
+    title: {
+      template: `%s | ${t('app_name')}`,
+      default: t('stock'),
+    },
     description: 'Provide US stocks.',
   };
 }
