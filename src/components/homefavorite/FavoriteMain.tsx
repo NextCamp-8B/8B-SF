@@ -16,9 +16,11 @@ export default async function Recent({
         <div className="h4 font-bold text-primary-900">
           {t('interest')}
         </div>
-        <div className="flex flex-col justify-center items-center bg-[#FFFFFF] rounded-2xl mt-6 min-w-[590px] min-h-[374px] ">
+        <div className="flex flex-col items-center bg-[#FFFFFF] rounded-2xl mt-6 min-w-[590px] min-h-[374px] ">
           {data ? (
-            <FavoriteItem stocks={data} />
+            <div className="mt-8">
+              <FavoriteItem stocks={data} />
+            </div>
           ) : (
             <NotFind type="stock" />
           )}

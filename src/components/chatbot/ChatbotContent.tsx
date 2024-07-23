@@ -38,6 +38,15 @@ export default function ChatbotContent({
     }
   }, [isLoading]);
 
+  const chatFormat = (chat: string) => {
+    return chat.split('.').map((sentence, index) => (
+      <div key={index}>
+        {sentence.trim()}
+        {sentence && '.'}
+      </div>
+    ));
+  };
+
   return (
     <div
       className="flex flex-col w-[448px] h-[396px] overflow-x-auto px-4 no-scrollbar"
@@ -62,7 +71,7 @@ export default function ChatbotContent({
                 <SMALLLOGO width={28} height={24} />
               </div>
               <div className="max-w-full b5 bg-primary-50 rounded-lg p-2">
-                {chat}
+                {chatFormat(chat)}
               </div>
             </div>
           ) : (

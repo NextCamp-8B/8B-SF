@@ -44,7 +44,9 @@ export default function RecentItem() {
           </div>
         ))
       ) : (
-        <NoData />
+        <div className="flex flex-col pt-20">
+          <NoData />
+        </div>
       )}
     </>
   );

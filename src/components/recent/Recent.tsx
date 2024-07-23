@@ -11,9 +11,11 @@ export default async function Recent() {
         <div className="h4 font-bold text-primary-900">
           {t('recent_views')}
         </div>
-        <div className="flex flex-col justify-center items-center bg-[#FFFFFF] rounded-2xl mt-6 min-w-[590px] min-h-[374px] ">
+        <div className="flex flex-col items-center bg-[#FFFFFF] rounded-2xl mt-6 min-w-[590px] min-h-[374px] ">
           <IntlClientProvider>
-            <RecentItem />
+            <div className="mt-8">
+              <RecentItem />
+            </div>
           </IntlClientProvider>
         </div>
       </div>
