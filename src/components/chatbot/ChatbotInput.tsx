@@ -30,7 +30,6 @@ export default function ChatbotInput({
 
     if (response.ok) {
       setMessage('');
-      setLatestInfo([{ '2024-06-01': 10000 }]);
       onNewMessage();
       setIsLoading(false);
     }

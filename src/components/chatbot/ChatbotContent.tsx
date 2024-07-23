@@ -39,11 +39,10 @@ export default function ChatbotContent({
   }, [isLoading]);
 
   const chatFormat = (chat: string) => {
-    return chat.split('.').map((sentence, index) => (
-      <div key={index}>
-        {sentence.trim()}
-        {sentence && '.'}
-      </div>
+    // 정규 표현식을 사용하여 문장의 끝에 있는 마침표만 분리
+    const sentences = chat.match(/(?:\d+\.\d+|[^.!?])+[.!?]*/g) || [];
+    return sentences.map((sentence, index) => (
+      <div key={index}>{sentence.trim()}</div>
     ));
   };
 

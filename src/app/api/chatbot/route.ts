@@ -43,7 +43,8 @@ export async function GET(req: Request, res: Response) {
 }
 
 export async function POST(req: NextRequest) {
-  const { userId, message, latestInfo } = await req.json();
+  const supabase = createClient();
+  const { userId, message } = await req.json();
 
   if (!userId || !message) {
     return NextResponse.json(
@@ -52,8 +53,12 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  const { data: stockData, error: stockError } = await supabase
+    .from('stock')
+    .select('stock_name, detailed_data');
+
   // OpenAI API를 사용하여 질문에 대한 답변 생성
-  const aiResponse = await generateResponse(message, latestInfo);
+  const aiResponse = await generateResponse(message, stockData || []);
 
   const answer = aiResponse;
   if (!answer) {
@@ -61,7 +66,6 @@ export async function POST(req: NextRequest) {
   }
 
   // 생성된 답변을 Supabase의 chatbot 테이블에 저장
-  const supabase = createClient();
   const { data, error } = await supabase
     .from('chatbot')
     .insert({ question: message, answer, user_id: userId });

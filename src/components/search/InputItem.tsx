@@ -56,7 +56,7 @@ export default function InputItem() {
           onBlur={() => setIsFocused(false)}
         />
         <Search
-          className={`w-8 absolute mx-${isFocused ? '1' : '2'}`}
+          className={`w-8 absolute ${isFocused ? 'mx-1' : 'mx-2'}`}
         />
       </div>
 

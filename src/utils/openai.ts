@@ -6,19 +6,22 @@ const openai = new OpenAI({
 
 export const generateResponse = async (
   userInput: string,
-  latestInfo: string,
+  latestInfo: { stock_name: string; detailed_data: object }[],
 ) => {
   try {
     const response = await openai.chat.completions.create({
       model: 'gpt-4o',
       messages: [
+        // You are a useful stock price helpe
         {
           role: 'system',
-          content: `You are a useful stock price helper. `,
+          content: `You are a helpful stock market assistant. `,
         },
         {
           role: 'system',
-          content: `Here is the latest information about the company: ${latestInfo}`,
+          content: `Here are the latest details for various companies: ${JSON.stringify(
+            latestInfo,
+          )}. Use this information to answer questions accurately.`,
         },
         {
           role: 'assistant',
@@ -39,20 +42,22 @@ export const generateResponse = async (
             배당 정책에 대한 간략한 설명도 포함해 주세요.',
             '[회사 이름]의 주요 재무 지표를 분석해 주세요.' 등등의 질문의 예시와 맞는 답변을 해주세요.
             답변에는 절대로 '**', '#' 같은 특수문자를 사용하지 마세요.
-            답변은 '[수익성], [투자지수], [성장성], [관심도]' 이 4가지를 기준으로 답변하세요.
+            답변은 '[수익성], [투자지수], [성장성], [관심도]' 이 4가지를 기준으로 답변하되, 주어진 ${latestInfo}를 참고하여 답변하세요.
             회사의 긍정적인 정보 하나당 +1점을 추가하세요.
             회사의 부정적인 정보 하나당 -1점을 차감하세요.
             중립적인 정보는 0점으로 계산하세요.
-            답변 맨 처음 총 점수를 '기업 점수: [Score].' 형식으로 제공해 주세요.
-            예로 들어 '[수익성] +1 : ' 이런 식의 형태를 유지하세요.
-            각 항목당 답변은 최대 2줄로 답변하세요.
+            예로 들어 '[수익성] +x : ' 이런 식의 형태로 답변을 하세요.
+            각 항목의 x를 합한 점수를 Score라고 할 때, 답변 맨 처음 총 점수를 '기업 점수: [Score].' 형식으로 제공해 주세요.
+            각 항목당 답변은 최대 4줄 이내로 답변하세요.
              `,
         },
         { role: 'user', content: userInput },
       ],
       max_tokens: 400,
-      temperature: 0.1,
-      top_p: 0.4,
+      temperature: 0.4,
+      top_p: 0.6,
+      // 특정 단어 반복 빈도(-2 ~ 2) 높을수록 동일 단어의 반복을 억제
+      frequency_penalty: 1,
     });
     return response.choices[0]?.message.content;
   } catch (error) {
