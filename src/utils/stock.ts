@@ -12,19 +12,19 @@ export const getStockStyle = (
     return {
       color: 'text-warning-100',
       comparePrice: `▲${Math.abs(comparePrice).toFixed(2)}`,
-      ratio: `+${(ratio * 100).toFixed(2)}%`,
+      ratio: `+${ratio.toFixed(2)}%`,
     };
   } else if (comparePrice < 0) {
     return {
       color: 'text-secondary-600',
       comparePrice: `▼${Math.abs(comparePrice).toFixed(2)}`,
-      ratio: `${(ratio * 100).toFixed(2)}%`,
+      ratio: `${ratio.toFixed(2)}%`,
     };
   } else {
     return {
       color: '',
       comparePrice: `${Math.abs(comparePrice).toFixed(2)}`,
-      ratio: `${(ratio * 100).toFixed(2)}%`,
+      ratio: `${ratio.toFixed(2)}%`,
     };
   }
 };
