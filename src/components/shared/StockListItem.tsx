@@ -74,13 +74,11 @@ export default function StockListItem({
         >
           <StockIcon size="medium" path={logo_path} />
           <div className="flex-1 flex justify-between h-full items-center">
-            <div className="flex flex-col">
-              <span className={`b2 font-bold group-hover:underline`}>
+            <div className="flex flex-col text-left">
+              <span className={` b2 font-bold group-hover:underline`}>
                 {stock_name}
               </span>
-              <span className="text-left b5 font-normal ">
-                {stock_code}
-              </span>
+              <span className="b5 font-normal ">{stock_code}</span>
             </div>
             <div className="flex flex-col">
               <span className={`text-right b3 font-medium`}>
@@ -105,7 +103,7 @@ export default function StockListItem({
         >
           <StockIcon size={'small'} path={logo_path} />
           <div className="flex-1 flex justify-between">
-            <div className="flex flex-col">
+            <div className="flex flex-col text-left">
               <span className={`b4 font-bold group-hover:underline`}>
                 {stock_name}
               </span>
