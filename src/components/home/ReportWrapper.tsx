@@ -2,6 +2,7 @@
 
 import { Stock } from '@/types/stock';
 import Chart from '../shared/chart';
+import Link from 'next/link';
 
 export default function ReportWrapper({
   stocks,
@@ -17,13 +18,15 @@ export default function ReportWrapper({
         (stock, i) =>
           i < 3 && (
             <li key={stock.stock_id}>
-              <Chart width={width}>
-                <Chart.SpecificStockAIReport
-                  stock={stock}
-                  type="home"
-                  isEn={isEn}
-                />
-              </Chart>
+              <Link href={`/stock/${stock.stock_id}`}>
+                <Chart width={width}>
+                  <Chart.SpecificStockAIReport
+                    stock={stock}
+                    type="home"
+                    isEn={isEn}
+                  />
+                </Chart>
+              </Link>
             </li>
           ),
       )}
