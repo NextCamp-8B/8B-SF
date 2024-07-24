@@ -61,3 +61,5 @@ type ExchangeData = {
   kftc_deal_bas_r: string;
   cur_nm: string;
 };
+
+export const dynamic = 'force-dynamic';
