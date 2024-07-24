@@ -51,11 +51,10 @@ export default function AddInterest({
         onClick={handleInterest()}
         className={`box-border b4 font-normal rounded-lg border border-primary-900 min-w-[167px] py-4 px-10 hover:bg-opacity-90 
         active:bg-opacity-95 ${
-          isInterest ? 'text-primary-900' : 'text-grayscale-0'
-        } bg-primary-900 ${
-          isInterest ? 'bg-opacity-0' : 'bg-opacity-100'
-        } 
-hover:opacity-90 active:opacity-95`}
+          isInterest
+            ? 'text-primary-900 bg-grayscale-100 bg-opacity-0'
+            : 'text-grayscale-0 bg-primary-900 bg-opacity-100'
+        } hover:opacity-90 active:opacity-95`}
       >
         {isInterest ? t('Stock.unsubscribe') : t('Stock.add_stock')}
       </ButtonBase>
