@@ -1,3 +1,4 @@
+import { Session } from 'next-auth';
 import { GenerationRequest } from './serviceType';
 import HttpClient from './httpClient';
 import { UUID } from 'crypto';

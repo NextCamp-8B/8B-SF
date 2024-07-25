@@ -8,6 +8,8 @@ import NoSearchData from './NoSearchData';
 import { useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
 import Search from '@/assets/icons/search.svg';
+import { businessAPI } from '@/service/apiInstance';
+import { UUID } from 'crypto';
 
 export type stocksProps = {
   stock_id?: string;
@@ -22,25 +24,21 @@ export default function InputItem() {
     stocksProps[] | null
   >([]);
   const [isFocused, setIsFocused] = useState(false);
+  const { getRecentSearch } = businessAPI;
   const { data: session, status } = useSession();
   const isAuthenticated = status === 'authenticated';
   const t = useTranslations('Search');
 
-  const fetchRecentSearch = useCallback(async () => {
-    if (isAuthenticated) {
-      const response = await fetch(
-        `/api/search/recent?userId=${session?.user?.id || ''}`,
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setRecentDatas(data.stocks);
-      }
-    }
-  }, [session, isAuthenticated]);
-
   useEffect(() => {
-    fetchRecentSearch();
-  }, [fetchRecentSearch]);
+    if (isAuthenticated) {
+      getRecentSearch({ userId: session?.user?.id as UUID }).then(
+        (res) => {
+          setRecentDatas(res.stocks);
+          return;
+        },
+      );
+    }
+  }, []);
 
   return (
     <div>
