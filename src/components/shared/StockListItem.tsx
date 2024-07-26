@@ -49,19 +49,8 @@ export default function StockListItem({
 
   const style = getStockStyle(cp, fluctuations_ratio);
 
-  const updateRecentHome = async (stock_id: string) => {
-    const response = await fetch('/api/home/recent', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ stock_id }),
-    });
-  };
-
   const router = useRouter();
   const handleClick = async (stock_id: string) => {
-    await updateRecentHome(stock_id);
     router.push(`/stock/${stock_id}`);
   };
 

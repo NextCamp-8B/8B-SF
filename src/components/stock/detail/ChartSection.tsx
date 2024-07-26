@@ -39,6 +39,7 @@ export default function ChartSection({ stockId }: { stockId: UUID }) {
     getNaverpay,
     updateStock,
     generateAIReport,
+    updateViewCount,
   } = businessAPI;
 
   const fetchNaverpay = async (stockCode: string) => {
@@ -139,6 +140,12 @@ export default function ChartSection({ stockId }: { stockId: UUID }) {
       );
     }
   }, [userId, stockCode]);
+
+  useEffect(() => {
+    if (stockId) {
+      updateViewCount({ stockId });
+    }
+  }, [stockId]);
 
   const report = aIReport?.report ? aIReport?.report : stock?.report;
 

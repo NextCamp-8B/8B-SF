@@ -23,6 +23,7 @@ export default class AightnowClient {
     this.getPayDuration = this.getPayDuration.bind(this);
     this.generateAIReport = this.generateAIReport.bind(this);
     this.getChartData = this.getChartData.bind(this);
+    this.updateViewCount = this.updateViewCount.bind(this);
   }
 
   async loginLLM({ isServer = false }: { isServer?: boolean } = {}) {
@@ -342,5 +343,11 @@ export default class AightnowClient {
     return this.httpClient.get({
       url: nextURL,
     });
+  }
+
+  async updateViewCount({ stockId }: { stockId: UUID }) {
+    const nextURL = `/api/home/recent`;
+
+    this.httpClient.post({ url: nextURL, body: { stockId } });
   }
 }
