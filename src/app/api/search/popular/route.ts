@@ -18,12 +18,12 @@ export async function GET(request: Request) {
 // 클릭시 stock의 view 증가
 export async function POST(request: Request) {
   const supabase = createClient();
-  const { stock_id } = await request.json();
+  const { stockId } = await request.json();
 
   const { data: stock, error: fetchError } = await supabase
     .from('stock')
     .select('view')
-    .eq('stock_id', stock_id)
+    .eq('stock_id', stockId)
     .single();
 
   const newView = stock && stock.view + 1;
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     const { data, error: updateError } = await supabase
       .from('stock')
       .update({ view: newView })
-      .eq('stock_id', stock_id)
+      .eq('stock_id', stockId)
       .single();
   }
 

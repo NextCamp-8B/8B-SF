@@ -49,14 +49,14 @@ export async function POST(request: Request) {
 
   const session = await auth();
 
-  const { stock_id } = await request.json();
+  const { stockId } = await request.json();
   const userId = session && session.user.id;
 
   const { data: existingData, error: selectError } = await supabase
     .from('recent_home_stocks')
     .select('*')
     .eq('id', userId)
-    .eq('stock_id', stock_id)
+    .eq('stock_id', stockId)
     .single();
 
   if (existingData !== null) {
@@ -65,7 +65,7 @@ export async function POST(request: Request) {
       .from('recent_home_stocks')
       .update({ created_at: new Date().toISOString() })
       .eq('id', userId)
-      .eq('stock_id', stock_id);
+      .eq('stock_id', stockId);
 
     return new Response(JSON.stringify({ updateData }), {
       status: 200,
@@ -75,7 +75,7 @@ export async function POST(request: Request) {
   else {
     const { data: insertData, error: insertError } = await supabase
       .from('recent_home_stocks')
-      .insert([{ id: userId, stock_id: stock_id }]);
+      .insert([{ id: userId, stock_id: stockId }]);
 
     return new Response(JSON.stringify({ insertData }), {
       status: 200,

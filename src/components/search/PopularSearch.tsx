@@ -28,26 +28,6 @@ export default function PopularSearch({ session }: { session: any }) {
     return () => clearTimeout(debounceTimeout);
   }, []);
 
-  const viewUpdate = async (stock_id: string) => {
-    const response = await fetch('/api/search/popular', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ stock_id }),
-    });
-  };
-
-  const recentUpdate = async (stock_id: string) => {
-    const response = await fetch('/api/search/recent', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ stock_id, session }),
-    });
-  };
-
   return (
     <>
       <div className="w-[590px]">
@@ -67,14 +47,7 @@ export default function PopularSearch({ session }: { session: any }) {
                 : popularList.map((popularData, idx) => {
                     if (idx < 5) {
                       return (
-                        <div
-                          key={idx}
-                          onClick={() => {
-                            popularData.stock_id &&
-                              (viewUpdate(popularData.stock_id),
-                              recentUpdate(popularData.stock_id));
-                          }}
-                        >
+                        <div key={idx}>
                           <PopularItem
                             popularData={popularData}
                             idx={idx}
@@ -92,14 +65,7 @@ export default function PopularSearch({ session }: { session: any }) {
                 : popularList.map((popularData, idx) => {
                     if (idx >= 5) {
                       return (
-                        <div
-                          key={idx}
-                          onClick={() =>
-                            popularData.stock_id &&
-                            (viewUpdate(popularData.stock_id),
-                            recentUpdate(popularData.stock_id))
-                          }
-                        >
+                        <div key={idx}>
                           <PopularItem
                             popularData={popularData}
                             idx={idx}

@@ -40,6 +40,7 @@ export default function ChartSection({ stockId }: { stockId: UUID }) {
     updateStock,
     generateAIReport,
     updateViewCount,
+    updateRecentView,
   } = businessAPI;
 
   const fetchNaverpay = async (stockCode: string) => {
@@ -144,6 +145,7 @@ export default function ChartSection({ stockId }: { stockId: UUID }) {
   useEffect(() => {
     if (stockId) {
       updateViewCount({ stockId });
+      updateRecentView({ stockId });
     }
   }, [stockId]);
 

@@ -24,6 +24,7 @@ export default class AightnowClient {
     this.generateAIReport = this.generateAIReport.bind(this);
     this.getChartData = this.getChartData.bind(this);
     this.updateViewCount = this.updateViewCount.bind(this);
+    this.updateRecentView = this.updateRecentView.bind(this);
   }
 
   async loginLLM({ isServer = false }: { isServer?: boolean } = {}) {
@@ -255,6 +256,12 @@ export default class AightnowClient {
     return this.httpClient.get({ url: nextURL });
   }
 
+  async updateViewCount({ stockId }: { stockId: UUID }) {
+    const nextURL = `/api/search/popular`;
+
+    this.httpClient.post({ url: nextURL, body: { stockId } });
+  }
+
   async getExchangeRate() {
     const nextURL = `/api/stock/exchange`;
     return this.httpClient.get({ url: nextURL });
@@ -345,7 +352,7 @@ export default class AightnowClient {
     });
   }
 
-  async updateViewCount({ stockId }: { stockId: UUID }) {
+  async updateRecentView({ stockId }: { stockId: UUID }) {
     const nextURL = `/api/home/recent`;
 
     this.httpClient.post({ url: nextURL, body: { stockId } });
