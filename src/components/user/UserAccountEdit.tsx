@@ -28,7 +28,7 @@ export default function UserAccountEdit({
   user,
   isSocial,
 }: UserAccountEdit) {
-  const t = useTranslations();
+  const t = useTranslations('MyPage');
   const { openModal, closeModal, closeAllModals, isUserAccountdit } =
     myPageStore();
 
@@ -36,13 +36,18 @@ export default function UserAccountEdit({
   const [isSubmit, setIsSubmit] = useState(false); // 폼 submit
   const [isFormValid, setIsFormValid] = useState(false); //폼 유효성 체크
   const { isLoading, duplicatedCheck, handleDuplicate } =
-    useDuplicateCheck(value.signupId); //Id 중복검사
+    useDuplicateCheck(value.signupId, user?.userId); //Id 중복검사
 
   const { isLoading: updateLoading, handleAccountUpdate } =
     useAccountUpdated(); //개인정보 수정 api
 
-  const { isShowPopup, popupMsg, hidePopup, isConfirmPopup } =
-    usePopupStore();
+  const {
+    isShowPopup,
+    popupMsg,
+    hidePopup,
+    isConfirmPopup,
+    showPopup,
+  } = usePopupStore();
 
   const {
     isUpdatePwLoading,
@@ -80,7 +85,7 @@ export default function UserAccountEdit({
     e.preventDefault();
     setIsSubmit(true);
     if (!duplicatedCheck && !isSocial)
-      window.alert('아이디 중복검사를 확인해주세요');
+      showPopup(t('profileUpdate.error_title'), t('duplicate_check'));
     if (!isFormValid) return;
     const formData = new FormData();
     formData.append('userId', value.signupId.trim());
@@ -149,7 +154,7 @@ export default function UserAccountEdit({
         <ModalLayout
           isOpen={isUserAccountdit}
           handleIsOpen={handleCloseAccountModal}
-          title={t('MyPage.edit_account')}
+          title={t('edit_account')}
           width="w-[590px]"
         >
           <LoadingSpinnerWrapper

@@ -2,9 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import supabase from '@/lib/supabaseClient'; // Supabase 클라이언트 가져오기
 import {
   deleteProfileImage,
+  updateInterestStocks,
   uploadProfileImage,
 } from '@/utils/supabase/supabaseHelper';
 import generateFileName from '@/utils/generateFileName';
+import { UUID } from 'crypto';
 
 type UpdateData = {
   data: {
@@ -18,6 +20,7 @@ type UpdateData = {
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
+    const id = formData.get('id') as UUID;
     const profileImg = formData.get('profileImg') as File;
     const nickname = formData.get('nickname') as string;
     const interestStock = formData.get('interestStock') as string;
@@ -50,7 +53,6 @@ export async function POST(request: NextRequest) {
     const updateData: UpdateData = {
       data: {
         nickname,
-        interestStock,
       },
     };
 
@@ -71,11 +73,14 @@ export async function POST(request: NextRequest) {
       updateData.data.profileImgName = fileName;
     }
 
+    // 관심 종목 업데이트
+    await updateInterestStocks(id, interestStock);
+
     // 유저 정보 업데이트
     const { data, error: authError } = await supabase.auth.updateUser(
       updateData,
     );
-    // console.log('---------수정 업데이트---------', data);
+
     if (authError) {
       throw authError;
     }

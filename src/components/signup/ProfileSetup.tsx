@@ -10,7 +10,6 @@ import LoadingSpinnerWrapper from '../shared/LoadingSpinnerWrapper';
 import usePopupStore from '@/store/userPopup';
 import { useImageUpload } from '@/hooks/user/useImageUpload';
 import { useStockSelection } from '@/hooks/user/useStockSelection';
-import { stockList } from '@/constants';
 import { useTranslations } from 'next-intl';
 
 // 마이페이지 설정에서 모달 과 회원가입 페이지에서 사용
@@ -31,26 +30,16 @@ export default function ProfileSetup() {
     usePopupStore();
 
   const {
-    stock,
-    setStock,
+    searchText,
+    setSearchText,
     options,
     selectedDataset,
     focusedIndex,
     handleSelected,
     handleOptionsKey,
-  } = useStockSelection(''); // 관심종목 설정 훅
+    validateAndUpdateStock,
+  } = useStockSelection(); // 관심종목 설정 훅
 
-  // 유효하지 않은 주식 값 제거
-  const validateAndUpdateStock = () => {
-    const validStocks = stock
-      .split(' ')
-      .filter(
-        (part) => part.startsWith('#') && stockList.includes(part),
-      ) // #으로 시작하고 유효한 주식인지 검사
-      .join(' ');
-
-    return validStocks;
-  };
   const validateForm = useCallback(() => {
     const isNicknameValid = conceptMap.nickname.doValidation(
       value.nickname,
@@ -68,9 +57,9 @@ export default function ProfileSetup() {
     if (!isFormValid) return;
     setIsFormValid(false);
     setIsLoading(true);
-
-    const validStock = validateAndUpdateStock(); // 유효하지 않은 입력, 주식 값 제거
-
+    // 관심종목 id값 text로 변환
+    const validStock = validateAndUpdateStock(searchText); // 유효하지 않은 입력, 주식 값 제거
+    setIsFormValid(false);
     const formData = new FormData();
     formData.append('nickname', value.nickname.trim());
     formData.append('interestStock', validStock);
@@ -124,8 +113,8 @@ export default function ProfileSetup() {
               isSubmit={isSubmit}
               options={options}
               focusedIndex={focusedIndex}
-              stock={stock}
-              setStock={setStock}
+              stock={searchText}
+              setStock={setSearchText}
               selectedDataset={selectedDataset}
               handleSelected={handleSelected}
               handleOptionsKey={handleOptionsKey}

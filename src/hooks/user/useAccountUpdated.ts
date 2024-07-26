@@ -4,6 +4,7 @@ import { updateUserData } from '@/utils/user/updateUserData';
 import usePopupStore from '@/store/userPopup';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
+import myPageStore from '@/store/myPageStore';
 
 // 계정 수정 커스텀 훅
 export function useAccountUpdated() {
@@ -12,6 +13,7 @@ export function useAccountUpdated() {
   const [isLoading, setIsLoading] = useState(false);
   const t = useTranslations();
   const { showPopup } = usePopupStore();
+  const { closeAllModals } = myPageStore();
 
   const handleAccountUpdate = async (formData: FormData) => {
     setIsLoading(true);
@@ -20,6 +22,7 @@ export function useAccountUpdated() {
       formData,
       update,
       showPopup,
+      closeAllModals,
       {
         successTitle: t('MyPage.profileUpdate.success_title'),
         successMessage: t('MyPage.profileUpdate.success_message'),

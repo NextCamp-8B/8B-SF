@@ -6,6 +6,7 @@ export async function updateUserData(
   formData: FormData,
   update: UpdateSession,
   showPopup: (title: string, msg: string) => void,
+  closeAllModals: () => void,
   translations: {
     successTitle: string;
     successMessage: string;
@@ -26,6 +27,7 @@ export async function updateUserData(
         translations.successTitle,
         translations.successMessage,
       );
+      closeAllModals();
     } else {
       const data: UpdateResponse = await response.json();
       if (data.error === 'SessionExpired') {

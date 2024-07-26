@@ -1,5 +1,59 @@
 import supabase from '@/lib/supabaseClient';
-// import { createClient } from '@/utils/supabase/server';
+import { UUID } from 'crypto';
+
+// 관심종목 업데이트
+export const updateInterestStocks = async (
+  userId: UUID,
+  interestStock: string,
+) => {
+  try {
+    // interestStock에서 # 제거하고 stock 테이블에서 일치하는 stock_id 가져오기
+    const stockNames = interestStock
+      .split('#')
+      .map((name) => name.trim()) // 주식명 양쪽의 공백 제거
+      .filter((name) => name !== '');
+
+    // stockNames 배열을 사용하여 한 번의 쿼리로 stock_id를 가져오기
+    const { data: stockData, error: stockError } = await supabase
+      .from('stock')
+      .select('stock_id, stock_name')
+      .in('stock_name', stockNames);
+
+    if (stockError) {
+      throw stockError;
+    }
+
+    // stock테이블에서 가져온 stock_id값 추출
+    const stockIds = stockData.map((stock) => stock.stock_id);
+
+    // 기존 관심종목 삭제
+    const { error: deleteError } = await supabase
+      .from('interest_stock')
+      .delete()
+      .eq('user_id', userId);
+
+    if (deleteError) {
+      throw deleteError;
+    }
+
+    // 관심종목 삽입
+    const { data: interesData, error: insertError } = await supabase
+      .from('interest_stock')
+      .insert(
+        stockIds.map((stockId) => ({
+          user_id: userId,
+          stock_id: stockId,
+        })),
+      );
+    if (insertError) {
+      throw insertError;
+    }
+
+    return interesData;
+  } catch (error) {
+    throw error;
+  }
+};
 
 // 사용자 존재 여부 확인 함수
 export async function getUserByEmail(email: string) {

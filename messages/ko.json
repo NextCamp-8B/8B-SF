@@ -271,6 +271,7 @@
     "birth": "생년월일",
     "nickname": "닉네임",
     "duplicate": "중복 확인",
+    "duplicate_check": "아이디 중복검사를 확인해주세요",
     "interest_stock": "관심 종목",
     "placeholder_nickname": "닉네임을 입력해주세요.",
     "placeholder_stock": "#관심종목을 추가해주세요.",

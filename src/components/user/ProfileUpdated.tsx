@@ -1,9 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import useInputChange from '@/hooks/input/useInputChange';
 import { conceptMap } from '@/components/shared/input/inputConfig';
 import AuthPopup from '../signup/Popup';
@@ -15,9 +10,9 @@ import myPageStore from '@/store/myPageStore';
 import { useImageUpload } from '@/hooks/user/useImageUpload';
 import { useStockSelection } from '@/hooks/user/useStockSelection';
 import { User } from 'next-auth';
-import { stockList } from '@/constants';
 import { useTranslations } from 'next-intl';
 import ModalLayout from '../shared/modal/ModalLayout';
+import { UUID } from 'crypto';
 
 type ProfileUpdate = {
   user: User;
@@ -28,43 +23,32 @@ export default function ProfileUpdate({ user }: ProfileUpdate) {
 
   const {
     nickname,
-    interestStock,
     profileImg: userImage,
     profileImgName: userImageName,
     accessToken,
     refreshToken,
+    id,
   } = user;
 
-  const { value, onChangeInputValue } = useInputChange(); //Input 관리
+  const { value, onChangeInputValue, setValue } = useInputChange(); //Input 관리
   const [isSubmit, setIsSubmit] = useState(false); // 폼 submit
   const [isFormValid, setIsFormValid] = useState(false); //폼 유효성 체크
   const { profileImage, profileFile, handleImageUpload } =
     useImageUpload(userImage); // 이미지 업로드 훅
-  const initialNicknameRef = useRef(false); //닉네임 초기값 설정
   const { isLoading, handleProfileUpdate } = useProfileUpdate(); //프로필 수정 api
   const { isShowPopup, popupMsg, hidePopup } = usePopupStore();
 
   const {
-    stock,
-    setStock,
+    searchText,
+    isLoading: stockLoading,
+    setSearchText,
     options,
     selectedDataset,
     focusedIndex,
     handleSelected,
     handleOptionsKey,
-  } = useStockSelection(interestStock); // 관심종목 설정 훅
-
-  // 유효하지 않은 주식 값 제거
-  const validateAndUpdateStock = () => {
-    const validStocks = stock
-      .split(' ')
-      .filter(
-        (part) => part.startsWith('#') && stockList.includes(part),
-      ) // #으로 시작하고 유효한 주식인지 검사
-      .join(' ');
-
-    return validStocks;
-  };
+    validateAndUpdateStock,
+  } = useStockSelection(id as UUID); // 관심종목 설정 훅
 
   const validateForm = useCallback(() => {
     const isNicknameValid = conceptMap.nickname.doValidation(
@@ -79,22 +63,24 @@ export default function ProfileUpdate({ user }: ProfileUpdate) {
 
   // 닉네임 값 초기 설정
   useEffect(() => {
-    if (!initialNicknameRef.current && nickname) {
-      value.nickname = nickname;
-      initialNicknameRef.current = true;
+    if (user) {
+      setValue((prevValue) => ({
+        ...prevValue,
+        nickname: user.nickname || '',
+      }));
     }
-  }, [nickname, value]);
+  }, [user, setValue]);
 
   const onHandleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmit(true);
     if (!isFormValid) return;
+    // 관심종목 id값 text로 변환
     setIsFormValid(false);
-
-    const validStock = validateAndUpdateStock(); // 유효하지 않은 입력, 주식 값 제거
-
+    const validStock = validateAndUpdateStock(searchText); // 유효하지 않은 입력, 주식 값 제거
     const formData = new FormData();
     formData.append('nickname', value.nickname.trim());
+    formData.append('id', id as UUID);
     formData.append('interestStock', validStock);
     formData.append('profileImg', profileFile as File);
     formData.append('accessToken', accessToken || '');
@@ -133,8 +119,8 @@ export default function ProfileUpdate({ user }: ProfileUpdate) {
               nickname={value.nickname}
               onChangeNickname={onChangeInputValue}
               isSubmit={isSubmit}
-              stock={stock}
-              setStock={setStock}
+              stock={searchText}
+              setStock={setSearchText}
               options={options}
               focusedIndex={focusedIndex}
               onHandleSubmit={onHandleSubmit}
@@ -142,6 +128,7 @@ export default function ProfileUpdate({ user }: ProfileUpdate) {
               handleSelected={handleSelected}
               handleOptionsKey={handleOptionsKey}
               buttonText={t('edit')}
+              isLoading={stockLoading}
             />
           </LoadingSpinnerWrapper>
         </ModalLayout>

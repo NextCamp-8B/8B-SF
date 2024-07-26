@@ -271,6 +271,7 @@
     "birth": "Birth",
     "nickname": "Nickname",
     "duplicate": "Duplicate checking",
+    "duplicate_check": "Please check for duplicate IDs",
     "interest_stock": "Interest Stocks",
     "placeholder_nickname": "Please enter your nickname.",
     "placeholder_stock": "#Add a stock of interest.",

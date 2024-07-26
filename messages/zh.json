@@ -272,6 +272,7 @@
     "birth": "出生日期",
     "nickname": "昵称",
     "duplicate": "重复检查",
+    "duplicate_check": "请检查重复的ID",
     "interest_stock": "关注股票",
     "placeholder_nickname": "请输入您的昵称。",
     "placeholder_stock": "#添加关注的股票。",

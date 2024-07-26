@@ -8,6 +8,8 @@ import useUserStore from '@/store/userStore';
 import usePageStore from '@/store/signupStepStore';
 import useDuplicateCheck from '@/hooks/user/useDuplicateCheck';
 import { useTranslations } from 'next-intl';
+import usePopupStore from '@/store/userPopup';
+import AuthPopup from './Popup';
 
 export default function SignupForm() {
   const t = useTranslations();
@@ -18,6 +20,8 @@ export default function SignupForm() {
   const { setPageStep } = usePageStore(); //페이지 이동
   const { isLoading, duplicatedCheck, handleDuplicate } =
     useDuplicateCheck(value.signupId); // 아이디 중복 검사 api
+  const { showPopup, isShowPopup, popupMsg, hidePopup } =
+    usePopupStore();
 
   // 폼 입력시 유효성 검사
   // 소셜 로그인시 휴대폰, 생일 유효성 검사
@@ -31,15 +35,15 @@ export default function SignupForm() {
       setIsFormValid(isSignupPhoneValid && isBirthValid);
     } else {
       // 일반 로그인일 경우 모든 필드 유효성 검사
-      const isSignupIdValid = duplicatedCheck;
+      // const isSignupIdValid = duplicatedCheck;
       const isPasswordValid = conceptMap.password.doValidation(
         value.password,
       );
       const isPasswordCheckValid =
         value.password === value.passwordCheck;
       setIsFormValid(
-        isSignupIdValid &&
-          isPasswordValid &&
+        // isSignupIdValid &&
+        isPasswordValid &&
           isPasswordCheckValid &&
           isSignupPhoneValid &&
           isBirthValid,
@@ -49,7 +53,6 @@ export default function SignupForm() {
     value.birth,
     value.password,
     value.signupPhone,
-    duplicatedCheck,
     value.passwordCheck,
     user.providerAccountId,
   ]);
@@ -61,8 +64,11 @@ export default function SignupForm() {
   const onHandleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmit(true);
-
-    if (!isFormValid) return;
+    if (!isFormValid)
+      return showPopup(
+        t('MyPage.passwordAuthError.error'),
+        t('FindId.fetch_error_message'),
+      );
     setIsFormValid(false);
     // profile에서 데이터를 한번에 보내기 위해 저장
     if (user.providerAccountId) {
@@ -73,6 +79,12 @@ export default function SignupForm() {
       });
     } else {
       // 일반 회원가입 폼
+      // 중복검사
+      if (!duplicatedCheck)
+        return showPopup(
+          t('MyPage.passwordAuthError.error'),
+          t('MyPage.duplicate_check'),
+        );
       setUser({
         password: value.password.trim(),
         phoneNumber: value.signupPhone.trim(),
@@ -92,6 +104,14 @@ export default function SignupForm() {
           {t('SignUp.sign_up')}
         </h3>
         <form onSubmit={onHandleSubmit}>
+          {isShowPopup && (
+            <AuthPopup
+              error={true}
+              title={popupMsg.title}
+              errorMessage={popupMsg.msg}
+              onClose={hidePopup}
+            />
+          )}
           <InputSet className="flex flex-col gap-4">
             {!user.providerAccountId && (
               <>

@@ -67,7 +67,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           profileImgName: loginData.user.user_metadata.profileImgName,
           birth: loginData.user.user_metadata.birth,
           phoneNumber: loginData.user.user_metadata.phoneNumber,
-          interestStock: loginData.user.user_metadata.interestStock,
           provider: loginData.user.user_metadata.provider_account_id,
           userId: loginData.user.user_metadata.userId,
           language: loginData.user.user_metadata.language,
@@ -184,8 +183,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           user.birth = socialLogin.user.user_metadata.birth;
           user.phoneNumber =
             socialLogin.user.user_metadata.phoneNumber;
-          user.interestStock =
-            socialLogin.user.user_metadata.interestStock;
           user.provider =
             socialLogin.user.user_metadata.provider_account_id;
           user.language = socialLogin.user.user_metadata.language;
@@ -210,7 +207,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.profileImgName = user.profileImgName;
         token.birth = user.birth;
         token.phoneNumber = user.phoneNumber;
-        token.interestStock = user.interestStock;
         token.provider = user.provider;
         token.language = user.language;
         token.accessToken = user.accessToken;
@@ -231,7 +227,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           nickname,
           profileImg,
           profileImgName,
-          interestStock,
+          // interestStock,
           language,
         } = session;
 
@@ -242,7 +238,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.nickname = nickname;
         token.profileImg = profileImg;
         token.profileImgName = profileImgName;
-        token.interestStock = interestStock;
+        // token.interestStock = interestStock;
         token.language = language;
       }
       return token;
@@ -261,7 +257,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.profileImgName = token.profileImgName;
         session.user.birth = token.birth;
         session.user.phoneNumber = token.phoneNumber;
-        session.user.interestStock = token.interestStock;
         session.user.provider = token.provider;
         session.user.language = token.language;
         session.user.accessToken = token.accessToken;

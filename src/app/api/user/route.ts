@@ -84,8 +84,8 @@ export async function POST(request: NextRequest) {
     }
 
     // 프로필 이미지 supabase 스토리지에 저장
-    let profileFileImageUrl: any = null; //이미지 파일 url
-    let profilFileImageName: any = null; //이미지 이름
+    let profileFileImageUrl: string | null = null; //이미지 파일 url
+    let profilFileImageName: string | null = null; //이미지 이름
     if (profileImg && profileImg.name) {
       profilFileImageName = generateFileName(profileImg?.name);
 
@@ -109,13 +109,14 @@ export async function POST(request: NextRequest) {
           profileImg: profileFileImageUrl,
           profileImgName: profilFileImageName,
           nickname,
-          interestStock,
           provider_account_id: providerAccountId,
+          interestStock,
+          // 관심종목 supabae 함수,트리거를 사용해 회원가입시
+          // stock 테이블과 비교하여 interest_stock에 삽입
           // language: 'kr', //언어 설정 값 기본 'kr'
         },
       },
     });
-
     if (error) {
       throw error;
     }

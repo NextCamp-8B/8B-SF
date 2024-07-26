@@ -120,6 +120,7 @@
     "sign_up": "S'inscrire",
     "id": "Identifiant",
     "duplicate": "Vérification des doublons",
+    "duplicate_check": "Veuillez vérifier les identifiants en double",
     "pw": "Mot de passe",
     "confirm_pw": "Confirmer le mot de passe",
     "phone_number": "Numéro de téléphone",

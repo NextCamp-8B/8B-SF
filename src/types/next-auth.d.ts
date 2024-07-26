@@ -14,7 +14,6 @@ declare module 'next-auth' {
       profileImgName: string;
       birth: string;
       phoneNumber: string;
-      interestStock: string;
       provider: string;
       language: Locale;
       accessToken: string;
@@ -33,7 +32,6 @@ declare module 'next-auth' {
     profileImgName: string;
     birth: string;
     phoneNumber: string;
-    interestStock: string;
     provider: string;
     language: Locale;
     accessToken: string;
