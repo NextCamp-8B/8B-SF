@@ -15,7 +15,7 @@ export default async function LimitStocks({
   ).json();
   // console.log(stockList);
   return (
-    <div className="flex flex-col  bg-[#FFFFFF] rounded-2xl mt-6 px-8 py-6">
+    <div className="flex flex-col  bg-[#FFFFFF] rounded-2xl mt-6 px-8 py-6 min-h-[368px]">
       {stockList.map((stock) => (
         <div
           key={stock.stock_id}

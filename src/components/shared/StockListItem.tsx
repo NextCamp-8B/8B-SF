@@ -33,7 +33,7 @@ function getKoreanName(stockName: StockNames): string {
   return nameToKO[stockName];
 }
 
-export default function StockListItem({
+function StockListItem({
   stock,
   type = 'default',
 }: StockListItemProps) {
@@ -240,3 +240,5 @@ export default function StockListItem({
     </>
   );
 }
+
+export default React.memo(StockListItem);
