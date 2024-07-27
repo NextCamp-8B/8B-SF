@@ -18,7 +18,7 @@ const openai = new OpenAI({
 const generateStockReport = async (stockSymbol: string) => {
   try {
     const response = await openai.chat.completions.create({
-      model: 'gpt-4',
+      model: 'gpt-4o',
       messages: [
         {
           role: 'system',
@@ -170,8 +170,9 @@ const analyzeReportWithAI = async (report: string) => {
         },
         {
           role: 'assistant',
-          content: `Analyze the following stock report and provide the percentage and trend (true/false for increase/decrease) for the following categories: stockPrice, investmentIndex, interestLevel, growth, and profitability. 
-                    Ensure that each category has a percentage and trend. If data for a category is missing or unavailable, provide your best estimate. Format the response as a JSON object. Never include miscellaneous information such as comments in the JSON data format!`,
+          content: `Analyze the following stock report and provide the score and trend (true/false for increase/decrease) for the following categories: stockPrice, investmentIndex, interestLevel, growth, and profitability. 
+                    Ensure that each category has a score and trend. If data for a category is missing or unavailable, provide your best estimate. Format the response as a JSON object. Never include miscellaneous information such as comments in the JSON data format! 
+                    Scores must be between 0 and 100!`,
         },
         {
           role: 'user',
@@ -185,7 +186,6 @@ const analyzeReportWithAI = async (report: string) => {
 
     const aiResponse =
       response.choices[0]?.message?.content?.trim() as string;
-
     const jsonStartIndex = aiResponse.indexOf('{');
     const jsonEndIndex = aiResponse.lastIndexOf('}') + 1;
     const jsonResponse = aiResponse.substring(
@@ -210,29 +210,29 @@ const analyzeReportWithAI = async (report: string) => {
     const validatedResult: any = {};
 
     categories.forEach((category) => {
-      const { percentage, trend } = result[category];
-      const percentageType = typeof percentage;
-      const isStr = percentageType === 'string';
-      const isNum = percentageType === 'number';
+      const { score, trend } = result[category];
+      const scoreeType = typeof score;
+      const isStr = scoreeType === 'string';
+      const isNum = scoreeType === 'number';
 
       if (
         result[category] &&
-        (isNum || (isStr && percentage.substr(-1) === '%')) &&
+        (isNum || (isStr && score.substr(-1) === '%')) &&
         typeof trend === 'boolean'
       ) {
-        if (isStr && percentage.substr(-1) === '%') {
+        if (isStr && score.substr(-1) === '%') {
           const regex = /[^0-9]/g;
-          const number = percentage.replace(regex, '');
+          const number = score.replace(regex, '');
           validatedResult[category] = {
             ...result[category],
-            percentage: number,
+            score: number,
           };
         } else {
           validatedResult[category] = result[category];
         }
       } else {
         validatedResult[category] = {
-          percentage: 0,
+          score: 0,
           trend: false,
         };
       }

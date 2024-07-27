@@ -30,8 +30,8 @@ export default function MetricsPercent({
     <div className={`${className}`}>
       <div className="flex items-center gap-[1px]">
         {!isRemain && <Triangle rate={rate} />}
-        <span className={`b5 font-medium ${color}`}>
-          {formattedChildren}%
+        <span className={`b5 font-medium ${color} tracking-wide`}>
+          {formattedChildren}점
         </span>
       </div>
     </div>

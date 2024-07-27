@@ -34,7 +34,7 @@ export type RadarStatus = {
 
 export type RadarData = Array<{
   subject: string;
-  percentage: number;
+  score: number;
   B: number;
   fullMark: number;
 }>;

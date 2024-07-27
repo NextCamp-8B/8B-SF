@@ -26,7 +26,6 @@ export default function StockAIReportCard({
   as?: React.ElementType;
   stockId: UUID;
 }) {
-  const score = 70;
   const t = useTranslations();
   const chartData = useGetChartData(stockId);
 
@@ -43,54 +42,41 @@ export default function StockAIReportCard({
     stockPrice,
   } = chartData;
 
-  const percentages = [
-    stockPrice.percentage,
-    investmentIndex.percentage,
-    interestLevel.percentage,
-    growth.percentage,
-    profitability.percentage,
-  ];
-
-  const maxPercentage = Math.max(...percentages);
-
+  const avgScore =
+    (growth.score +
+      interestLevel.score +
+      investmentIndex.score +
+      profitability.score +
+      stockPrice.score) /
+    Object.keys(chartData).length;
   const radarData = [
     {
       subject: t('RadarChart.stock_price'),
-      percentage: Math.round(
-        (stockPrice.percentage / maxPercentage) * 100,
-      ),
+      score: stockPrice.score,
       B: 100,
       fullMark: 100,
     },
     {
       subject: t('RadarChart.investment_index'),
-      percentage: Math.round(
-        (investmentIndex.percentage / maxPercentage) * 100,
-      ),
+      score: investmentIndex.score,
       B: 100,
       fullMark: 100,
     },
     {
       subject: t('RadarChart.interest_level'),
-      percentage: Math.round(
-        (interestLevel.percentage / maxPercentage) * 100,
-      ),
+      score: interestLevel.score,
       B: 100,
       fullMark: 100,
     },
     {
       subject: t('RadarChart.growth'),
-      percentage: Math.round(
-        (growth.percentage / maxPercentage) * 100,
-      ),
+      score: growth.score,
       B: 100,
       fullMark: 100,
     },
     {
       subject: t('RadarChart.profitability'),
-      percentage: Math.round(
-        (profitability.percentage / maxPercentage) * 100,
-      ),
+      score: profitability.score,
       B: 100,
       fullMark: 100,
     },
@@ -105,7 +91,7 @@ export default function StockAIReportCard({
           {t('Stock.radar_chart')}
         </Rechart.Label>
         <Rechart.RadarScore className="h3 font-medium text-grayscale-700">
-          {t('Stock.points', { score })}
+          {t('Stock.points', { score: avgScore })}
         </Rechart.RadarScore>
       </div>
       <StockAIReportChart

@@ -43,52 +43,34 @@ export default function SpecificStockAIReport({
   const width = isEn ? 'min-w-[328px]' : 'w-[328px]';
   const t = useTranslations();
 
-  const maxPercentage = Math.max(
-    stockPrice.percentage,
-    investmentIndex.percentage,
-    interestLevel.percentage,
-    growth.percentage,
-    profitability.percentage,
-  );
-
   const radarData = [
     {
       subject: t('RadarChart.stock_price'),
-      percentage: Math.round(
-        (stockPrice.percentage / maxPercentage) * 100,
-      ),
+      score: stockPrice.score,
       B: 100,
       fullMark: 100,
     },
     {
       subject: t('RadarChart.investment_index'),
-      percentage: Math.round(
-        (investmentIndex.percentage / maxPercentage) * 100,
-      ),
+      score: investmentIndex.score,
       B: 100,
       fullMark: 100,
     },
     {
       subject: t('RadarChart.interest_level'),
-      percentage: Math.round(
-        (interestLevel.percentage / maxPercentage) * 100,
-      ),
+      score: interestLevel.score,
       B: 100,
       fullMark: 100,
     },
     {
       subject: t('RadarChart.growth'),
-      percentage: Math.round(
-        (growth.percentage / maxPercentage) * 100,
-      ),
+      score: growth.score,
       B: 100,
       fullMark: 100,
     },
     {
       subject: t('RadarChart.profitability'),
-      percentage: Math.round(
-        (profitability.percentage / maxPercentage) * 100,
-      ),
+      score: profitability.score,
       B: 100,
       fullMark: 100,
     },

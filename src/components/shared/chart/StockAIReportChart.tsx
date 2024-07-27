@@ -8,11 +8,11 @@ export default function StockAIReportChart({
   radarStatus,
   specific,
   chartData = {
-    growth: { percentage: 0, trend: false },
-    interestLevel: { percentage: 0, trend: false },
-    investmentIndex: { percentage: 0, trend: false },
-    profitability: { percentage: 0, trend: false },
-    stockPrice: { percentage: 0, trend: false },
+    growth: { score: 0, trend: false },
+    interestLevel: { score: 0, trend: false },
+    investmentIndex: { score: 0, trend: false },
+    profitability: { score: 0, trend: false },
+    stockPrice: { score: 0, trend: false },
   },
 }: {
   children?: React.ReactElement;
@@ -20,11 +20,11 @@ export default function StockAIReportChart({
   radarStatus: RadarStatus;
   specific?: boolean;
   chartData: {
-    growth: { percentage: number; trend: boolean };
-    interestLevel: { percentage: number; trend: boolean };
-    investmentIndex: { percentage: number; trend: boolean };
-    profitability: { percentage: number; trend: boolean };
-    stockPrice: { percentage: number; trend: boolean };
+    growth: { score: number; trend: boolean };
+    interestLevel: { score: number; trend: boolean };
+    investmentIndex: { score: number; trend: boolean };
+    profitability: { score: number; trend: boolean };
+    stockPrice: { score: number; trend: boolean };
   };
 }) {
   const {
@@ -48,27 +48,27 @@ export default function StockAIReportChart({
       >
         <MetricsBar
           label={'stock_price'}
-          percent={stockPrice.percentage}
+          percent={stockPrice.score}
           rate={stockPrice.trend}
         />
         <MetricsBar
           label={'investment_index'}
-          percent={investmentIndex.percentage}
+          percent={investmentIndex.score}
           rate={investmentIndex.trend}
         />
         <MetricsBar
           label={'profitability'}
-          percent={profitability.percentage}
+          percent={profitability.score}
           rate={profitability.trend}
         />
         <MetricsBar
           label={'growth'}
-          percent={growth.percentage}
+          percent={growth.score}
           rate={growth.trend}
         />
         <MetricsBar
           label={'interest_level'}
-          percent={interestLevel.percentage}
+          percent={interestLevel.score}
           rate={interestLevel.trend}
         />
       </Rechart.RadarMetricsBox>

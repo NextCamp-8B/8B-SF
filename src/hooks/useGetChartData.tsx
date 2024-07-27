@@ -3,57 +3,57 @@ import { UUID } from 'crypto';
 import { useEffect, useState } from 'react';
 
 type ChartData = {
-  growth: { percentage: number; trend: false };
-  interestLevel: { percentage: number; trend: false };
-  investmentIndex: { percentage: number; trend: false };
-  profitability: { percentage: number; trend: false };
-  stockPrice: { percentage: number; trend: false };
+  growth: { score: number; trend: false };
+  interestLevel: { score: number; trend: false };
+  investmentIndex: { score: number; trend: false };
+  profitability: { score: number; trend: false };
+  stockPrice: { score: number; trend: false };
 };
 
-type ChartBaseItem = { percentage: string; trend: false };
+type ChartBaseItem = { score: string; trend: false };
 
 export function useGetChartData(stockId: UUID) {
   const { getChartData } = businessAPI;
   const [chartData, setChartData] = useState<ChartData>({
-    growth: { percentage: 0, trend: false },
-    interestLevel: { percentage: 0, trend: false },
-    investmentIndex: { percentage: 0, trend: false },
-    profitability: { percentage: 0, trend: false },
-    stockPrice: { percentage: 0, trend: false },
+    growth: { score: 0, trend: false },
+    interestLevel: { score: 0, trend: false },
+    investmentIndex: { score: 0, trend: false },
+    profitability: { score: 0, trend: false },
+    stockPrice: { score: 0, trend: false },
   });
   useEffect(() => {
     if (stockId) {
-      getChartData({ stockId }).then((res) => {
+      getChartData({ stockId }).then((res: any) => {
         if (res?.analysisResult) {
           const processedData: Partial<ChartData> = {};
           for (const [key, value] of Object.entries(
             res.analysisResult,
           )) {
             processedData[key as keyof ChartData] = {
-              percentage: Number((value as ChartBaseItem).percentage),
+              score: Number((value as ChartBaseItem).score),
               trend: (value as ChartBaseItem).trend || false,
             };
           }
 
           setChartData({
             growth: processedData.growth || {
-              percentage: 0,
+              score: 0,
               trend: false,
             },
             interestLevel: processedData.interestLevel || {
-              percentage: 0,
+              score: 0,
               trend: false,
             },
             investmentIndex: processedData.investmentIndex || {
-              percentage: 0,
+              score: 0,
               trend: false,
             },
             profitability: processedData.profitability || {
-              percentage: 0,
+              score: 0,
               trend: false,
             },
             stockPrice: processedData.stockPrice || {
-              percentage: 0,
+              score: 0,
               trend: false,
             },
           });
