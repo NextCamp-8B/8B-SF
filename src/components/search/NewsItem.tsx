@@ -45,6 +45,7 @@ export default function NewsItem({ news }: { news: News }) {
                 alt="thumbnail"
                 fill
                 objectFit="cover"
+                sizes="120px"
               />
             ) : (
               <LogoDark />

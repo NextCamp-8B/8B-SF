@@ -64,6 +64,7 @@ export default async function Card(props: CardProps) {
                   alt="thumbnail"
                   fill
                   className="rounded-t-2xl transform transition-transform duration-700 ease-in-out hover:scale-125 cursor-pointer"
+                  sizes="388px"
                 />
               ) : (
                 <LogoDark />
@@ -95,6 +96,8 @@ export default async function Card(props: CardProps) {
                   alt="thumbnail"
                   fill
                   className=" object-cover transition-transform duration-700 ease-in-out hover:scale-125 cursor-pointer"
+                  sizes="420px"
+                  priority
                 />
               ) : (
                 <LogoDark />
@@ -126,6 +129,7 @@ export default async function Card(props: CardProps) {
                 alt="thumbnail"
                 fill
                 className="object-cover transition-transform duration-700 ease-in-out hover:scale-125 cursor-pointer"
+                sizes="590px"
               />
             ) : (
               <LogoDark />
