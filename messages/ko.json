@@ -129,8 +129,8 @@
     "placeholder_confirm_pw": "비밀번호를 다시 입력해주세요.",
     "placeholder_phone": "-를 제외한 휴대폰번호를 입력해주세요.",
     "placeholder_birth": "생년월일 6자리를 입력해주세요.(예시 : 991231)",
-    "condition_id": "6~12자의 영문, 숫자, ,_을 이용한 조합",
-    "condition_pw": "8-20자 이내 숫자, 특수문자, 영문자 중 2가지 이상을 조합",
+    "condition_id": "* 6~12자의 영문, 숫자, ,_을 이용한 조합",
+    "condition_pw": "* 8-20자 이내 숫자, 특수문자, 영문자 중 2가지 이상을 조합",
     "setting_profile": "프로필 설정",
     "nickname": "닉네임",
     "interest_stock": "관심 종목",
@@ -141,7 +141,14 @@
     "sign_up_content": "회원가입이 완료되었습니다.\n로그인 후 이용해주세요!",
     "sign_up_failed_title": "회원가입 오류",
     "sign_up_failed_content": "죄송합니다. 오류가 발생했습니다.\n회원가입을 처음부터 다시 시도하시거나, 고객센터에 문의해주세요.",
-    "go_to_login": "로그인하기"
+    "go_to_login": "로그인하기",
+    "validatedText_id": "* 6~12자의 영문, 숫자 등을 이용한 조합",
+    "validatedText_passwordCheck": "* 동일한 비밀번호가 아닙니다. 다시 확인 후 입력해주세요.",
+    "validatedText_required": "* 필수 입력입니다.",
+    "validatedText_numbersOnly": "* 숫자만 입력해주세요.",
+    "duplicate_possible": "사용 가능한 {field}입니다.",
+    "field_signupId": "아이디",
+    "field_nickname": "닉네임"
   },
   "Header": {
     "search": "발견",

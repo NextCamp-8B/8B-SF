@@ -106,7 +106,7 @@
     "name": "姓名",
     "email": "电子邮件",
     "placeholder_name": "请输入您的姓名。",
-    "placeholder_email": "请输入您注册时输入的电子邮件地址。",
+    "placeholder_email": "请输入您的电子邮件地址。",
     "send_link": "发送验证链接",
     "send_link_failed": "认证链接发送失败",
     "authenticate_title": "您已发送验证链接。",
@@ -141,7 +141,14 @@
     "sign_up_content": "您已完成注册。请登录并享受！",
     "sign_up_failed_title": "注册错误",
     "sign_up_failed_content": "对不起，发生了错误。请重新尝试注册或联系客服。",
-    "go_to_login": "转到登录"
+    "go_to_login": "转到登录",
+    "validatedText_id": "* 使用6至12个字符的字母和数字组合",
+    "validatedText_passwordCheck": "* 密码不一致，请重新确认。",
+    "validatedText_required": "* 必填项。",
+    "validatedText_numbersOnly": "* 只输入数字。",
+    "duplicate_possible": "可用的{field}。",
+    "field_signupId": "用户名",
+    "field_nickname": "昵称"
   },
   "Header": {
     "search": "搜索",

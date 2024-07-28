@@ -4,6 +4,7 @@ import useInputValidation from '@/hooks/input/useInputValidation';
 import useInputCheckStatus from '@/hooks/input/useInputCheckStatus';
 import { conceptMap, statusMap } from './inputConfig';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 type Concept =
   | 'signupId'
@@ -82,6 +83,7 @@ export default function InputDuplicateCheck({
   type = 'text',
   isSubmit = false,
 }: Props) {
+  const t = useTranslations();
   const [isDuplicate, setIsDuplicate] =
     useState<Duplicate>('beforeConfirm');
   const { isChanged, handleInputValue } = useInputTracker({
@@ -101,12 +103,17 @@ export default function InputDuplicateCheck({
   const { labelColor, inputTextColor, borderColor, validatedColor } =
     currentStyleMap;
   const currentTypeMap = conceptMap[concept];
-  const { labelText, placeholder, validatedText } = currentTypeMap;
+  // const { labelText, placeholder, validatedText } = currentTypeMap;
+  const labelText = t(currentTypeMap.labelText);
+  const placeholder = t(currentTypeMap.placeholder);
+  const validatedText = t(currentTypeMap.validatedText);
   const isMessageVisible =
     status === 'warning' ||
     status === 'success' ||
     (isChanged && !isValidated);
-  const conceptKO = concept === 'signupId' ? '아이디' : '닉네임';
+  // const conceptKO = concept === 'signupId' ? '아이디' : '닉네임';
+  const conceptKO = t(`SignUp.field_${concept}`);
+
   return (
     <CompositeInput className="flex flex-col justify-between items-left max-w-[386px] gap-1">
       <CompositeInput.Label
@@ -146,7 +153,7 @@ export default function InputDuplicateCheck({
             }}
             disabled={!isValidated}
           >
-            중복 확인
+            {t('SignUp.duplicate')}
           </button>
         )}
       </div>
@@ -156,7 +163,8 @@ export default function InputDuplicateCheck({
           className={`caption font-medium text-${validatedColor}`}
         >
           {isDuplicate === 'possible'
-            ? `사용 가능한 ${conceptKO}입니다.`
+            ? // ? `사용 가능한 ${conceptKO}입니다.`
+              t('SignUp.duplicate_possible', { field: conceptKO })
             : validatedText}
         </CompositeInput.ValidatedText>
       )}

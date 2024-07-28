@@ -106,7 +106,7 @@
     "name": "名称",
     "email": "Email",
     "placeholder_name": "名前を入力してください。",
-    "placeholder_email": "登録時に入力したメールアドレスを入力してください。",
+    "placeholder_email": "メールアドレスを入力してください。",
     "send_link": "認証リンクを送信する",
     "send_link_failed": "認証リンク送信失敗",
     "authenticate_title": "認証リンクを送信しました。",
@@ -141,7 +141,14 @@
     "sign_up_content": "登録が完了しました。サインインしてお楽しみください！",
     "sign_up_failed_title": "会員登録エラー",
     "sign_up_failed_content": "申し訳ありません。エラーが発生しました。最初からもう一度会員登録を試みるか、\nカスタマーサポートにお問い合わせください。",
-    "go_to_login": "サインイン"
+    "go_to_login": "サインイン",
+    "validatedText_id": "* 6~12文字の英数字を使用してください",
+    "validatedText_passwordCheck": "* パスワードが一致しません。再度確認してください。",
+    "validatedText_required": "* 必須入力項目です。",
+    "validatedText_numbersOnly": "* 数字のみ入力してください。",
+    "duplicate_possible": "使用可能な{field}です。",
+    "field_signupId": "アイディー",
+    "field_nickname": "ニックネーム"
   },
   "Header": {
     "search": "検索",

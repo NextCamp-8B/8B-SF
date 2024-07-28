@@ -3,8 +3,9 @@ import { conceptMap, statusMap } from './inputConfig';
 import useInputValidation from '@/hooks/input/useInputValidation';
 import useInputTracker from '@/hooks/input/useInputTracker';
 import useInputCheckStatus from '@/hooks/input/useInputCheckStatus';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { Duplicate } from './InputDuplicateCheck';
+import { useTranslations } from 'next-intl';
 
 export type Concept =
   | 'signupId'
@@ -84,6 +85,7 @@ export default function InputValidated({
   password,
   isSubmit = false,
 }: InputValidatedProps) {
+  const t = useTranslations();
   const [isDuplicate] = useState<Duplicate>('beforeConfirm');
   const { isChanged, handleInputValue } = useInputTracker({
     onChange,
@@ -103,7 +105,10 @@ export default function InputValidated({
   const { labelColor, inputTextColor, borderColor, validatedColor } =
     currentStyleMap;
   const currentTypeMap = conceptMap[concept];
-  const { labelText, placeholder, validatedText } = currentTypeMap;
+  // const { labelText, placeholder, validatedText } = currentTypeMap;
+  const labelText = t(currentTypeMap.labelText);
+  const placeholder = t(currentTypeMap.placeholder);
+  const validatedText = t(currentTypeMap.validatedText);
   const isMessageVisible =
     status === 'warning' ||
     status === 'success' ||

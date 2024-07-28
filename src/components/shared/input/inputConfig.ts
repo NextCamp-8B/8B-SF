@@ -65,9 +65,9 @@ const conceptMap: FieldType<
   | 'email'
 > = {
   signupId: {
-    labelText: '아이디',
-    placeholder: '아이디를 입력해주세요.',
-    validatedText: '* 6~12자의 영문, 숫자 등을 이용한 조합',
+    labelText: 'SignUp.id',
+    placeholder: 'SignUp.placeholder_id',
+    validatedText: 'SignUp.validatedText_id',
     doValidation(value) {
       const isDidnTExceedLower = value.length < 6;
       const isExceedUpper = value.length > 12;
@@ -75,28 +75,28 @@ const conceptMap: FieldType<
     },
   },
   loginId: {
-    labelText: '아이디',
-    placeholder: '아이디를 입력해주세요.',
-    validatedText: '* 필수 입력입니다.',
+    labelText: 'SignUp.id',
+    placeholder: 'SignUp.placeholder_id',
+    validatedText: 'SignUp.validatedText_required',
     doValidation(value) {
       const isEmptyExceptSpaces = value.trim() === '';
       return !isEmptyExceptSpaces;
     },
   },
   nickname: {
-    labelText: '닉네임',
-    placeholder: '닉네임을 입력해주세요.',
-    validatedText: '* 필수 입력입니다.',
+    labelText: 'SignUp.nickname',
+    placeholder: 'SignUp.placeholder_nickname',
+    validatedText: 'SignUp.validatedText_required',
     doValidation(value) {
       const isEmptyExceptSpaces = value.trim() === '';
       return !isEmptyExceptSpaces;
     },
   },
   password: {
-    labelText: '비밀번호 입력',
-    placeholder: '비밀번호를 입력해주세요.',
+    labelText: 'SignUp.pw',
+    placeholder: 'SignUp.placeholder_pw',
     validatedText:
-      '* 8-20자 이내 숫자, 특수문자, 영문자 중 2가지 이상을 조합',
+      'SignUp.condition_pw',
     doValidation(value) {
       const isDidnTExceedLower = value.length < 8;
       const isExceedUpper = value.length > 20;
@@ -117,50 +117,50 @@ const conceptMap: FieldType<
     },
   },
   passwordCheck: {
-    labelText: '비밀번호 확인',
-    placeholder: '비밀번호를 다시 입력해주세요.',
+    labelText: 'SignUp.confirm_pw',
+    placeholder: 'SignUp.placeholder_confirm_pw',
     validatedText:
-      '* 동일한 비밀번호가 아닙니다. 다시 확인 후 입력해주세요.',
+      'SignUp.validatedText_passwordCheck',
     doValidation(value, checkValue) {
       return value === checkValue;
     },
   },
   birth: {
-    labelText: '생년월일',
-    placeholder: '생년월일 6자리를 입력해주세요.(예시: 991231)',
-    validatedText: '* 숫자만 입력해주세요.',
+    labelText: 'SignUp.birth',
+    placeholder: 'SignUp.placeholder_birth',
+    validatedText: 'SignUp.validatedText_numbersOnly',
     doValidation(value) {
       return /^\d{6}$/.test(value);
     },
   },
   signupPhone: {
-    labelText: '휴대폰번호',
-    placeholder: '-를 제외한 휴대폰번호를 입력해주세요.',
-    validatedText: '* 숫자만 입력해주세요.',
+    labelText: 'SignUp.phone_number',
+    placeholder:  'SignUp.placeholder_phone',
+    validatedText: 'SignUp.validatedText_numbersOnly',
     doValidation(value) {
       return /^\d+$/.test(value);
     },
   },
   loginPhone: {
-    labelText: '휴대폰번호',
-    placeholder: '-를 제외한 휴대폰번호를 입력해주세요.',
-    validatedText: '* 필수 입력입니다.',
+    labelText:'SignUp.phone_number',
+    placeholder: 'SignUp.placeholder_phone',
+    validatedText: 'SignUp.validatedText_required',
     doValidation(value) {
       return value.trim() !== '';
     },
   },
   name: {
-    labelText: '이름',
-    placeholder: '이름을 입력해주세요.',
-    validatedText: '* 필수 입력입니다.',
+    labelText: 'SignUp.name',
+    placeholder: 'SignUp.placeholder_name',
+    validatedText: 'SignUp.validatedText_required',
     doValidation(value) {
       return value.trim() !== '';
     },
   },
   email: {
-    labelText: '이메일주소',
-    placeholder: '가입 시 입력한 이메일주소를 입력해주세요.',
-    validatedText: '* 필수 입력입니다.',
+    labelText: 'SignUp.email',
+    placeholder: 'SignUp.placeholder_email',
+    validatedText: 'SignUp.validatedText_required',
     doValidation(value) {
       return /\S+@\S+\.\S+/.test(value);
     },
