@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import { diffCreatedTime } from '@/utils/date';
 import { News } from '@/types/news';
 import LogoDark from '@/assets/logos/logo_dark.svg';
 import { Locale } from '@/types/next-auth';
@@ -32,6 +31,7 @@ function NewsListItem({
                   alt="thumbnail"
                   fill
                   className="group-hover:scale-125 duration-700"
+                  sizes="120px"
                 />
               ) : (
                 <div>
@@ -67,6 +67,7 @@ function NewsListItem({
                   alt="thumbnail"
                   fill
                   className="group-hover:scale-125 duration-700"
+                  sizes="172px"
                 />
               ) : (
                 <div>
@@ -107,6 +108,7 @@ function NewsListItem({
                   alt="thumbnail"
                   fill
                   className="group-hover:scale-125 duration-700"
+                  sizes="252px"
                 />
               ) : (
                 <div>
@@ -142,6 +144,7 @@ function NewsListItem({
                   alt="thumbnail"
                   fill
                   className="group-hover:scale-125 duration-700"
+                  sizes="338px"
                 />
               ) : (
                 <div>
