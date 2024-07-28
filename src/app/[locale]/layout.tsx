@@ -3,9 +3,8 @@ import localFont from 'next/font/local';
 import { getLocale, getTranslations } from 'next-intl/server';
 
 const pretendard = localFont({
-  src: '../../assets/fonts/PretendardVariable.woff2',
+  src: '../../assets/fonts/subset-PretendardVariable-Regular.woff2',
   display: 'swap',
-  weight: '45 920',
   variable: '--font-pretendard',
 });
 
