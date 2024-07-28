@@ -3,18 +3,18 @@ import ChatbotContent from './ChatbotContent';
 import ChatbotHeader from './ChatbotHeader';
 import ChatbotInput from './ChatbotInput';
 import { useSession } from 'next-auth/react';
+import { useChatbotStore } from '@/store/chatbotStore';
 
 export default function ChatbotChat({
   closeHandler,
-  chatting,
 }: {
   closeHandler: () => void;
-  chatting: string[] | null;
 }) {
-  const [chatLog, setChatLog] = useState<string[] | null>(chatting);
+  const setChatLog = useChatbotStore((state) => state.setChatLog);
+  const chatLog = useChatbotStore((state) => state.chatLog);
   const { data: session, status } = useSession();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
+  const [typingStatus, setTypingStatus] = useState<boolean[]>([]);
   const fetchChatbot = useCallback(async () => {
     const user_id = session?.user.id;
     if (user_id) {
@@ -22,10 +22,10 @@ export default function ChatbotChat({
       if (response.ok) {
         const data = await response.json();
         setChatLog(data.chat);
+        setTypingStatus(data.typingStatus);
       }
     }
-  }, [session?.user.id]);
-
+  }, [session?.user.id, setChatLog]);
   useEffect(() => {
     if (session?.user.id) {
       fetchChatbot();
@@ -46,7 +46,12 @@ export default function ChatbotChat({
           <ChatbotHeader closeHandler={closeHandler} />
         </div>
         <div className="w-full h-[488px] flex flex-col justify-center items-center">
-          <ChatbotContent chatting={chatLog} isLoading={isLoading} />
+          <ChatbotContent
+            chatting={chatLog}
+            isLoading={isLoading}
+            typingStatus={typingStatus}
+            session={session}
+          />
         </div>
         <div className="h-[88px]">
           <ChatbotInput onNewMessage={handleNewMessage} />

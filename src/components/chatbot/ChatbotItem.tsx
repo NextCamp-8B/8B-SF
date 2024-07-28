@@ -3,11 +3,9 @@
 import FAB from '@/assets/icons/fab.svg';
 import { useState } from 'react';
 import ChatbotChat from './ChatbotChat';
-import { useSession } from 'next-auth/react';
 
 export default function ChatbotItem({}: {}) {
   const [openActive, setOpenActive] = useState<Boolean>(false);
-  const [chatting, setChatting] = useState<string[] | null>(null);
 
   const openHandler = () => {
     setOpenActive(true);
@@ -16,24 +14,6 @@ export default function ChatbotItem({}: {}) {
   const closeHandler = () => {
     setOpenActive(false);
   };
-
-  const { data: session, status } = useSession();
-  // useEffect(() => {
-  //   const userId = session?.user.id;
-  //   if (openActive) {
-  //     const fetchChatbot = async () => {
-  //       const response = await fetch(
-  //         `/api/chatbot?user_id=${userId}`,
-  //       );
-
-  //       if (response.ok) {
-  //         const data = await response.json();
-  //         setChatting(data.chat);
-  //       }
-  //     };
-  //     fetchChatbot();
-  //   }
-  // }, [openActive, session]);
 
   return (
     <>
@@ -50,10 +30,7 @@ export default function ChatbotItem({}: {}) {
             openActive ? 'opacity-100 scale-100' : ''
           }`}
         >
-          <ChatbotChat
-            closeHandler={closeHandler}
-            chatting={chatting}
-          />
+          <ChatbotChat closeHandler={closeHandler} />
         </div>
       )}
     </>

@@ -10,7 +10,6 @@ export default function ChatbotInput({
   const { data: session, status } = useSession();
   const [message, setMessage] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [latestInfo, setLatestInfo] = useState<object[]>([]);
   const t = useTranslations('Chatbot');
 
   const submitHandler = async (e: FormEvent) => {

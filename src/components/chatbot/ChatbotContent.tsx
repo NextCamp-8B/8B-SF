@@ -4,18 +4,25 @@ import SMALLLOGO from '@/assets/logos/small_logo_light.svg';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState, useRef } from 'react';
 import SkeletonChatbotContent from '../skeleton/chatbot/SkeletonChatbotContent';
+import { Session } from 'next-auth';
 
 export default function ChatbotContent({
   chatting,
   isLoading,
+  typingStatus,
+  session,
 }: {
   chatting: string[] | null;
   isLoading: boolean;
+  typingStatus: boolean[];
+  session: Session | null;
 }) {
   const [chatLog, setChatLog] = useState<string[] | null>(chatting);
   const t = useTranslations('Chatbot');
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const skeletonChatContainerRef = useRef<HTMLDivElement>(null);
+  const [displayedChats, setDisplayedChats] = useState<string>('');
+
   useEffect(() => {
     setChatLog(chatting);
   }, [chatting]);
@@ -37,6 +44,38 @@ export default function ChatbotContent({
         chatContainerRef.current.scrollHeight;
     }
   }, [isLoading]);
+
+  useEffect(() => {
+    if (chatting && typingStatus[chatting.length - 1] === true) {
+      let currentIndex = 0;
+      setDisplayedChats('');
+      const interval = setInterval(() => {
+        if (currentIndex < chatting[chatting.length - 1].length) {
+          setDisplayedChats(
+            (prev) =>
+              prev + chatting[chatting.length - 1][currentIndex - 1],
+          );
+          currentIndex++;
+        } else {
+          clearInterval(interval);
+
+          fetch('/api/chatbot/status', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              status: false,
+              user_id: session?.user.id,
+              displayedchat: chatting[chatting.length - 1],
+            }),
+          }).then((response) => response.json());
+        }
+      }, 20);
+
+      return () => clearInterval(interval);
+    }
+  }, [chatting, typingStatus, session]);
 
   const chatFormat = (chat: string) => {
     // 정규 표현식을 사용하여 문장의 끝에 있는 마침표만 분리
@@ -70,7 +109,11 @@ export default function ChatbotContent({
                 <SMALLLOGO width={28} height={24} />
               </div>
               <div className="max-w-full b5 bg-primary-50 rounded-lg p-2">
-                {chatFormat(chat)}
+                {typingStatus[index] === false ? (
+                  chatFormat(chat)
+                ) : (
+                  <div>{chatFormat(displayedChats)}</div>
+                )}
               </div>
             </div>
           ) : (

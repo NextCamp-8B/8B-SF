@@ -14,20 +14,21 @@ export async function GET(req: Request, res: Response) {
   // Supabase 클라이언트 생성
   const supabase = createClient();
 
-  // user_id가 1인 데이터를 created_at 오름차순으로 조회
+  // user_id의 데이터를 created_at 오름차순으로 조회
   const { data: chatbotData, error } = await supabase
-    .from('chatbot')
-    .select('answer, question')
+    .from('chatbot_ai')
+    .select('answer, question, status')
     .eq('user_id', userId)
     .order('created_at', { ascending: true });
 
   let answers: string[] = [];
   let questions: string[] = [];
   let chat: string[] = [];
-
+  let typingStatus: boolean[] = [];
   // 데이터가 존재할 경우 처리
   if (chatbotData && chatbotData.length > 0) {
     chatbotData.forEach((row) => {
+      typingStatus.push(row.status, row.status);
       if (row.question) {
         questions.push(row.question.trim());
         chat.push(row.question.trim());
@@ -38,8 +39,12 @@ export async function GET(req: Request, res: Response) {
       }
     });
   }
-
-  return NextResponse.json({ questions, answers, chat });
+  return NextResponse.json({
+    questions,
+    answers,
+    chat,
+    typingStatus,
+  });
 }
 
 export async function POST(req: NextRequest) {
@@ -66,9 +71,22 @@ export async function POST(req: NextRequest) {
   }
 
   // 생성된 답변을 Supabase의 chatbot 테이블에 저장
-  const { data, error } = await supabase
-    .from('chatbot')
-    .insert({ question: message, answer, user_id: userId });
+  const { data, error } = await supabase.from('chatbot_ai').insert({
+    question: message,
+    answer,
+    user_id: userId,
+    status: true,
+  });
+
+  if (error) {
+    console.error('Error inserting data:', error);
+    return NextResponse.json(
+      { error: 'Error inserting data' },
+      { status: 500 },
+    );
+  } else {
+    console.log('Data insertion successful:', data);
+  }
 
   return NextResponse.json({ data });
 }

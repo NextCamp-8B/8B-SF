@@ -27,7 +27,7 @@ export const generateResponse = async (
           role: 'assistant',
           content: `
             항상 답변을 요약해 주세요.
-            답변은 400 토큰 이내로 요약해 주세요.
+            답변은 600 토큰 이내로 요약해 주세요.
             주식과 관련 없는 질문일 경우, '죄송합니다. 질문에 대해 잘 이해하지 못했습니다. 다른 도움이 필요한가요?'라고 답변하세요.
             만약 주식용어와 관련된 질문 일 경우에는 해당 용어를 쉽게 설명해 주세요.
             질문과 관련 없는 답변은 하지 마세요.
@@ -54,7 +54,7 @@ export const generateResponse = async (
         },
         { role: 'user', content: userInput },
       ],
-      max_tokens: 400,
+      max_tokens: 600,
       temperature: 0.4,
       top_p: 0.6,
       // 특정 단어 반복 빈도(-2 ~ 2) 높을수록 동일 단어의 반복을 억제
