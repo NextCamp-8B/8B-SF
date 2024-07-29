@@ -193,7 +193,8 @@
     "translate": "翻译",
     "article": "文章",
     "views": "{view}次",
-    "warning": "没有翻译的文章。"
+    "warning": "没有翻译的文章。",
+    "stock_warning": "没有相关的股票。"
   },
   "InterestStock": {
     "interest_stock": "{nickname}的兴趣",

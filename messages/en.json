@@ -193,7 +193,8 @@
     "translate": "Translate",
     "article": "Article",
     "views": "{view}views",
-    "warning": "No translated articles available."
+    "warning": "No translated articles available.",
+    "stock_warning": "No related stocks."
   },
   "InterestStock": {
     "interest_stock": "{nickname}'s Interests Stock",

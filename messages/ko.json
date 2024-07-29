@@ -193,7 +193,8 @@
     "translate": "번역하기",
     "article": "기사",
     "views": "{view}회",
-    "warning": "번역된 기사가 없습니다."
+    "warning": "번역된 기사가 없습니다.",
+    "stock_warning": "관련된 주식이 없습니다."
   },
   "InterestStock": {
     "interest_stock": "{nickname}님의 관심종목",

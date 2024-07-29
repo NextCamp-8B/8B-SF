@@ -194,7 +194,8 @@
     "translate": "Traduire",
     "article": "Article",
     "views": "{view}fois",
-    "warning": "Aucun article traduit disponible."
+    "warning": "Aucun article traduit disponible.",
+    "stock_warning": "No related stocks."
   },
   "InterestStock": {
     "interest_stock": "Les intérêts de {nickname}",

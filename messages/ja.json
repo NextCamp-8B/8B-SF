@@ -193,7 +193,8 @@
     "translate": "翻訳する",
     "article": "記事",
     "views": "{view}回",
-    "warning": "翻訳された記事はありません。"
+    "warning": "翻訳された記事はありません。",
+    "stock_warning": "関連する株式がありません。"
   },
   "InterestStock": {
     "interest_stock": "{nickname}の関心株",
