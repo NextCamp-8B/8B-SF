@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useId } from 'react';
 import CheckSvg from '@/assets/icons/check.svg';
 
 // How to use 사용방법
@@ -20,6 +20,7 @@ const CheckboxBase: React.FC<CheckBoxProps> = ({
   onChange,
   ...props
 }) => {
+  const generatedId = useId(); // 고유한 ID 생성
   const checkBoxClass =
     type === 'rounded'
       ? 'w-5 h-5 rounded-full checked:bg-primary-900'
@@ -30,7 +31,7 @@ const CheckboxBase: React.FC<CheckBoxProps> = ({
       <div className="relative flex justify-center items-center">
         <input
           type="checkbox"
-          id="checkbox"
+          id={generatedId}
           name="checkbox"
           className={`appearance-none border cursor-pointer border-grayscale-400  checked:border-none focus:outline-none peer ${checkBoxClass}`}
           checked={checked}
@@ -38,13 +39,14 @@ const CheckboxBase: React.FC<CheckBoxProps> = ({
           {...props}
         />
         <label
-          htmlFor="checkbox"
+          htmlFor={generatedId}
+          id={generatedId}
           className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 peer-checked:opacity-100"
         >
           <CheckSvg className="w-3 h-3 text-grayscale-0" />
         </label>
       </div>
-      <label htmlFor="checkbox" className="ml-2 cursor-pointer">
+      <label htmlFor={generatedId} className="ml-2 cursor-pointer">
         {label}
       </label>
     </div>
