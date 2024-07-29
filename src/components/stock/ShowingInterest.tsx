@@ -1,5 +1,4 @@
 import { UUID } from 'crypto';
-import LoadingSpinner from '../shared/LoadingSpinner';
 import Chart from '../shared/chart';
 import SkeletonWrapper from '../skeleton/shared/SkeletonWrapper';
 
@@ -26,9 +25,11 @@ export default function ShowingInterest({
         </Chart>
       ))}
       {isLoading && (
-        <SkeletonWrapper className="w-[328px] h-[360px] pb-4 flex justify-center items-center">
-          <LoadingSpinner />
-        </SkeletonWrapper>
+        <>
+          <SkeletonWrapper className="w-[392px] h-[385px] pb-4 flex justify-center items-center" />
+          <SkeletonWrapper className="w-[392px] h-[385px] pb-4 flex justify-center items-center" />
+          <SkeletonWrapper className="w-[392px] h-[385px] pb-4 flex justify-center items-center" />
+        </>
       )}
     </section>
   );

@@ -2,7 +2,7 @@ import React from 'react';
 
 type SkeletonProps = {
   className: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export default function SkeletonWrapper({
