@@ -95,7 +95,7 @@ export default function ChatbotContent({
           <SMALLLOGO width={28} height={24} />
         </div>
         <div className="max-w-full b5 bg-primary-50 rounded-lg p-2">
-          {t('comment')}
+          {t('comment', { user: session?.user.nickname })}
         </div>
       </div>
       {chatLog &&

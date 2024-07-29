@@ -356,7 +356,7 @@
     "second": "il y a {period} secondes"
   },
   "Chatbot": {
-    "comment": "Bonjour, je suis le chatbot Aightnow. Si vous avez des questions sur les actions étrangères, n'hésitez pas à me demander !",
+    "comment": "Bonjour, {user} ! Je suis le chatbot de Aightnow. Si vous avez des questions sur les actions étrangères, n'hésitez pas à me demander !",
     "send": "Envoyer"
   },
   "Metadata": {

@@ -19,6 +19,7 @@ export default function ChatbotInput({
     }
     const userId = session?.user.id;
     setIsLoading(true);
+    setMessage('');
     const response = await fetch('/api/chatbot', {
       method: 'POST',
       headers: {
@@ -28,7 +29,6 @@ export default function ChatbotInput({
     });
 
     if (response.ok) {
-      setMessage('');
       onNewMessage();
       setIsLoading(false);
     }

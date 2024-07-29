@@ -356,7 +356,7 @@
     "second": "{period}seconds ago"
   },
   "Chatbot": {
-    "comment": "Hello, this is the Aightnow chatbot. If you have any questions about foreign stocks, feel free to ask me!",
+    "comment": "Hello, {user}! I'm the AightNow chatbot. If you have any questions about international stocks, feel free to ask me!",
     "send": "Send"
   },
   "Metadata": {
