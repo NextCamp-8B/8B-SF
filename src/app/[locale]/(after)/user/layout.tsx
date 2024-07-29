@@ -1,9 +1,14 @@
-import Sidebar from '@/components/user/Sidebar';
 import Wrapper from '@/components/shared/Wrapper';
 import IntlClientProvider from '@/components/shared/IntlClientProvider';
 import { getTranslations } from 'next-intl/server';
 import { Suspense } from 'react';
 import SkeletonProfileSection from '@/components/skeleton/mypage/SkeletonProfile';
+import SkeletonSidebar from '@/components/skeleton/mypage/SkeletonSidebar';
+import dynamic from 'next/dynamic';
+
+const Sidebar = dynamic(() => import('@/components/user/Sidebar'), {
+  suspense: true,
+});
 
 export async function generateMetadata() {
   const t = await getTranslations('Metadata');
@@ -27,7 +32,9 @@ export default async function UserLayout({
       </h1>
       <div className="flex mt-6 gap-x-8 min-h-[720px]">
         <IntlClientProvider>
-          <Sidebar />
+          <Suspense fallback={<SkeletonSidebar />}>
+            <Sidebar />
+          </Suspense>
           <Wrapper padding="px-8 py-8" width="w-[900px]">
             <Suspense fallback={<SkeletonProfileSection />}>
               {children}

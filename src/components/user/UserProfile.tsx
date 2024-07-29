@@ -23,14 +23,18 @@ export default function UserProfile({
             <Image
               src={profileImg as string}
               alt="Profile"
-              layout="fill"
-              objectFit="cover"
-              quality={100}
-              className="w-14 h-14 rounded-full"
+              fill
+              quality={75}
+              priority
+              sizes="56px"
+              className="rounded-full"
             />
           </div>
         ) : (
-          <ProfileSvg className="w-14 h-14 rounded-full" />
+          <ProfileSvg
+            className="w-14 h-14 rounded-full"
+            aria-label="Default profile icon"
+          />
         )}
         <span className="font-bold">{nickname}</span>
       </div>

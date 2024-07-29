@@ -51,10 +51,10 @@ export default function Withdrawal({ isSocial }: Withdrawal) {
   } = myPageStore();
 
   //회원 삭제처리 성공 함수
-  const handleSetWithdrawal = () => {
+  const handleSetWithdrawal = useCallback(() => {
     closeAllModals();
     setIsWithdrawal();
-  };
+  }, [closeAllModals, setIsWithdrawal]);
 
   // 회원정보 수정 모달 닫기
   const handleCloseWidthdrawl = () => {
@@ -92,7 +92,7 @@ export default function Withdrawal({ isSocial }: Withdrawal) {
     setIsLoading(false);
   };
 
-  const handleConfirmWithdrawal = async () => {
+  const handleConfirmWithdrawal = useCallback(async () => {
     hidePopup();
     setIsLoading(true);
     const formData = new FormData();
@@ -118,7 +118,15 @@ export default function Withdrawal({ isSocial }: Withdrawal) {
       );
     }
     setIsLoading(false);
-  };
+  }, [
+    etc,
+    handleSetWithdrawal,
+    hidePopup,
+    reason,
+    showPopup,
+    t,
+    value,
+  ]);
 
   const handleSelected = (value: SelectedOption) => {
     setReason(value.text);

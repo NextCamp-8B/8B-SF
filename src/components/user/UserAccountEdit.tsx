@@ -81,21 +81,40 @@ export default function UserAccountEdit({
     closeAllModals();
   };
 
-  const onHandleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmit(true);
-    if (!duplicatedCheck && !isSocial)
-      showPopup(t('profileUpdate.error_title'), t('duplicate_check'));
-    if (!isFormValid) return;
-    const formData = new FormData();
-    formData.append('userId', value.signupId.trim());
-    formData.append('name', value.name.trim());
-    formData.append('birth', value.birth.trim());
-    formData.append('phoneNumber', value.signupPhone.trim());
-    formData.append('accessToken', user.accessToken || '');
-    formData.append('refreshToken', user.refreshToken || '');
-    handleAccountUpdate(formData);
-  };
+  const onHandleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      setIsSubmit(true);
+      if (!duplicatedCheck && !isSocial)
+        showPopup(
+          t('profileUpdate.error_title'),
+          t('duplicate_check'),
+        );
+      if (!isFormValid) return;
+      const formData = new FormData();
+      formData.append('userId', value.signupId.trim());
+      formData.append('name', value.name.trim());
+      formData.append('birth', value.birth.trim());
+      formData.append('phoneNumber', value.signupPhone.trim());
+      formData.append('accessToken', user.accessToken || '');
+      formData.append('refreshToken', user.refreshToken || '');
+      handleAccountUpdate(formData);
+    },
+    [
+      duplicatedCheck,
+      handleAccountUpdate,
+      isFormValid,
+      isSocial,
+      showPopup,
+      t,
+      user.accessToken,
+      user.refreshToken,
+      value.birth,
+      value.name,
+      value.signupId,
+      value.signupPhone,
+    ],
+  );
 
   const validateForm = useCallback(() => {
     const isNameValid = conceptMap.name.doValidation(value.name);

@@ -71,29 +71,43 @@ export default function ProfileUpdate({ user }: ProfileUpdate) {
     }
   }, [user, setValue]);
 
-  const onHandleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmit(true);
-    if (!isFormValid) return;
-    // 관심종목 id값 text로 변환
-    setIsFormValid(false);
-    const validStock = validateAndUpdateStock(searchText); // 유효하지 않은 입력, 주식 값 제거
-    const formData = new FormData();
-    formData.append('nickname', value.nickname.trim());
-    formData.append('id', id as UUID);
-    formData.append('interestStock', validStock);
-    formData.append('profileImg', profileFile as File);
-    formData.append('accessToken', accessToken || '');
-    formData.append('refreshToken', refreshToken || '');
-    formData.append('userBaseImg', userImageName || '');
-    handleProfileUpdate(formData);
-  };
+  const onHandleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      setIsSubmit(true);
+      if (!isFormValid) return;
+      // 관심종목 id값 text로 변환
+      setIsFormValid(false);
+      const validStock = validateAndUpdateStock(searchText); // 유효하지 않은 입력, 주식 값 제거
+      const formData = new FormData();
+      formData.append('nickname', value.nickname.trim());
+      formData.append('id', id as UUID);
+      formData.append('interestStock', validStock);
+      formData.append('profileImg', profileFile as File);
+      formData.append('accessToken', accessToken || '');
+      formData.append('refreshToken', refreshToken || '');
+      formData.append('userBaseImg', userImageName || '');
+      handleProfileUpdate(formData);
+    },
+    [
+      isFormValid,
+      searchText,
+      validateAndUpdateStock,
+      value.nickname,
+      id,
+      accessToken,
+      refreshToken,
+      handleProfileUpdate,
+      profileFile,
+      userImageName,
+    ],
+  );
 
   // session값 loadindg이면 팝업창 닫기 불가
-  const handleCloseProfileModal = () => {
+  const handleCloseProfileModal = useCallback(() => {
     if (isLoading) return;
     closeAllModals();
-  };
+  }, [isLoading, closeAllModals]);
 
   return (
     <>

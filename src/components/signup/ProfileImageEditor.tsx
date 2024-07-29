@@ -21,19 +21,23 @@ export default function ProfileImageEditor({
           <Image
             src={profileImage}
             alt="Profile"
-            layout="fill"
-            objectFit="cover"
-            quality={100}
-            className="w-full h-full object-cover rounded-full"
+            fill
+            quality={75}
+            priority
+            sizes="128px"
+            className="w-full h-full rounded-full"
           />
         ) : (
-          <ProfileSvg className="w-full h-full object-cover rounded-full" />
+          <ProfileSvg
+            className="w-full h-full rounded-full"
+            aria-label="Default profile icon"
+          />
         )}
         <label
           htmlFor="profileImage"
           className="absolute bottom-0 right-0 w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center cursor-pointer bg-grayscale-400"
         >
-          <Pencial className="w-6 h-6 h1" />
+          <Pencial className="w-6 h-6 h1" aria-label="pencial icon" />
           <input
             type="file"
             id="profileImage"

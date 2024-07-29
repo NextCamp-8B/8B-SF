@@ -44,7 +44,7 @@ export default function LanguageSection() {
       body: formData,
     });
     if (response.ok) {
-      const { data, error } = await response.json();
+      const { data } = await response.json();
       await update({ ...data.user.user_metadata });
       setSelectedLanguage(language);
       router.replace(`/${language}/user/language`);
@@ -86,22 +86,27 @@ export default function LanguageSection() {
           <LanguageButton.Kr
             checked={selectedLanguage === 'ko'}
             onClick={() => handleLanguageChange('ko')}
+            aria-label={t('MyPage.korean')}
           />
           <LanguageButton.Us
             checked={selectedLanguage === 'en'}
             onClick={() => handleLanguageChange('en')}
+            aria-label={t('MyPage.english')}
           />
           <LanguageButton.Cn
             checked={selectedLanguage === 'zh'}
             onClick={() => handleLanguageChange('zh')}
+            aria-label={t('MyPage.chinese')}
           />
           <LanguageButton.Jp
             checked={selectedLanguage === 'ja'}
             onClick={() => handleLanguageChange('ja')}
+            aria-label={t('MyPage.japanese')}
           />
           <LanguageButton.Fr
             checked={selectedLanguage === 'fr'}
             onClick={() => handleLanguageChange('fr')}
+            aria-label={t('MyPage.french')}
           />
         </div>
       </LoadingSpinnerWrapper>

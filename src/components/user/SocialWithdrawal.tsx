@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useCallback, useState } from 'react';
 import myPageStore from '@/store/myPageStore';
 import { SelectedOption } from '../shared/dropdown/types';
 import usePopupStore from '@/store/userPopup';
@@ -43,10 +43,10 @@ export default function SocialWithdrawal({
   } = myPageStore();
 
   //회원 삭제처리 성공 함수
-  const handleSetWithdrawal = () => {
+  const handleSetWithdrawal = useCallback(() => {
     closeAllModals();
     setIsWithdrawal();
-  };
+  }, [closeAllModals, setIsWithdrawal]);
 
   // 회원정보 수정 모달 닫기
   const handleCloseWidthdrawl = () => {
@@ -63,7 +63,7 @@ export default function SocialWithdrawal({
     );
   };
 
-  const handleConfirmWithdrawal = async () => {
+  const handleConfirmWithdrawal = useCallback(async () => {
     hidePopup();
     setIsLoading(true);
     const formData = new FormData();
@@ -88,7 +88,16 @@ export default function SocialWithdrawal({
       );
     }
     setIsLoading(false);
-  };
+  }, [
+    hidePopup,
+    setIsLoading,
+    reason,
+    etc,
+    user.userId,
+    handleSetWithdrawal,
+    showPopup,
+    t,
+  ]);
 
   const handleSelected = (value: SelectedOption) => {
     setReason(value.text);

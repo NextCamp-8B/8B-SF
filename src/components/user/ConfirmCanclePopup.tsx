@@ -36,10 +36,18 @@ export default function ConfirmCancelPopup({
             {msg}
           </p>
           <div className="flex justify-between w-full mt-4">
-            <TextButton className="w-[150px]" onClick={onConfirm}>
+            <TextButton
+              className="w-[150px]"
+              onClick={onConfirm}
+              aria-label={t('confirm')}
+            >
               {t('confirm')}
             </TextButton>
-            <TextButton.Gray className="w-[150px]" onClick={onClose}>
+            <TextButton.Gray
+              className="w-[150px]"
+              onClick={onClose}
+              aria-label={t('cancle')}
+            >
               {t('cancle')}
             </TextButton.Gray>
           </div>

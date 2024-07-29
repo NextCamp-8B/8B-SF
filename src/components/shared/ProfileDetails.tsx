@@ -112,7 +112,11 @@ export default function ProfileDetails({
                     }
                   </CompositeDropdown.Panel>
                 )}
-              <TextButton type="submit" className="w-full mt-8">
+              <TextButton
+                type="submit"
+                className="w-full mt-8"
+                aria-label={buttonText}
+              >
                 {buttonText}
               </TextButton>
             </CompositeInput>

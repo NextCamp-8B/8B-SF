@@ -70,7 +70,11 @@ export default function UserAccountForm({
           concept="birth"
           isSubmit={isSubmit}
         />
-        <TextButton type="submit" className="w-full mt-8">
+        <TextButton
+          type="submit"
+          className="w-full mt-8"
+          aria-label={t('edit')}
+        >
           {t('edit')}
         </TextButton>
       </InputSet>
@@ -79,6 +83,7 @@ export default function UserAccountForm({
           onClick={handleUpdatePw}
           type="button"
           className="border-none bg-grayscale-0 text-center mt-4"
+          aria-label={t('change_password')}
         >
           {t('change_password')}
         </button>
@@ -87,6 +92,7 @@ export default function UserAccountForm({
         type="button"
         className="border-none bg-grayscale-0 text-center underline mt-4 text-warning-100"
         onClick={handleShowWidthdrawl}
+        aria-label={t('delete_account')}
       >
         {t('delete_account')}
       </button>

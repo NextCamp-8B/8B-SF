@@ -20,7 +20,12 @@ export default function CommonSection({
 }: CommonSection) {
   return (
     <SectionBox title={title} description={description}>
-      <TextButton size="sm" width="w-40" onClick={onButtonClick}>
+      <TextButton
+        size="sm"
+        width="w-40"
+        onClick={onButtonClick}
+        aria-label={buttonText}
+      >
         {buttonText}
       </TextButton>
       {children}

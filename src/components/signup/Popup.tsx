@@ -44,7 +44,11 @@ export default function AuthPopup({
               ? errorMessage || defaultErrorMessage
               : successMessage}
           </p>
-          <TextButton className="mt-4 w-[332px]" onClick={onClose}>
+          <TextButton
+            className="mt-4 w-[332px]"
+            onClick={onClose}
+            aria-label={t('SignUp.confirm')}
+          >
             {t('SignUp.confirm')}
           </TextButton>
         </div>
