@@ -10,12 +10,13 @@ export default class HttpClient {
   private async makeRequest<BodyType>(
     config: RequestOptions<BodyType>,
   ): Promise<any> {
-    const { url, method, headers, body, isServer } = config;
+    const { url, method, headers, body, isServer, next } = config;
     /** 내부 API 요청인지 확인 */
     // const isInternalApi = url.startsWith('api/');
 
     const requestUrl = isServer ? `${this.baseURL}${url}` : url;
     const options: RequestInit = {
+      next,
       method,
       headers: {
         'Content-Type': 'application/json',
@@ -41,15 +42,17 @@ export default class HttpClient {
     url,
     headers = {},
     isServer = false,
+    next,
   }: Pick<
     OmittedHTTPMethod,
-    'url' | 'headers' | 'isServer'
+    'url' | 'headers' | 'isServer' | 'next'
   >): Promise<any> {
     return this.makeRequest({
       url,
       method: 'GET',
       headers,
       isServer,
+      next,
     });
   }
 

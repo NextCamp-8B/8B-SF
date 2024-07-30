@@ -17,12 +17,16 @@ export default async function Recent({
           {t('interest')}
         </div>
         <div className="flex flex-col items-center bg-[#FFFFFF] rounded-2xl mt-6 min-w-[590px] min-h-[374px] ">
-          {data ? (
+          {data &&
+          typeof data?.length === 'number' &&
+          data?.length > 0 ? (
             <div className="mt-8">
               <FavoriteItem stocks={data} />
             </div>
           ) : (
-            <NotFind type="stock" />
+            <div className="flex flex-col pt-20 mt-8">
+              <NotFind type="stock" />
+            </div>
           )}
         </div>
       </div>

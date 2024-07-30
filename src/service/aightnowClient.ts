@@ -1,4 +1,3 @@
-import { Session } from 'next-auth';
 import { GenerationRequest } from './serviceType';
 import HttpClient from './httpClient';
 import { UUID } from 'crypto';
@@ -225,15 +224,17 @@ export default class AightnowClient {
     page,
     size,
     isServer = false,
+    next,
   }: {
     userId: UUID;
     page: string | number;
     size: string | number;
     isServer?: boolean;
+    next: any;
   }) {
     const nextURL = `/api/stock/interest?userId=${userId}&page=${page}&size=${size}`;
 
-    return this.httpClient.get({ url: nextURL, isServer });
+    return this.httpClient.get({ url: nextURL, isServer, next });
   }
 
   async getPopularStock() {

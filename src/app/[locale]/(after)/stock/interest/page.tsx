@@ -28,7 +28,11 @@ export default function Interest() {
         handleIsOpen={handleIsOpen}
         user={user}
       />
-      <RequestWrapper handleIsOpen={handleIsOpen} user={user} />
+      <RequestWrapper
+        handleIsOpen={handleIsOpen}
+        user={user}
+        isOpen={isOpen}
+      />
     </div>
   );
 }

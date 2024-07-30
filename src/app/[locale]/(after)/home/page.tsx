@@ -6,6 +6,7 @@ import { auth as getSession } from '@/auth';
 import { UUID } from 'crypto';
 import { businessAPI } from '@/service/apiInstance';
 import { Stock } from '@/types/stock';
+import { revalidatePath } from 'next/cache';
 
 export default async function Home() {
   const authData = await getSession();
@@ -28,8 +29,12 @@ export default async function Home() {
       page: 1,
       size: 4,
       isServer: true,
+      next: { cache: 'no-store' },
     }))
-  )?.map(({ stock }: { stock: Stock }) => stock);
+  )?.map(({ stock }: { stock: Stock }) => {
+    console.log(stock);
+    return stock;
+  });
 
   return (
     <>

@@ -47,6 +47,7 @@ export default function Searched({
       ),
     );
   };
+
   return (
     <>
       <h3>{t('InterestStock.result')}</h3>

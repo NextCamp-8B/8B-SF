@@ -10,9 +10,11 @@ import { UserData } from '@/service/serviceType';
 export default function RequestWrapper({
   handleIsOpen,
   user,
+  isOpen,
 }: {
   handleIsOpen: () => void;
   user: UserData;
+  isOpen: boolean;
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [stocks, setStocks] = useState<Array<{ stock: Stock }>>([]);
@@ -31,22 +33,21 @@ export default function RequestWrapper({
 
       getInterestStock({ userId, page, size })
         .then((stocksRes) => {
-          if (stocksRes.length !== 0) {
-            setStockQuantity((prev) => ({
-              ...prev,
-              page: prev.page + 1,
-            }));
-            setStocks((prev) => {
-              const stockIds = new Set(
-                prev.map(({ stock }) => stock.stock_id),
-              );
-              const newStocks = stocksRes.filter(
-                ({ stock }: { stock: Stock }) =>
-                  !stockIds.has(stock.stock_id),
-              );
-              return [...prev, ...newStocks];
-            });
-          }
+          setStockQuantity((prev) => ({
+            ...prev,
+            page: prev.page + 1,
+          }));
+          setStocks((prev) => {
+            const stockIds = new Set(
+              prev.map(({ stock }) => stock.stock_id),
+            );
+            const newStocks = stocksRes.filter(
+              ({ stock }: { stock: Stock }) =>
+                !stockIds.has(stock.stock_id),
+            );
+            return [...prev, ...newStocks];
+          });
+
           setIsLoading(false);
         })
         .catch((e) => {

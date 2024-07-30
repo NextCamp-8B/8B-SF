@@ -48,6 +48,13 @@ export default function ModalAddInterest({
     fetchSearchResults(debouncedSearchText);
   }, [debouncedSearchText, fetchSearchResults]);
 
+  useEffect(() => {
+    if (!isOpen) {
+      setSearchText('');
+      setSearched([]);
+    }
+  }, [isOpen]);
+
   return (
     <ModalLayout
       title={t('InterestStock.add_stock_title')}

@@ -6,6 +6,7 @@ interface HTTPParamType<BodyType = any> {
   headers?: Record<string, string>;
   body?: BodyType;
   isServer?: boolean;
+  next?: any;
 }
 
 export interface RequestOptions<BodyType = any>
