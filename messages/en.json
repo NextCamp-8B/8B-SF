@@ -345,7 +345,7 @@
     "one_year": "1 year",
     "three_years": "3 years",
     "ten_years": "10 years",
-    "points": "{score} points"
+    "points": "{score} p"
   },
 
   "Date": {
@@ -369,11 +369,11 @@
     "stock": "Stock"
   },
   "RadarChart": {
-    "stock_price": "Stock Price",
-    "investment_index": "Investment Index",
-    "profitability": "Profitability",
+    "stock_price": "Price",
+    "investment_index": "I-Index",
+    "profitability": "Profit",
     "growth": "Growth",
-    "interest_level": "Interest Level",
+    "interest_level": "I-Level",
     "delete": "Delete",
     "view_details": "View Details"
   }

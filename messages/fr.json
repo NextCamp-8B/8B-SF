@@ -334,8 +334,8 @@
     "pluging_stocks": "Actions en forte baisse",
     "add_stock": "Ajouter à la liste de surveillance",
     "unsubscribe": "Se désabonner",
-    "area_chart": "Graphique des actions",
-    "radar_chart": "Rapport AI sur les actions",
+    "area_chart": "Graphique",
+    "radar_chart": "Rapport AI",
     "ai_analyst_report": "Rapport de l'analyste AI d'Aightnow",
     "stock_report": "En reflétant une demande automobile robuste malgré des hausses de taux d'intérêt rapides, nous relevons l'objectif de prix de Tesla de 26% à 340 $ et la maintenons comme Top Pick. Bien qu'une pause à court terme soit attendue, l'avantage concurrentiel de l'entreprise se renforce à moyen terme. Alors que les OEM traditionnels passent aux véhicules électriques plus lentement et que les flux de trésorerie des startups chinoises s'affaiblissent, l'écart de compétitivité de fabrication de Tesla devrait encore se creuser une fois que son usine au Mexique sera opérationnelle.",
     "stock_desc": "Apple conçoit, fabrique et vend des smartphones, des ordinateurs personnels, des tablettes, des appareils portables et des accessoires, et vend une variété de services connexes. Les catégories de produits incluent iPhone, Mac, iPad, Wearables, Home et Accessories.",
@@ -345,7 +345,7 @@
     "one_year": "1 an",
     "three_years": "3 ans",
     "ten_years": "10 ans",
-    "points": "{score} points"
+    "points": "{score} p"
   },
 
   "Date": {
@@ -369,11 +369,11 @@
     "stock": "Action"
   },
   "RadarChart": {
-    "stock_price": "Prix de l'action",
-    "investment_index": "Indice d'investissement",
-    "profitability": "Rentabilité",
-    "growth": "Croissance",
-    "interest_level": "Niveau d'intérêt",
+    "stock_price": "Prix",
+    "investment_index": "I-Index",
+    "profitability": "Rentab.",
+    "growth": "Crois.",
+    "interest_level": "Niv. Int",
     "delete": "Supprimer",
     "view_details": "Voir les détails"
   }
