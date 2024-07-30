@@ -61,7 +61,11 @@ function StockListItem({
           className="py-2 flex w-full text-grayscale-900 gap-4 items-center cursor-pointer group"
           onClick={() => handleClick(stock_id)}
         >
-          <StockIcon size="medium" path={logo_path} />
+          <StockIcon
+            size="medium"
+            path={logo_path}
+            stockName={stock_name}
+          />
           <div className="flex-1 flex justify-between h-full items-center">
             <div className="flex flex-col text-left">
               <span className={` b2 font-bold group-hover:underline`}>
@@ -90,7 +94,11 @@ function StockListItem({
           className="py-2 flex w-full text-grayscale-900 gap-4 items-center cursor-pointer group"
           onClick={() => handleClick(stock_id)}
         >
-          <StockIcon size={'small'} path={logo_path} />
+          <StockIcon
+            size={'small'}
+            path={logo_path}
+            stockName={stock_name}
+          />
           <div className="flex-1 flex justify-between">
             <div className="flex flex-col text-left">
               <span className={`b4 font-bold group-hover:underline`}>
@@ -117,7 +125,11 @@ function StockListItem({
       {type === 'related' && (
         <div className="w-full">
           <div className="flex items-center gap-2">
-            <StockIcon path={logo_path} size="small" />
+            <StockIcon
+              path={logo_path}
+              size="small"
+              stockName={stock_name}
+            />
             <div className="flex gap-2 items-center">
               <span className="b1 font-bold">{stock_name}</span>
               <span className="b3 font-normal">{stock_code}</span>
@@ -141,7 +153,11 @@ function StockListItem({
       {type === 'report' && (
         <div className="flex items-center gap-2">
           <div className="flex gap-1 items-center">
-            <StockIcon path={logo_path} size="small" />
+            <StockIcon
+              path={logo_path}
+              size="small"
+              stockName={stock_name}
+            />
             <span className="b3 font-medium">{stock_name}</span>
             <span className="b2">∙</span>
             <span className="b3">{stock_code}</span>
@@ -181,7 +197,11 @@ function StockListItem({
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <StockIcon size="small" path={logo_path} />
+              <StockIcon
+                size="small"
+                path={logo_path}
+                stockName={stock_name}
+              />
               <span
                 className={`b4 font-medium text-grayscale-600 group-hover:underline`}
               >
@@ -203,7 +223,11 @@ function StockListItem({
       {type === 'interest' && (
         <div className="w-full">
           <div className="flex items-center gap-2">
-            <StockIcon path={logo_path} size="small" />
+            <StockIcon
+              path={logo_path}
+              size="small"
+              stockName={stock_name}
+            />
             <div className="flex gap-2 items-center">
               <span className="b1 font-bold">
                 {getKoreanName(stock_name as StockNames)}

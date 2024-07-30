@@ -4,11 +4,13 @@ import SmallLogoDark from '@/assets/logos/small_logo_dark.svg';
 interface StockIconProps {
   size?: 'medium' | 'small';
   path?: string;
+  stockName?: string;
 }
 
 export default function StockIcon({
   size = 'medium',
   path,
+  stockName,
 }: StockIconProps) {
   return (
     <div
@@ -17,7 +19,11 @@ export default function StockIcon({
       } ${size === 'small' && 'w-12 h-12'}`}
     >
       {path ? (
-        <img className=" text-grayscale-0 w-8" src={path} />
+        <img
+          className=" text-grayscale-0 w-8"
+          src={path}
+          alt={`${stockName}_icon`}
+        />
       ) : (
         <SmallLogoDark className="w-8" />
       )}
