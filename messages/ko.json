@@ -147,6 +147,7 @@
     "validatedText_required": "* 필수 입력입니다.",
     "validatedText_numbersOnly": "* 숫자만 입력해주세요.",
     "duplicate_possible": "사용 가능한 {field}입니다.",
+    "duplicate_failed": "해당 아이디는 이미 사용 중입니다.",
     "field_signupId": "아이디",
     "field_nickname": "닉네임"
   },

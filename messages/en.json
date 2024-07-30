@@ -147,7 +147,8 @@
     "validatedText_required": "* Required field.",
     "validatedText_numbersOnly": "* Please enter numbers only.",
     "duplicate_possible": "The {field} is available.",
-    "field_signupId": "username",
+    "duplicate_failed": "The ID is already in use.",
+    "field_signupId": "ID",
     "field_nickname": "nickname"
   },
   "Header": {

@@ -148,7 +148,8 @@
     "validatedText_required": "* Champ obligatoire.",
     "validatedText_numbersOnly": "* Veuillez entrer uniquement des chiffres.",
     "duplicate_possible": "Le {field} est disponible.",
-    "field_signupId": "identifiant",
+    "duplicate_failed": "L'ID est déjà utilisé.",
+    "field_signupId": "ID",
     "field_nickname": "pseudo"
   },
   "Header": {

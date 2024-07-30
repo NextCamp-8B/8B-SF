@@ -147,7 +147,8 @@
     "validatedText_required": "* 必須入力項目です。",
     "validatedText_numbersOnly": "* 数字のみ入力してください。",
     "duplicate_possible": "使用可能な{field}です。",
-    "field_signupId": "アイディー",
+    "duplicate_failed": "そのIDは既に使用されています。",
+    "field_signupId": "ID",
     "field_nickname": "ニックネーム"
   },
   "Header": {

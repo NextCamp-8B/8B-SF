@@ -1,3 +1,5 @@
+import usePopupStore from '@/store/userPopup';
+import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 
 // id 중복 검사 커스텀 훅
@@ -8,6 +10,8 @@ const useDuplicateCheck = (id: string, initialId?: string) => {
   const [isLoading, setIsLoading] = useState(false);
   const [duplicatedCheck, setDuplicatedCheck] = useState(false);
   const [previousValue, setPreviousValue] = useState('');
+  const { showPopup } = usePopupStore();
+  const t = useTranslations('SignUp');
 
   // 수정시 initalId 값과 id 값이같다면 중복검사 건너뛰기
   useEffect(() => {
@@ -26,6 +30,7 @@ const useDuplicateCheck = (id: string, initialId?: string) => {
     if (result.message === 'duplicate') {
       setIsLoading(false);
       setDuplicatedCheck(false);
+      showPopup(t('duplicate'), t('duplicate_failed'));
       return 'duplicate';
     } else {
       setIsLoading(false);

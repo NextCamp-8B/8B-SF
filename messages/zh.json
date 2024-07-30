@@ -147,7 +147,8 @@
     "validatedText_required": "* 必填项。",
     "validatedText_numbersOnly": "* 只输入数字。",
     "duplicate_possible": "可用的{field}。",
-    "field_signupId": "用户名",
+    "duplicate_failed": "该ID已经被使用。",
+    "field_signupId": "ID",
     "field_nickname": "昵称"
   },
   "Header": {
