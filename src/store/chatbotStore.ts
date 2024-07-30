@@ -3,7 +3,6 @@ import create from 'zustand';
 interface ChatbotState {
   chatLog: string[] | null;
   setChatLog: (chat: string[] | null) => void;
-  //   setStatus: (status: boolean[]) => void
 }
 
 export const useChatbotStore = create<ChatbotState>((set) => ({

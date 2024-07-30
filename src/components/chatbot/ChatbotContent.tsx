@@ -2,20 +2,23 @@
 
 import SMALLLOGO from '@/assets/logos/small_logo_light.svg';
 import { useTranslations } from 'next-intl';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import SkeletonChatbotContent from '../skeleton/chatbot/SkeletonChatbotContent';
 import { Session } from 'next-auth';
+import Close from '@/assets/icons/close.svg';
 
 export default function ChatbotContent({
   chatting,
   isLoading,
   typingStatus,
   session,
+  chatId,
 }: {
   chatting: string[] | null;
   isLoading: boolean;
   typingStatus: boolean[];
   session: Session | null;
+  chatId: number[] | null;
 }) {
   const [chatLog, setChatLog] = useState<string[] | null>(chatting);
   const t = useTranslations('Chatbot');
@@ -84,6 +87,28 @@ export default function ChatbotContent({
       <div key={index}>{sentence.trim()}</div>
     ));
   };
+  const fetchChatLog = useCallback(async () => {
+    const user_id = session?.user.id;
+    if (user_id) {
+      const response = await fetch(`/api/chatbot?user_id=${user_id}`);
+      if (response.ok) {
+        const data = await response.json();
+        setChatLog(data.chat);
+      }
+    }
+  }, [session?.user.id]);
+
+  const deleteChat = async (chatId: number) => {
+    const response = await fetch('/api/chatbot', {
+      method: 'DELETE',
+      body: JSON.stringify(chatId),
+    });
+    const result = await response.json();
+    if (response.ok) {
+      // 데이터 삭제 후 ChatLog 업데이트
+      fetchChatLog();
+    }
+  };
 
   return (
     <div
@@ -99,11 +124,12 @@ export default function ChatbotContent({
         </div>
       </div>
       {chatLog &&
+        chatId &&
         chatLog.map((chat, index) =>
           index % 2 === 1 ? (
             <div
               key={index}
-              className="flex items-start space-x-2 w-4/5 break-words p-6"
+              className="group flex items-start space-x-2 w-4/5 break-words p-6"
             >
               <div className="flex justify-center items-center bg-primary-900 min-w-[48px] max-w-[48px] min-h-[48px] rounded-md">
                 <SMALLLOGO width={28} height={24} />
@@ -114,6 +140,14 @@ export default function ChatbotContent({
                 ) : (
                   <div>{chatFormat(displayedChats)}</div>
                 )}
+              </div>
+              <div
+                className="invisible group-hover:visible cursor-pointer"
+                onClick={() =>
+                  deleteChat(chatId[Math.floor(index / 2)])
+                }
+              >
+                <Close width={20} />
               </div>
             </div>
           ) : (

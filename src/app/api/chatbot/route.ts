@@ -17,7 +17,7 @@ export async function GET(req: Request, res: Response) {
   // user_id의 데이터를 created_at 오름차순으로 조회
   const { data: chatbotData, error } = await supabase
     .from('chatbot_ai')
-    .select('answer, question, status')
+    .select('chat_id, answer, question, status')
     .eq('user_id', userId)
     .order('created_at', { ascending: true });
 
@@ -25,9 +25,11 @@ export async function GET(req: Request, res: Response) {
   let questions: string[] = [];
   let chat: string[] = [];
   let typingStatus: boolean[] = [];
+  let chatId: number[] = [];
   // 데이터가 존재할 경우 처리
   if (chatbotData && chatbotData.length > 0) {
     chatbotData.forEach((row) => {
+      chatId.push(row.chat_id);
       typingStatus.push(row.status, row.status);
       if (row.question) {
         questions.push(row.question.trim());
@@ -44,6 +46,7 @@ export async function GET(req: Request, res: Response) {
     answers,
     chat,
     typingStatus,
+    chatId,
   });
 }
 
@@ -89,4 +92,27 @@ export async function POST(req: NextRequest) {
   }
 
   return NextResponse.json({ data });
+}
+
+export async function DELETE(req: NextRequest) {
+  const supabase = createClient();
+
+  const chatId = await req.json();
+
+  const { data, error } = await supabase
+    .from('chatbot_ai')
+    .delete()
+    .eq('chat_id', chatId);
+
+  if (error) {
+    return NextResponse.json(
+      { error: error.message },
+      { status: 500 },
+    );
+  }
+
+  return NextResponse.json({
+    message: `Data ${chatId} deleted successfully.`,
+    data,
+  });
 }

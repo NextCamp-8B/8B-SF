@@ -12,6 +12,7 @@ export default function ChatbotChat({
 }) {
   const setChatLog = useChatbotStore((state) => state.setChatLog);
   const chatLog = useChatbotStore((state) => state.chatLog);
+  const [chatId, setChatId] = useState([]);
   const { data: session, status } = useSession();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [typingStatus, setTypingStatus] = useState<boolean[]>([]);
@@ -23,6 +24,7 @@ export default function ChatbotChat({
         const data = await response.json();
         setChatLog(data.chat);
         setTypingStatus(data.typingStatus);
+        setChatId(data.chatId);
       }
     }
   }, [session?.user.id, setChatLog]);
@@ -51,6 +53,7 @@ export default function ChatbotChat({
             isLoading={isLoading}
             typingStatus={typingStatus}
             session={session}
+            chatId={chatId}
           />
         </div>
         <div className="h-[88px]">
