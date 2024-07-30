@@ -1,15 +1,15 @@
 import { getTranslations } from 'next-intl/server';
 import ReportWrapper from './ReportWrapper';
-import { Stock } from '@/types/stock';
 import Badge from '../shared/Badge';
 import IntlClientProvider from '../shared/IntlClientProvider';
+import { UUID } from 'crypto';
 export default async function AIReport({
   nickname,
-  stocks,
+  userId,
   isEn = false,
 }: {
   nickname: string | null;
-  stocks: Array<Stock>;
+  userId: UUID;
   isEn?: boolean;
 }) {
   const t = await getTranslations('Home');
@@ -23,7 +23,7 @@ export default async function AIReport({
         <Badge type="primary" direction="left" />
       </div>
       <IntlClientProvider>
-        <ReportWrapper stocks={stocks} isEn={isEn} />
+        <ReportWrapper userId={userId} isEn={isEn} />
       </IntlClientProvider>
     </div>
   );

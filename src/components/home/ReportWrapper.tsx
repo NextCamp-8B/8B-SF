@@ -3,15 +3,31 @@
 import { Stock } from '@/types/stock';
 import Chart from '../shared/chart';
 import Link from 'next/link';
+import { UUID } from 'crypto';
+import { useEffect, useState } from 'react';
+import { businessAPI } from '@/service/apiInstance';
 
 export default function ReportWrapper({
-  stocks,
+  userId,
   isEn = false,
 }: {
-  stocks: Array<Stock>;
+  userId: UUID;
   isEn?: boolean;
 }) {
   const width = isEn ? 'min-w-[387px]' : 'w-[387px]';
+  const { getInterestStock } = businessAPI;
+  const [stocks, setStocks] = useState<Array<Stock>>([]);
+  useEffect(() => {
+    getInterestStock({
+      userId: userId as UUID,
+      page: 1,
+      size: 4,
+      next: { revalidate: 0 },
+    }).then((res) =>
+      setStocks(res.map(({ stock }: { stock: Stock }) => stock)),
+    );
+  }, []);
+
   return (
     <ul className="flex w-full gap-5 overflow-scroll scrollbar-hide pb-4">
       {stocks.map(

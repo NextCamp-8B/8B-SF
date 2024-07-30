@@ -230,7 +230,7 @@ export default class AightnowClient {
     page: string | number;
     size: string | number;
     isServer?: boolean;
-    next: any;
+    next?: any;
   }) {
     const nextURL = `/api/stock/interest?userId=${userId}&page=${page}&size=${size}`;
 
@@ -332,9 +332,7 @@ export default class AightnowClient {
     stockSymbol: string;
   }) {
     if (!isMarketOpen()) {
-      throw new Error(
-        'Market is closed. Requests can only be made during market hours (20:30 - 04:00 UTC).',
-      );
+      return;
     }
 
     const nextURL = `/api/stock/ai-report`;

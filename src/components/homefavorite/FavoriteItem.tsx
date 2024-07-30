@@ -1,6 +1,4 @@
-import AI from '@/assets/icons/ai.svg';
 import StockListItem from '@/components/shared/StockListItem';
-import Link from 'next/link';
 import { Stock } from '@/types/stock';
 
 export default function FavoriteItem({
@@ -17,7 +15,6 @@ export default function FavoriteItem({
             key={i}
           >
             {/* 관심 종목 데이터 추가 */}
-
             <StockListItem stock={stock} />
           </div>
         ))}

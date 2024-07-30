@@ -4,9 +4,11 @@ import FavoriteMain from '@/components/homefavorite/FavoriteMain';
 import AIReport from '@/components/home/AIReport';
 import { auth as getSession } from '@/auth';
 import { UUID } from 'crypto';
-import { businessAPI } from '@/service/apiInstance';
-import { Stock } from '@/types/stock';
-import { revalidatePath } from 'next/cache';
+import IntlClientProvider from '@/components/shared/IntlClientProvider';
+
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
+export const revalidate = false;
 
 export default async function Home() {
   const authData = await getSession();
@@ -21,32 +23,20 @@ export default async function Home() {
     language: null,
   };
   const isEn = language === 'en';
-  const { getInterestStock } = businessAPI;
-  const interestStocks = (
-    userId &&
-    (await getInterestStock({
-      userId: userId as UUID,
-      page: 1,
-      size: 4,
-      isServer: true,
-      next: { cache: 'no-store' },
-    }))
-  )?.map(({ stock }: { stock: Stock }) => {
-    console.log(stock);
-    return stock;
-  });
 
   return (
     <>
       <main className="flex items-center justify-center w-full flex-col gap-12">
         <AIReport
           nickname={nickname}
-          stocks={interestStocks}
+          userId={userId as UUID}
           isEn={isEn}
         />
         <div className="w-[1200px] flex gap-5">
           <Recent />
-          <FavoriteMain data={interestStocks} />
+          <IntlClientProvider>
+            <FavoriteMain userId={userId as UUID} />
+          </IntlClientProvider>
         </div>
         <HomeNewsTab />
       </main>

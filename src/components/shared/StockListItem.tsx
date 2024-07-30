@@ -18,21 +18,6 @@ export type StockListItemProps = {
     | 'interest';
 };
 
-const nameToKO = {
-  Unity: '유니티',
-  Tesla: '테슬라',
-  Amazon: '아마존',
-  Google: '구글',
-  MS: '마이크로소프트',
-  Apple: '애플',
-} as const;
-
-type StockNames = keyof typeof nameToKO;
-
-function getKoreanName(stockName: StockNames): string {
-  return nameToKO[stockName];
-}
-
 function StockListItem({
   stock,
   type = 'default',
@@ -185,7 +170,7 @@ function StockListItem({
               <span
                 className={`b4 font-medium text-grayscale-600 group-hover:underline`}
               >
-                {getKoreanName(stock_name as StockNames)}
+                {stock_name}
               </span>
             </div>
 
@@ -205,9 +190,7 @@ function StockListItem({
           <div className="flex items-center gap-2">
             <StockIcon path={logo_path} size="small" />
             <div className="flex gap-2 items-center">
-              <span className="b1 font-bold">
-                {getKoreanName(stock_name as StockNames)}
-              </span>
+              <span className="b1 font-bold">{stock_name}</span>
               <span className="b3 font-normal">{stock_code}</span>
             </div>
           </div>

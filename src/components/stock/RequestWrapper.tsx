@@ -27,6 +27,15 @@ export default function RequestWrapper({
   const userId = user && (user.id as UUID);
   const { deleteInterestStock } = businessAPI;
 
+  useEffect(() => {
+    /** 소통 예정, 현재 모달창에서 변경 후 초기화 */
+    if (userId && !isOpen) {
+      getInterestStock({ userId, page: 1, size: 17 }).then((res) => {
+        setStocks(res);
+      });
+    }
+  }, [isOpen]);
+
   function getInterest() {
     if (!isLoading) {
       setIsLoading(true);

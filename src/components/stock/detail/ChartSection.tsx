@@ -29,7 +29,7 @@ export default function ChartSection({ stockId }: { stockId: UUID }) {
     report: '',
     detailedData: '',
   });
-  const [pay, setPay] = useState<StockResponse | []>([]);
+  const [pay, setPay] = useState<StockResponse | {}>({});
   const intervalRef = useRef<number | NodeJS.Timeout | null>(null);
   const t = useTranslations();
   const user = useSession()?.data?.user as UserData;
@@ -45,6 +45,7 @@ export default function ChartSection({ stockId }: { stockId: UUID }) {
 
   const fetchNaverpay = async (stockCode: string) => {
     const response = await getNaverpay({ companies: stockCode });
+
     const {
       fluctuationsRatio,
       compareToPreviousClosePrice,
@@ -83,18 +84,19 @@ export default function ChartSection({ stockId }: { stockId: UUID }) {
     });
     const data = detail[0];
     setStock(data);
-    const { stock_code: stockCode } = data;
+  };
 
-    if (stockCode) {
+  useEffect(() => {
+    if (stock.stock_code) {
       fetchNaverpay(stockCode);
     }
-  };
+  }, [stock.stock_code]);
 
   useEffect(() => {
     if (userId && stockId) {
       handleGetStock();
     }
-  }, [userId, stockId]);
+  }, [userId, stockId, pay]);
 
   const { stock_code: stockCode } = stock && stock;
   useEffect(() => {
@@ -119,12 +121,6 @@ export default function ChartSection({ stockId }: { stockId: UUID }) {
     }
   }, [pay, stockCode]);
 
-  const handleIsInterest = (isInterest: boolean) => {
-    setStock((prev: StockWithInterest) => ({
-      ...prev,
-      isInterest: isInterest,
-    }));
-  };
   const stockExchangeName = (pay as StockResponse).datas?.[0]
     ?.stockExchangeType?.name;
 
@@ -148,6 +144,13 @@ export default function ChartSection({ stockId }: { stockId: UUID }) {
       updateRecentView({ stockId });
     }
   }, [stockId]);
+
+  const handleIsInterest = (isInterest: boolean) => {
+    setStock((prev: StockWithInterest) => ({
+      ...prev,
+      isInterest: isInterest,
+    }));
+  };
 
   const report = aIReport?.report ? aIReport?.report : stock?.report;
 
