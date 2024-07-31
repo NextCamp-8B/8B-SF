@@ -22,7 +22,6 @@ export default function ProfileUpdate({ user }: ProfileUpdate) {
   const { closeAllModals, isProfileSetup } = myPageStore();
 
   const {
-    nickname,
     profileImg: userImage,
     profileImgName: userImageName,
     accessToken,
@@ -35,6 +34,7 @@ export default function ProfileUpdate({ user }: ProfileUpdate) {
   const [isFormValid, setIsFormValid] = useState(false); //폼 유효성 체크
   const { profileImage, profileFile, handleImageUpload } =
     useImageUpload(userImage); // 이미지 업로드 훅
+  const [initialNickname, setInitialNickname] = useState(''); // 초기 닉네임 값
   const { isLoading, handleProfileUpdate } = useProfileUpdate(); //프로필 수정 api
   const { isShowPopup, popupMsg, hidePopup } = usePopupStore();
 
@@ -51,11 +51,12 @@ export default function ProfileUpdate({ user }: ProfileUpdate) {
   } = useStockSelection(id as UUID); // 관심종목 설정 훅
 
   const validateForm = useCallback(() => {
+    const isNicknameChanged = value.nickname !== initialNickname;
     const isNicknameValid = conceptMap.nickname.doValidation(
       value.nickname,
     );
-    setIsFormValid(isNicknameValid);
-  }, [value.nickname]);
+    setIsFormValid(isNicknameValid && isNicknameChanged);
+  }, [value.nickname, initialNickname]);
 
   useEffect(() => {
     validateForm();
@@ -68,6 +69,7 @@ export default function ProfileUpdate({ user }: ProfileUpdate) {
         ...prevValue,
         nickname: user.nickname || '',
       }));
+      setInitialNickname(user.nickname);
     }
   }, [user, setValue]);
 
