@@ -4,21 +4,25 @@ import { FormEvent, useState } from 'react';
 
 export default function ChatbotInput({
   onNewMessage,
+  setIsLoading,
+  isLoading,
 }: {
   onNewMessage: () => void;
+  setIsLoading: (isLoading: boolean) => void;
+  isLoading: boolean;
 }) {
   const { data: session, status } = useSession();
   const [message, setMessage] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const t = useTranslations('Chatbot');
 
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     if (!message.trim()) {
       return;
     }
     const userId = session?.user.id;
-    setIsLoading(true);
     setMessage('');
     const response = await fetch('/api/chatbot', {
       method: 'POST',
