@@ -152,8 +152,8 @@ export default function ChartSection({ stockId }: { stockId: UUID }) {
     }));
   };
 
-  const isEn = language === 'en';
-  const closed = isEn ? stock?.report : stock?.report_ko;
+  const isKo = language === 'ko';
+  const closed = isKo ? stock?.report_ko : stock?.report;
   const report = aIReport?.report ? aIReport?.report : closed;
 
   return (
