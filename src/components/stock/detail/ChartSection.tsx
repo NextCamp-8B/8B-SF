@@ -111,7 +111,7 @@ export default function ChartSection({ stockId }: { stockId: UUID }) {
         if (stock.stock_code) {
           fetchNaverpay(stock.stock_code);
         }
-      }, pollingInterval || 70000);
+      }, pollingInterval || 7000);
 
       return () => {
         if (intervalRef.current) {
@@ -152,7 +152,9 @@ export default function ChartSection({ stockId }: { stockId: UUID }) {
     }));
   };
 
-  const report = aIReport?.report ? aIReport?.report : stock?.report;
+  const isEn = language === 'en';
+  const closed = isEn ? stock?.report : stock?.report_ko;
+  const report = aIReport?.report ? aIReport?.report : closed;
 
   return (
     <>

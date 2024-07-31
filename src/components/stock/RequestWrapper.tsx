@@ -6,6 +6,7 @@ import { businessAPI } from '@/service/apiInstance';
 import { UUID } from 'crypto';
 import { Stock } from '@/types/stock';
 import { UserData } from '@/service/serviceType';
+import NotFind from '../search/NotFind';
 
 export default function RequestWrapper({
   handleIsOpen,
@@ -111,11 +112,19 @@ export default function RequestWrapper({
   return (
     <>
       <ThatGoAddInterest handleIsOpen={handleIsOpen} user={user} />
-      <ShowingInterest
-        stocks={stocks}
-        isLoading={isLoading}
-        handleDeleteInterest={handleDeleteInterest}
-      />
+      {stocks &&
+      typeof stocks?.length === 'number' &&
+      stocks?.length > 0 ? (
+        <ShowingInterest
+          stocks={stocks}
+          isLoading={isLoading}
+          handleDeleteInterest={handleDeleteInterest}
+        />
+      ) : (
+        <div className="flex flex-col pt-20 mt-8">
+          <NotFind type="stock" />
+        </div>
+      )}
       <span ref={ref} />
     </>
   );
