@@ -51,7 +51,7 @@ export default function ReportWrapper({
             ),
         )
       ) : (
-        <li className="flex justify-center p-4">
+        <li className="flex justify-center p-4 w-full">
           <NotFind type="stock" />
         </li>
       )}
