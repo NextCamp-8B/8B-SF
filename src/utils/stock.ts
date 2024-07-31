@@ -62,6 +62,28 @@ export const getExchangePrice = (
   }
 };
 
+export const getExchangeComparePrice = (
+  dollarRate: number,
+  compareRate: number,
+  price: number,
+  locale: Locale,
+) => {
+  const rate = dollarRate / compareRate;
+  const exchangePrice = rate * price;
+
+  switch (locale) {
+    case 'zh':
+    case 'fr':
+    case 'en':
+    case 'ko':
+      return `${Number(exchangePrice.toFixed(2)).toLocaleString()}`;
+    case 'ja':
+      return `${Number(
+        (exchangePrice * 100).toFixed(2),
+      ).toLocaleString()}`;
+  }
+};
+
 export const getFormat = (locale: Locale) => {
   switch (locale) {
     case 'zh':

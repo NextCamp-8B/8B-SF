@@ -1,4 +1,8 @@
-import { getExchangePrice, getStockStyle } from '@/utils/stock';
+import {
+  getExchangeComparePrice,
+  getExchangePrice,
+  getStockStyle,
+} from '@/utils/stock';
 import React, { useEffect, useState } from 'react';
 import ToggleButton from '../shared/ToggleButton';
 import { useLocale } from 'next-intl';
@@ -85,7 +89,27 @@ export default function StockDescription({
           >
             {comparePrice !== 'NaN' && ratio !== 'NaN'
               ? `
-              ${comparePrice}
+              ${
+                isDollar
+                  ? exchangeRate &&
+                    getExchangeComparePrice(
+                      exchangeRate.find((e) => e.locale === 'en')!
+                        .exchange_rate,
+                      exchangeRate.find((e) => e.locale === 'en')!
+                        .exchange_rate,
+                      stock?.compare_to_previous_close_price,
+                      'en',
+                    )
+                  : exchangeRate &&
+                    getExchangeComparePrice(
+                      exchangeRate.find((e) => e.locale === 'en')!
+                        .exchange_rate,
+                      exchangeRate.find((e) => e.locale === locale)!
+                        .exchange_rate,
+                      stock?.compare_to_previous_close_price,
+                      locale,
+                    )
+              }
               ${ratio}
             `
               : '0.00 0.00%'}
