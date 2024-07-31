@@ -92,23 +92,29 @@ export default function StockDescription({
               ${
                 isDollar
                   ? exchangeRate &&
-                    getExchangeComparePrice(
-                      exchangeRate.find((e) => e.locale === 'en')!
-                        .exchange_rate,
-                      exchangeRate.find((e) => e.locale === 'en')!
-                        .exchange_rate,
-                      stock?.compare_to_previous_close_price,
-                      'en',
-                    )
+                    getStockStyle(
+                      getExchangeComparePrice(
+                        exchangeRate.find((e) => e.locale === 'en')!
+                          .exchange_rate,
+                        exchangeRate.find((e) => e.locale === 'en')!
+                          .exchange_rate,
+                        stock?.compare_to_previous_close_price,
+                        'en',
+                      ),
+                      stock?.fluctuations_ratio,
+                    ).comparePrice
                   : exchangeRate &&
-                    getExchangeComparePrice(
-                      exchangeRate.find((e) => e.locale === 'en')!
-                        .exchange_rate,
-                      exchangeRate.find((e) => e.locale === locale)!
-                        .exchange_rate,
-                      stock?.compare_to_previous_close_price,
-                      locale,
-                    )
+                    getStockStyle(
+                      getExchangeComparePrice(
+                        exchangeRate.find((e) => e.locale === 'en')!
+                          .exchange_rate,
+                        exchangeRate.find((e) => e.locale === locale)!
+                          .exchange_rate,
+                        stock?.compare_to_previous_close_price,
+                        locale,
+                      ),
+                      stock?.fluctuations_ratio,
+                    ).comparePrice
               }
               ${ratio}
             `

@@ -76,11 +76,9 @@ export const getExchangeComparePrice = (
     case 'fr':
     case 'en':
     case 'ko':
-      return `${Number(exchangePrice.toFixed(2)).toLocaleString()}`;
+      return exchangePrice;
     case 'ja':
-      return `${Number(
-        (exchangePrice * 100).toFixed(2),
-      ).toLocaleString()}`;
+      return exchangePrice * 100;
   }
 };
 
