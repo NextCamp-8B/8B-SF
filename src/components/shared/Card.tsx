@@ -34,7 +34,7 @@ export default async function Card(props: CardProps) {
     <>
       {/* type == News1 (뉴스 날짜, 제목, 종목아이콘, 신문사) */}
       {type === 'News1' && news && (
-        <Link href={`news/${news.news_id}`}>
+        <Link href={`/news/${news.news_id}`}>
           <div className="flex border-2 border-primary-100 w-[355px] h-[100px] items-center rounded-3xl justify-center bg-[#FFFFFF]">
             <div className="w-[323px] h-[52px] items-center flex">
               <div className="pr-8">
@@ -55,7 +55,7 @@ export default async function Card(props: CardProps) {
 
       {/* type == News2 (뉴스제목, 뉴스썸네일, 뉴스시간) */}
       {type === 'News2' && news && (
-        <Link href={`news/${news.news_id}`}>
+        <Link href={`/news/${news.news_id}`}>
           <div className="w-[388px] h-[360px] flex flex-col justify-center items-center bg-grayscale-0 rounded-t-2xl overflow-hidden">
             <div className="w-[388px] h-[236px] flex justify-center items-center relative overflow-hidden">
               {news.thumbnail ? (
@@ -87,7 +87,7 @@ export default async function Card(props: CardProps) {
 
       {/* type === News3 (뉴스제목, 뉴스내용, 날짜) */}
       {type === 'News3' && news && (
-        <Link href={`news/${news.news_id}`}>
+        <Link href={`/news/${news.news_id}`}>
           <div className="w-[590px] h-[420px] flex flex-col bg-grayscale-0 rounded-2xl">
             <div className=" h-[420px] relative flex flex-col overflow-hidden rounded-2xl items-center justify-center">
               {news.thumbnail ? (
@@ -121,7 +121,7 @@ export default async function Card(props: CardProps) {
 
       {/* type === News4 (뉴스제목, 뉴스내용, 날짜) */}
       {type === 'News4' && news && (
-        <Link href={`news/${news.news_id}`}>
+        <Link href={`/news/${news.news_id}`}>
           <div className="w-[590px] h-[200px] relative flex flex-col overflow-hidden rounded-2xl bg-grayscale-0 items-center justify-center">
             {news.thumbnail ? (
               <Image

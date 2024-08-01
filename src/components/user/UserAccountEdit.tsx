@@ -24,6 +24,13 @@ type UserAccountEdit = {
   isSocial: boolean;
 };
 
+type InitialValueType = {
+  signupId: string;
+  name: string;
+  birth: string;
+  signupPhone: string;
+};
+
 export default function UserAccountEdit({
   user,
   isSocial,
@@ -31,7 +38,12 @@ export default function UserAccountEdit({
   const t = useTranslations('MyPage');
   const { openModal, closeModal, closeAllModals, isUserAccountdit } =
     myPageStore();
-
+  const [initialValue, setInitialValue] = useState<InitialValueType>({
+    signupId: '',
+    name: '',
+    birth: '',
+    signupPhone: '',
+  }); // 초기값 저장
   const { value, onChangeInputValue, setValue } = useInputChange();
   const [isSubmit, setIsSubmit] = useState(false); // 폼 submit
   const [isFormValid, setIsFormValid] = useState(false); //폼 유효성 체크
@@ -58,12 +70,16 @@ export default function UserAccountEdit({
 
   useEffect(() => {
     if (user) {
-      setValue((prevValue) => ({
-        ...prevValue,
+      const initialData = {
         signupId: user?.userId || '',
         name: user.name || '',
         birth: user.birth || '',
         signupPhone: user.phoneNumber || '',
+      };
+      setInitialValue(initialData);
+      setValue((prevValue) => ({
+        ...prevValue,
+        ...initialData,
       }));
     }
   }, [user, setValue]);
@@ -122,16 +138,25 @@ export default function UserAccountEdit({
       value.signupPhone,
     );
     const isBirthValid = conceptMap.birth.doValidation(value.birth);
+    const isInitalValue =
+      value.signupId !== initialValue.signupId ||
+      value.name !== initialValue.name ||
+      value.birth !== initialValue.birth ||
+      value.signupPhone !== initialValue.signupPhone;
     if (isSocial) {
       // 소셜 로그인일 경우 생일과 전화번호만 유효성 검사
       setIsFormValid(
-        isSignupPhoneValid && isBirthValid && isNameValid,
+        isSignupPhoneValid &&
+          isBirthValid &&
+          isNameValid &&
+          isInitalValue,
       );
     } else {
       // 일반 로그인일 경우 모든 필드 유효성 검사
       const isSignupIdValid = duplicatedCheck;
       setIsFormValid(
-        isNameValid &&
+        isInitalValue &&
+          isNameValid &&
           isSignupIdValid &&
           isSignupPhoneValid &&
           isBirthValid,
@@ -141,8 +166,10 @@ export default function UserAccountEdit({
     value.name,
     value.birth,
     value.signupPhone,
+    value.signupId,
     duplicatedCheck,
     isSocial,
+    initialValue,
   ]);
 
   useEffect(() => {
@@ -189,6 +216,7 @@ export default function UserAccountEdit({
               isSocial={isSocial}
               handleUpdatePw={handleConfirmUpdatePw}
               handleShowWidthdrawl={handleShowWidthdrawl}
+              isFormValid={isFormValid}
             />
           </LoadingSpinnerWrapper>
         </ModalLayout>

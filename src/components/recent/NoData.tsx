@@ -6,10 +6,10 @@ export default function NoData() {
   return (
     <>
       <div className="flex flex-col">
-        <div className="items-center justify-center flex">
+        <div className="items-center justify-center flex ">
           <Exclamation />
         </div>
-        <div className="b1 font-medium mt-3">
+        <div className="b1 font-bold text-primary-900 mt-3 ">
           {t('recent_not_search')}
         </div>
       </div>

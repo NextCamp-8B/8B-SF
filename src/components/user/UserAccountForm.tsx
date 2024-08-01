@@ -18,6 +18,7 @@ type UserAccountForm = {
   isSocial: boolean;
   handleUpdatePw: () => Promise<void>;
   handleShowWidthdrawl: () => void;
+  isFormValid: boolean;
 };
 
 export default function UserAccountForm({
@@ -30,6 +31,7 @@ export default function UserAccountForm({
   isSocial,
   handleUpdatePw,
   handleShowWidthdrawl,
+  isFormValid,
 }: UserAccountForm) {
   const t = useTranslations('MyPage');
   return (
@@ -74,6 +76,7 @@ export default function UserAccountForm({
           type="submit"
           className="w-full mt-8"
           aria-label={t('edit')}
+          disabled={!isFormValid}
         >
           {t('edit')}
         </TextButton>

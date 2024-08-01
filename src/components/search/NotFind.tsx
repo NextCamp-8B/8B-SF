@@ -23,7 +23,7 @@ export default function NotFind({
         <div className="items-center justify-center flex">
           <Exclamation />
         </div>
-        <div className="b1 font-medium mt-3 flex justify-center">
+        <div className="b1 font-bold text-primary-900 mt-3 flex justify-center">
           {comment()}
         </div>
       </div>

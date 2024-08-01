@@ -48,6 +48,7 @@ export default function ChatbotContent({
     }
   }, [isLoading]);
 
+  // 타이핑 효과
   useEffect(() => {
     if (chatting && typingStatus[chatting.length - 1] === true) {
       let currentIndex = 0;
@@ -161,7 +162,7 @@ export default function ChatbotContent({
         )}
       {isLoading && (
         <div ref={skeletonChatContainerRef}>
-          <SkeletonChatbotContent />{' '}
+          <SkeletonChatbotContent />
         </div>
       )}
     </div>

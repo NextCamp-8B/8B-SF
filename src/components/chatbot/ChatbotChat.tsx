@@ -25,6 +25,7 @@ export default function ChatbotChat({
         setChatLog(data.chat);
         setTypingStatus(data.typingStatus);
         setChatId(data.chatId);
+        setIsLoading(false);
       }
     }
   }, [session?.user.id, setChatLog]);
@@ -57,7 +58,11 @@ export default function ChatbotChat({
           />
         </div>
         <div className="h-[88px]">
-          <ChatbotInput onNewMessage={handleNewMessage} />
+          <ChatbotInput
+            onNewMessage={handleNewMessage}
+            setIsLoading={setIsLoading}
+            isLoading={isLoading}
+          />
         </div>
       </div>
     </>
