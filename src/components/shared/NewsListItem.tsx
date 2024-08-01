@@ -24,7 +24,7 @@ function NewsListItem({
       {type === 'find' && (
         <Link href={`/news/${news_id}`}>
           <article className="flex gap-5 cursor-pointer">
-            <div className="w-[120px] h-16 bg-primary-200 rounded-lg relative overflow-hidden group">
+            <div className="w-[120px] h-16 bg-grayscale-0 rounded-lg relative overflow-hidden group flex items-center justify-center">
               {thumbnail ? (
                 <Image
                   src={thumbnail}
@@ -59,7 +59,7 @@ function NewsListItem({
         >
           <article className="flex gap-5 hover:underline cursor-pointer group">
             <div
-              className={`w-[172px] h-[100px] bg-primary-100 rounded-2xl relative overflow-hidden `}
+              className={`w-[172px] h-[100px] bg-grayscale-0 rounded-2xl relative overflow-hidden flex items-center justify-center`}
             >
               {thumbnail ? (
                 <Image
@@ -137,7 +137,7 @@ function NewsListItem({
       {type === 'important' && (
         <Link href={`/news/${news_id}`}>
           <article className="flex gap-5 hover:underline cursor-pointer group">
-            <div className="rounded-3xl w-[338px] h-[240px] relative overflow-hidden">
+            <div className="rounded-3xl w-[338px] h-[240px] bg-grayscale-0 relative overflow-hidden flex items-center justify-center">
               {thumbnail ? (
                 <Image
                   src={thumbnail}
