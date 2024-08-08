@@ -114,14 +114,20 @@
 ![회원가입 플로우차트](https://github.com/user-attachments/assets/6c9b2f31-a3fe-4774-bbde-6df6c92587e7)
 
 ## 🔑 로그인
+![로그인및메인](https://github.com/user-attachments/assets/169f9d1e-e2d4-4a27-96a9-483574cdbc01)
 
 ![로그인 플로우차트](https://github.com/user-attachments/assets/2d4096fb-5870-43a2-a2c5-d05048c34d21)
 
 ## 📰 뉴스
 
+
+https://github.com/user-attachments/assets/7f61e5f8-466a-4f6b-b653-8586f34dea4f
+
+
 ![뉴스 플로우차트](https://github.com/user-attachments/assets/52e59d18-574a-481c-bc65-981ab4e8024e)
 
 ## 📈 실시간 주식
+![주식상세](https://github.com/user-attachments/assets/d9393d7a-9d6b-4188-9b67-6063aabc5f23)
 
 ![실시간 주식](https://github.com/user-attachments/assets/cdda8fc9-df2c-4f44-b873-59402837ded2)
 
@@ -134,6 +140,10 @@
 ![검색 플로우차트-2](https://github.com/user-attachments/assets/6aecb7cb-8af1-4430-b085-a8185a63878d)
 
 ## 🤖 챗봇
+
+
+https://github.com/user-attachments/assets/50aa845e-3a5e-4af6-9aa0-2dda1a6ae456
+
 
 ![챗봇 플로우차트](https://github.com/user-attachments/assets/714218ef-3b43-4032-8930-b4be6a403e04)
 
@@ -148,6 +158,7 @@
 ## 📈 주식페이지
 
 ![image (2)](https://github.com/user-attachments/assets/5fbc38de-3549-4e57-ba10-6db56563582b)
+![주식](https://github.com/user-attachments/assets/c9bda277-c389-47e0-a680-e4050841ac8f)
 
 - 개인화된 정보 외에도 일반적으로 관심이 있을 법한 급상승, 급하락 종목, 전체 종목을 포함한 페이지를 구성했습니다.
 
